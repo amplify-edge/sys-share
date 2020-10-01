@@ -21,6 +21,8 @@ GITR_REPO_ABS_FSPATH=$(GOPATH)/src/$(GITR_SERVER)/$(GITR_ORG_FORK)/$(GITR_REPO_N
 # remove the "v" prefix
 GITR_VERSION ?= $(shell echo $(TAGGED_VERSION) | cut -c 2-)
 
+GITR_COMMIT_MESSAGE ?= quick
+
 
 ## Prints the git setting
 gitr-print:
@@ -51,6 +53,10 @@ gitr-print:
 #See: https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork
 
 
+gitr-status:
+	# Test
+	git status
+
 gitr-upstream-open:
 	open https://$(GITR_SERVER)/$(GITR_ORG_UPSTREAM)/$(GITR_REPO_NAME).git 
 	
@@ -73,6 +79,19 @@ gitr-fork-catchup:
 
 	# This brings your fork's master branch into sync with the upstream repository, without losing your local changes.
 	git merge upstream/master
+
+## Commit the changes to the repo
+gitr-fork-commit:
+	git add --all
+	git commit -m $(GITR_COMMIT_MESSAGE)
+
+## Push the repo to orgin
+gitr-fork-push:
+	git push origin master
+
+gitr-upstream-merge:
+	# Use github cli
+
 
 
 ## GIT-TAG
