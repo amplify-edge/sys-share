@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:intl/intl.dart';
-import 'package:sys_account/modules/account_module.dart';
-import 'package:sys_account/core/i18n/sys_account_localization.dart';
+import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart';
 
 void main() => runApp(ModularApp(module: AppModule()));
 
@@ -14,7 +12,15 @@ class AppModule extends MainModule {
   // here will be the routes of your module
   @override
   List<ModularRouter> get routers => [
-        ModularRouter("/", module: AccountModule("/")),
+        ModularRouter("/",
+            child: (_, __) => Container(
+                  child: Column(
+                    children: [
+                      Text((LoginRequest()..email = "test@example.com")
+                          .toString())
+                    ],
+                  ),
+                )),
       ];
 
 // add your main widget here
@@ -30,9 +36,6 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
       onGenerateRoute: Modular.generateRoute,
-      localizationsDelegates: [
-        ModAccountLocalizationsDelegate(Locale('en')),
-      ],
     );
   }
 }
