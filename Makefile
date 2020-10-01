@@ -32,6 +32,8 @@ this-all:
 	
 	@echo Need to get tools and install
 
+	cd sys-account && $(MAKE) this-all
+
 
 
 ## Print all settings
