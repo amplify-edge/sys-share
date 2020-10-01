@@ -5,7 +5,7 @@ import "google/protobuf/struct.proto";
 
 package getcouragenow.sys.v2.sys_account;
 
-option go_package = "github.com/getcouragenow/sys-share/sys-account/server/rpc/v2";
+option go_package = "github.com/getcouragenow/sys-share/sys-account/go/service/rpc/v2";
 
 message UserDefinedFields {
   map<string, google.protobuf.Value> fields = 1;
