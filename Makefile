@@ -23,10 +23,7 @@ CI_DEP=github.com/getcouragenow/sys
 CI_DEP_FORK=github.com/joe-getcouragenow/sys
 
 
-this-all: this-print this-print-end
-
-## blah
-#this-all: this-print this-dep this-build this-print-end
+this-all: this-print this-dep this-build this-print-end
  
 ## Print all settings
 this-print: 
