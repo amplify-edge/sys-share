@@ -43,13 +43,22 @@ jobs:
         working-directory: ${{ github.workspace }}/go/src/github.com/${{ github.repository }}
         env:
           target: ${{ matrix.target }}
-      - name: automerge ${{ matrix.target }}
-        uses: "pascalgn/automerge-action@master"
-        env: 
+  automerge-dependencies:
+    needs: build
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approve
+        uses: hmarr/auto-approve-action@v2.0.0
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Merge
+        uses: "pascalgn/automerge-action@v0.11.0"
+        env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: ""
           MERGE_METHOD: "squash"
-          MERGE_LABELS: "automerge"
-
-
-
-    
+          MERGE_COMMIT_MESSAGE: "{pullRequest.title} (#{pullRequest.number})"
+          MERGE_FORKS: "false"
+          UPDATE_LABELS: "disabled"
