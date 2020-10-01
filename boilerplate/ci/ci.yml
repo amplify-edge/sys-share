@@ -1,0 +1,97 @@
+# CI for building everything: Server, Web, Desktop, Mobile.
+
+# NOTE: Not ready. Needs to be make into a template so it can be reused.
+#
+name: CI
+
+on:
+  push:
+    branches:
+      - "*"
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+  GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_REF: ${{ github.ref }}
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  IMAGE: maintemplate
+  PROJECT: maintemplate
+  REGISTRY_HOSTNAME: gcr.io
+  DEPLOYMENT_NAME: maintemplate
+  RELEASE_CHANNEL: ci
+  FLUTTER_CHANNEL: beta
+  URL: getcouragenow.org
+  LOCALES: '[\"en\",\"fr\",\"es\",\"it\",\"de\",\"ur\"]'
+  GKE_KEYRING_NAME: ${{ secrets.GKE_KEYRING_NAME }}
+  GKE_KEYNAME: ${{ secrets.GKE_KEYNAME }}
+
+jobs:
+  setup-build-publish-deploy:
+    name: CI - Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "beta"
+
+      - run: flutter pub get
+        working-directory: maintemplate/client/
+      - run: flutter config --enable-web
+        working-directory: maintemplate/client/
+      # build Flutter web version
+      - run: flutter build web
+        working-directory: maintemplate/client/
+
+        # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "289.0.0"
+          service_account_email: ${{ secrets.GKE_EMAIL }}
+          service_account_key: ${{ secrets.GKE_KEY }}
+
+      # Configure docker to use the gcloud command-line tool as a credential helper
+      - run: |
+          # Set up docker to authenticate
+          # via gcloud command-line tool.
+          gcloud auth configure-docker
+
+      # Build the Docker image
+      - name: Build
+        run: |
+          docker build -t "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/"$IMAGE":"$RELEASE_CHANNEL"-"$GITHUB_SHA" \
+            --build-arg GITHUB_SHA="$GITHUB_SHA" \
+            --build-arg GITHUB_REF="$GITHUB_REF" -f maintemplate/server/Dockerfile .
+
+          sed -i s/\\?version\=#\{ref\}/?version=$GITHUB_SHA/g maintemplate/client/build/web/index.html
+          sed -i s/#\{channel_url\}/$PROJECT.$RELEASE_CHANNEL.$URL/g maintemplate/client/build/web/assets/assets/env.json
+          sed -i s/#\{channel_url_native\}/grpc.$PROJECT.$RELEASE_CHANNEL.$URL/g maintemplate/client/build/web/assets/assets/env.json
+          sed -i s/#\{channel_githash\}/$GITHUB_SHA/g maintemplate/client/build/web/assets/assets/env.json
+          sed -i s/#\{flutter_channel\}/$FLUTTER_CHANNEL/g maintemplate/client/build/web/assets/assets/env.json
+          sed -i s/#\{locales\}/$LOCALES/g maintemplate/client/build/web/assets/assets/env.json
+
+          cp -rf maintemplate/client/build/web maintemplate/server/flutter
+          docker build -t "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/flutter-web-"$IMAGE":"$RELEASE_CHANNEL"-"$GITHUB_SHA" maintemplate/server/flutter
+
+      # Push the Docker image to Google Container Registry
+      - name: Publish
+        run: |
+          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${RELEASE_CHANNEL}-$GITHUB_SHA
+          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/flutter-web-$IMAGE:${RELEASE_CHANNEL}-$GITHUB_SHA
+
+      # Set up helm v3
+      - name: Set up Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 ./get_helm.sh
+          ./get_helm.sh
+      # Deploy the Docker image to the GKE cluster
+      - name: Deploy
+        run: |
+          gcloud container clusters get-credentials $GKE_PROJECT --zone $GKE_ZONE --project $GKE_PROJECT
+          helm upgrade --force --install $RELEASE_CHANNEL ./maintemplate/server/deployments/helm\
+           --set flutterImage=gcr.io/$GKE_PROJECT/flutter-web-$IMAGE:${RELEASE_CHANNEL}-$GITHUB_SHA\
+           --set maintemplateServerImage=gcr.io/$GKE_PROJECT/$IMAGE:${RELEASE_CHANNEL}-$GITHUB_SHA\
+           ${{ secrets.HELM_VARS }}

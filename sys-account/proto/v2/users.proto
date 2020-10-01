@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+
+package getcouragenow.sys.v2.sys_account;
+
+option go_package = "github.com/getcouragenow/sys/sys-account/rpc";
+
+message UserDefinedFields {
+  map<string, google.protobuf.Any> fields = 1;
+}
+
+// UserRoles for now
+enum Roles {
+  INVALID = 0;
+  GUEST = 1;
+  USER = 2;
+  ADMIN = 3; // can be Org or Project Admin
+  SUPERADMIN = 4; // can do all
+}
+
+// resource: Project
+message Project {
+  string id = 1;
+}
+
+// resource: Org
+message Org {
+  string id = 1;
+}
+
+// UserRole as a message is super simple
+// and probably not the very best
+// it defines the role as an enum of Roles
+// alongside either None (for guest)
+// or All ( superadmin)
+// or specific project by its id (Project admin)
+// or specific org by its id (Org admin)
+message UserRoles {
+  Roles role = 1;
+  oneof resource {
+    Project project = 2;
+    Org org = 3;
+  }
+}
+
+message Account {
+  string id = 1;
+  string email = 2;
+  string password = 3;
+  UserRoles role = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  google.protobuf.Timestamp last_login = 7;
+  bool disabled = 8;
+  UserDefinedFields fields = 9;
+}
+
+message GetAccountRequest {
+  string id = 1;
+}
+
+message ListAccountsRequest {
+  // limit
+  int64 per_page_entries = 1;
+  string order_by = 2;
+  // number 3 => optional: current_page_token is the last id of the
+  // (current) listed Accounts for pagination purpose (cursor).
+  string current_page_token = 3;
+}
+
+message ListAccountsResponse {
+  repeated Account accounts = 1;
+  // similarly, next_page token is the cursor for the next request
+  string next_page_token = 2;
+}
+
+message SearchAccountsRequest {
+  // query can be either email, UserDefinedFields fields
+  string query = 1;
+  ListAccountsRequest search_params = 2;
+}
+
+message SearchAccountsResponse {
+  ListAccountsResponse search_response = 1;
+}
+
+message AssignAccountToRoleRequest {
+  string assignee_account_id = 1; // current account's id (to check for privilege)
+  string assigned_account_id = 2; // account id to be assigned to role.
+  UserRoles role = 3;
+}
+
+message DisableAccountRequest {
+  string account_id = 1;
+}
+
+service AccountService {
+  rpc NewAccount(Account) returns (Account) {};
+  rpc GetAccount(GetAccountRequest) returns (Account) {};
+  rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {};
+  rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {};
+  rpc AssignAccountToRole(AssignAccountToRoleRequest) returns (Account) {};
+  rpc UpdateAccount(Account) returns (Account) {};
+  rpc DisableAccount(DisableAccountRequest) returns (Account) {};
+}
