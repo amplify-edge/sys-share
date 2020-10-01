@@ -31,7 +31,7 @@ this-print-all: ## print
 
 this-build:
 	@echo "Generating GRPC models and services for Go & Flutter"
-	@mkdir -p server/rpc/v2
+	@mkdir -p service/go/rpc/v2
 	#@mkdir -p client/lib/api/v2
 	@go generate
 
