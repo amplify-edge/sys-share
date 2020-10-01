@@ -44,7 +44,7 @@ jobs:
         env:
           target: ${{ matrix.target }}
   automerge-dependencies:
-    needs: build
+    needs: all
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
