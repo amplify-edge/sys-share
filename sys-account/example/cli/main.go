@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/getcouragenow/sys-share/sys-account/server/rpc/v2"
+	rpc "github.com/getcouragenow/sys-share/sys-account/server/rpc/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

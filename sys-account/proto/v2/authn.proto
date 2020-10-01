@@ -4,7 +4,7 @@ import "google/protobuf/timestamp.proto";
 
 package getcouragenow.sys.v2.sys_account;
 
-option go_package = "github.com/getcouragenow/sys-shared/sys-account/server/rpc";
+option go_package = "github.com/getcouragenow/sys-shared/sys-account/server/rpc/v2";
 
 message ErrorReason {
   string reason = 1;
