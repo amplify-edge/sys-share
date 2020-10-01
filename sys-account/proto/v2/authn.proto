@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package getcouragenow.sys.v2.sys_account;
+
+option go_package = "github.com/getcouragenow/sys/sys-account/rpc";
+
+message ErrorReason {
+  string reason = 1;
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+  string password_confirm = 3;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  bool success = 1;
+  string access_token = 2;
+  string refresh_token = 3;
+  ErrorReason error_reason = 4;
+  google.protobuf.Timestamp last_login = 5;
+}
+
+message RegisterResponse {
+  bool success = 1;
+  string success_msg = 2;
+  ErrorReason error_reason = 3;
+}
+
+message ForgotPasswordRequest {
+  string email = 1;
+}
+
+message ForgotPasswordResponse {
+  bool success = 1;
+  string success_msg = 2;
+  ErrorReason error_reason = 3;
+  google.protobuf.Timestamp forgot_password_requested_at = 4;
+}
+
+message ResetPasswordRequest {
+  string email = 1;
+  string password = 2;
+  string password_confirm = 3;
+}
+
+message ResetPasswordResponse {
+  bool success = 1;
+  string success_msg = 2;
+  ErrorReason error_reason = 3;
+  google.protobuf.Timestamp reset_password_requested_at = 4;
+}
+
+message RefreshAccessTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshAccessTokenResponse {
+  string access_token = 1;
+  ErrorReason error_reason = 2;
+}
+
+service AuthService {
+  rpc Register(RegisterRequest) returns (RegisterResponse) {};
+  rpc Login(LoginRequest) returns (LoginResponse) {};
+  // ForgotPassword, then ResetPassword if succeed
+  rpc ForgotPassword(ForgotPasswordRequest) returns (ForgotPasswordResponse) {};
+  rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse) {};
+  // Refresh Access Token endpoint
+  rpc RefreshAccessToken(RefreshAccessTokenRequest) returns (RefreshAccessTokenResponse) {};
+}
