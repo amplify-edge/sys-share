@@ -32,8 +32,11 @@ this-print-all: ## print
 this-build:
 	@echo "Generating GRPC models and services for Go & Flutter"
 	@mkdir -p service/go/rpc/v2
-	#@mkdir -p client/lib/api/v2
+	@mkdir -p service/flu/lib/api/v2
 	@go generate
+	@echo 'Below is a hack, to regenerate only the internal protobuf go model to service-proxy'
+	@echo "to satisfy proxy design pattern."
+	@perl -i -pe "s/package\ v2/package\ pkg/g" ../service/*.pb.go
 
 this-example-run:
 	@echo Running Example Server
