@@ -1,14 +1,14 @@
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
 
 package getcouragenow.sys.v2.sys_account;
 
 option go_package = "github.com/getcouragenow/sys/sys-account/rpc";
 
 message UserDefinedFields {
-  map<string, google.protobuf.Any> fields = 1;
+  map<string, google.protobuf.Value> fields = 1;
 }
 
 // UserRoles for now
