@@ -11,7 +11,11 @@ include $(BOILERPLATE_FSPATH)/go.mk
 
 override FLU_SAMPLE_NAME =example
 override FLU_LIB_NAME =client
-override FLU_SAMPLE_FSPATH = $(PWD)/main/client
+override FLU_SAMPLE_FSPATH = $(PWD)/example/client
+
+EXAMPLE_EMAIL = superadmin@getcouragenow.org
+EXAMPLE_PASSWORD = superadmin
+EXAMPLE_SERVER_ADDRESS = 127.0.0.1:8888
 
 this-all: this-build
 	
@@ -32,10 +36,16 @@ this-print-all: ## print
 this-build:
 	@echo "Generating GRPC models and services for Go & Flutter"
 	@mkdir -p service/go/rpc/v2
-	#@mkdir -p client/lib/api/v2
+	@mkdir -p service/flu/lib/api/v2
 	@go generate
+	@echo 'Below is a hack, to regenerate only the internal protobuf go model to service-proxy'
+	@echo "to satisfy proxy design pattern."
+	@perl -i -pe "s/package\ v2/package\ pkg/g" ../pkg/*.pb.go
 
 this-example-run:
-	@echo Running Example Server
-	./bin-all/cli/main
+	@echo Running Example Login Client
+	./bin-all/cli/main auth-service login --email $(EXAMPLE_EMAIL) --password $(EXAMPLE_PASSWORD) --server-addr $(EXAMPLE_SERVER_ADDRESS)
 
+this-example-register:
+	@echo Running Example Register Client
+	./bin-all/cli/main auth-service register --email $(EXAMPLE_EMAIL) --password $(EXAMPLE_PASSWORD) --password-confirm $(EXAMPLE_PASSWORD) --server-addr $(EXAMPLE_SERVER_ADDRESS)

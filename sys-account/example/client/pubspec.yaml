@@ -20,9 +20,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_modular: ^2.0.0+1
+  intl:
 
-  sys_account:
-    path: ../../client
+  sys_share_sys_account_service:
+    path: ../../service/flu
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
