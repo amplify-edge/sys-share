@@ -3,15 +3,14 @@
 package v2
 
 import (
+	client "github.com/NathanBaulch/protoc-gen-cobra/client"
+	flag "github.com/NathanBaulch/protoc-gen-cobra/flag"
+	iocodec "github.com/NathanBaulch/protoc-gen-cobra/iocodec"
 	pkg "github.com/getcouragenow/sys-share/pkg"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	client "github.com/gutterbacon/protoc-gen-cobra/client"
-	flag "github.com/gutterbacon/protoc-gen-cobra/flag"
-	iocodec "github.com/gutterbacon/protoc-gen-cobra/iocodec"
+	proto "github.com/golang/protobuf/proto"
 	cobra "github.com/spf13/cobra"
 	pflag "github.com/spf13/pflag"
 	grpc "google.golang.org/grpc"
-	proto "google.golang.org/protobuf/proto"
 	strconv "strconv"
 )
 
@@ -37,14 +36,8 @@ func AccountServiceClientCommand(options ...client.Option) *cobra.Command {
 
 func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &pkg.Account{
-		Role: &pkg.UserRoles{
-			Project: &pkg.Project{},
-			Org:     &pkg.Org{},
-		},
-		CreatedAt: &timestamp.Timestamp{},
-		UpdatedAt: &timestamp.Timestamp{},
-		LastLogin: &timestamp.Timestamp{},
-		Fields:    &pkg.UserDefinedFields{},
+		Role:   &pkg.UserRoles{},
+		Fields: &pkg.UserDefinedFields{},
 	}
 
 	cmd := &cobra.Command{
@@ -85,15 +78,15 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
 	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	cmd.PersistentFlags().StringVar(&req.Role.Project.Id, cfg.FlagNamer("Role Project Id"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Role.Org.Id, cfg.FlagNamer("Role Org Id"), "", "")
-	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
-	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
-	cmd.PersistentFlags().Int64Var(&req.UpdatedAt.Seconds, cfg.FlagNamer("UpdatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.UpdatedAt.Nanos, cfg.FlagNamer("UpdatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
-	cmd.PersistentFlags().Int64Var(&req.LastLogin.Seconds, cfg.FlagNamer("LastLogin Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.LastLogin.Nanos, cfg.FlagNamer("LastLogin Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	RoleProject := &pkg.Project{}
+	cmd.PersistentFlags().StringVar(&RoleProject.Id, cfg.FlagNamer("Role Project Id"), "", "")
+	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Project Id"), func() { req.Role.Resource = &pkg.UserRoles_Project{Project: RoleProject} })
+	RoleOrg := &pkg.Org{}
+	cmd.PersistentFlags().StringVar(&RoleOrg.Id, cfg.FlagNamer("Role Org Id"), "", "")
+	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Org Id"), func() { req.Role.Resource = &pkg.UserRoles_Org{Org: RoleOrg} })
+	flag.TimestampVar(cmd.PersistentFlags(), &req.CreatedAt, cfg.FlagNamer("CreatedAt"), "")
+	flag.TimestampVar(cmd.PersistentFlags(), &req.UpdatedAt, cfg.FlagNamer("UpdatedAt"), "")
+	flag.TimestampVar(cmd.PersistentFlags(), &req.LastLogin, cfg.FlagNamer("LastLogin"), "")
 	cmd.PersistentFlags().BoolVar(&req.Disabled, cfg.FlagNamer("Disabled"), false, "")
 
 	return cmd
@@ -234,10 +227,7 @@ func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
 
 func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Command {
 	req := &pkg.AssignAccountToRoleRequest{
-		Role: &pkg.UserRoles{
-			Project: &pkg.Project{},
-			Org:     &pkg.Org{},
-		},
+		Role: &pkg.UserRoles{},
 	}
 
 	cmd := &cobra.Command{
@@ -277,23 +267,20 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 	cmd.PersistentFlags().StringVar(&req.AssigneeAccountId, cfg.FlagNamer("AssigneeAccountId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.AssignedAccountId, cfg.FlagNamer("AssignedAccountId"), "", "")
 	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	cmd.PersistentFlags().StringVar(&req.Role.Project.Id, cfg.FlagNamer("Role Project Id"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Role.Org.Id, cfg.FlagNamer("Role Org Id"), "", "")
-	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
+	RoleProject := &pkg.Project{}
+	cmd.PersistentFlags().StringVar(&RoleProject.Id, cfg.FlagNamer("Role Project Id"), "", "")
+	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Project Id"), func() { req.Role.Resource = &pkg.UserRoles_Project{Project: RoleProject} })
+	RoleOrg := &pkg.Org{}
+	cmd.PersistentFlags().StringVar(&RoleOrg.Id, cfg.FlagNamer("Role Org Id"), "", "")
+	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Org Id"), func() { req.Role.Resource = &pkg.UserRoles_Org{Org: RoleOrg} })
 
 	return cmd
 }
 
 func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &pkg.Account{
-		Role: &pkg.UserRoles{
-			Project: &pkg.Project{},
-			Org:     &pkg.Org{},
-		},
-		CreatedAt: &timestamp.Timestamp{},
-		UpdatedAt: &timestamp.Timestamp{},
-		LastLogin: &timestamp.Timestamp{},
-		Fields:    &pkg.UserDefinedFields{},
+		Role:   &pkg.UserRoles{},
+		Fields: &pkg.UserDefinedFields{},
 	}
 
 	cmd := &cobra.Command{
@@ -334,15 +321,15 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
 	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	cmd.PersistentFlags().StringVar(&req.Role.Project.Id, cfg.FlagNamer("Role Project Id"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Role.Org.Id, cfg.FlagNamer("Role Org Id"), "", "")
-	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
-	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
-	cmd.PersistentFlags().Int64Var(&req.UpdatedAt.Seconds, cfg.FlagNamer("UpdatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.UpdatedAt.Nanos, cfg.FlagNamer("UpdatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
-	cmd.PersistentFlags().Int64Var(&req.LastLogin.Seconds, cfg.FlagNamer("LastLogin Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.LastLogin.Nanos, cfg.FlagNamer("LastLogin Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	RoleProject := &pkg.Project{}
+	cmd.PersistentFlags().StringVar(&RoleProject.Id, cfg.FlagNamer("Role Project Id"), "", "")
+	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Project Id"), func() { req.Role.Resource = &pkg.UserRoles_Project{Project: RoleProject} })
+	RoleOrg := &pkg.Org{}
+	cmd.PersistentFlags().StringVar(&RoleOrg.Id, cfg.FlagNamer("Role Org Id"), "", "")
+	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Org Id"), func() { req.Role.Resource = &pkg.UserRoles_Org{Org: RoleOrg} })
+	flag.TimestampVar(cmd.PersistentFlags(), &req.CreatedAt, cfg.FlagNamer("CreatedAt"), "")
+	flag.TimestampVar(cmd.PersistentFlags(), &req.UpdatedAt, cfg.FlagNamer("UpdatedAt"), "")
+	flag.TimestampVar(cmd.PersistentFlags(), &req.LastLogin, cfg.FlagNamer("LastLogin"), "")
 	cmd.PersistentFlags().BoolVar(&req.Disabled, cfg.FlagNamer("Disabled"), false, "")
 
 	return cmd

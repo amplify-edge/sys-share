@@ -101,10 +101,9 @@ message Org {
 // or specific org by its id (Org admin)
 message UserRoles {
   Roles role = 1;
-  oneof resource {
-    Project project = 2;
-    Org org = 3;
-  }
+  Project project = 2;
+  Org org = 3;
+  bool all = 4;
 }
 
 message Account {

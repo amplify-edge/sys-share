@@ -146,11 +146,9 @@ const UserRoles$json = const {
   '1': 'UserRoles',
   '2': const [
     const {'1': 'role', '3': 1, '4': 1, '5': 14, '6': '.models.Roles', '10': 'role'},
-    const {'1': 'project', '3': 2, '4': 1, '5': 11, '6': '.models.Project', '9': 0, '10': 'project'},
-    const {'1': 'org', '3': 3, '4': 1, '5': 11, '6': '.models.Org', '9': 0, '10': 'org'},
-  ],
-  '8': const [
-    const {'1': 'resource'},
+    const {'1': 'project', '3': 2, '4': 1, '5': 11, '6': '.models.Project', '10': 'project'},
+    const {'1': 'org', '3': 3, '4': 1, '5': 11, '6': '.models.Org', '10': 'org'},
+    const {'1': 'all', '3': 4, '4': 1, '5': 8, '10': 'all'},
   ],
 };
 

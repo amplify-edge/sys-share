@@ -641,23 +641,12 @@ class Org extends $pb.GeneratedMessage {
   void clearId() => clearField(1);
 }
 
-enum UserRoles_Resource {
-  project, 
-  org, 
-  notSet
-}
-
 class UserRoles extends $pb.GeneratedMessage {
-  static const $core.Map<$core.int, UserRoles_Resource> _UserRoles_ResourceByTag = {
-    2 : UserRoles_Resource.project,
-    3 : UserRoles_Resource.org,
-    0 : UserRoles_Resource.notSet
-  };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('UserRoles', package: const $pb.PackageName('models'), createEmptyInstance: create)
-    ..oo(0, [2, 3])
     ..e<Roles>(1, 'role', $pb.PbFieldType.OE, defaultOrMaker: Roles.INVALID, valueOf: Roles.valueOf, enumValues: Roles.values)
     ..aOM<Project>(2, 'project', subBuilder: Project.create)
     ..aOM<Org>(3, 'org', subBuilder: Org.create)
+    ..aOB(4, 'all')
     ..hasRequiredFields = false
   ;
 
@@ -675,9 +664,6 @@ class UserRoles extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static UserRoles getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UserRoles>(create);
   static UserRoles _defaultInstance;
-
-  UserRoles_Resource whichResource() => _UserRoles_ResourceByTag[$_whichOneof(0)];
-  void clearResource() => clearField($_whichOneof(0));
 
   @$pb.TagNumber(1)
   Roles get role => $_getN(0);
@@ -709,6 +695,15 @@ class UserRoles extends $pb.GeneratedMessage {
   void clearOrg() => clearField(3);
   @$pb.TagNumber(3)
   Org ensureOrg() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  $core.bool get all => $_getBF(3);
+  @$pb.TagNumber(4)
+  set all($core.bool v) { $_setBool(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasAll() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearAll() => clearField(4);
 }
 
 class Account extends $pb.GeneratedMessage {
