@@ -6,6 +6,7 @@ import (
 	client "github.com/NathanBaulch/protoc-gen-cobra/client"
 	flag "github.com/NathanBaulch/protoc-gen-cobra/flag"
 	iocodec "github.com/NathanBaulch/protoc-gen-cobra/iocodec"
+	pkg "github.com/getcouragenow/sys-share/pkg"
 	proto "github.com/golang/protobuf/proto"
 	cobra "github.com/spf13/cobra"
 	pflag "github.com/spf13/pflag"
@@ -34,9 +35,9 @@ func AccountServiceClientCommand(options ...client.Option) *cobra.Command {
 }
 
 func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
-	req := &Account{
-		Role:   &UserRoles{},
-		Fields: &UserDefinedFields{},
+	req := &pkg.Account{
+		Role:   &pkg.UserRoles{},
+		Fields: &pkg.UserDefinedFields{},
 	}
 
 	cmd := &cobra.Command{
@@ -76,11 +77,11 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
-	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	RoleProject := &Project{}
+	_pkg.RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
+	RoleProject := &pkg.Project{}
 	cmd.PersistentFlags().StringVar(&RoleProject.Id, cfg.FlagNamer("Role Project Id"), "", "")
 	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Project Id"), func() { req.Role.Resource = &UserRoles_Project{Project: RoleProject} })
-	RoleOrg := &Org{}
+	RoleOrg := &pkg.Org{}
 	cmd.PersistentFlags().StringVar(&RoleOrg.Id, cfg.FlagNamer("Role Org Id"), "", "")
 	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Org Id"), func() { req.Role.Resource = &UserRoles_Org{Org: RoleOrg} })
 	flag.TimestampVar(cmd.PersistentFlags(), &req.CreatedAt, cfg.FlagNamer("CreatedAt"), "")
@@ -92,7 +93,7 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AccountServiceGetAccountCommand(cfg *client.Config) *cobra.Command {
-	req := &GetAccountRequest{}
+	req := &pkg.GetAccountRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("GetAccount"),
@@ -134,7 +135,7 @@ func _AccountServiceGetAccountCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AccountServiceListAccountsCommand(cfg *client.Config) *cobra.Command {
-	req := &ListAccountsRequest{}
+	req := &pkg.ListAccountsRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("ListAccounts"),
@@ -178,8 +179,8 @@ func _AccountServiceListAccountsCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
-	req := &SearchAccountsRequest{
-		SearchParams: &ListAccountsRequest{},
+	req := &pkg.SearchAccountsRequest{
+		SearchParams: &pkg.ListAccountsRequest{},
 	}
 
 	cmd := &cobra.Command{
@@ -225,8 +226,8 @@ func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Command {
-	req := &AssignAccountToRoleRequest{
-		Role: &UserRoles{},
+	req := &pkg.AssignAccountToRoleRequest{
+		Role: &pkg.UserRoles{},
 	}
 
 	cmd := &cobra.Command{
@@ -265,11 +266,11 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 
 	cmd.PersistentFlags().StringVar(&req.AssigneeAccountId, cfg.FlagNamer("AssigneeAccountId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.AssignedAccountId, cfg.FlagNamer("AssignedAccountId"), "", "")
-	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	RoleProject := &Project{}
+	_pkg.RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
+	RoleProject := &pkg.Project{}
 	cmd.PersistentFlags().StringVar(&RoleProject.Id, cfg.FlagNamer("Role Project Id"), "", "")
 	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Project Id"), func() { req.Role.Resource = &UserRoles_Project{Project: RoleProject} })
-	RoleOrg := &Org{}
+	RoleOrg := &pkg.Org{}
 	cmd.PersistentFlags().StringVar(&RoleOrg.Id, cfg.FlagNamer("Role Org Id"), "", "")
 	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Org Id"), func() { req.Role.Resource = &UserRoles_Org{Org: RoleOrg} })
 
@@ -277,9 +278,9 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 }
 
 func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
-	req := &Account{
-		Role:   &UserRoles{},
-		Fields: &UserDefinedFields{},
+	req := &pkg.Account{
+		Role:   &pkg.UserRoles{},
+		Fields: &pkg.UserDefinedFields{},
 	}
 
 	cmd := &cobra.Command{
@@ -319,11 +320,11 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
-	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	RoleProject := &Project{}
+	_pkg.RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
+	RoleProject := &pkg.Project{}
 	cmd.PersistentFlags().StringVar(&RoleProject.Id, cfg.FlagNamer("Role Project Id"), "", "")
 	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Project Id"), func() { req.Role.Resource = &UserRoles_Project{Project: RoleProject} })
-	RoleOrg := &Org{}
+	RoleOrg := &pkg.Org{}
 	cmd.PersistentFlags().StringVar(&RoleOrg.Id, cfg.FlagNamer("Role Org Id"), "", "")
 	flag.WithPostSetHook(cmd.PersistentFlags(), cfg.FlagNamer("Role Org Id"), func() { req.Role.Resource = &UserRoles_Org{Org: RoleOrg} })
 	flag.TimestampVar(cmd.PersistentFlags(), &req.CreatedAt, cfg.FlagNamer("CreatedAt"), "")
@@ -335,7 +336,7 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AccountServiceDisableAccountCommand(cfg *client.Config) *cobra.Command {
-	req := &DisableAccountRequest{}
+	req := &pkg.DisableAccountRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("DisableAccount"),
@@ -403,4 +404,237 @@ func parseRoles(s string) (Roles, error) {
 	} else {
 		return 0, err
 	}
+}
+
+func AuthServiceClientCommand(options ...client.Option) *cobra.Command {
+	cfg := client.NewConfig(options...)
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("AuthService"),
+		Short: "AuthService service client",
+		Long:  "",
+	}
+	cfg.BindFlags(cmd.PersistentFlags())
+	cmd.AddCommand(
+		_AuthServiceRegisterCommand(cfg),
+		_AuthServiceLoginCommand(cfg),
+		_AuthServiceForgotPasswordCommand(cfg),
+		_AuthServiceResetPasswordCommand(cfg),
+		_AuthServiceRefreshAccessTokenCommand(cfg),
+	)
+	return cmd
+}
+
+func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
+	req := &pkg.RegisterRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("Register"),
+		Short: "Register RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService", "Register"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewAuthServiceClient(cc)
+				v := &RegisterRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.Register(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
+	cmd.PersistentFlags().StringVar(&req.PasswordConfirm, cfg.FlagNamer("PasswordConfirm"), "", "")
+
+	return cmd
+}
+
+func _AuthServiceLoginCommand(cfg *client.Config) *cobra.Command {
+	req := &pkg.LoginRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("Login"),
+		Short: "Login RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService", "Login"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewAuthServiceClient(cc)
+				v := &LoginRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.Login(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
+
+	return cmd
+}
+
+func _AuthServiceForgotPasswordCommand(cfg *client.Config) *cobra.Command {
+	req := &pkg.ForgotPasswordRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("ForgotPassword"),
+		Short: "ForgotPassword RPC client",
+		Long:  "ForgotPassword, then ResetPassword if succeed",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService", "ForgotPassword"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewAuthServiceClient(cc)
+				v := &ForgotPasswordRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.ForgotPassword(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
+
+	return cmd
+}
+
+func _AuthServiceResetPasswordCommand(cfg *client.Config) *cobra.Command {
+	req := &pkg.ResetPasswordRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("ResetPassword"),
+		Short: "ResetPassword RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService", "ResetPassword"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewAuthServiceClient(cc)
+				v := &ResetPasswordRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.ResetPassword(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
+	cmd.PersistentFlags().StringVar(&req.PasswordConfirm, cfg.FlagNamer("PasswordConfirm"), "", "")
+
+	return cmd
+}
+
+func _AuthServiceRefreshAccessTokenCommand(cfg *client.Config) *cobra.Command {
+	req := &pkg.RefreshAccessTokenRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("RefreshAccessToken"),
+		Short: "RefreshAccessToken RPC client",
+		Long:  "Refresh Access Token endpoint",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService", "RefreshAccessToken"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewAuthServiceClient(cc)
+				v := &RefreshAccessTokenRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.RefreshAccessToken(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.RefreshToken, cfg.FlagNamer("RefreshToken"), "", "")
+
+	return cmd
 }

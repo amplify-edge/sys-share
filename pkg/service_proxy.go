@@ -16,7 +16,7 @@ type SysShareProxyClient struct {
 }
 
 // SysAccountClient is just a stub
-type SysAccountClient struct {}
+type SysAccountClient struct{}
 
 type SysAccountService struct {
 	account *accountService
@@ -53,7 +53,6 @@ func (au *authService) RegisterSvc(server *grpc.Server) {
 		RefreshAccessToken: au.RefreshAccessToken,
 	})
 }
-
 
 // Invoke invokes client side GRPC calls to running server.
 func Invoke() string {
