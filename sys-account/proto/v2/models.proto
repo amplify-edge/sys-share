@@ -3,9 +3,71 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
 
-package getcouragenow.sys.v2.sys_account;
+package models;
 
-option go_package = "github.com/getcouragenow/sys-share/sys-account/go/service/rpc/v2";
+option go_package = "github.com/getcouragenow/sys-share/pkg";
+
+message ErrorReason {
+  string reason = 1;
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+  string password_confirm = 3;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  bool success = 1;
+  string access_token = 2;
+  string refresh_token = 3;
+  ErrorReason error_reason = 4;
+  google.protobuf.Timestamp last_login = 5;
+}
+
+message RegisterResponse {
+  bool success = 1;
+  string success_msg = 2;
+  ErrorReason error_reason = 3;
+}
+
+message ForgotPasswordRequest {
+  string email = 1;
+}
+
+message ForgotPasswordResponse {
+  bool success = 1;
+  string success_msg = 2;
+  ErrorReason error_reason = 3;
+  google.protobuf.Timestamp forgot_password_requested_at = 4;
+}
+
+message ResetPasswordRequest {
+  string email = 1;
+  string password = 2;
+  string password_confirm = 3;
+}
+
+message ResetPasswordResponse {
+  bool success = 1;
+  string success_msg = 2;
+  ErrorReason error_reason = 3;
+  google.protobuf.Timestamp reset_password_requested_at = 4;
+}
+
+message RefreshAccessTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshAccessTokenResponse {
+  string access_token = 1;
+  ErrorReason error_reason = 2;
+}
 
 message UserDefinedFields {
   map<string, google.protobuf.Value> fields = 1;
@@ -39,10 +101,9 @@ message Org {
 // or specific org by its id (Org admin)
 message UserRoles {
   Roles role = 1;
-  oneof resource {
-    Project project = 2;
-    Org org = 3;
-  }
+  Project project = 2;
+  Org org = 3;
+  bool all = 4;
 }
 
 message Account {
@@ -94,14 +155,4 @@ message AssignAccountToRoleRequest {
 
 message DisableAccountRequest {
   string account_id = 1;
-}
-
-service AccountService {
-  rpc NewAccount(Account) returns (Account) {};
-  rpc GetAccount(GetAccountRequest) returns (Account) {};
-  rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) {};
-  rpc SearchAccounts(SearchAccountsRequest) returns (SearchAccountsResponse) {};
-  rpc AssignAccountToRole(AssignAccountToRoleRequest) returns (Account) {};
-  rpc UpdateAccount(Account) returns (Account) {};
-  rpc DisableAccount(DisableAccountRequest) returns (Account) {};
 }

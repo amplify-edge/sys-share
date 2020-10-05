@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "models.proto";
+
+package v2.services;
+
+option go_package = "github.com/getcouragenow/sys-share/sys-account/go/service/rpc/v2";
+
+service AccountService {
+  rpc NewAccount(models.Account) returns (models.Account) {};
+  rpc GetAccount(models.GetAccountRequest) returns (models.Account) {};
+  rpc ListAccounts(models.ListAccountsRequest) returns (models.ListAccountsResponse) {};
+  rpc SearchAccounts(models.SearchAccountsRequest) returns (models.SearchAccountsResponse) {};
+  rpc AssignAccountToRole(models.AssignAccountToRoleRequest) returns (models.Account) {};
+  rpc UpdateAccount(models.Account) returns (models.Account) {};
+  rpc DisableAccount(models.DisableAccountRequest) returns (models.Account) {};
+}
+
+service AuthService {
+  rpc Register(models.RegisterRequest) returns (models.RegisterResponse) {};
+  rpc Login(models.LoginRequest) returns (models.LoginResponse) {};
+  // ForgotPassword, then ResetPassword if succeed
+  rpc ForgotPassword(models.ForgotPasswordRequest) returns (models.ForgotPasswordResponse) {};
+  rpc ResetPassword(models.ResetPasswordRequest) returns (models.ResetPasswordResponse) {};
+  // Refresh Access Token endpoint
+  rpc RefreshAccessToken(models.RefreshAccessTokenRequest) returns (models.RefreshAccessTokenResponse) {};
+}

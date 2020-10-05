@@ -1,11 +1,10 @@
 library sys_share_sys_account_service;
 
-export 'api/v2/authn.pb.dart';
-export 'api/v2/authn.pbenum.dart';
-export 'api/v2/authn.pbgrpc.dart';
-export 'api/v2/authn.pbjson.dart';
+export 'api/v2/models.pb.dart';
+export 'api/v2/models.pbenum.dart';
+export 'api/v2/models.pbjson.dart';
 
-export 'api/v2/users.pb.dart';
-export 'api/v2/users.pbenum.dart';
-export 'api/v2/users.pbgrpc.dart';
-export 'api/v2/users.pbjson.dart';
+export 'api/v2/services.pb.dart';
+export 'api/v2/services.pbenum.dart';
+export 'api/v2/services.pbgrpc.dart';
+export 'api/v2/services.pbjson.dart';
