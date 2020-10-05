@@ -79,6 +79,14 @@ type Account struct {
 	Fields    *UserDefinedFields `json:"fields,omitempty"`
 }
 
+func (acc *Account) GetEmail() string {
+	return acc.Email
+}
+
+func (acc *Account) GetRole() *UserRoles {
+	return acc.Role
+}
+
 func (acc *Account) ToProto() (*accountRpc.Account, error) {
 	role := acc.Role.ToProto()
 	fields, err := acc.Fields.ToProto()
