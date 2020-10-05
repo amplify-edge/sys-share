@@ -38,9 +38,9 @@ this-build:
 	@mkdir -p service/go/rpc/v2
 	@mkdir -p service/flu/lib/api/v2
 	@go generate
-	@echo 'Below is a hack, to regenerate only the internal protobuf go model to service-proxy'
-	@echo "to satisfy proxy design pattern."
-	@perl -i -pe "s/package\ v2/package\ pkg/g" ../pkg/*.pb.go
+	#@echo 'Below is a hack, to regenerate only the internal protobuf go model to service-proxy'
+	#@echo "to satisfy proxy design pattern."
+	#@perl -i -pe "s/package\ v2/package\ pkg/g" ../pkg/*.pb.go
 
 this-example-run:
 	@echo Running Example Login Client
@@ -49,3 +49,7 @@ this-example-run:
 this-example-register:
 	@echo Running Example Register Client
 	./bin-all/cli/main auth-service register --email $(EXAMPLE_EMAIL) --password $(EXAMPLE_PASSWORD) --password-confirm $(EXAMPLE_PASSWORD) --server-addr $(EXAMPLE_SERVER_ADDRESS)
+
+this-example-flutter-run:
+	@echo Running Example Flutter Client
+	$(MAKE) flu-web-run
