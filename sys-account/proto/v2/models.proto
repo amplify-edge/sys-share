@@ -3,9 +3,9 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
 
-package models;
+package v2.services;
 
-option go_package = "github.com/getcouragenow/sys-share/pkg";
+option go_package = "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2";
 
 message ErrorReason {
   string reason = 1;
@@ -128,13 +128,13 @@ message ListAccountsRequest {
   string order_by = 2;
   // number 3 => optional: current_page_token is the last id of the
   // (current) listed Accounts for pagination purpose (cursor).
-  string current_page_token = 3;
+  string current_page_id = 3;
 }
 
 message ListAccountsResponse {
   repeated Account accounts = 1;
   // similarly, next_page token is the cursor for the next request
-  string next_page_token = 2;
+  string next_page_id = 2;
 }
 
 message SearchAccountsRequest {

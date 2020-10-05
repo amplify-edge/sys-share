@@ -3,7 +3,6 @@
 package v2
 
 import (
-	pkg "github.com/getcouragenow/sys-share/pkg"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	client "github.com/gutterbacon/protoc-gen-cobra/client"
 	flag "github.com/gutterbacon/protoc-gen-cobra/flag"
@@ -36,15 +35,15 @@ func AccountServiceClientCommand(options ...client.Option) *cobra.Command {
 }
 
 func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.Account{
-		Role: &pkg.UserRoles{
-			Project: &pkg.Project{},
-			Org:     &pkg.Org{},
+	req := &Account{
+		Role: &UserRoles{
+			Project: &Project{},
+			Org:     &Org{},
 		},
 		CreatedAt: &timestamp.Timestamp{},
 		UpdatedAt: &timestamp.Timestamp{},
 		LastLogin: &timestamp.Timestamp{},
-		Fields:    &pkg.UserDefinedFields{},
+		Fields:    &UserDefinedFields{},
 	}
 
 	cmd := &cobra.Command{
@@ -62,7 +61,7 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAccountServiceClient(cc)
-				v := &pkg.Account{}
+				v := &Account{}
 
 				if err := in(v); err != nil {
 					return err
@@ -100,7 +99,7 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AccountServiceGetAccountCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.GetAccountRequest{}
+	req := &GetAccountRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("GetAccount"),
@@ -117,7 +116,7 @@ func _AccountServiceGetAccountCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAccountServiceClient(cc)
-				v := &pkg.GetAccountRequest{}
+				v := &GetAccountRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -142,7 +141,7 @@ func _AccountServiceGetAccountCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AccountServiceListAccountsCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.ListAccountsRequest{}
+	req := &ListAccountsRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("ListAccounts"),
@@ -159,7 +158,7 @@ func _AccountServiceListAccountsCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAccountServiceClient(cc)
-				v := &pkg.ListAccountsRequest{}
+				v := &ListAccountsRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -180,14 +179,14 @@ func _AccountServiceListAccountsCommand(cfg *client.Config) *cobra.Command {
 
 	cmd.PersistentFlags().Int64Var(&req.PerPageEntries, cfg.FlagNamer("PerPageEntries"), 0, "limit")
 	cmd.PersistentFlags().StringVar(&req.OrderBy, cfg.FlagNamer("OrderBy"), "", "")
-	cmd.PersistentFlags().StringVar(&req.CurrentPageToken, cfg.FlagNamer("CurrentPageToken"), "", "number 3 => optional: current_page_token is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
+	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_token is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 
 	return cmd
 }
 
 func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.SearchAccountsRequest{
-		SearchParams: &pkg.ListAccountsRequest{},
+	req := &SearchAccountsRequest{
+		SearchParams: &ListAccountsRequest{},
 	}
 
 	cmd := &cobra.Command{
@@ -205,7 +204,7 @@ func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAccountServiceClient(cc)
-				v := &pkg.SearchAccountsRequest{}
+				v := &SearchAccountsRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -227,16 +226,16 @@ func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Query, cfg.FlagNamer("Query"), "", "query can be either email, UserDefinedFields fields")
 	cmd.PersistentFlags().Int64Var(&req.SearchParams.PerPageEntries, cfg.FlagNamer("SearchParams PerPageEntries"), 0, "limit")
 	cmd.PersistentFlags().StringVar(&req.SearchParams.OrderBy, cfg.FlagNamer("SearchParams OrderBy"), "", "")
-	cmd.PersistentFlags().StringVar(&req.SearchParams.CurrentPageToken, cfg.FlagNamer("SearchParams CurrentPageToken"), "", "number 3 => optional: current_page_token is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
+	cmd.PersistentFlags().StringVar(&req.SearchParams.CurrentPageId, cfg.FlagNamer("SearchParams CurrentPageId"), "", "number 3 => optional: current_page_token is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 
 	return cmd
 }
 
 func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.AssignAccountToRoleRequest{
-		Role: &pkg.UserRoles{
-			Project: &pkg.Project{},
-			Org:     &pkg.Org{},
+	req := &AssignAccountToRoleRequest{
+		Role: &UserRoles{
+			Project: &Project{},
+			Org:     &Org{},
 		},
 	}
 
@@ -255,7 +254,7 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAccountServiceClient(cc)
-				v := &pkg.AssignAccountToRoleRequest{}
+				v := &AssignAccountToRoleRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -285,15 +284,15 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 }
 
 func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.Account{
-		Role: &pkg.UserRoles{
-			Project: &pkg.Project{},
-			Org:     &pkg.Org{},
+	req := &Account{
+		Role: &UserRoles{
+			Project: &Project{},
+			Org:     &Org{},
 		},
 		CreatedAt: &timestamp.Timestamp{},
 		UpdatedAt: &timestamp.Timestamp{},
 		LastLogin: &timestamp.Timestamp{},
-		Fields:    &pkg.UserDefinedFields{},
+		Fields:    &UserDefinedFields{},
 	}
 
 	cmd := &cobra.Command{
@@ -311,7 +310,7 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAccountServiceClient(cc)
-				v := &pkg.Account{}
+				v := &Account{}
 
 				if err := in(v); err != nil {
 					return err
@@ -349,7 +348,7 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AccountServiceDisableAccountCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.DisableAccountRequest{}
+	req := &DisableAccountRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("DisableAccount"),
@@ -366,7 +365,7 @@ func _AccountServiceDisableAccountCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAccountServiceClient(cc)
-				v := &pkg.DisableAccountRequest{}
+				v := &DisableAccountRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -390,9 +389,9 @@ func _AccountServiceDisableAccountCommand(cfg *client.Config) *cobra.Command {
 	return cmd
 }
 
-type _RolesValue pkg.Roles
+type _RolesValue Roles
 
-func _RolesVar(fs *pflag.FlagSet, p *pkg.Roles, name, usage string) {
+func _RolesVar(fs *pflag.FlagSet, p *Roles, name, usage string) {
 	fs.Var((*_RolesValue)(p), name, usage)
 }
 
@@ -407,13 +406,13 @@ func (v *_RolesValue) Set(val string) error {
 
 func (*_RolesValue) Type() string { return "Roles" }
 
-func (v *_RolesValue) String() string { return (pkg.Roles)(*v).String() }
+func (v *_RolesValue) String() string { return (Roles)(*v).String() }
 
-func parseRoles(s string) (pkg.Roles, error) {
-	if i, ok := pkg.Roles_value[s]; ok {
-		return pkg.Roles(i), nil
+func parseRoles(s string) (Roles, error) {
+	if i, ok := Roles_value[s]; ok {
+		return Roles(i), nil
 	} else if i, err := strconv.ParseInt(s, 0, 32); err == nil {
-		return pkg.Roles(i), nil
+		return Roles(i), nil
 	} else {
 		return 0, err
 	}
@@ -438,7 +437,7 @@ func AuthServiceClientCommand(options ...client.Option) *cobra.Command {
 }
 
 func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.RegisterRequest{}
+	req := &RegisterRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("Register"),
@@ -455,7 +454,7 @@ func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAuthServiceClient(cc)
-				v := &pkg.RegisterRequest{}
+				v := &RegisterRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -482,7 +481,7 @@ func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AuthServiceLoginCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.LoginRequest{}
+	req := &LoginRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("Login"),
@@ -499,7 +498,7 @@ func _AuthServiceLoginCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAuthServiceClient(cc)
-				v := &pkg.LoginRequest{}
+				v := &LoginRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -525,7 +524,7 @@ func _AuthServiceLoginCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AuthServiceForgotPasswordCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.ForgotPasswordRequest{}
+	req := &ForgotPasswordRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("ForgotPassword"),
@@ -542,7 +541,7 @@ func _AuthServiceForgotPasswordCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAuthServiceClient(cc)
-				v := &pkg.ForgotPasswordRequest{}
+				v := &ForgotPasswordRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -567,7 +566,7 @@ func _AuthServiceForgotPasswordCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AuthServiceResetPasswordCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.ResetPasswordRequest{}
+	req := &ResetPasswordRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("ResetPassword"),
@@ -584,7 +583,7 @@ func _AuthServiceResetPasswordCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAuthServiceClient(cc)
-				v := &pkg.ResetPasswordRequest{}
+				v := &ResetPasswordRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -611,7 +610,7 @@ func _AuthServiceResetPasswordCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _AuthServiceRefreshAccessTokenCommand(cfg *client.Config) *cobra.Command {
-	req := &pkg.RefreshAccessTokenRequest{}
+	req := &RefreshAccessTokenRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("RefreshAccessToken"),
@@ -628,7 +627,7 @@ func _AuthServiceRefreshAccessTokenCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewAuthServiceClient(cc)
-				v := &pkg.RefreshAccessTokenRequest{}
+				v := &RefreshAccessTokenRequest{}
 
 				if err := in(v); err != nil {
 					return err

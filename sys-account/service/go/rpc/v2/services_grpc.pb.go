@@ -4,7 +4,6 @@ package v2
 
 import (
 	context "context"
-	pkg "github.com/getcouragenow/sys-share/pkg"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -18,13 +17,13 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountServiceClient interface {
-	NewAccount(ctx context.Context, in *pkg.Account, opts ...grpc.CallOption) (*pkg.Account, error)
-	GetAccount(ctx context.Context, in *pkg.GetAccountRequest, opts ...grpc.CallOption) (*pkg.Account, error)
-	ListAccounts(ctx context.Context, in *pkg.ListAccountsRequest, opts ...grpc.CallOption) (*pkg.ListAccountsResponse, error)
-	SearchAccounts(ctx context.Context, in *pkg.SearchAccountsRequest, opts ...grpc.CallOption) (*pkg.SearchAccountsResponse, error)
-	AssignAccountToRole(ctx context.Context, in *pkg.AssignAccountToRoleRequest, opts ...grpc.CallOption) (*pkg.Account, error)
-	UpdateAccount(ctx context.Context, in *pkg.Account, opts ...grpc.CallOption) (*pkg.Account, error)
-	DisableAccount(ctx context.Context, in *pkg.DisableAccountRequest, opts ...grpc.CallOption) (*pkg.Account, error)
+	NewAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
+	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error)
+	SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error)
+	AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error)
+	UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
+	DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error)
 }
 
 type accountServiceClient struct {
@@ -39,8 +38,8 @@ var accountServiceNewAccountStreamDesc = &grpc.StreamDesc{
 	StreamName: "NewAccount",
 }
 
-func (c *accountServiceClient) NewAccount(ctx context.Context, in *pkg.Account, opts ...grpc.CallOption) (*pkg.Account, error) {
-	out := new(pkg.Account)
+func (c *accountServiceClient) NewAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
+	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.services.AccountService/NewAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -52,8 +51,8 @@ var accountServiceGetAccountStreamDesc = &grpc.StreamDesc{
 	StreamName: "GetAccount",
 }
 
-func (c *accountServiceClient) GetAccount(ctx context.Context, in *pkg.GetAccountRequest, opts ...grpc.CallOption) (*pkg.Account, error) {
-	out := new(pkg.Account)
+func (c *accountServiceClient) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
+	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.services.AccountService/GetAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -65,8 +64,8 @@ var accountServiceListAccountsStreamDesc = &grpc.StreamDesc{
 	StreamName: "ListAccounts",
 }
 
-func (c *accountServiceClient) ListAccounts(ctx context.Context, in *pkg.ListAccountsRequest, opts ...grpc.CallOption) (*pkg.ListAccountsResponse, error) {
-	out := new(pkg.ListAccountsResponse)
+func (c *accountServiceClient) ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error) {
+	out := new(ListAccountsResponse)
 	err := c.cc.Invoke(ctx, "/v2.services.AccountService/ListAccounts", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -78,8 +77,8 @@ var accountServiceSearchAccountsStreamDesc = &grpc.StreamDesc{
 	StreamName: "SearchAccounts",
 }
 
-func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *pkg.SearchAccountsRequest, opts ...grpc.CallOption) (*pkg.SearchAccountsResponse, error) {
-	out := new(pkg.SearchAccountsResponse)
+func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error) {
+	out := new(SearchAccountsResponse)
 	err := c.cc.Invoke(ctx, "/v2.services.AccountService/SearchAccounts", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -91,8 +90,8 @@ var accountServiceAssignAccountToRoleStreamDesc = &grpc.StreamDesc{
 	StreamName: "AssignAccountToRole",
 }
 
-func (c *accountServiceClient) AssignAccountToRole(ctx context.Context, in *pkg.AssignAccountToRoleRequest, opts ...grpc.CallOption) (*pkg.Account, error) {
-	out := new(pkg.Account)
+func (c *accountServiceClient) AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error) {
+	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.services.AccountService/AssignAccountToRole", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -104,8 +103,8 @@ var accountServiceUpdateAccountStreamDesc = &grpc.StreamDesc{
 	StreamName: "UpdateAccount",
 }
 
-func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *pkg.Account, opts ...grpc.CallOption) (*pkg.Account, error) {
-	out := new(pkg.Account)
+func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
+	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.services.AccountService/UpdateAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -117,8 +116,8 @@ var accountServiceDisableAccountStreamDesc = &grpc.StreamDesc{
 	StreamName: "DisableAccount",
 }
 
-func (c *accountServiceClient) DisableAccount(ctx context.Context, in *pkg.DisableAccountRequest, opts ...grpc.CallOption) (*pkg.Account, error) {
-	out := new(pkg.Account)
+func (c *accountServiceClient) DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error) {
+	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.services.AccountService/DisableAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -131,20 +130,20 @@ func (c *accountServiceClient) DisableAccount(ctx context.Context, in *pkg.Disab
 // RegisterAccountServiceService is called.  Any unassigned fields will result in the
 // handler for that method returning an Unimplemented error.
 type AccountServiceService struct {
-	NewAccount          func(context.Context, *pkg.Account) (*pkg.Account, error)
-	GetAccount          func(context.Context, *pkg.GetAccountRequest) (*pkg.Account, error)
-	ListAccounts        func(context.Context, *pkg.ListAccountsRequest) (*pkg.ListAccountsResponse, error)
-	SearchAccounts      func(context.Context, *pkg.SearchAccountsRequest) (*pkg.SearchAccountsResponse, error)
-	AssignAccountToRole func(context.Context, *pkg.AssignAccountToRoleRequest) (*pkg.Account, error)
-	UpdateAccount       func(context.Context, *pkg.Account) (*pkg.Account, error)
-	DisableAccount      func(context.Context, *pkg.DisableAccountRequest) (*pkg.Account, error)
+	NewAccount          func(context.Context, *Account) (*Account, error)
+	GetAccount          func(context.Context, *GetAccountRequest) (*Account, error)
+	ListAccounts        func(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
+	SearchAccounts      func(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
+	AssignAccountToRole func(context.Context, *AssignAccountToRoleRequest) (*Account, error)
+	UpdateAccount       func(context.Context, *Account) (*Account, error)
+	DisableAccount      func(context.Context, *DisableAccountRequest) (*Account, error)
 }
 
 func (s *AccountServiceService) newAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	if s.NewAccount == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method NewAccount not implemented")
 	}
-	in := new(pkg.Account)
+	in := new(Account)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -156,7 +155,7 @@ func (s *AccountServiceService) newAccount(_ interface{}, ctx context.Context, d
 		FullMethod: "/v2.services.AccountService/NewAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.NewAccount(ctx, req.(*pkg.Account))
+		return s.NewAccount(ctx, req.(*Account))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -164,7 +163,7 @@ func (s *AccountServiceService) getAccount(_ interface{}, ctx context.Context, d
 	if s.GetAccount == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 	}
-	in := new(pkg.GetAccountRequest)
+	in := new(GetAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -176,7 +175,7 @@ func (s *AccountServiceService) getAccount(_ interface{}, ctx context.Context, d
 		FullMethod: "/v2.services.AccountService/GetAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.GetAccount(ctx, req.(*pkg.GetAccountRequest))
+		return s.GetAccount(ctx, req.(*GetAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -184,7 +183,7 @@ func (s *AccountServiceService) listAccounts(_ interface{}, ctx context.Context,
 	if s.ListAccounts == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method ListAccounts not implemented")
 	}
-	in := new(pkg.ListAccountsRequest)
+	in := new(ListAccountsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -196,7 +195,7 @@ func (s *AccountServiceService) listAccounts(_ interface{}, ctx context.Context,
 		FullMethod: "/v2.services.AccountService/ListAccounts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ListAccounts(ctx, req.(*pkg.ListAccountsRequest))
+		return s.ListAccounts(ctx, req.(*ListAccountsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -204,7 +203,7 @@ func (s *AccountServiceService) searchAccounts(_ interface{}, ctx context.Contex
 	if s.SearchAccounts == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method SearchAccounts not implemented")
 	}
-	in := new(pkg.SearchAccountsRequest)
+	in := new(SearchAccountsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -216,7 +215,7 @@ func (s *AccountServiceService) searchAccounts(_ interface{}, ctx context.Contex
 		FullMethod: "/v2.services.AccountService/SearchAccounts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.SearchAccounts(ctx, req.(*pkg.SearchAccountsRequest))
+		return s.SearchAccounts(ctx, req.(*SearchAccountsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,7 +223,7 @@ func (s *AccountServiceService) assignAccountToRole(_ interface{}, ctx context.C
 	if s.AssignAccountToRole == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method AssignAccountToRole not implemented")
 	}
-	in := new(pkg.AssignAccountToRoleRequest)
+	in := new(AssignAccountToRoleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -236,7 +235,7 @@ func (s *AccountServiceService) assignAccountToRole(_ interface{}, ctx context.C
 		FullMethod: "/v2.services.AccountService/AssignAccountToRole",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.AssignAccountToRole(ctx, req.(*pkg.AssignAccountToRoleRequest))
+		return s.AssignAccountToRole(ctx, req.(*AssignAccountToRoleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -244,7 +243,7 @@ func (s *AccountServiceService) updateAccount(_ interface{}, ctx context.Context
 	if s.UpdateAccount == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method UpdateAccount not implemented")
 	}
-	in := new(pkg.Account)
+	in := new(Account)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -256,7 +255,7 @@ func (s *AccountServiceService) updateAccount(_ interface{}, ctx context.Context
 		FullMethod: "/v2.services.AccountService/UpdateAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.UpdateAccount(ctx, req.(*pkg.Account))
+		return s.UpdateAccount(ctx, req.(*Account))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -264,7 +263,7 @@ func (s *AccountServiceService) disableAccount(_ interface{}, ctx context.Contex
 	if s.DisableAccount == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method DisableAccount not implemented")
 	}
-	in := new(pkg.DisableAccountRequest)
+	in := new(DisableAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -276,7 +275,7 @@ func (s *AccountServiceService) disableAccount(_ interface{}, ctx context.Contex
 		FullMethod: "/v2.services.AccountService/DisableAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.DisableAccount(ctx, req.(*pkg.DisableAccountRequest))
+		return s.DisableAccount(ctx, req.(*DisableAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -331,37 +330,37 @@ func RegisterAccountServiceService(s grpc.ServiceRegistrar, srv *AccountServiceS
 func NewAccountServiceService(s interface{}) *AccountServiceService {
 	ns := &AccountServiceService{}
 	if h, ok := s.(interface {
-		NewAccount(context.Context, *pkg.Account) (*pkg.Account, error)
+		NewAccount(context.Context, *Account) (*Account, error)
 	}); ok {
 		ns.NewAccount = h.NewAccount
 	}
 	if h, ok := s.(interface {
-		GetAccount(context.Context, *pkg.GetAccountRequest) (*pkg.Account, error)
+		GetAccount(context.Context, *GetAccountRequest) (*Account, error)
 	}); ok {
 		ns.GetAccount = h.GetAccount
 	}
 	if h, ok := s.(interface {
-		ListAccounts(context.Context, *pkg.ListAccountsRequest) (*pkg.ListAccountsResponse, error)
+		ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
 	}); ok {
 		ns.ListAccounts = h.ListAccounts
 	}
 	if h, ok := s.(interface {
-		SearchAccounts(context.Context, *pkg.SearchAccountsRequest) (*pkg.SearchAccountsResponse, error)
+		SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	}); ok {
 		ns.SearchAccounts = h.SearchAccounts
 	}
 	if h, ok := s.(interface {
-		AssignAccountToRole(context.Context, *pkg.AssignAccountToRoleRequest) (*pkg.Account, error)
+		AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
 	}); ok {
 		ns.AssignAccountToRole = h.AssignAccountToRole
 	}
 	if h, ok := s.(interface {
-		UpdateAccount(context.Context, *pkg.Account) (*pkg.Account, error)
+		UpdateAccount(context.Context, *Account) (*Account, error)
 	}); ok {
 		ns.UpdateAccount = h.UpdateAccount
 	}
 	if h, ok := s.(interface {
-		DisableAccount(context.Context, *pkg.DisableAccountRequest) (*pkg.Account, error)
+		DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
 	}); ok {
 		ns.DisableAccount = h.DisableAccount
 	}
@@ -373,26 +372,26 @@ func NewAccountServiceService(s interface{}) *AccountServiceService {
 // definition, which is not a backward-compatible change.  For this reason,
 // use of this type is not recommended.
 type UnstableAccountServiceService interface {
-	NewAccount(context.Context, *pkg.Account) (*pkg.Account, error)
-	GetAccount(context.Context, *pkg.GetAccountRequest) (*pkg.Account, error)
-	ListAccounts(context.Context, *pkg.ListAccountsRequest) (*pkg.ListAccountsResponse, error)
-	SearchAccounts(context.Context, *pkg.SearchAccountsRequest) (*pkg.SearchAccountsResponse, error)
-	AssignAccountToRole(context.Context, *pkg.AssignAccountToRoleRequest) (*pkg.Account, error)
-	UpdateAccount(context.Context, *pkg.Account) (*pkg.Account, error)
-	DisableAccount(context.Context, *pkg.DisableAccountRequest) (*pkg.Account, error)
+	NewAccount(context.Context, *Account) (*Account, error)
+	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
+	ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
+	SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
+	AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
+	UpdateAccount(context.Context, *Account) (*Account, error)
+	DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
 }
 
 // AuthServiceClient is the client API for AuthService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
-	Register(ctx context.Context, in *pkg.RegisterRequest, opts ...grpc.CallOption) (*pkg.RegisterResponse, error)
-	Login(ctx context.Context, in *pkg.LoginRequest, opts ...grpc.CallOption) (*pkg.LoginResponse, error)
+	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	// ForgotPassword, then ResetPassword if succeed
-	ForgotPassword(ctx context.Context, in *pkg.ForgotPasswordRequest, opts ...grpc.CallOption) (*pkg.ForgotPasswordResponse, error)
-	ResetPassword(ctx context.Context, in *pkg.ResetPasswordRequest, opts ...grpc.CallOption) (*pkg.ResetPasswordResponse, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error)
+	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
-	RefreshAccessToken(ctx context.Context, in *pkg.RefreshAccessTokenRequest, opts ...grpc.CallOption) (*pkg.RefreshAccessTokenResponse, error)
+	RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error)
 }
 
 type authServiceClient struct {
@@ -407,8 +406,8 @@ var authServiceRegisterStreamDesc = &grpc.StreamDesc{
 	StreamName: "Register",
 }
 
-func (c *authServiceClient) Register(ctx context.Context, in *pkg.RegisterRequest, opts ...grpc.CallOption) (*pkg.RegisterResponse, error) {
-	out := new(pkg.RegisterResponse)
+func (c *authServiceClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
+	out := new(RegisterResponse)
 	err := c.cc.Invoke(ctx, "/v2.services.AuthService/Register", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -420,8 +419,8 @@ var authServiceLoginStreamDesc = &grpc.StreamDesc{
 	StreamName: "Login",
 }
 
-func (c *authServiceClient) Login(ctx context.Context, in *pkg.LoginRequest, opts ...grpc.CallOption) (*pkg.LoginResponse, error) {
-	out := new(pkg.LoginResponse)
+func (c *authServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	out := new(LoginResponse)
 	err := c.cc.Invoke(ctx, "/v2.services.AuthService/Login", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -433,8 +432,8 @@ var authServiceForgotPasswordStreamDesc = &grpc.StreamDesc{
 	StreamName: "ForgotPassword",
 }
 
-func (c *authServiceClient) ForgotPassword(ctx context.Context, in *pkg.ForgotPasswordRequest, opts ...grpc.CallOption) (*pkg.ForgotPasswordResponse, error) {
-	out := new(pkg.ForgotPasswordResponse)
+func (c *authServiceClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error) {
+	out := new(ForgotPasswordResponse)
 	err := c.cc.Invoke(ctx, "/v2.services.AuthService/ForgotPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -446,8 +445,8 @@ var authServiceResetPasswordStreamDesc = &grpc.StreamDesc{
 	StreamName: "ResetPassword",
 }
 
-func (c *authServiceClient) ResetPassword(ctx context.Context, in *pkg.ResetPasswordRequest, opts ...grpc.CallOption) (*pkg.ResetPasswordResponse, error) {
-	out := new(pkg.ResetPasswordResponse)
+func (c *authServiceClient) ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error) {
+	out := new(ResetPasswordResponse)
 	err := c.cc.Invoke(ctx, "/v2.services.AuthService/ResetPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -459,8 +458,8 @@ var authServiceRefreshAccessTokenStreamDesc = &grpc.StreamDesc{
 	StreamName: "RefreshAccessToken",
 }
 
-func (c *authServiceClient) RefreshAccessToken(ctx context.Context, in *pkg.RefreshAccessTokenRequest, opts ...grpc.CallOption) (*pkg.RefreshAccessTokenResponse, error) {
-	out := new(pkg.RefreshAccessTokenResponse)
+func (c *authServiceClient) RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error) {
+	out := new(RefreshAccessTokenResponse)
 	err := c.cc.Invoke(ctx, "/v2.services.AuthService/RefreshAccessToken", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -473,20 +472,20 @@ func (c *authServiceClient) RefreshAccessToken(ctx context.Context, in *pkg.Refr
 // RegisterAuthServiceService is called.  Any unassigned fields will result in the
 // handler for that method returning an Unimplemented error.
 type AuthServiceService struct {
-	Register func(context.Context, *pkg.RegisterRequest) (*pkg.RegisterResponse, error)
-	Login    func(context.Context, *pkg.LoginRequest) (*pkg.LoginResponse, error)
+	Register func(context.Context, *RegisterRequest) (*RegisterResponse, error)
+	Login    func(context.Context, *LoginRequest) (*LoginResponse, error)
 	// ForgotPassword, then ResetPassword if succeed
-	ForgotPassword func(context.Context, *pkg.ForgotPasswordRequest) (*pkg.ForgotPasswordResponse, error)
-	ResetPassword  func(context.Context, *pkg.ResetPasswordRequest) (*pkg.ResetPasswordResponse, error)
+	ForgotPassword func(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error)
+	ResetPassword  func(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
-	RefreshAccessToken func(context.Context, *pkg.RefreshAccessTokenRequest) (*pkg.RefreshAccessTokenResponse, error)
+	RefreshAccessToken func(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
 }
 
 func (s *AuthServiceService) register(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	if s.Register == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 	}
-	in := new(pkg.RegisterRequest)
+	in := new(RegisterRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -498,7 +497,7 @@ func (s *AuthServiceService) register(_ interface{}, ctx context.Context, dec fu
 		FullMethod: "/v2.services.AuthService/Register",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.Register(ctx, req.(*pkg.RegisterRequest))
+		return s.Register(ctx, req.(*RegisterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -506,7 +505,7 @@ func (s *AuthServiceService) login(_ interface{}, ctx context.Context, dec func(
 	if s.Login == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 	}
-	in := new(pkg.LoginRequest)
+	in := new(LoginRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -518,7 +517,7 @@ func (s *AuthServiceService) login(_ interface{}, ctx context.Context, dec func(
 		FullMethod: "/v2.services.AuthService/Login",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.Login(ctx, req.(*pkg.LoginRequest))
+		return s.Login(ctx, req.(*LoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -526,7 +525,7 @@ func (s *AuthServiceService) forgotPassword(_ interface{}, ctx context.Context, 
 	if s.ForgotPassword == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
 	}
-	in := new(pkg.ForgotPasswordRequest)
+	in := new(ForgotPasswordRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -538,7 +537,7 @@ func (s *AuthServiceService) forgotPassword(_ interface{}, ctx context.Context, 
 		FullMethod: "/v2.services.AuthService/ForgotPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ForgotPassword(ctx, req.(*pkg.ForgotPasswordRequest))
+		return s.ForgotPassword(ctx, req.(*ForgotPasswordRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -546,7 +545,7 @@ func (s *AuthServiceService) resetPassword(_ interface{}, ctx context.Context, d
 	if s.ResetPassword == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
 	}
-	in := new(pkg.ResetPasswordRequest)
+	in := new(ResetPasswordRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -558,7 +557,7 @@ func (s *AuthServiceService) resetPassword(_ interface{}, ctx context.Context, d
 		FullMethod: "/v2.services.AuthService/ResetPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ResetPassword(ctx, req.(*pkg.ResetPasswordRequest))
+		return s.ResetPassword(ctx, req.(*ResetPasswordRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -566,7 +565,7 @@ func (s *AuthServiceService) refreshAccessToken(_ interface{}, ctx context.Conte
 	if s.RefreshAccessToken == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method RefreshAccessToken not implemented")
 	}
-	in := new(pkg.RefreshAccessTokenRequest)
+	in := new(RefreshAccessTokenRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -578,7 +577,7 @@ func (s *AuthServiceService) refreshAccessToken(_ interface{}, ctx context.Conte
 		FullMethod: "/v2.services.AuthService/RefreshAccessToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.RefreshAccessToken(ctx, req.(*pkg.RefreshAccessTokenRequest))
+		return s.RefreshAccessToken(ctx, req.(*RefreshAccessTokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -625,27 +624,27 @@ func RegisterAuthServiceService(s grpc.ServiceRegistrar, srv *AuthServiceService
 func NewAuthServiceService(s interface{}) *AuthServiceService {
 	ns := &AuthServiceService{}
 	if h, ok := s.(interface {
-		Register(context.Context, *pkg.RegisterRequest) (*pkg.RegisterResponse, error)
+		Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	}); ok {
 		ns.Register = h.Register
 	}
 	if h, ok := s.(interface {
-		Login(context.Context, *pkg.LoginRequest) (*pkg.LoginResponse, error)
+		Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	}); ok {
 		ns.Login = h.Login
 	}
 	if h, ok := s.(interface {
-		ForgotPassword(context.Context, *pkg.ForgotPasswordRequest) (*pkg.ForgotPasswordResponse, error)
+		ForgotPassword(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error)
 	}); ok {
 		ns.ForgotPassword = h.ForgotPassword
 	}
 	if h, ok := s.(interface {
-		ResetPassword(context.Context, *pkg.ResetPasswordRequest) (*pkg.ResetPasswordResponse, error)
+		ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	}); ok {
 		ns.ResetPassword = h.ResetPassword
 	}
 	if h, ok := s.(interface {
-		RefreshAccessToken(context.Context, *pkg.RefreshAccessTokenRequest) (*pkg.RefreshAccessTokenResponse, error)
+		RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
 	}); ok {
 		ns.RefreshAccessToken = h.RefreshAccessToken
 	}
@@ -657,11 +656,11 @@ func NewAuthServiceService(s interface{}) *AuthServiceService {
 // definition, which is not a backward-compatible change.  For this reason,
 // use of this type is not recommended.
 type UnstableAuthServiceService interface {
-	Register(context.Context, *pkg.RegisterRequest) (*pkg.RegisterResponse, error)
-	Login(context.Context, *pkg.LoginRequest) (*pkg.LoginResponse, error)
+	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
+	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	// ForgotPassword, then ResetPassword if succeed
-	ForgotPassword(context.Context, *pkg.ForgotPasswordRequest) (*pkg.ForgotPasswordResponse, error)
-	ResetPassword(context.Context, *pkg.ResetPasswordRequest) (*pkg.ResetPasswordResponse, error)
+	ForgotPassword(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error)
+	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
-	RefreshAccessToken(context.Context, *pkg.RefreshAccessTokenRequest) (*pkg.RefreshAccessTokenResponse, error)
+	RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
 }
