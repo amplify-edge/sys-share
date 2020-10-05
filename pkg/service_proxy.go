@@ -33,7 +33,7 @@ func NewSysShareProxyClient() *SysShareProxyClient {
 }
 
 // Easy access to create CLI
-func (s *SysShareProxyClient) cobraCommand() *cobra.Command {
+func (s *SysShareProxyClient) CobraCommand() *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:   "sys-share proxy client",
 		Short: "sys-share proxy client cli",
