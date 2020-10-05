@@ -3,10 +3,10 @@
 package v2
 
 import (
+	client "github.com/getcouragenow/protoc-gen-cobra/client"
+	flag "github.com/getcouragenow/protoc-gen-cobra/flag"
+	iocodec "github.com/getcouragenow/protoc-gen-cobra/iocodec"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
-	client "github.com/gutterbacon/protoc-gen-cobra/client"
-	flag "github.com/gutterbacon/protoc-gen-cobra/flag"
-	iocodec "github.com/gutterbacon/protoc-gen-cobra/iocodec"
 	cobra "github.com/spf13/cobra"
 	pflag "github.com/spf13/pflag"
 	grpc "google.golang.org/grpc"

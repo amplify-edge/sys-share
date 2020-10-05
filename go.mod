@@ -3,8 +3,8 @@ module github.com/getcouragenow/sys-share
 go 1.15
 
 require (
+	github.com/getcouragenow/protoc-gen-cobra v0.3.1-0.20201005114840-ccc8cd57bcdc
 	github.com/golang/protobuf v1.4.2
-	github.com/gutterbacon/protoc-gen-cobra v0.3.1-0.20201004215214-9810a06ab7b0
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
