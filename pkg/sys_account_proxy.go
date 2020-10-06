@@ -15,6 +15,7 @@ type sysAccountClient struct {
 }
 
 func newSysAccountClient() *sysAccountClient {
+
 	return &sysAccountClient{
 		auth:    rpc.AuthServiceClientCommand(),
 		account: rpc.AccountServiceClientCommand(),
