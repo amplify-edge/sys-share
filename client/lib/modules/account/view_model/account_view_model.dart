@@ -6,8 +6,9 @@ class AccountViewModel extends BaseModel {
   bool _hasResponse = false;
   bool _isEmailEnabled = true;
   bool _isPasswordEnabled = true;
-  String _userEmail = 'superadmin@getcouragenow.org';
-  String _userPassword = 'superadmin';
+  bool _isLogin = true;
+  String _userEmail = '';
+  String _userPassword = '';
   String _refreshToken = '';
   String _accessToken = '';
   String _errMessage = '';
@@ -16,12 +17,20 @@ class AccountViewModel extends BaseModel {
   bool get hasResponse => _hasResponse;
   bool get isEmailEnabled => _isEmailEnabled;
   bool get isPasswordEnabled => _isPasswordEnabled;
+  bool get isLogin => _isLogin;
+  bool get isLoginParamValid => _validateEmail() && _validatePassword();
+  bool get isRegisterParamValid => _validateEmail() && _validatePassword();
   String get getEmail => _userEmail;
   String get getPassword => _userPassword;
   String get accessToken => _accessToken;
   String get refreshToken => _refreshToken;
   String get successMsg => _successMsg;
   String get errMsg => _errMessage;
+
+  void setIsLogin(bool value) {
+    _isLogin = value;
+    notifyListeners();
+  }
 
   void enableEmailField(bool value) {
     _isEmailEnabled = value;
@@ -71,17 +80,25 @@ class AccountViewModel extends BaseModel {
 
   Future<void> login() async {
     _loadingProcess(true);
-    await authRepo.AuthRepo.loginUser(
-            email: _userEmail, password: _userPassword)
-        .then((resp) {
-      _setAccessToken(resp.accessToken);
-      _setRefreshToken(resp.refreshToken);
-      print("Access token: " + _accessToken);
-      _loadingProcess(false);
-    }).catchError((e) {
-      print(e);
-      _setErrMsg(e.toString());
-    });
+    Future.delayed(
+      const Duration(seconds: 4),
+      await authRepo.AuthRepo.loginUser(
+              email: _userEmail, password: _userPassword)
+          .then((resp) {
+        if (resp.success) {
+          _setSuccessMsg("Login Successful");
+          _setAccessToken(resp.accessToken);
+          _setRefreshToken(resp.refreshToken);
+          print("Access token: " + _accessToken);
+        } else if (resp.errorReason.hasReason()) {
+          _setErrMsg(resp.errorReason.toString());
+        }
+        _loadingProcess(false);
+      }).catchError((e) {
+        print(e);
+        _setErrMsg(e.toString());
+      }),
+    );
   }
 
   Future<void> register() async {
@@ -92,9 +109,10 @@ class AccountViewModel extends BaseModel {
             passwordConfirm: _userPassword)
         .then((resp) {
       if (resp.success) {
-        _setSuccessMsg(resp.successMsg);
+        _setSuccessMsg("Login Successful");
+      } else if (resp.errorReason.hasReason()) {
+        _setErrMsg(resp.errorReason.toString());
       }
-      _setErrMsg(resp.errorReason.toString());
       _loadingProcess(false);
     }).catchError((e) {
       print(e);
@@ -128,6 +146,6 @@ class AccountViewModel extends BaseModel {
     if (_userPassword.isEmpty) {
       return false;
     }
-    return _userPassword.length < 8;
+    return _userPassword.length > 8;
   }
 }

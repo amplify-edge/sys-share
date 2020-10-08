@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:intl/intl.dart';
 import 'package:auth_dialog/modules/account_module.dart';
-import 'package:auth_dialog/core/i18n/auth_dialog_localization.dart';
 
 void main() => runApp(ModularApp(module: AppModule()));
 
@@ -30,9 +28,6 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
       onGenerateRoute: Modular.generateRoute,
-      localizationsDelegates: [
-        ModAccountLocalizationsDelegate(Locale('en')),
-      ],
     );
   }
 }

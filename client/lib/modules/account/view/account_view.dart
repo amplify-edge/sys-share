@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flash/flash.dart';
 import 'package:stacked/stacked.dart';
 import 'package:auth_dialog/modules/account/view_model/account_view_model.dart';
 
@@ -24,24 +25,24 @@ class AccountViewState extends State<AccountView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ViewModelBuilder<AccountViewModel>.reactive(
-      viewModelBuilder: () => AccountViewModel(),
-      onModelReady: (AccountViewModel model) {
-        _emailCtrl.text = model.getEmail;
-        _passwordCtrl.text = model.getPassword;
-      },
-      builder: (context, AccountViewModel model, child) => Scaffold(
-        appBar: AppBar(),
-        body: Container(
-          child: RaisedButton(
-            child: Text('Test Auth Dialog'),
-            autofocus: false,
-            clipBehavior: Clip.none,
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) => Dialog(
-                backgroundColor: Theme.of(context).backgroundColor,
+  Widget build(BuildContext bcontext) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Container(
+        child: RaisedButton(
+          child: Text('Test Auth Dialog'),
+          autofocus: false,
+          clipBehavior: Clip.none,
+          onPressed: () => showDialog(
+            context: bcontext,
+            builder: (context) => ViewModelBuilder<AccountViewModel>.reactive(
+              viewModelBuilder: () => AccountViewModel(),
+              onModelReady: (AccountViewModel model) {
+                _emailCtrl.text = model.getEmail;
+                _passwordCtrl.text = model.getPassword;
+              },
+              builder: (context, model, child) => Dialog(
+                backgroundColor: Colors.grey[100],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -50,7 +51,7 @@ class AccountViewState extends State<AccountView> {
                     padding: const EdgeInsets.all(16.0),
                     child: Container(
                       width: 400,
-                      color: Theme.of(context).backgroundColor,
+                      color: Colors.white,
                       child: Column(
                         children: [
                           Center(
@@ -67,8 +68,7 @@ class AccountViewState extends State<AccountView> {
                           ),
                           SizedBox(height: 30),
                           Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20.0, bottom: 8),
+                            padding: const EdgeInsets.only(bottom: 8),
                             child: Text(
                               'Email',
                               textAlign: TextAlign.left,
@@ -89,6 +89,7 @@ class AccountViewState extends State<AccountView> {
                               controller: _emailCtrl,
                               autofocus: false,
                               onChanged: (v) => model.setEmail(v),
+                              enabled: model.isEmailEnabled,
                               onSubmitted: (v) {
                                 _emailFocusNode.unfocus();
                                 FocusScope.of(context)
@@ -120,7 +121,6 @@ class AccountViewState extends State<AccountView> {
                           SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.only(
-                              left: 20.0,
                               bottom: 8,
                             ),
                             child: Text(
@@ -145,6 +145,7 @@ class AccountViewState extends State<AccountView> {
                               obscureText: true,
                               autofocus: false,
                               onChanged: (v) => model.setPassword(v),
+                              enabled: model.isPasswordEnabled,
                               onSubmitted: (v) {
                                 _passwordFocusNode.unfocus();
                                 FocusScope.of(context)
@@ -184,11 +185,51 @@ class AccountViewState extends State<AccountView> {
                                   child: Container(
                                     width: double.maxFinite,
                                     child: FlatButton(
-                                      color: Colors.blueGrey[800],
+                                      color: Colors.blueGrey[700],
+                                      disabledColor: Colors.grey[400],
                                       hoverColor: Colors.blueGrey[900],
                                       highlightColor: Colors.black,
-                                      onPressed: () async =>
-                                          await model.login(),
+                                      onPressed: model.isLogin
+                                          ? model.isLoginParamValid
+                                              ? () async {
+                                                  await model.login().then((_) {
+                                                    Navigator.pop(context);
+                                                    if (model
+                                                        .errMsg.isNotEmpty) {
+                                                      _notify(
+                                                        message: model.errMsg,
+                                                        error: true,
+                                                      );
+                                                    } else {
+                                                      _notify(
+                                                        message:
+                                                            model.successMsg,
+                                                        error: false,
+                                                      );
+                                                    }
+                                                  });
+                                                }
+                                              : null
+                                          : model.isRegisterParamValid
+                                              ? () async {
+                                                  await model
+                                                      .register()
+                                                      .then((_) {
+                                                    Navigator.pop(context);
+                                                    if (model
+                                                        .errMsg.isNotEmpty) {
+                                                      _notify(
+                                                          message: model.errMsg,
+                                                          error: true);
+                                                    } else {
+                                                      _notify(
+                                                          message:
+                                                              model.successMsg,
+                                                          error: false);
+                                                    }
+                                                  });
+                                                }
+                                              : null,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
@@ -197,7 +238,7 @@ class AccountViewState extends State<AccountView> {
                                           top: 15.0,
                                           bottom: 15.0,
                                         ),
-                                        child: model.isBusy
+                                        child: model.buzy
                                             ? SizedBox(
                                                 height: 16,
                                                 width: 16,
@@ -212,7 +253,9 @@ class AccountViewState extends State<AccountView> {
                                                 ),
                                               )
                                             : Text(
-                                                'Log in',
+                                                model.isLogin
+                                                    ? 'Log in'
+                                                    : 'Register',
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.white,
@@ -225,6 +268,52 @@ class AccountViewState extends State<AccountView> {
                               ],
                             ),
                           ),
+                          SizedBox(height: 30),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    child: TextButton(
+                                      onPressed: () =>
+                                          model.setIsLogin(!model.isLogin),
+                                      child: Text(
+                                        model.isLogin
+                                            ? "Don't have account? Sign Up!"
+                                            : "Already have account? Sign In",
+                                        style: TextStyle(
+                                          color: Colors.blue[500],
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.',
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    .color
+                                    .withOpacity(0.85),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w300,
+                                // letterSpacing: 3,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -235,6 +324,29 @@ class AccountViewState extends State<AccountView> {
           ),
         ),
       ),
+    );
+  }
+
+  void _notify({
+    String message,
+    bool error,
+    flashStyle = FlashStyle.floating,
+  }) {
+    showFlash(
+      context: context,
+      duration: Duration(seconds: 3),
+      builder: (context, controller) {
+        return Flash(
+          controller: controller,
+          style: flashStyle,
+          boxShadows: kElevationToShadow[4],
+          horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+          child: FlashBar(
+            leftBarIndicatorColor: error ? Colors.red[500] : Colors.green[500],
+            message: Text(message),
+          ),
+        );
+      },
     );
   }
 }

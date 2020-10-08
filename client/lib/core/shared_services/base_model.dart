@@ -1,6 +1,6 @@
-import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
-class BaseModel extends BaseViewModel {
+class BaseModel extends ChangeNotifier {
   bool _buzy = false;
   bool get buzy => _buzy;
 
