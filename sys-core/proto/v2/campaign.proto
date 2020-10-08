@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package v1;
+
+message Campaign{
+    // message body
+    string id = 1; // Campaign ID
+    string name = 2; // Campaign name
+    string description = 3; //  Campaign description
+    string other = 4; // Campaign Other
+
+}

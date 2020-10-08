@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package config;
+
+import "tool/protofig/api/baseproto.proto";
+
+message ProtoModuleConfig{
+    string moduleID = 1;
+    map<string, config.Config> configs = 2;
+}

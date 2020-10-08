@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package v1;
+
+message Result {
+    string result = 1;
+}
+
+message BackupResult {
+    string backupFile = 1;
+}
+
+message BackupListResult {
+    repeated backupFile = 1;
+}
+
+message RestoreRequest {
+    string backupFile = 1;
+}
+
+service DbAdminService {
+    rpc Backup(google.protobuf.Empty) returns (BackupResult) {}
+    rpc BackupList(google.protobuf.Empty) returns (BackupListResult) {}
+    rpc Restore(RestoreRequest) returns (Result){}
+}
