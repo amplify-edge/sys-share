@@ -12,7 +12,7 @@ include $(BOILERPLATE_FSPATH)/go.mk
 # remove the "v" prefix
 VERSION ?= $(shell echo $(TAGGED_VERSION) | cut -c 2-)
 
-override FLU_SAMPLE_NAME =client
+override FLU_SAMPLE_NAME =client/example
 override FLU_LIB_NAME =client
 
 this-all: this-print this-dep this-build this-print-end
