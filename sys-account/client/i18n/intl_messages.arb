@@ -1,0 +1,111 @@
+{
+  "@@last_modified": "2020-09-24T04:37:50.168862",
+  "signUpForAccount": "Sign up for your account",
+  "@signUpForAccount": {
+    "description": "Sign up for your account",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailAddress": "Email Address Addressory",
+  "@emailAddress": {
+    "description": "Email Address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "needProtonMail": "Need a protonmail ?",
+  "@needProtonMail": {
+    "description": "Need a protonmail ?",
+    "type": "text",
+    "placeholders": {}
+  },
+  "explainWhy": "Explain why?",
+  "@explainWhy": {
+    "description": "Explain why?",
+    "type": "text",
+    "placeholders": {}
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordStrength": "Your password should be a minimum of 8 of characters and use at least three of the four available character types: lowercase letters, uppercase letters, numbers, and symbols.",
+  "@passwordStrength": {
+    "description": "Your password should be a minimum of 8 of characters and use at least three of the four available character types: lowercase letters, uppercase letters, numbers, and symbols.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordAgain": "Password Again",
+  "@passwordAgain": {
+    "description": "Password Again",
+    "type": "text",
+    "placeholders": {}
+  },
+  "meetOthersSharedInterest": "Meet others with shared interests?",
+  "@meetOthersSharedInterest": {
+    "description": "Meet others with shared interests?",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yes": "Yes",
+  "@yes": {
+    "description": "Yes",
+    "type": "text",
+    "placeholders": {}
+  },
+  "no": "No",
+  "@no": {
+    "description": "No",
+    "type": "text",
+    "placeholders": {}
+  },
+  "civilDisobedienceTraining": "I have civil disobedience training",
+  "@civilDisobedienceTraining": {
+    "description": "I have civil disobedience training",
+    "type": "text",
+    "placeholders": {}
+  },
+  "setupNotificationChannel": "Setup notification channel",
+  "@setupNotificationChannel": {
+    "description": "Setup notification channel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appMessaging": "App Messaging",
+  "@appMessaging": {
+    "description": "App Messaging",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign Up",
+    "type": "text",
+    "placeholders": {}
+  },
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy Policy",
+    "type": "text",
+    "placeholders": {}
+  },
+  "whyProtonMail": "Why ProtonMail ?",
+  "@whyProtonMail": {
+    "description": "Why ProtonMail ?",
+    "type": "text",
+    "placeholders": {}
+  },
+  "protonMailExplanation": "ProtonMail to ProtonMail emails are considered to be secure by Information Security professionals. They’re both free to use on Android and Apple smart phones and Windows and Mac computers.",
+  "@protonMailExplanation": {
+    "description": "ProtonMail to ProtonMail emails are considered to be secure by Information Security professionals. They’re both free to use on Android and Apple smart phones and Windows and Mac computers.",
+    "type": "text",
+    "placeholders": {}
+  }
+}

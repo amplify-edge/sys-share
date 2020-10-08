@@ -1,0 +1,111 @@
+{
+  "@@last_modified": "2020-09-16T17:40:14.764196",
+  "signUpForAccount": "اپنے اکاؤنٹ کے لئے سائن اپ کریں",
+  "@signUpForAccount": {
+    "description": "Sign up for your account",
+    "placeholders": {},
+    "type": "text"
+  },
+  "emailAddress": "ای میل ایڈریس ایڈریس",
+  "@emailAddress": {
+    "description": "Email Address",
+    "placeholders": {},
+    "type": "text"
+  },
+  "needProtonMail": "ایک پروٹون میل کی ضرورت ہے؟",
+  "@needProtonMail": {
+    "description": "Need a protonmail ?",
+    "placeholders": {},
+    "type": "text"
+  },
+  "explainWhy": "وضاحت کریں کیوں؟",
+  "@explainWhy": {
+    "description": "Explain why?",
+    "placeholders": {},
+    "type": "text"
+  },
+  "password": "پاس ورڈ",
+  "@password": {
+    "description": "Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "passwordStrength": "آپ کا پاس ورڈ کم از کم 8 حروف کا ہونا چاہئے اور دستیاب چار قسموں میں سے کم از کم تین استعمال کرنا چاہئے: چھوٹے حرف ، بڑے حرف ، اعداد اور علامت۔",
+  "@passwordStrength": {
+    "description": "Your password should be a minimum of 8 of characters and use at least three of the four available character types: lowercase letters, uppercase letters, numbers, and symbols.",
+    "placeholders": {},
+    "type": "text"
+  },
+  "passwordAgain": "پاس ورڈ دوبارہ",
+  "@passwordAgain": {
+    "description": "Password Again",
+    "placeholders": {},
+    "type": "text"
+  },
+  "meetOthersSharedInterest": "مشترکہ مفادات کے ساتھ دوسروں سے ملیں؟",
+  "@meetOthersSharedInterest": {
+    "description": "Meet others with shared interests?",
+    "placeholders": {},
+    "type": "text"
+  },
+  "yes": "جی ہاں",
+  "@yes": {
+    "description": "Yes",
+    "placeholders": {},
+    "type": "text"
+  },
+  "no": "نہیں",
+  "@no": {
+    "description": "No",
+    "placeholders": {},
+    "type": "text"
+  },
+  "civilDisobedienceTraining": "میری سول نافرمانی کی تربیت ہے",
+  "@civilDisobedienceTraining": {
+    "description": "I have civil disobedience training",
+    "placeholders": {},
+    "type": "text"
+  },
+  "setupNotificationChannel": "نوٹیفکیشن چینل سیٹ اپ کریں",
+  "@setupNotificationChannel": {
+    "description": "Setup notification channel",
+    "placeholders": {},
+    "type": "text"
+  },
+  "email": "ای میل",
+  "@email": {
+    "description": "Email",
+    "placeholders": {},
+    "type": "text"
+  },
+  "appMessaging": "ایپ پیغام رسانی",
+  "@appMessaging": {
+    "description": "App Messaging",
+    "placeholders": {},
+    "type": "text"
+  },
+  "signUp": "سائن اپ",
+  "@signUp": {
+    "description": "Sign Up",
+    "placeholders": {},
+    "type": "text"
+  },
+  "privacyPolicy": "رازداری کی پالیسی",
+  "@privacyPolicy": {
+    "description": "Privacy Policy",
+    "placeholders": {},
+    "type": "text"
+  },
+  "whyProtonMail": "پروٹون میل کیوں؟",
+  "@whyProtonMail": {
+    "description": "Why ProtonMail ?",
+    "placeholders": {},
+    "type": "text"
+  },
+  "protonMailExplanation": "پروٹون میل سے لے کر پروٹون میل ای میلوں کو انفارمیشن سیکیورٹی کے پیشہ ور افراد کے ذریعہ محفوظ سمجھا جاتا ہے۔ وہ لوڈ ، اتارنا Android اور ایپل سمارٹ فونز اور ونڈوز اور میک کمپیوٹرز پر مفت استعمال کر سکتے ہیں۔",
+  "@protonMailExplanation": {
+    "description": "ProtonMail to ProtonMail emails are considered to be secure by Information Security professionals. They’re both free to use on Android and Apple smart phones and Windows and Mac computers.",
+    "placeholders": {},
+    "type": "text"
+  }
+}

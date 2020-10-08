@@ -1,0 +1,111 @@
+{
+  "@@last_modified": "2020-09-16T17:40:14.764196",
+  "signUpForAccount": "Inscrivez-vous à votre compte",
+  "@signUpForAccount": {
+    "description": "Sign up for your account",
+    "placeholders": {},
+    "type": "text"
+  },
+  "emailAddress": "Adresse e-mail",
+  "@emailAddress": {
+    "description": "Email Address",
+    "placeholders": {},
+    "type": "text"
+  },
+  "needProtonMail": "Besoin d'un protonmail?",
+  "@needProtonMail": {
+    "description": "Need a protonmail ?",
+    "placeholders": {},
+    "type": "text"
+  },
+  "explainWhy": "Expliquer pourquoi?",
+  "@explainWhy": {
+    "description": "Explain why?",
+    "placeholders": {},
+    "type": "text"
+  },
+  "password": "Mot de passe",
+  "@password": {
+    "description": "Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "passwordStrength": "Votre mot de passe doit comporter au moins 8 caractères et utiliser au moins trois des quatre types de caractères disponibles: lettres minuscules, lettres majuscules, chiffres et symboles.",
+  "@passwordStrength": {
+    "description": "Your password should be a minimum of 8 of characters and use at least three of the four available character types: lowercase letters, uppercase letters, numbers, and symbols.",
+    "placeholders": {},
+    "type": "text"
+  },
+  "passwordAgain": "Mot de passe à nouveau",
+  "@passwordAgain": {
+    "description": "Password Again",
+    "placeholders": {},
+    "type": "text"
+  },
+  "meetOthersSharedInterest": "Rencontrer d'autres personnes partageant des intérêts communs?",
+  "@meetOthersSharedInterest": {
+    "description": "Meet others with shared interests?",
+    "placeholders": {},
+    "type": "text"
+  },
+  "yes": "Oui",
+  "@yes": {
+    "description": "Yes",
+    "placeholders": {},
+    "type": "text"
+  },
+  "no": "Non",
+  "@no": {
+    "description": "No",
+    "placeholders": {},
+    "type": "text"
+  },
+  "civilDisobedienceTraining": "J'ai une formation de désobéissance civile",
+  "@civilDisobedienceTraining": {
+    "description": "I have civil disobedience training",
+    "placeholders": {},
+    "type": "text"
+  },
+  "setupNotificationChannel": "Configuration du canal de notification",
+  "@setupNotificationChannel": {
+    "description": "Setup notification channel",
+    "placeholders": {},
+    "type": "text"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email",
+    "placeholders": {},
+    "type": "text"
+  },
+  "appMessaging": "Messagerie d'application",
+  "@appMessaging": {
+    "description": "App Messaging",
+    "placeholders": {},
+    "type": "text"
+  },
+  "signUp": "S'inscrire",
+  "@signUp": {
+    "description": "Sign Up",
+    "placeholders": {},
+    "type": "text"
+  },
+  "privacyPolicy": "Politique de confidentialité",
+  "@privacyPolicy": {
+    "description": "Privacy Policy",
+    "placeholders": {},
+    "type": "text"
+  },
+  "whyProtonMail": "Pourquoi ProtonMail?",
+  "@whyProtonMail": {
+    "description": "Why ProtonMail ?",
+    "placeholders": {},
+    "type": "text"
+  },
+  "protonMailExplanation": "Les e-mails de ProtonMail à ProtonMail sont considérés comme sécurisés par les professionnels de la sécurité de l'information. Ils sont tous deux gratuits sur les téléphones intelligents Android et Apple et les ordinateurs Windows et Mac.",
+  "@protonMailExplanation": {
+    "description": "ProtonMail to ProtonMail emails are considered to be secure by Information Security professionals. They’re both free to use on Android and Apple smart phones and Windows and Mac computers.",
+    "placeholders": {},
+    "type": "text"
+  }
+}
