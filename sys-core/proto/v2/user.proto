@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package v1;
+
+message User {
+    string id = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string email = 4;
+    string displayName = 5;
+    string avatarURL = 6;
+    repeated string orgIds = 7;
+    repeated string roles = 8;
+}
