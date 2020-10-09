@@ -34,5 +34,5 @@ this-dep:
 	cd $(SHARED_FSPATH) && $(MAKE) this-all
 
 this-build:
-
 	cd sys-account && $(MAKE) this-all
+	cd sys-core && $(MAKE) this-all

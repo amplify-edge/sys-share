@@ -12,7 +12,7 @@ var rootCmd = &cobra.Command{
 }
 
 func main() {
-	rootCmd.AddCommand(rpc.AuthServiceClientCommand())
+	rootCmd.AddCommand(rpc.DbAdminServiceClientCommand())
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatalf("command failed: %v", err)
 	}
