@@ -1,5 +1,5 @@
-import 'package:auth_dialog/core/core.dart';
-import 'package:auth_dialog/core/shared_repositories/auth_repo.dart'
+import 'package:sys_share_sys_account_service/pkg/pkg.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart'
     as authRepo;
 
 class AccountViewModel extends BaseModel {
@@ -81,7 +81,7 @@ class AccountViewModel extends BaseModel {
   Future<void> login() async {
     _loadingProcess(true);
     Future.delayed(
-      const Duration(seconds: 4),
+      const Duration(milliseconds: 100),
       await authRepo.AuthRepo.loginUser(
               email: _userEmail, password: _userPassword)
           .then((resp) {

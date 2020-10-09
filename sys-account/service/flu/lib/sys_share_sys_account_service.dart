@@ -8,3 +8,4 @@ export 'api/v2/services.pb.dart';
 export 'api/v2/services.pbenum.dart';
 export 'api/v2/services.pbgrpc.dart';
 export 'api/v2/services.pbjson.dart';
+export 'view/view.dart';

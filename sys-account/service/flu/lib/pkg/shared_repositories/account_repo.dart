@@ -1,4 +1,4 @@
-import 'package:auth_dialog/core/shared_repositories/base_repo.dart';
+import 'package:sys_share_sys_account_service/logic/shared_repositories/base_repo.dart';
 import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart'
     as rpc;
 import 'package:grpc/grpc_web.dart';
@@ -18,7 +18,6 @@ class UserRepo {
       });
       return resp;
     } catch (e) {
-      print(e);
       throw e;
     }
   }
