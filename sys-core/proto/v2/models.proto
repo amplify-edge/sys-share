@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package v2.services;
+
+option go_package = "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2";
+
+message RestoreResult {
+  string result = 1;
+}
+
+message BackupResult {
+  string backupFile = 1;
+}
+
+message BackupListResult {
+  repeated BackupResult backupFile = 1;
+}
+
+message RestoreRequest {
+  string backupFile = 1;
+}

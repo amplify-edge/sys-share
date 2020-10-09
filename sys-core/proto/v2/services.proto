@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "models.proto";
+
+package v2.services;
+
+option go_package = "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2";
+
+service DbAdminService {
+    rpc Backup(google.protobuf.Empty) returns (v2.services.BackupResult) {}
+    rpc BackupList(google.protobuf.Empty) returns (v2.services.BackupListResult) {}
+    rpc Restore(v2.services.RestoreRequest) returns (v2.services.RestoreResult){}
+}

@@ -12,14 +12,15 @@ package main
 // go:generate /usr/bin/env bash -c "mv ../pkg/v2/* ../pkg/"
 // go:generate /usr/bin/env bash -c "rm -rf ../pkg/v2"
 //go:generate /usr/bin/env bash -c "echo 'Building example golang binaries (CLI and Server)'"
-//go:generate /usr/bin/env bash -c "mkdir -p bin-all/{cli,client}"
-//go:generate go build -v -o bin-all/cli ./example/cli/main.go
+//go:generate /usr/bin/env bash -c "mkdir -p bin-all/{cli,client}/{go,flutter}"
+//go:generate go build -v -o bin-all/cli/go/ ./example/cli/main.go
 
 // ============================================================================
 // Flutter
 // ============================================================================
 // GRPC & Protobuf
 //go:generate /usr/bin/env bash -c "echo 'generating protobuf and grpc services for flutter/dart'"
-//go:generate protoc -I./proto/v2/ -I. --dart_out=grpc:./service/flu/lib/api/v2/ ./proto/v2/models.proto ./proto/v2/services.proto
+//go:generate protoc -I./proto/v2/ -I. --dart_out=grpc:./service/flu/lib/rpc/v2/ ./proto/v2/models.proto ./proto/v2/services.proto
 //go:generate /usr/bin/env bash -c "echo 'building flutter binary'"
 //go:generate make flu-web-build
+//go:generate /usr/bin/env bash -c "cp -Rv ./example/client/build ./bin-all/client/flu/"

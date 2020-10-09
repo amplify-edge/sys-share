@@ -1,4 +1,4 @@
-name: auth_dialog
+name: sys_share_sys_account_service
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.
@@ -27,8 +27,6 @@ dependencies:
   intl_translation: ^0.17.9
   flash: ^1.2.0
   stacked: ^1.7.6
-  sys_share_sys_account_service:
-    path: ../sys-account/service/flu
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
