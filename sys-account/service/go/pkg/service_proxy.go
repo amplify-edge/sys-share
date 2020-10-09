@@ -2,7 +2,6 @@ package pkg
 
 import (
 	"context"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"golang.org/x/oauth2"
@@ -14,18 +13,18 @@ import (
 	"github.com/getcouragenow/protoc-gen-cobra/naming"
 )
 
-type SysShareProxyService struct {
+type SysAccountProxyService struct {
 	SysAccount *sysAccountService
 }
 
-// Constructor for SysShareProxyService
-func NewSysShareProxyService(accountService AccountService, authService AuthService) *SysShareProxyService {
+// Constructor for SysAccountProxyService
+func NewSysAccountProxyService(accountService AccountService, authService AuthService) *SysAccountProxyService {
 	sysAccountProxy := newSysAccountService(authService, accountService)
-	return &SysShareProxyService{SysAccount: sysAccountProxy}
+	return &SysAccountProxyService{SysAccount: sysAccountProxy}
 }
 
-// SysShareProxyService Register services to GRPC
-func (s *SysShareProxyService) RegisterSvc(server *grpc.Server) {
+// SysAccountProxyService Register services to GRPC
+func (s *SysAccountProxyService) RegisterSvc(server *grpc.Server) {
 	s.SysAccount.registerSvc(server)
 	reflection.Register(server)
 }
@@ -72,9 +71,3 @@ func (s *SysShareProxyClient) CobraCommand() *cobra.Command {
 	return rootCmd
 }
 
-// Invoke invokes client side GRPC calls to running server.
-func Invoke() string {
-	// TODO:load up the sub grpc Services proxy
-	log.Println("In sys-share GRPC Services Proxy")
-	return "hello from sys-share GRPC Services Proxy"
-}
