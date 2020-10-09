@@ -1,8 +1,9 @@
 package pkg
 
 import (
-	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 	"google.golang.org/protobuf/types/known/structpb"
+
+	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 )
 
 type Roles int32
