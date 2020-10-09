@@ -29,11 +29,11 @@ func (s *SysAccountProxyService) RegisterSvc(server *grpc.Server) {
 	reflection.Register(server)
 }
 
-type SysShareProxyClient struct {
+type SysAccountProxyClient struct {
 	SysAccountClient *sysAccountClient
 }
 
-func NewSysShareProxyClient() *SysShareProxyClient {
+func NewSysShareProxyClient() *SysAccountProxyClient {
 	cliClient.RegisterFlagBinder(func(fs *pflag.FlagSet, namer naming.Namer) {
 		fs.StringVar(&SysShareProxyClientConfig.AccessKey, namer("JWT Access Token"), SysShareProxyClientConfig.AccessKey, "JWT Access Token")
 	})
@@ -49,19 +49,19 @@ func NewSysShareProxyClient() *SysShareProxyClient {
 		return nil
 	})
 	sysAccountProxyClient := newSysAccountClient()
-	return &SysShareProxyClient{
+	return &SysAccountProxyClient{
 		SysAccountClient: sysAccountProxyClient,
 	}
 }
 
-type sysShareProxyClientConfig struct {
+type sysAccountProxyClientConfig struct {
 	AccessKey string
 }
 
-var SysShareProxyClientConfig = &sysShareProxyClientConfig{}
+var SysShareProxyClientConfig = &sysAccountProxyClientConfig{}
 
 // Easy access to create CLI
-func (s *SysShareProxyClient) CobraCommand() *cobra.Command {
+func (s *SysAccountProxyClient) CobraCommand() *cobra.Command {
 
 	rootCmd := &cobra.Command{
 		Use:   "sys-share proxy client",
@@ -70,4 +70,3 @@ func (s *SysShareProxyClient) CobraCommand() *cobra.Command {
 	rootCmd.AddCommand(s.SysAccountClient.cobraCommand())
 	return rootCmd
 }
-
