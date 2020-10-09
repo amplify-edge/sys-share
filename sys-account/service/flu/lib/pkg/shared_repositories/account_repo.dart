@@ -1,4 +1,4 @@
-import 'package:sys_share_sys_account_service/logic/shared_repositories/base_repo.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_repositories/base_repo.dart';
 import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart'
     as rpc;
 import 'package:grpc/grpc_web.dart';

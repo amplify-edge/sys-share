@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sys_share_sys_account_service/view/widgets/auth_dialog.dart';
 
-class AccountViewState extends StatelessWidget {
+class AccountView extends StatelessWidget {
   @override
   Widget build(BuildContext bcontext) {
     return Scaffold(

@@ -109,7 +109,7 @@ class AccountViewModel extends BaseModel {
             passwordConfirm: _userPassword)
         .then((resp) {
       if (resp.success) {
-        _setSuccessMsg("Login Successful");
+        _setSuccessMsg(resp.successMsg);
       } else if (resp.errorReason.hasReason()) {
         _setErrMsg(resp.errorReason.toString());
       }

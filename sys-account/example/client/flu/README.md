@@ -1,4 +1,4 @@
-# sys_share_account_example
+# example
 
 A new Flutter project.
 
