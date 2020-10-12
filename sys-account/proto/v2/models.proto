@@ -106,6 +106,14 @@ message UserRoles {
   bool all = 4;
 }
 
+// Permission effectively controls access to specific resources
+// for any account.
+message Permission {
+  string resource = 1; // resource can be database table or path to URL or anything else
+  string resource_kind = 2; // describes the first resource type (i.e. db table, or path)
+  repeated string activities = 3; // activities are i.e. view, write, modify, delete
+}
+
 message Account {
   string id = 1;
   string email = 2;

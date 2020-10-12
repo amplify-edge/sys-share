@@ -706,6 +706,51 @@ class UserRoles extends $pb.GeneratedMessage {
   void clearAll() => clearField(4);
 }
 
+class Permission extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Permission', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+    ..aOS(1, 'resource')
+    ..aOS(2, 'resourceKind')
+    ..pPS(3, 'activities')
+    ..hasRequiredFields = false
+  ;
+
+  Permission._() : super();
+  factory Permission() => create();
+  factory Permission.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Permission.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Permission clone() => Permission()..mergeFromMessage(this);
+  Permission copyWith(void Function(Permission) updates) => super.copyWith((message) => updates(message as Permission));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static Permission create() => Permission._();
+  Permission createEmptyInstance() => create();
+  static $pb.PbList<Permission> createRepeated() => $pb.PbList<Permission>();
+  @$core.pragma('dart2js:noInline')
+  static Permission getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Permission>(create);
+  static Permission _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get resource => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set resource($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasResource() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearResource() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get resourceKind => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set resourceKind($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasResourceKind() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearResourceKind() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.List<$core.String> get activities => $_getList(2);
+}
+
 class Account extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Account', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
