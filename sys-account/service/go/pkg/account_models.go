@@ -6,6 +6,28 @@ import (
 	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 )
 
+type Permission struct {
+	Resource     string   `json:"resource"`
+	ResourceKind string   `json:"resourceKind"`
+	Activities   []string `json:"activities"`
+}
+
+func (p *Permission) ToProto() *accountRpc.Permission {
+	return &accountRpc.Permission{
+		Resource:     p.Resource,
+		ResourceKind: p.ResourceKind,
+		Activities:   p.Activities,
+	}
+}
+
+func PermissionFromProto(ap *accountRpc.Permission) *Permission {
+	return &Permission{
+		Resource:     ap.Resource,
+		ResourceKind: ap.ResourceKind,
+		Activities:   ap.Activities,
+	}
+}
+
 type Roles int32
 
 func (r Roles) ToProto() accountRpc.Roles {

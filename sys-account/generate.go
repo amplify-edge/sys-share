@@ -13,7 +13,7 @@ package main
 // go:generate /usr/bin/env bash -c "rm -rf ../pkg/v2"
 //go:generate /usr/bin/env bash -c "echo 'Building example golang binaries (CLI and Server)'"
 //go:generate /usr/bin/env bash -c "mkdir -p bin-all/{cli,client}/{go,flutter}"
-//go:generate go build -v -o bin-all/cli/go/ ./example/cli/main.go
+//go:generate go build -v -o bin-all/cli/go/ ./example/cli/go/main.go
 
 // ============================================================================
 // Flutter
@@ -23,4 +23,4 @@ package main
 //go:generate protoc -I./proto/v2/ -I. --dart_out=grpc:./service/flu/lib/rpc/v2/ ./proto/v2/models.proto ./proto/v2/services.proto
 //go:generate /usr/bin/env bash -c "echo 'building flutter binary'"
 //go:generate make flu-web-build
-//go:generate /usr/bin/env bash -c "cp -Rv ./example/client/build ./bin-all/client/flu/"
+//go:generate /usr/bin/env bash -c "cp -Rv ./example/client/flu/build ./bin-all/client/flu/"

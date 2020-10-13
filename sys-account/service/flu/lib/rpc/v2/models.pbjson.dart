@@ -152,6 +152,15 @@ const UserRoles$json = const {
   ],
 };
 
+const Permission$json = const {
+  '1': 'Permission',
+  '2': const [
+    const {'1': 'resource', '3': 1, '4': 1, '5': 9, '10': 'resource'},
+    const {'1': 'resource_kind', '3': 2, '4': 1, '5': 9, '10': 'resourceKind'},
+    const {'1': 'activities', '3': 3, '4': 3, '5': 9, '10': 'activities'},
+  ],
+};
+
 const Account$json = const {
   '1': 'Account',
   '2': const [
