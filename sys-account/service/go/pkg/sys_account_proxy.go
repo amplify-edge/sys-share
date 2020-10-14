@@ -253,3 +253,144 @@ func newAuthService(au AuthService) *authService {
 func (au *authService) registerSvc(server *grpc.Server) {
 	rpc.RegisterAuthServiceService(server, au.svc)
 }
+
+type AccountServiceClient interface {
+	NewAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
+	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error)
+	SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error)
+	AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error)
+	UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
+	DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error)
+}
+
+type accountSvcClientProxy struct {
+	svcClient rpc.AccountServiceClient
+}
+
+func newAccountSvcClientProxy(cc grpc.ClientConnInterface) *accountSvcClientProxy {
+	newClient := rpc.NewAccountServiceClient(cc)
+	return &accountSvcClientProxy{svcClient: newClient}
+}
+
+func (as *accountSvcClientProxy) NewAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
+	acc, err := in.ToProto()
+	if err != nil {
+		return nil, err
+	}
+	resp, err := as.svcClient.NewAccount(ctx, acc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return AccountFromProto(resp), nil
+}
+
+func (as *accountSvcClientProxy) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.GetAccount(ctx, req, opts...)
+	if err != nil { return nil, err }
+	return AccountFromProto(resp), nil
+}
+
+func (as *accountSvcClientProxy) ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.ListAccounts(ctx, req, opts...)
+	if err != nil { return nil, err}
+	return ListAccountsResponseFromProto(resp), nil
+}
+
+func (as *accountSvcClientProxy) SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.SearchAccounts(ctx, req, opts...)
+	if err != nil { return nil, err}
+	return SearchAccountResponseFromProto(resp), nil
+}
+
+func (as *accountSvcClientProxy) AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.AssignAccountToRole(ctx, req, opts...)
+	if err != nil { return nil, err}
+	return AccountFromProto(resp), nil
+}
+
+func (as *accountSvcClientProxy) UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
+	req, err := in.ToProto()
+	if err != nil {
+		return nil, err
+	}
+	resp, err := as.svcClient.UpdateAccount(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return AccountFromProto(resp), nil
+}
+
+func (as *accountSvcClientProxy) DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.DisableAccount(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return AccountFromProto(resp), nil
+}
+
+
+type AuthServiceClient interface {
+	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error)
+	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error)
+	RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error)
+}
+
+type authSvcClientProxy struct {
+	svcClient rpc.AuthServiceClient
+}
+
+func newAuthSvcClientProxy(cc grpc.ClientConnInterface) *authSvcClientProxy {
+	newClient := rpc.NewAuthServiceClient(cc)
+	return &authSvcClientProxy{svcClient: newClient}
+}
+
+func (as *authSvcClientProxy) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
+	req := in.ToProto()
+	resp,err := as.svcClient.Register(ctx, req, opts...)
+	if err != nil { return nil, err }
+	return RegisterResponseFromProto(resp), nil
+}
+
+func (as *authSvcClientProxy) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.Login(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return LoginResponseFromProto(resp), nil
+}
+
+func (as *authSvcClientProxy) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.ForgotPassword(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ForgotPasswordResponseFromProto(resp), nil
+}
+
+func (as *authSvcClientProxy) ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.ResetPassword(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return ResetPasswordResponseFromProto(resp), nil
+}
+
+func (as *authSvcClientProxy) RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.RefreshAccessToken(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return RefreshAccessTokenFromProto(resp), nil
+}

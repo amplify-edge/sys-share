@@ -110,6 +110,15 @@ type ForgotPasswordResponse struct {
 	ForgotPasswordRequestedAt int64  `json:"forgotPasswordRequestedAt,omitempty"`
 }
 
+func ForgotPasswordResponseFromProto(in *authRpc.ForgotPasswordResponse) *ForgotPasswordResponse {
+	return &ForgotPasswordResponse{
+		Success:                   in.Success,
+		SuccessMsg:                in.SuccessMsg,
+		ErrorReason:               in.ErrorReason.Reason,
+		ForgotPasswordRequestedAt: tsToUnixUTC(in.ForgotPasswordRequestedAt),
+	}
+}
+
 func (fpres *ForgotPasswordResponse) ToProto() *authRpc.ForgotPasswordResponse {
 	return &authRpc.ForgotPasswordResponse{
 		Success:                   fpres.Success,
@@ -140,6 +149,15 @@ type ResetPasswordResponse struct {
 	ResetPasswordRequestedAt int64  `json:"resetPasswordRequestedAt,omitempty"`
 }
 
+func ResetPasswordResponseFromProto(in *authRpc.ResetPasswordResponse) *ResetPasswordResponse {
+	return &ResetPasswordResponse{
+		Success:                  in.Success,
+		SuccessMsg:               in.SuccessMsg,
+		ErrorReason:              in.GetErrorReason().Reason,
+		ResetPasswordRequestedAt: tsToUnixUTC(in.ResetPasswordRequestedAt),
+	}
+}
+
 func (rps *ResetPasswordResponse) ToProto() *authRpc.ResetPasswordResponse {
 	return &authRpc.ResetPasswordResponse{
 		Success:                  rps.Success,
@@ -166,5 +184,12 @@ func (ratr *RefreshAccessTokenResponse) ToProto() *authRpc.RefreshAccessTokenRes
 	return &authRpc.RefreshAccessTokenResponse{
 		AccessToken: ratr.AccessToken,
 		ErrorReason: &authRpc.ErrorReason{Reason: ratr.ErrorReason},
+	}
+}
+
+func RefreshAccessTokenFromProto(in *authRpc.RefreshAccessTokenResponse) *RefreshAccessTokenResponse {
+	return &RefreshAccessTokenResponse{
+		AccessToken: in.AccessToken,
+		ErrorReason: in.GetErrorReason().GetReason(),
 	}
 }

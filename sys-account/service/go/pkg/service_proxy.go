@@ -29,6 +29,20 @@ func (s *SysAccountProxyService) RegisterSvc(server *grpc.Server) {
 	reflection.Register(server)
 }
 
+// this one for Client (non CLI)
+type SysAccountProxyServiceClient struct {
+	*accountSvcClientProxy
+	*authSvcClientProxy
+}
+
+func NewSysAccountProxyServiceClient(cc grpc.ClientConnInterface) *SysAccountProxyServiceClient {
+	return &SysAccountProxyServiceClient{
+		newAccountSvcClientProxy(cc),
+		newAuthSvcClientProxy(cc),
+	}
+}
+
+// this one for CLI
 type SysAccountProxyClient struct {
 	SysAccountClient *sysAccountClient
 }
