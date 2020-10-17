@@ -7,9 +7,8 @@ import (
 )
 
 // TODO @gutterbacon: use this as abstraction for per module configs.
-type Configer interface {
-	NewConfig(filepath string) (Configer, error)
-	validate(cfg Configer) error
+type Configurator interface {
+	Validate() error
 }
 
 func LoadFile(filepath string) ([]byte, error) {
