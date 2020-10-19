@@ -7,8 +7,8 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "auth",
-	Short: "auth cli",
+	Use:   "core",
+	Short: "core cli",
 }
 
 func main() {

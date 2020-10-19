@@ -40,11 +40,7 @@ this-build:
 
 this-example-run:
 	@echo Running Example Login Client
-	./bin-all/cli/main auth-service login --email $(EXAMPLE_EMAIL) --password $(EXAMPLE_PASSWORD) --server-addr $(EXAMPLE_SERVER_ADDRESS)
-
-this-example-register:
-	@echo Running Example Register Client
-	./bin-all/cli/main auth-service register --email $(EXAMPLE_EMAIL) --password $(EXAMPLE_PASSWORD) --password-confirm $(EXAMPLE_PASSWORD) --server-addr $(EXAMPLE_SERVER_ADDRESS)
+	./bin-all/cli/go/main
 
 this-example-flutter-run:
 	@echo Running Example Flutter Client
