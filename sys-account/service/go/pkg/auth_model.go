@@ -16,7 +16,7 @@ type RegisterRequest struct {
 }
 
 type FakeRegisterRequests struct {
-	RegisterRequests []RegisterRequest `fakesize:"1000"`
+	RegisterRequests []RegisterRequest `fakesize:"100000"`
 }
 
 func NewFakeRegisterRequests() *FakeRegisterRequests {

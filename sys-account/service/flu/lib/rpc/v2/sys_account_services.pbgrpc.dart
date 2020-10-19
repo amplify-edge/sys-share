@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: services.proto
+//  source: sys_account_services.proto
 //
 // @dart = 2.3
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
@@ -10,43 +10,43 @@ import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
-import 'models.pb.dart' as $0;
-export 'services.pb.dart';
+import 'sys_account_models.pb.dart' as $0;
+export 'sys_account_services.pb.dart';
 
 class AccountServiceClient extends $grpc.Client {
   static final _$newAccount = $grpc.ClientMethod<$0.Account, $0.Account>(
-      '/v2.services.AccountService/NewAccount',
+      '/v2.sys_account.services.AccountService/NewAccount',
       ($0.Account value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
   static final _$getAccount =
       $grpc.ClientMethod<$0.GetAccountRequest, $0.Account>(
-          '/v2.services.AccountService/GetAccount',
+          '/v2.sys_account.services.AccountService/GetAccount',
           ($0.GetAccountRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
   static final _$listAccounts =
       $grpc.ClientMethod<$0.ListAccountsRequest, $0.ListAccountsResponse>(
-          '/v2.services.AccountService/ListAccounts',
+          '/v2.sys_account.services.AccountService/ListAccounts',
           ($0.ListAccountsRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.ListAccountsResponse.fromBuffer(value));
   static final _$searchAccounts =
       $grpc.ClientMethod<$0.SearchAccountsRequest, $0.SearchAccountsResponse>(
-          '/v2.services.AccountService/SearchAccounts',
+          '/v2.sys_account.services.AccountService/SearchAccounts',
           ($0.SearchAccountsRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.SearchAccountsResponse.fromBuffer(value));
   static final _$assignAccountToRole =
       $grpc.ClientMethod<$0.AssignAccountToRoleRequest, $0.Account>(
-          '/v2.services.AccountService/AssignAccountToRole',
+          '/v2.sys_account.services.AccountService/AssignAccountToRole',
           ($0.AssignAccountToRoleRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
   static final _$updateAccount = $grpc.ClientMethod<$0.Account, $0.Account>(
-      '/v2.services.AccountService/UpdateAccount',
+      '/v2.sys_account.services.AccountService/UpdateAccount',
       ($0.Account value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
   static final _$disableAccount =
       $grpc.ClientMethod<$0.DisableAccountRequest, $0.Account>(
-          '/v2.services.AccountService/DisableAccount',
+          '/v2.sys_account.services.AccountService/DisableAccount',
           ($0.DisableAccountRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
 
@@ -115,7 +115,7 @@ class AccountServiceClient extends $grpc.Client {
 }
 
 abstract class AccountServiceBase extends $grpc.Service {
-  $core.String get $name => 'v2.services.AccountService';
+  $core.String get $name => 'v2.sys_account.services.AccountService';
 
   AccountServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.Account, $0.Account>(
@@ -231,29 +231,29 @@ abstract class AccountServiceBase extends $grpc.Service {
 class AuthServiceClient extends $grpc.Client {
   static final _$register =
       $grpc.ClientMethod<$0.RegisterRequest, $0.RegisterResponse>(
-          '/v2.services.AuthService/Register',
+          '/v2.sys_account.services.AuthService/Register',
           ($0.RegisterRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.RegisterResponse.fromBuffer(value));
   static final _$login = $grpc.ClientMethod<$0.LoginRequest, $0.LoginResponse>(
-      '/v2.services.AuthService/Login',
+      '/v2.sys_account.services.AuthService/Login',
       ($0.LoginRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.LoginResponse.fromBuffer(value));
   static final _$forgotPassword =
       $grpc.ClientMethod<$0.ForgotPasswordRequest, $0.ForgotPasswordResponse>(
-          '/v2.services.AuthService/ForgotPassword',
+          '/v2.sys_account.services.AuthService/ForgotPassword',
           ($0.ForgotPasswordRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.ForgotPasswordResponse.fromBuffer(value));
   static final _$resetPassword =
       $grpc.ClientMethod<$0.ResetPasswordRequest, $0.ResetPasswordResponse>(
-          '/v2.services.AuthService/ResetPassword',
+          '/v2.sys_account.services.AuthService/ResetPassword',
           ($0.ResetPasswordRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) =>
               $0.ResetPasswordResponse.fromBuffer(value));
   static final _$refreshAccessToken = $grpc.ClientMethod<
           $0.RefreshAccessTokenRequest, $0.RefreshAccessTokenResponse>(
-      '/v2.services.AuthService/RefreshAccessToken',
+      '/v2.sys_account.services.AuthService/RefreshAccessToken',
       ($0.RefreshAccessTokenRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) =>
           $0.RefreshAccessTokenResponse.fromBuffer(value));
@@ -304,7 +304,7 @@ class AuthServiceClient extends $grpc.Client {
 }
 
 abstract class AuthServiceBase extends $grpc.Service {
-  $core.String get $name => 'v2.services.AuthService';
+  $core.String get $name => 'v2.sys_account.services.AuthService';
 
   AuthServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.RegisterRequest, $0.RegisterResponse>(

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "sys_account_models.proto";
+
+package v2.sys_account.services;
+
+option go_package = "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2";
+
+service AccountService {
+  rpc NewAccount(v2.sys_account.services.Account) returns (v2.sys_account.services.Account) {};
+  rpc GetAccount(v2.sys_account.services.GetAccountRequest) returns (v2.sys_account.services.Account) {};
+  rpc ListAccounts(v2.sys_account.services.ListAccountsRequest) returns (v2.sys_account.services.ListAccountsResponse) {};
+  rpc SearchAccounts(v2.sys_account.services.SearchAccountsRequest) returns (v2.sys_account.services.SearchAccountsResponse) {};
+  rpc AssignAccountToRole(v2.sys_account.services.AssignAccountToRoleRequest) returns (v2.sys_account.services.Account) {};
+  rpc UpdateAccount(v2.sys_account.services.Account) returns (v2.sys_account.services.Account) {};
+  rpc DisableAccount(v2.sys_account.services.DisableAccountRequest) returns (v2.sys_account.services.Account) {};
+}
+
+service AuthService {
+  rpc Register(v2.sys_account.services.RegisterRequest) returns (v2.sys_account.services.RegisterResponse) {};
+  rpc Login(v2.sys_account.services.LoginRequest) returns (v2.sys_account.services.LoginResponse) {};
+  // ForgotPassword, then ResetPassword if succeed
+  rpc ForgotPassword(v2.sys_account.services.ForgotPasswordRequest) returns (v2.sys_account.services.ForgotPasswordResponse) {};
+  rpc ResetPassword(v2.sys_account.services.ResetPasswordRequest) returns (v2.sys_account.services.ResetPasswordResponse) {};
+  // Refresh Access Token endpoint
+  rpc RefreshAccessToken(v2.sys_account.services.RefreshAccessTokenRequest) returns (v2.sys_account.services.RefreshAccessTokenResponse) {};
+}

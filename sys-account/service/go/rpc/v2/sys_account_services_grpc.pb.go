@@ -40,7 +40,7 @@ var accountServiceNewAccountStreamDesc = &grpc.StreamDesc{
 
 func (c *accountServiceClient) NewAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
-	err := c.cc.Invoke(ctx, "/v2.services.AccountService/NewAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/NewAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ var accountServiceGetAccountStreamDesc = &grpc.StreamDesc{
 
 func (c *accountServiceClient) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
-	err := c.cc.Invoke(ctx, "/v2.services.AccountService/GetAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/GetAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ var accountServiceListAccountsStreamDesc = &grpc.StreamDesc{
 
 func (c *accountServiceClient) ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error) {
 	out := new(ListAccountsResponse)
-	err := c.cc.Invoke(ctx, "/v2.services.AccountService/ListAccounts", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/ListAccounts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ var accountServiceSearchAccountsStreamDesc = &grpc.StreamDesc{
 
 func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error) {
 	out := new(SearchAccountsResponse)
-	err := c.cc.Invoke(ctx, "/v2.services.AccountService/SearchAccounts", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/SearchAccounts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ var accountServiceAssignAccountToRoleStreamDesc = &grpc.StreamDesc{
 
 func (c *accountServiceClient) AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
-	err := c.cc.Invoke(ctx, "/v2.services.AccountService/AssignAccountToRole", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/AssignAccountToRole", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +105,7 @@ var accountServiceUpdateAccountStreamDesc = &grpc.StreamDesc{
 
 func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
-	err := c.cc.Invoke(ctx, "/v2.services.AccountService/UpdateAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/UpdateAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -118,7 +118,7 @@ var accountServiceDisableAccountStreamDesc = &grpc.StreamDesc{
 
 func (c *accountServiceClient) DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
-	err := c.cc.Invoke(ctx, "/v2.services.AccountService/DisableAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/DisableAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,7 @@ func (s *AccountServiceService) newAccount(_ interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AccountService/NewAccount",
+		FullMethod: "/v2.sys_account.services.AccountService/NewAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.NewAccount(ctx, req.(*Account))
@@ -172,7 +172,7 @@ func (s *AccountServiceService) getAccount(_ interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AccountService/GetAccount",
+		FullMethod: "/v2.sys_account.services.AccountService/GetAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.GetAccount(ctx, req.(*GetAccountRequest))
@@ -192,7 +192,7 @@ func (s *AccountServiceService) listAccounts(_ interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AccountService/ListAccounts",
+		FullMethod: "/v2.sys_account.services.AccountService/ListAccounts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.ListAccounts(ctx, req.(*ListAccountsRequest))
@@ -212,7 +212,7 @@ func (s *AccountServiceService) searchAccounts(_ interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AccountService/SearchAccounts",
+		FullMethod: "/v2.sys_account.services.AccountService/SearchAccounts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.SearchAccounts(ctx, req.(*SearchAccountsRequest))
@@ -232,7 +232,7 @@ func (s *AccountServiceService) assignAccountToRole(_ interface{}, ctx context.C
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AccountService/AssignAccountToRole",
+		FullMethod: "/v2.sys_account.services.AccountService/AssignAccountToRole",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.AssignAccountToRole(ctx, req.(*AssignAccountToRoleRequest))
@@ -252,7 +252,7 @@ func (s *AccountServiceService) updateAccount(_ interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AccountService/UpdateAccount",
+		FullMethod: "/v2.sys_account.services.AccountService/UpdateAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.UpdateAccount(ctx, req.(*Account))
@@ -272,7 +272,7 @@ func (s *AccountServiceService) disableAccount(_ interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AccountService/DisableAccount",
+		FullMethod: "/v2.sys_account.services.AccountService/DisableAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.DisableAccount(ctx, req.(*DisableAccountRequest))
@@ -283,7 +283,7 @@ func (s *AccountServiceService) disableAccount(_ interface{}, ctx context.Contex
 // RegisterAccountServiceService registers a service implementation with a gRPC server.
 func RegisterAccountServiceService(s grpc.ServiceRegistrar, srv *AccountServiceService) {
 	sd := grpc.ServiceDesc{
-		ServiceName: "v2.services.AccountService",
+		ServiceName: "v2.sys_account.services.AccountService",
 		Methods: []grpc.MethodDesc{
 			{
 				MethodName: "NewAccount",
@@ -315,7 +315,7 @@ func RegisterAccountServiceService(s grpc.ServiceRegistrar, srv *AccountServiceS
 			},
 		},
 		Streams:  []grpc.StreamDesc{},
-		Metadata: "services.proto",
+		Metadata: "sys_account_services.proto",
 	}
 
 	s.RegisterService(&sd, nil)
@@ -408,7 +408,7 @@ var authServiceRegisterStreamDesc = &grpc.StreamDesc{
 
 func (c *authServiceClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
 	out := new(RegisterResponse)
-	err := c.cc.Invoke(ctx, "/v2.services.AuthService/Register", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/Register", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -421,7 +421,7 @@ var authServiceLoginStreamDesc = &grpc.StreamDesc{
 
 func (c *authServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
 	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, "/v2.services.AuthService/Login", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/Login", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -434,7 +434,7 @@ var authServiceForgotPasswordStreamDesc = &grpc.StreamDesc{
 
 func (c *authServiceClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error) {
 	out := new(ForgotPasswordResponse)
-	err := c.cc.Invoke(ctx, "/v2.services.AuthService/ForgotPassword", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/ForgotPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -447,7 +447,7 @@ var authServiceResetPasswordStreamDesc = &grpc.StreamDesc{
 
 func (c *authServiceClient) ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error) {
 	out := new(ResetPasswordResponse)
-	err := c.cc.Invoke(ctx, "/v2.services.AuthService/ResetPassword", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/ResetPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -460,7 +460,7 @@ var authServiceRefreshAccessTokenStreamDesc = &grpc.StreamDesc{
 
 func (c *authServiceClient) RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error) {
 	out := new(RefreshAccessTokenResponse)
-	err := c.cc.Invoke(ctx, "/v2.services.AuthService/RefreshAccessToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/RefreshAccessToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -494,7 +494,7 @@ func (s *AuthServiceService) register(_ interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AuthService/Register",
+		FullMethod: "/v2.sys_account.services.AuthService/Register",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.Register(ctx, req.(*RegisterRequest))
@@ -514,7 +514,7 @@ func (s *AuthServiceService) login(_ interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AuthService/Login",
+		FullMethod: "/v2.sys_account.services.AuthService/Login",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.Login(ctx, req.(*LoginRequest))
@@ -534,7 +534,7 @@ func (s *AuthServiceService) forgotPassword(_ interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AuthService/ForgotPassword",
+		FullMethod: "/v2.sys_account.services.AuthService/ForgotPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.ForgotPassword(ctx, req.(*ForgotPasswordRequest))
@@ -554,7 +554,7 @@ func (s *AuthServiceService) resetPassword(_ interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AuthService/ResetPassword",
+		FullMethod: "/v2.sys_account.services.AuthService/ResetPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.ResetPassword(ctx, req.(*ResetPasswordRequest))
@@ -574,7 +574,7 @@ func (s *AuthServiceService) refreshAccessToken(_ interface{}, ctx context.Conte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.AuthService/RefreshAccessToken",
+		FullMethod: "/v2.sys_account.services.AuthService/RefreshAccessToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.RefreshAccessToken(ctx, req.(*RefreshAccessTokenRequest))
@@ -585,7 +585,7 @@ func (s *AuthServiceService) refreshAccessToken(_ interface{}, ctx context.Conte
 // RegisterAuthServiceService registers a service implementation with a gRPC server.
 func RegisterAuthServiceService(s grpc.ServiceRegistrar, srv *AuthServiceService) {
 	sd := grpc.ServiceDesc{
-		ServiceName: "v2.services.AuthService",
+		ServiceName: "v2.sys_account.services.AuthService",
 		Methods: []grpc.MethodDesc{
 			{
 				MethodName: "Register",
@@ -609,7 +609,7 @@ func RegisterAuthServiceService(s grpc.ServiceRegistrar, srv *AuthServiceService
 			},
 		},
 		Streams:  []grpc.StreamDesc{},
-		Metadata: "services.proto",
+		Metadata: "sys_account_services.proto",
 	}
 
 	s.RegisterService(&sd, nil)
