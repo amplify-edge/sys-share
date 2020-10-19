@@ -3,6 +3,8 @@ module github.com/getcouragenow/sys-share
 go 1.15
 
 require (
+	github.com/bojand/ghz v0.61.0
+	github.com/brianvoe/gofakeit/v5 v5.9.3
 	github.com/getcouragenow/protoc-gen-cobra v0.3.1-0.20201005114840-ccc8cd57bcdc
 	github.com/golang/protobuf v1.4.2
 	github.com/sirupsen/logrus v1.7.0
