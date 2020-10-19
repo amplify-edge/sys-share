@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: models.proto
+//  source: sys_account_models.proto
 //
 // @dart = 2.3
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
@@ -13,12 +13,12 @@ import 'package:protobuf/protobuf.dart' as $pb;
 import 'google/protobuf/timestamp.pb.dart' as $1;
 import 'google/protobuf/struct.pb.dart' as $2;
 
-import 'models.pbenum.dart';
+import 'sys_account_models.pbenum.dart';
 
-export 'models.pbenum.dart';
+export 'sys_account_models.pbenum.dart';
 
 class ErrorReason extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ErrorReason', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ErrorReason', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'reason')
     ..hasRequiredFields = false
   ;
@@ -49,7 +49,7 @@ class ErrorReason extends $pb.GeneratedMessage {
 }
 
 class RegisterRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RegisterRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RegisterRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'email')
     ..aOS(2, 'password')
     ..aOS(3, 'passwordConfirm')
@@ -100,7 +100,7 @@ class RegisterRequest extends $pb.GeneratedMessage {
 }
 
 class LoginRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('LoginRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('LoginRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'email')
     ..aOS(2, 'password')
     ..hasRequiredFields = false
@@ -141,7 +141,7 @@ class LoginRequest extends $pb.GeneratedMessage {
 }
 
 class LoginResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('LoginResponse', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('LoginResponse', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOB(1, 'success')
     ..aOS(2, 'accessToken')
     ..aOS(3, 'refreshToken')
@@ -216,7 +216,7 @@ class LoginResponse extends $pb.GeneratedMessage {
 }
 
 class RegisterResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RegisterResponse', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RegisterResponse', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOB(1, 'success')
     ..aOS(2, 'successMsg')
     ..aOM<ErrorReason>(3, 'errorReason', subBuilder: ErrorReason.create)
@@ -269,7 +269,7 @@ class RegisterResponse extends $pb.GeneratedMessage {
 }
 
 class ForgotPasswordRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ForgotPasswordRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ForgotPasswordRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'email')
     ..hasRequiredFields = false
   ;
@@ -300,7 +300,7 @@ class ForgotPasswordRequest extends $pb.GeneratedMessage {
 }
 
 class ForgotPasswordResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ForgotPasswordResponse', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ForgotPasswordResponse', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOB(1, 'success')
     ..aOS(2, 'successMsg')
     ..aOM<ErrorReason>(3, 'errorReason', subBuilder: ErrorReason.create)
@@ -365,7 +365,7 @@ class ForgotPasswordResponse extends $pb.GeneratedMessage {
 }
 
 class ResetPasswordRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ResetPasswordRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ResetPasswordRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'email')
     ..aOS(2, 'password')
     ..aOS(3, 'passwordConfirm')
@@ -416,7 +416,7 @@ class ResetPasswordRequest extends $pb.GeneratedMessage {
 }
 
 class ResetPasswordResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ResetPasswordResponse', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ResetPasswordResponse', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOB(1, 'success')
     ..aOS(2, 'successMsg')
     ..aOM<ErrorReason>(3, 'errorReason', subBuilder: ErrorReason.create)
@@ -481,7 +481,7 @@ class ResetPasswordResponse extends $pb.GeneratedMessage {
 }
 
 class RefreshAccessTokenRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RefreshAccessTokenRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RefreshAccessTokenRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'refreshToken')
     ..hasRequiredFields = false
   ;
@@ -512,7 +512,7 @@ class RefreshAccessTokenRequest extends $pb.GeneratedMessage {
 }
 
 class RefreshAccessTokenResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RefreshAccessTokenResponse', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('RefreshAccessTokenResponse', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'accessToken')
     ..aOM<ErrorReason>(2, 'errorReason', subBuilder: ErrorReason.create)
     ..hasRequiredFields = false
@@ -555,8 +555,8 @@ class RefreshAccessTokenResponse extends $pb.GeneratedMessage {
 }
 
 class UserDefinedFields extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('UserDefinedFields', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
-    ..m<$core.String, $2.Value>(1, 'fields', entryClassName: 'UserDefinedFields.FieldsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $2.Value.create, packageName: const $pb.PackageName('v2.services'))
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('UserDefinedFields', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
+    ..m<$core.String, $2.Value>(1, 'fields', entryClassName: 'UserDefinedFields.FieldsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $2.Value.create, packageName: const $pb.PackageName('v2.sys_account.services'))
     ..hasRequiredFields = false
   ;
 
@@ -580,7 +580,7 @@ class UserDefinedFields extends $pb.GeneratedMessage {
 }
 
 class Project extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Project', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Project', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
     ..hasRequiredFields = false
   ;
@@ -611,7 +611,7 @@ class Project extends $pb.GeneratedMessage {
 }
 
 class Org extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Org', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Org', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
     ..hasRequiredFields = false
   ;
@@ -642,7 +642,7 @@ class Org extends $pb.GeneratedMessage {
 }
 
 class UserRoles extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('UserRoles', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('UserRoles', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..e<Roles>(1, 'role', $pb.PbFieldType.OE, defaultOrMaker: Roles.INVALID, valueOf: Roles.valueOf, enumValues: Roles.values)
     ..aOM<Project>(2, 'project', subBuilder: Project.create)
     ..aOM<Org>(3, 'org', subBuilder: Org.create)
@@ -707,7 +707,7 @@ class UserRoles extends $pb.GeneratedMessage {
 }
 
 class Permission extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Permission', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Permission', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'resource')
     ..aOS(2, 'resourceKind')
     ..pPS(3, 'activities')
@@ -752,7 +752,7 @@ class Permission extends $pb.GeneratedMessage {
 }
 
 class Account extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Account', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Account', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
     ..aOS(2, 'email')
     ..aOS(3, 'password')
@@ -762,6 +762,7 @@ class Account extends $pb.GeneratedMessage {
     ..aOM<$1.Timestamp>(7, 'lastLogin', subBuilder: $1.Timestamp.create)
     ..aOB(8, 'disabled')
     ..aOM<UserDefinedFields>(9, 'fields', subBuilder: UserDefinedFields.create)
+    ..aOM<UserDefinedFields>(10, 'survey', subBuilder: UserDefinedFields.create)
     ..hasRequiredFields = false
   ;
 
@@ -870,10 +871,21 @@ class Account extends $pb.GeneratedMessage {
   void clearFields() => clearField(9);
   @$pb.TagNumber(9)
   UserDefinedFields ensureFields() => $_ensure(8);
+
+  @$pb.TagNumber(10)
+  UserDefinedFields get survey => $_getN(9);
+  @$pb.TagNumber(10)
+  set survey(UserDefinedFields v) { setField(10, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasSurvey() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearSurvey() => clearField(10);
+  @$pb.TagNumber(10)
+  UserDefinedFields ensureSurvey() => $_ensure(9);
 }
 
 class GetAccountRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('GetAccountRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('GetAccountRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
     ..hasRequiredFields = false
   ;
@@ -904,7 +916,7 @@ class GetAccountRequest extends $pb.GeneratedMessage {
 }
 
 class ListAccountsRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListAccountsRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListAccountsRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aInt64(1, 'perPageEntries')
     ..aOS(2, 'orderBy')
     ..aOS(3, 'currentPageId')
@@ -955,7 +967,7 @@ class ListAccountsRequest extends $pb.GeneratedMessage {
 }
 
 class ListAccountsResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListAccountsResponse', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListAccountsResponse', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..pc<Account>(1, 'accounts', $pb.PbFieldType.PM, subBuilder: Account.create)
     ..aOS(2, 'nextPageId')
     ..hasRequiredFields = false
@@ -990,8 +1002,8 @@ class ListAccountsResponse extends $pb.GeneratedMessage {
 }
 
 class SearchAccountsRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SearchAccountsRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
-    ..aOS(1, 'query')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SearchAccountsRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
+    ..m<$core.String, $2.Value>(1, 'query', entryClassName: 'SearchAccountsRequest.QueryEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $2.Value.create, packageName: const $pb.PackageName('v2.sys_account.services'))
     ..aOM<ListAccountsRequest>(2, 'searchParams', subBuilder: ListAccountsRequest.create)
     ..hasRequiredFields = false
   ;
@@ -1012,13 +1024,7 @@ class SearchAccountsRequest extends $pb.GeneratedMessage {
   static SearchAccountsRequest _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get query => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set query($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasQuery() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearQuery() => clearField(1);
+  $core.Map<$core.String, $2.Value> get query => $_getMap(0);
 
   @$pb.TagNumber(2)
   ListAccountsRequest get searchParams => $_getN(1);
@@ -1033,7 +1039,7 @@ class SearchAccountsRequest extends $pb.GeneratedMessage {
 }
 
 class SearchAccountsResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SearchAccountsResponse', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('SearchAccountsResponse', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOM<ListAccountsResponse>(1, 'searchResponse', subBuilder: ListAccountsResponse.create)
     ..hasRequiredFields = false
   ;
@@ -1066,7 +1072,7 @@ class SearchAccountsResponse extends $pb.GeneratedMessage {
 }
 
 class AssignAccountToRoleRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssignAccountToRoleRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AssignAccountToRoleRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'assigneeAccountId')
     ..aOS(2, 'assignedAccountId')
     ..aOM<UserRoles>(3, 'role', subBuilder: UserRoles.create)
@@ -1119,7 +1125,7 @@ class AssignAccountToRoleRequest extends $pb.GeneratedMessage {
 }
 
 class DisableAccountRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DisableAccountRequest', package: const $pb.PackageName('v2.services'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('DisableAccountRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'accountId')
     ..hasRequiredFields = false
   ;

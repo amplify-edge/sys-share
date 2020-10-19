@@ -44,6 +44,7 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 		UpdatedAt: &timestamp.Timestamp{},
 		LastLogin: &timestamp.Timestamp{},
 		Fields:    &UserDefinedFields{},
+		Survey:    &UserDefinedFields{},
 	}
 
 	cmd := &cobra.Command{
@@ -223,7 +224,6 @@ func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Query, cfg.FlagNamer("Query"), "", "query can be either email, UserDefinedFields fields")
 	cmd.PersistentFlags().Int64Var(&req.SearchParams.PerPageEntries, cfg.FlagNamer("SearchParams PerPageEntries"), 0, "limit")
 	cmd.PersistentFlags().StringVar(&req.SearchParams.OrderBy, cfg.FlagNamer("SearchParams OrderBy"), "", "")
 	cmd.PersistentFlags().StringVar(&req.SearchParams.CurrentPageId, cfg.FlagNamer("SearchParams CurrentPageId"), "", "number 3 => optional: current_page_token is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
@@ -293,6 +293,7 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 		UpdatedAt: &timestamp.Timestamp{},
 		LastLogin: &timestamp.Timestamp{},
 		Fields:    &UserDefinedFields{},
+		Survey:    &UserDefinedFields{},
 	}
 
 	cmd := &cobra.Command{

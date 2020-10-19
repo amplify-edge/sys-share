@@ -113,8 +113,12 @@ func assignToRoleProxy(as AccountService) func(context.Context, *rpc.AssignAccou
 
 func searchAccountsProxy(as AccountService) func(context.Context, *rpc.SearchAccountsRequest) (*rpc.SearchAccountsResponse, error) {
 	return func(ctx context.Context, sar *rpc.SearchAccountsRequest) (*rpc.SearchAccountsResponse, error) {
+		queryFields := map[string]string{}
+		for k, v := range sar.GetQuery() {
+			queryFields[k] = v.String()
+		}
 		accounts, err := as.SearchAccounts(ctx, &SearchAccountsRequest{
-			Query:       sar.GetQuery(),
+			Query:       queryFields,
 			SearchParam: ListAccountsRequestFromProto(sar.GetSearchParams()),
 		})
 		if err != nil {
@@ -300,7 +304,10 @@ func (as *accountSvcClientProxy) ListAccounts(ctx context.Context, in *ListAccou
 }
 
 func (as *accountSvcClientProxy) SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error) {
-	req := in.ToProto()
+	req, err := in.ToProto()
+	if err != nil {
+		return nil, err
+	}
 	resp, err := as.svcClient.SearchAccounts(ctx, req, opts...)
 	if err != nil { return nil, err}
 	return SearchAccountResponseFromProto(resp), nil

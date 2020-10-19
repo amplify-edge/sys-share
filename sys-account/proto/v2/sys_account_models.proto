@@ -3,7 +3,7 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
 
-package v2.services;
+package v2.sys_account.services;
 
 option go_package = "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2";
 
@@ -124,6 +124,7 @@ message Account {
   google.protobuf.Timestamp last_login = 7;
   bool disabled = 8;
   UserDefinedFields fields = 9;
+  UserDefinedFields survey = 10;
 }
 
 message GetAccountRequest {
@@ -147,7 +148,7 @@ message ListAccountsResponse {
 
 message SearchAccountsRequest {
   // query can be either email, UserDefinedFields fields
-  string query = 1;
+  map<string, google.protobuf.Value> query = 1;
   ListAccountsRequest search_params = 2;
 }
 
