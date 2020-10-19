@@ -33,7 +33,7 @@ this-print-all: ## print
 
 	#$(MAKE) srv-print
 
-this-build:
+this-build
 	@echo "Generating GRPC models and services for Go & Flutter"
 	@mkdir -p service/{flu/lib,go}/rpc/v2
 	@go generate
