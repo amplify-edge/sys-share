@@ -1,13 +1,46 @@
 package pkg
 
 import (
+	"encoding/json"
+	"io/ioutil"
+
+	"github.com/brianvoe/gofakeit/v5"
+
 	authRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 )
 
 type RegisterRequest struct {
-	Email           string `json:"string,omitempty"`
-	Password        string `json:"password,omitempty"`
-	PasswordConfirm string `json:"passwordConfirm,omitempty"`
+	Email           string `json:"email" fake:"{email}"`
+	Password        string `json:"password" fake:"{sentence:8}"`
+	PasswordConfirm string `json:"passwordConfirm" fake:"skip"`
+}
+
+type FakeRegisterRequests struct {
+	RegisterRequests []RegisterRequest `fakesize:"100000"`
+}
+
+func NewFakeRegisterRequests() *FakeRegisterRequests {
+	gofakeit.Seed(0)
+	var frr FakeRegisterRequests
+	var reqs []RegisterRequest
+	gofakeit.Struct(&frr)
+	for _, rr := range frr.RegisterRequests {
+		reqs = append(reqs, RegisterRequest{
+			Email:           rr.Email,
+			Password:        rr.Password,
+			PasswordConfirm: rr.Password,
+		})
+	}
+	frr.RegisterRequests = reqs
+	return &frr
+}
+
+func (frr *FakeRegisterRequests) ToJSON(filedest string) error {
+	data, err := json.Marshal(frr.RegisterRequests)
+	if err != nil {
+		return err
+	}
+	return ioutil.WriteFile(filedest, data, 0644)
 }
 
 func RegisterRequestFromProto(in *authRpc.RegisterRequest) *RegisterRequest {
@@ -49,7 +82,7 @@ func (r *RegisterResponse) ToProto() *authRpc.RegisterResponse {
 }
 
 type LoginRequest struct {
-	Email    string `json:"email,omitempty"`
+	Email    string `json:"email,omitempty" fake:"email"`
 	Password string `json:"password,omitempty"`
 }
 

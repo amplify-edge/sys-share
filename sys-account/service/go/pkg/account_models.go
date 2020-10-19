@@ -100,6 +100,7 @@ type Account struct {
 	LastLogin int64              `json:"last_login,omitempty"`
 	Disabled  bool               `json:"disabled,omitempty"`
 	Fields    *UserDefinedFields `json:"fields,omitempty"`
+	Survey    *UserDefinedFields `json:"survey,omitempty"`
 }
 
 func (acc *Account) GetEmail() string {
@@ -112,6 +113,10 @@ func (acc *Account) GetRole() *UserRoles {
 
 func (acc *Account) ToProto() (*accountRpc.Account, error) {
 	role := acc.Role.ToProto()
+	surveyFields, err := acc.Survey.ToProto()
+	if err != nil {
+		return nil, err
+	}
 	fields, err := acc.Fields.ToProto()
 	if err != nil {
 		return nil, err
@@ -126,6 +131,7 @@ func (acc *Account) ToProto() (*accountRpc.Account, error) {
 		LastLogin: unixToUtcTS(acc.LastLogin),
 		Disabled:  acc.Disabled,
 		Fields:    fields,
+		Survey:    surveyFields,
 	}, nil
 }
 
@@ -208,24 +214,32 @@ func ListAccountsResponseFromProto(resp *accountRpc.ListAccountsResponse) *ListA
 }
 
 type SearchAccountsRequest struct {
-	Query       string               `json:"query,omitempty"`
+	Query       map[string]string    `json:"query,omitempty"`
 	SearchParam *ListAccountsRequest `json:"searchParam,omitempty"`
 }
 
-func (sar *SearchAccountsRequest) ToProto() *accountRpc.SearchAccountsRequest {
+func (sar *SearchAccountsRequest) ToProto() (*accountRpc.SearchAccountsRequest, error) {
+	var err error
 	searchParam := sar.SearchParam.ToProto()
-	return &accountRpc.SearchAccountsRequest{
-		Query:        sar.Query,
-		SearchParams: searchParam,
+	queryFields := map[string]*structpb.Value{}
+	for k, v := range sar.Query {
+		queryFields[k], err = structpb.NewValue(v)
+		if err != nil {
+			return nil, err
+		}
 	}
+	return &accountRpc.SearchAccountsRequest{
+		Query:        queryFields,
+		SearchParams: searchParam,
+	}, nil
 }
 
 type SearchAccountsResponse struct {
 	SearchResponse *ListAccountsResponse `json:"listAccountsResponse,omitempty"`
 }
 
-func (saresp *SearchAccountsResponse) ToProto() (*accountRpc.SearchAccountsResponse, error) {
-	listResp, err := saresp.SearchResponse.ToProto()
+func (sar *SearchAccountsResponse) ToProto() (*accountRpc.SearchAccountsResponse, error) {
+	listResp, err := sar.SearchResponse.ToProto()
 	if err != nil {
 		return nil, err
 	}
@@ -258,3 +272,5 @@ type DisableAccountRequest struct {
 func (dar *DisableAccountRequest) ToProto() *accountRpc.DisableAccountRequest {
 	return &accountRpc.DisableAccountRequest{AccountId: dar.AccountId}
 }
+
+
