@@ -17,21 +17,25 @@ EXAMPLE_EMAIL = superadmin@getcouragenow.org
 EXAMPLE_PASSWORD = superadmin
 EXAMPLE_SERVER_ADDRESS = 127.0.0.1:8888
 
-this-all: this-build
+this-all: this-print this-build this-print-end
 	
 ## Print all settings
-this-print-all: ## print
-	@echo -- REPO -- 
-	@echo REPOSITORY: $(REPOSITORY)
+this-print: ## print
 	@echo
-
+	@echo "-- SYS-CORE: start --"
+	@echo
+	
 	$(MAKE) os-print
 	
 	$(MAKE) flu-print
 
 	$(MAKE) flu-gen-lang-print
 
-	#$(MAKE) srv-print
+
+this-print-end:
+	@echo
+	@echo "-- SYS-CORE: end --"
+	@echo
 
 this-build:
 	@echo "Generating GRPC models and services for Go & Flutter"
