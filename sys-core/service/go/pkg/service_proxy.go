@@ -10,6 +10,10 @@ type SysBusProxyService struct {
 	SysBus *busProxyService
 }
 
+func NewSysBusProxyService(bs BusService) *SysBusProxyService {
+	return &SysBusProxyService{newBusServiceProxy(bs)}
+}
+
 type SysCoreProxyService struct {
 	SysCore *sysCoreService
 }
