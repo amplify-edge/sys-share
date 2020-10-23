@@ -56,6 +56,10 @@ type SysBusProxyClient struct {
 	SysBusClient *busClient
 }
 
+func NewSysBusProxyClient() *SysBusProxyClient {
+	return &SysBusProxyClient{SysBusClient: newBusClient()}
+}
+
 func (sb *SysBusProxyClient) CobraCommand() *cobra.Command {
 	return sb.SysBusClient.cobraCommand()
 }
