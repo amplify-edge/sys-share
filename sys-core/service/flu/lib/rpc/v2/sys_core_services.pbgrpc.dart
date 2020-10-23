@@ -19,10 +19,10 @@ class DbAdminServiceClient extends $grpc.Client {
       '/v2.sys_core.services.DbAdminService/Backup',
       ($0.Empty value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.BackupResult.fromBuffer(value));
-  static final _$listBackup = $grpc.ClientMethod<$0.Empty, $1.BackupListResult>(
+  static final _$listBackup = $grpc.ClientMethod<$0.Empty, $1.ListBackupResult>(
       '/v2.sys_core.services.DbAdminService/ListBackup',
       ($0.Empty value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.BackupListResult.fromBuffer(value));
+      ($core.List<$core.int> value) => $1.ListBackupResult.fromBuffer(value));
   static final _$restore =
       $grpc.ClientMethod<$1.RestoreRequest, $1.RestoreResult>(
           '/v2.sys_core.services.DbAdminService/Restore',
@@ -39,7 +39,7 @@ class DbAdminServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$1.BackupListResult> listBackup($0.Empty request,
+  $grpc.ResponseFuture<$1.ListBackupResult> listBackup($0.Empty request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$listBackup, $async.Stream.fromIterable([request]),
@@ -66,13 +66,13 @@ abstract class DbAdminServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         ($1.BackupResult value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.Empty, $1.BackupListResult>(
+    $addMethod($grpc.ServiceMethod<$0.Empty, $1.ListBackupResult>(
         'ListBackup',
         listBackup_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
-        ($1.BackupListResult value) => value.writeToBuffer()));
+        ($1.ListBackupResult value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.RestoreRequest, $1.RestoreResult>(
         'Restore',
         restore_Pre,
@@ -87,7 +87,7 @@ abstract class DbAdminServiceBase extends $grpc.Service {
     return backup(call, await request);
   }
 
-  $async.Future<$1.BackupListResult> listBackup_Pre(
+  $async.Future<$1.ListBackupResult> listBackup_Pre(
       $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
     return listBackup(call, await request);
   }
@@ -99,7 +99,7 @@ abstract class DbAdminServiceBase extends $grpc.Service {
 
   $async.Future<$1.BackupResult> backup(
       $grpc.ServiceCall call, $0.Empty request);
-  $async.Future<$1.BackupListResult> listBackup(
+  $async.Future<$1.ListBackupResult> listBackup(
       $grpc.ServiceCall call, $0.Empty request);
   $async.Future<$1.RestoreResult> restore(
       $grpc.ServiceCall call, $1.RestoreRequest request);

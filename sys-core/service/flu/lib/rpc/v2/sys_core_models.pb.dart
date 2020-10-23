@@ -71,29 +71,29 @@ class BackupResult extends $pb.GeneratedMessage {
   void clearBackupFile() => clearField(1);
 }
 
-class BackupListResult extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo('BackupListResult', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
-    ..pc<BackupResult>(1, 'backupFile', $pb.PbFieldType.PM, protoName: 'backupFile', subBuilder: BackupResult.create)
+class ListBackupResult extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListBackupResult', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..pc<BackupResult>(1, 'backupFiles', $pb.PbFieldType.PM, protoName: 'backupFiles', subBuilder: BackupResult.create)
     ..hasRequiredFields = false
   ;
 
-  BackupListResult._() : super();
-  factory BackupListResult() => create();
-  factory BackupListResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory BackupListResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  BackupListResult clone() => BackupListResult()..mergeFromMessage(this);
-  BackupListResult copyWith(void Function(BackupListResult) updates) => super.copyWith((message) => updates(message as BackupListResult));
+  ListBackupResult._() : super();
+  factory ListBackupResult() => create();
+  factory ListBackupResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ListBackupResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ListBackupResult clone() => ListBackupResult()..mergeFromMessage(this);
+  ListBackupResult copyWith(void Function(ListBackupResult) updates) => super.copyWith((message) => updates(message as ListBackupResult));
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static BackupListResult create() => BackupListResult._();
-  BackupListResult createEmptyInstance() => create();
-  static $pb.PbList<BackupListResult> createRepeated() => $pb.PbList<BackupListResult>();
+  static ListBackupResult create() => ListBackupResult._();
+  ListBackupResult createEmptyInstance() => create();
+  static $pb.PbList<ListBackupResult> createRepeated() => $pb.PbList<ListBackupResult>();
   @$core.pragma('dart2js:noInline')
-  static BackupListResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupListResult>(create);
-  static BackupListResult _defaultInstance;
+  static ListBackupResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListBackupResult>(create);
+  static ListBackupResult _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<BackupResult> get backupFile => $_getList(0);
+  $core.List<BackupResult> get backupFiles => $_getList(0);
 }
 
 class RestoreRequest extends $pb.GeneratedMessage {
