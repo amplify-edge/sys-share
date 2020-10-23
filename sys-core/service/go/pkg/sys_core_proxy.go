@@ -39,10 +39,10 @@ func (s *sysCoreService) registerSvc(server *grpc.Server) {
 	dbrpc.RegisterDbAdminServiceService(server, s.svc)
 }
 
-type DbAdminService struct {
-	Backup     func(context.Context, *emptypb.Empty) (*BackupResult, error)
-	ListBackup func(context.Context, *emptypb.Empty) (*ListBackupResult, error)
-	Restore    func(context.Context, *RestoreRequest) (*RestoreResult, error)
+type DbAdminService interface {
+	Backup(context.Context, *emptypb.Empty) (*BackupResult, error)
+	ListBackup(context.Context, *emptypb.Empty) (*ListBackupResult, error)
+	Restore(context.Context, *RestoreRequest) (*RestoreResult, error)
 }
 
 func backupProxy(d DbAdminService) func(context.Context, *emptypb.Empty) (*dbrpc.BackupResult, error) {
