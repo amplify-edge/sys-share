@@ -1,9 +1,9 @@
-import 'package:sys_share_sys_account_service/pkg/shared_repositories/base_repo.dart';
+import 'package:sys_core/pkg/shared_repositories/base_repo.dart';
 import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart'
     as rpc;
 import 'package:meta/meta.dart';
 
-class AuthRepo {
+class AuthRepo extends BaseRepo {
   static final client = _authClient();
 
   static Future<rpc.LoginResponse> loginUser(
@@ -17,6 +17,10 @@ class AuthRepo {
         print(res);
         return res;
       });
+      await updateTokens(
+        accessToken: resp.accessToken,
+        refreshToken: resp.refreshToken,
+      );
       return resp;
     } catch (e) {
       print(e);

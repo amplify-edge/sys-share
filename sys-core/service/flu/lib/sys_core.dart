@@ -15,6 +15,7 @@ export 'package:sys_core/rpc/v2/sys_core_models.pbenum.dart';
 export 'package:sys_core/rpc/v2/sys_core_services.pbgrpc.dart';
 export 'package:sys_core/rpc/v2/sys_core_services.pbjson.dart';
 export 'package:sys_core/rpc/v2/sys_core_services.pbenum.dart';
+export 'package:sys_core/pkg/shared_repositories/base_repo.dart';
 
 coreInit() async {
   //final Directory dir = await getApplicationDocumentsDirectory();
