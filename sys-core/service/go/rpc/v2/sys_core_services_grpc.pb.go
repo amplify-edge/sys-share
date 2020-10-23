@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DbAdminServiceClient interface {
 	Backup(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*BackupResult, error)
-	BackupList(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*BackupListResult, error)
+	ListBackup(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*BackupListResult, error)
 	Restore(ctx context.Context, in *RestoreRequest, opts ...grpc.CallOption) (*RestoreResult, error)
 }
 
@@ -37,20 +37,20 @@ var dbAdminServiceBackupStreamDesc = &grpc.StreamDesc{
 
 func (c *dbAdminServiceClient) Backup(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*BackupResult, error) {
 	out := new(BackupResult)
-	err := c.cc.Invoke(ctx, "/v2.services.DbAdminService/Backup", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_core.services.DbAdminService/Backup", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-var dbAdminServiceBackupListStreamDesc = &grpc.StreamDesc{
-	StreamName: "BackupList",
+var dbAdminServiceListBackupStreamDesc = &grpc.StreamDesc{
+	StreamName: "ListBackup",
 }
 
-func (c *dbAdminServiceClient) BackupList(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*BackupListResult, error) {
+func (c *dbAdminServiceClient) ListBackup(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*BackupListResult, error) {
 	out := new(BackupListResult)
-	err := c.cc.Invoke(ctx, "/v2.services.DbAdminService/BackupList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_core.services.DbAdminService/ListBackup", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ var dbAdminServiceRestoreStreamDesc = &grpc.StreamDesc{
 
 func (c *dbAdminServiceClient) Restore(ctx context.Context, in *RestoreRequest, opts ...grpc.CallOption) (*RestoreResult, error) {
 	out := new(RestoreResult)
-	err := c.cc.Invoke(ctx, "/v2.services.DbAdminService/Restore", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/v2.sys_core.services.DbAdminService/Restore", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (c *dbAdminServiceClient) Restore(ctx context.Context, in *RestoreRequest, 
 // handler for that method returning an Unimplemented error.
 type DbAdminServiceService struct {
 	Backup     func(context.Context, *empty.Empty) (*BackupResult, error)
-	BackupList func(context.Context, *empty.Empty) (*BackupListResult, error)
+	ListBackup func(context.Context, *empty.Empty) (*BackupListResult, error)
 	Restore    func(context.Context, *RestoreRequest) (*RestoreResult, error)
 }
 
@@ -93,30 +93,30 @@ func (s *DbAdminServiceService) backup(_ interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.DbAdminService/Backup",
+		FullMethod: "/v2.sys_core.services.DbAdminService/Backup",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.Backup(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
-func (s *DbAdminServiceService) backupList(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.BackupList == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method BackupList not implemented")
+func (s *DbAdminServiceService) listBackup(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.ListBackup == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method ListBackup not implemented")
 	}
 	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return s.BackupList(ctx, in)
+		return s.ListBackup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.DbAdminService/BackupList",
+		FullMethod: "/v2.sys_core.services.DbAdminService/ListBackup",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.BackupList(ctx, req.(*empty.Empty))
+		return s.ListBackup(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -133,7 +133,7 @@ func (s *DbAdminServiceService) restore(_ interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     s,
-		FullMethod: "/v2.services.DbAdminService/Restore",
+		FullMethod: "/v2.sys_core.services.DbAdminService/Restore",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return s.Restore(ctx, req.(*RestoreRequest))
@@ -144,15 +144,15 @@ func (s *DbAdminServiceService) restore(_ interface{}, ctx context.Context, dec 
 // RegisterDbAdminServiceService registers a service implementation with a gRPC server.
 func RegisterDbAdminServiceService(s grpc.ServiceRegistrar, srv *DbAdminServiceService) {
 	sd := grpc.ServiceDesc{
-		ServiceName: "v2.services.DbAdminService",
+		ServiceName: "v2.sys_core.services.DbAdminService",
 		Methods: []grpc.MethodDesc{
 			{
 				MethodName: "Backup",
 				Handler:    srv.backup,
 			},
 			{
-				MethodName: "BackupList",
-				Handler:    srv.backupList,
+				MethodName: "ListBackup",
+				Handler:    srv.listBackup,
 			},
 			{
 				MethodName: "Restore",
@@ -160,7 +160,7 @@ func RegisterDbAdminServiceService(s grpc.ServiceRegistrar, srv *DbAdminServiceS
 			},
 		},
 		Streams:  []grpc.StreamDesc{},
-		Metadata: "services.proto",
+		Metadata: "sys_core_services.proto",
 	}
 
 	s.RegisterService(&sd, nil)
@@ -180,9 +180,9 @@ func NewDbAdminServiceService(s interface{}) *DbAdminServiceService {
 		ns.Backup = h.Backup
 	}
 	if h, ok := s.(interface {
-		BackupList(context.Context, *empty.Empty) (*BackupListResult, error)
+		ListBackup(context.Context, *empty.Empty) (*BackupListResult, error)
 	}); ok {
-		ns.BackupList = h.BackupList
+		ns.ListBackup = h.ListBackup
 	}
 	if h, ok := s.(interface {
 		Restore(context.Context, *RestoreRequest) (*RestoreResult, error)
@@ -198,6 +198,6 @@ func NewDbAdminServiceService(s interface{}) *DbAdminServiceService {
 // use of this type is not recommended.
 type UnstableDbAdminServiceService interface {
 	Backup(context.Context, *empty.Empty) (*BackupResult, error)
-	BackupList(context.Context, *empty.Empty) (*BackupListResult, error)
+	ListBackup(context.Context, *empty.Empty) (*BackupListResult, error)
 	Restore(context.Context, *RestoreRequest) (*RestoreResult, error)
 }

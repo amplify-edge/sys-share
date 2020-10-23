@@ -22,7 +22,7 @@ func DbAdminServiceClientCommand(options ...client.Option) *cobra.Command {
 	cfg.BindFlags(cmd.PersistentFlags())
 	cmd.AddCommand(
 		_DbAdminServiceBackupCommand(cfg),
-		_DbAdminServiceBackupListCommand(cfg),
+		_DbAdminServiceListBackupCommand(cfg),
 		_DbAdminServiceRestoreCommand(cfg),
 	)
 	return cmd
@@ -68,19 +68,19 @@ func _DbAdminServiceBackupCommand(cfg *client.Config) *cobra.Command {
 	return cmd
 }
 
-func _DbAdminServiceBackupListCommand(cfg *client.Config) *cobra.Command {
+func _DbAdminServiceListBackupCommand(cfg *client.Config) *cobra.Command {
 	req := &empty.Empty{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("BackupList"),
-		Short: "BackupList RPC client",
+		Use:   cfg.CommandNamer("ListBackup"),
+		Short: "ListBackup RPC client",
 		Long:  "",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "DbAdminService"); err != nil {
 					return err
 				}
-				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "DbAdminService", "BackupList"); err != nil {
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "DbAdminService", "ListBackup"); err != nil {
 					return err
 				}
 			}
@@ -93,7 +93,7 @@ func _DbAdminServiceBackupListCommand(cfg *client.Config) *cobra.Command {
 				}
 				proto.Merge(v, req)
 
-				res, err := cli.BackupList(cmd.Context(), v)
+				res, err := cli.ListBackup(cmd.Context(), v)
 
 				if err != nil {
 					return err

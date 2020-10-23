@@ -1,8 +1,6 @@
 syntax = "proto3";
 
-import "google/protobuf/empty.proto";
-
-package v2.services;
+package v2.sys_core.services;
 
 option go_package = "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2";
 

@@ -5,6 +5,7 @@
         encryptKey: "somekey!@",
         rotationDuration: 1,
         dbDir: "./db",
+        deletePrevious: true,
     },
     Cron:: {
         backupSchedule: "@daily",
