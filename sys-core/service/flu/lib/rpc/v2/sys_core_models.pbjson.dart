@@ -33,3 +33,20 @@ const RestoreRequest$json = const {
   ],
 };
 
+const EventRequest$json = const {
+  '1': 'EventRequest',
+  '2': const [
+    const {'1': 'eventName', '3': 1, '4': 1, '5': 9, '10': 'eventName'},
+    const {'1': 'initiator', '3': 2, '4': 1, '5': 9, '10': 'initiator'},
+    const {'1': 'userId', '3': 3, '4': 1, '5': 9, '10': 'userId'},
+    const {'1': 'jsonPayload', '3': 4, '4': 1, '5': 12, '10': 'jsonPayload'},
+  ],
+};
+
+const EventResponse$json = const {
+  '1': 'EventResponse',
+  '2': const [
+    const {'1': 'reply', '3': 1, '4': 1, '5': 12, '10': 'reply'},
+  ],
+};
+

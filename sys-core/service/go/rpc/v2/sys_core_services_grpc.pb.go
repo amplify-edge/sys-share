@@ -201,3 +201,101 @@ type UnstableDbAdminServiceService interface {
 	ListBackup(context.Context, *empty.Empty) (*ListBackupResult, error)
 	Restore(context.Context, *RestoreRequest) (*RestoreResult, error)
 }
+
+// BusServiceClient is the client API for BusService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type BusServiceClient interface {
+	Broadcast(ctx context.Context, in *EventRequest, opts ...grpc.CallOption) (*EventResponse, error)
+}
+
+type busServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewBusServiceClient(cc grpc.ClientConnInterface) BusServiceClient {
+	return &busServiceClient{cc}
+}
+
+var busServiceBroadcastStreamDesc = &grpc.StreamDesc{
+	StreamName: "Broadcast",
+}
+
+func (c *busServiceClient) Broadcast(ctx context.Context, in *EventRequest, opts ...grpc.CallOption) (*EventResponse, error) {
+	out := new(EventResponse)
+	err := c.cc.Invoke(ctx, "/v2.sys_core.services.BusService/Broadcast", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// BusServiceService is the service API for BusService service.
+// Fields should be assigned to their respective handler implementations only before
+// RegisterBusServiceService is called.  Any unassigned fields will result in the
+// handler for that method returning an Unimplemented error.
+type BusServiceService struct {
+	Broadcast func(context.Context, *EventRequest) (*EventResponse, error)
+}
+
+func (s *BusServiceService) broadcast(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.Broadcast == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method Broadcast not implemented")
+	}
+	in := new(EventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.Broadcast(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_core.services.BusService/Broadcast",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.Broadcast(ctx, req.(*EventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// RegisterBusServiceService registers a service implementation with a gRPC server.
+func RegisterBusServiceService(s grpc.ServiceRegistrar, srv *BusServiceService) {
+	sd := grpc.ServiceDesc{
+		ServiceName: "v2.sys_core.services.BusService",
+		Methods: []grpc.MethodDesc{
+			{
+				MethodName: "Broadcast",
+				Handler:    srv.broadcast,
+			},
+		},
+		Streams:  []grpc.StreamDesc{},
+		Metadata: "sys_core_services.proto",
+	}
+
+	s.RegisterService(&sd, nil)
+}
+
+// NewBusServiceService creates a new BusServiceService containing the
+// implemented methods of the BusService service in s.  Any unimplemented
+// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
+// This includes situations where the method handler is misspelled or has the wrong
+// signature.  For this reason, this function should be used with great care and
+// is not recommended to be used by most users.
+func NewBusServiceService(s interface{}) *BusServiceService {
+	ns := &BusServiceService{}
+	if h, ok := s.(interface {
+		Broadcast(context.Context, *EventRequest) (*EventResponse, error)
+	}); ok {
+		ns.Broadcast = h.Broadcast
+	}
+	return ns
+}
+
+// UnstableBusServiceService is the service API for BusService service.
+// New methods may be added to this interface if they are added to the service
+// definition, which is not a backward-compatible change.  For this reason,
+// use of this type is not recommended.
+type UnstableBusServiceService interface {
+	Broadcast(context.Context, *EventRequest) (*EventResponse, error)
+}

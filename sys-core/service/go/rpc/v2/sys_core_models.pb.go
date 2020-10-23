@@ -213,6 +213,126 @@ func (x *RestoreRequest) GetBackupFile() string {
 	return ""
 }
 
+// This will be replaced by NATS in the future
+type EventRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	EventName   string `protobuf:"bytes,1,opt,name=eventName,proto3" json:"eventName,omitempty"`
+	Initiator   string `protobuf:"bytes,2,opt,name=initiator,proto3" json:"initiator,omitempty"`
+	UserId      string `protobuf:"bytes,3,opt,name=userId,proto3" json:"userId,omitempty"`
+	JsonPayload []byte `protobuf:"bytes,4,opt,name=jsonPayload,proto3" json:"jsonPayload,omitempty"`
+}
+
+func (x *EventRequest) Reset() {
+	*x = EventRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sys_core_models_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *EventRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EventRequest) ProtoMessage() {}
+
+func (x *EventRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_sys_core_models_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EventRequest.ProtoReflect.Descriptor instead.
+func (*EventRequest) Descriptor() ([]byte, []int) {
+	return file_sys_core_models_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *EventRequest) GetEventName() string {
+	if x != nil {
+		return x.EventName
+	}
+	return ""
+}
+
+func (x *EventRequest) GetInitiator() string {
+	if x != nil {
+		return x.Initiator
+	}
+	return ""
+}
+
+func (x *EventRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *EventRequest) GetJsonPayload() []byte {
+	if x != nil {
+		return x.JsonPayload
+	}
+	return nil
+}
+
+type EventResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// will return a json / msgpack encoded as string
+	Reply []byte `protobuf:"bytes,1,opt,name=reply,proto3" json:"reply,omitempty"`
+}
+
+func (x *EventResponse) Reset() {
+	*x = EventResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sys_core_models_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *EventResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EventResponse) ProtoMessage() {}
+
+func (x *EventResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_sys_core_models_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EventResponse.ProtoReflect.Descriptor instead.
+func (*EventResponse) Descriptor() ([]byte, []int) {
+	return file_sys_core_models_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *EventResponse) GetReply() []byte {
+	if x != nil {
+		return x.Reply
+	}
+	return nil
+}
+
 var File_sys_core_models_proto protoreflect.FileDescriptor
 
 var file_sys_core_models_proto_rawDesc = []byte{
@@ -233,11 +353,22 @@ var file_sys_core_models_proto_rawDesc = []byte{
 	0x22, 0x30, 0x0a, 0x0e, 0x52, 0x65, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
 	0x73, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x62, 0x61, 0x63, 0x6b, 0x75, 0x70, 0x46, 0x69, 0x6c, 0x65,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x62, 0x61, 0x63, 0x6b, 0x75, 0x70, 0x46, 0x69,
-	0x6c, 0x65, 0x42, 0x3f, 0x5a, 0x3d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
-	0x2f, 0x67, 0x65, 0x74, 0x63, 0x6f, 0x75, 0x72, 0x61, 0x67, 0x65, 0x6e, 0x6f, 0x77, 0x2f, 0x73,
-	0x79, 0x73, 0x2d, 0x73, 0x68, 0x61, 0x72, 0x65, 0x2f, 0x73, 0x79, 0x73, 0x2d, 0x63, 0x6f, 0x72,
-	0x65, 0x2f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x67, 0x6f, 0x2f, 0x72, 0x70, 0x63,
-	0x2f, 0x76, 0x32, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6c, 0x65, 0x22, 0x84, 0x01, 0x0a, 0x0c, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x4e, 0x61, 0x6d, 0x65,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x4e, 0x61, 0x6d,
+	0x65, 0x12, 0x1c, 0x0a, 0x09, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x61, 0x74, 0x6f, 0x72, 0x12,
+	0x16, 0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x20, 0x0a, 0x0b, 0x6a, 0x73, 0x6f, 0x6e, 0x50,
+	0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0b, 0x6a, 0x73,
+	0x6f, 0x6e, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x22, 0x25, 0x0a, 0x0d, 0x45, 0x76, 0x65,
+	0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x72, 0x65,
+	0x70, 0x6c, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79,
+	0x42, 0x3f, 0x5a, 0x3d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x67,
+	0x65, 0x74, 0x63, 0x6f, 0x75, 0x72, 0x61, 0x67, 0x65, 0x6e, 0x6f, 0x77, 0x2f, 0x73, 0x79, 0x73,
+	0x2d, 0x73, 0x68, 0x61, 0x72, 0x65, 0x2f, 0x73, 0x79, 0x73, 0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2f,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x67, 0x6f, 0x2f, 0x72, 0x70, 0x63, 0x2f, 0x76,
+	0x32, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -252,12 +383,14 @@ func file_sys_core_models_proto_rawDescGZIP() []byte {
 	return file_sys_core_models_proto_rawDescData
 }
 
-var file_sys_core_models_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_sys_core_models_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_sys_core_models_proto_goTypes = []interface{}{
 	(*RestoreResult)(nil),    // 0: v2.sys_core.services.RestoreResult
 	(*BackupResult)(nil),     // 1: v2.sys_core.services.BackupResult
 	(*ListBackupResult)(nil), // 2: v2.sys_core.services.ListBackupResult
 	(*RestoreRequest)(nil),   // 3: v2.sys_core.services.RestoreRequest
+	(*EventRequest)(nil),     // 4: v2.sys_core.services.EventRequest
+	(*EventResponse)(nil),    // 5: v2.sys_core.services.EventResponse
 }
 var file_sys_core_models_proto_depIdxs = []int32{
 	1, // 0: v2.sys_core.services.ListBackupResult.backupFiles:type_name -> v2.sys_core.services.BackupResult
@@ -322,6 +455,30 @@ func file_sys_core_models_proto_init() {
 				return nil
 			}
 		}
+		file_sys_core_models_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EventRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sys_core_models_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EventResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -329,7 +486,7 @@ func file_sys_core_models_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_sys_core_models_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
