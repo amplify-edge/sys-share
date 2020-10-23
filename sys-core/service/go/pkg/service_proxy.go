@@ -14,6 +14,10 @@ func NewSysBusProxyService(bs BusService) *SysBusProxyService {
 	return &SysBusProxyService{newBusServiceProxy(bs)}
 }
 
+func (s *SysBusProxyService) RegisterSvc(server *grpc.Server) {
+	s.SysBus.registerSvc(server)
+}
+
 type SysCoreProxyService struct {
 	SysCore *sysCoreService
 }
