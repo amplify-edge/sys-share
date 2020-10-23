@@ -19,10 +19,10 @@ const BackupResult$json = const {
   ],
 };
 
-const BackupListResult$json = const {
-  '1': 'BackupListResult',
+const ListBackupResult$json = const {
+  '1': 'ListBackupResult',
   '2': const [
-    const {'1': 'backupFile', '3': 1, '4': 3, '5': 11, '6': '.v2.sys_core.services.BackupResult', '10': 'backupFile'},
+    const {'1': 'backupFiles', '3': 1, '4': 3, '5': 11, '6': '.v2.sys_core.services.BackupResult', '10': 'backupFiles'},
   ],
 };
 
