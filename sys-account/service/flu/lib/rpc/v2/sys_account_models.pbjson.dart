@@ -141,6 +141,16 @@ const Project$json = const {
   ],
 };
 
+const ProjectRequest$json = const {
+  '1': 'ProjectRequest',
+  '2': const [
+    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'logo_url', '3': 2, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'creator_id', '3': 3, '4': 1, '5': 9, '10': 'creatorId'},
+    const {'1': 'org_id', '3': 4, '4': 1, '5': 9, '10': 'orgId'},
+  ],
+};
+
 const Org$json = const {
   '1': 'Org',
   '2': const [
@@ -151,6 +161,16 @@ const Org$json = const {
     const {'1': 'created_at', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
     const {'1': 'creator_id', '3': 6, '4': 1, '5': 9, '10': 'creatorId'},
     const {'1': 'projects', '3': 7, '4': 3, '5': 11, '6': '.v2.sys_account.services.Project', '10': 'projects'},
+  ],
+};
+
+const OrgRequest$json = const {
+  '1': 'OrgRequest',
+  '2': const [
+    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'logo_url', '3': 2, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'contact', '3': 3, '4': 1, '5': 9, '10': 'contact'},
+    const {'1': 'creator_id', '3': 4, '4': 1, '5': 9, '10': 'creatorId'},
   ],
 };
 

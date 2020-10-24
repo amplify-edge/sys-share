@@ -38,6 +38,32 @@ func ProjectFromProto(in *accountRpc.Project) *Project {
 	}
 }
 
+type ProjectRequest struct {
+	Name      string `json:"name,omitempty"`
+	LogoUrl   string `json:"logoUrl,omitempty"`
+	CreatedAt int64  `json:"createdAt,omitempty"`
+	CreatorId string `json:"creatorId,omitempty"`
+	OrgId     string `json:"orgId,omitempty"`
+}
+
+func (p *ProjectRequest) ToProto() *accountRpc.ProjectRequest {
+	return &accountRpc.ProjectRequest{
+		Name:      p.Name,
+		LogoUrl:   p.LogoUrl,
+		CreatorId: p.CreatorId,
+		OrgId:     p.OrgId,
+	}
+}
+
+func ProjectRequestFromProto(in *accountRpc.ProjectRequest) *ProjectRequest {
+	return &ProjectRequest{
+		Name:      in.GetName(),
+		LogoUrl:   in.GetLogoUrl(),
+		CreatorId: in.GetCreatorId(),
+		OrgId:     in.OrgId,
+	}
+}
+
 type Org struct {
 	Id        string     `json:"id,omitempty"`
 	Name      string     `json:"name,omitempty"`
@@ -81,6 +107,32 @@ func OrgFromProto(in *accountRpc.Org) *Org {
 		CreatedAt: tsToUnixUTC(in.GetCreatedAt()),
 		CreatorId: in.GetCreatorId(),
 		Projects:  projects,
+	}
+}
+
+type OrgRequest struct {
+	Name      string `json:"name,omitempty"`
+	LogoUrl   string `json:"logoUrl,omitempty"`
+	Contact   string `json:"contact,omitempty"`
+	CreatedAt int64  `json:"createdAt,omitempty"`
+	CreatorId string `json:"creatorId,omitempty"`
+}
+
+func (o *OrgRequest) ToProto() *accountRpc.OrgRequest {
+	return &accountRpc.OrgRequest{
+		Name:      o.Name,
+		LogoUrl:   o.LogoUrl,
+		Contact:   o.Contact,
+		CreatorId: o.CreatorId,
+	}
+}
+
+func OrgRequestFromProto(in *accountRpc.OrgRequest) *OrgRequest {
+	return &OrgRequest{
+		Name:      in.GetName(),
+		LogoUrl:   in.GetLogoUrl(),
+		Contact:   in.GetContact(),
+		CreatorId: in.GetCreatorId(),
 	}
 }
 

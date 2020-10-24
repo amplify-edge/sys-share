@@ -93,6 +93,13 @@ message Project {
   Org org = 7;
 }
 
+message ProjectRequest {
+  string name = 1;
+  string logo_url = 2;
+  string creator_id = 3;
+  string org_id = 4;
+}
+
 // resource: Org
 message Org {
   string id = 1;
@@ -102,6 +109,13 @@ message Org {
   google.protobuf.Timestamp created_at = 5;
   string creator_id = 6;
   repeated Project projects = 7;
+}
+
+message OrgRequest {
+  string name = 1;
+  string logo_url = 2;
+  string contact = 3;
+  string creator_id = 4;
 }
 
 message IdRequest {

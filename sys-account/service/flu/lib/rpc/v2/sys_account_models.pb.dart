@@ -674,6 +674,67 @@ class Project extends $pb.GeneratedMessage {
   Org ensureOrg() => $_ensure(6);
 }
 
+class ProjectRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ProjectRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
+    ..aOS(1, 'name')
+    ..aOS(2, 'logoUrl')
+    ..aOS(3, 'creatorId')
+    ..aOS(4, 'orgId')
+    ..hasRequiredFields = false
+  ;
+
+  ProjectRequest._() : super();
+  factory ProjectRequest() => create();
+  factory ProjectRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProjectRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ProjectRequest clone() => ProjectRequest()..mergeFromMessage(this);
+  ProjectRequest copyWith(void Function(ProjectRequest) updates) => super.copyWith((message) => updates(message as ProjectRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProjectRequest create() => ProjectRequest._();
+  ProjectRequest createEmptyInstance() => create();
+  static $pb.PbList<ProjectRequest> createRepeated() => $pb.PbList<ProjectRequest>();
+  @$core.pragma('dart2js:noInline')
+  static ProjectRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProjectRequest>(create);
+  static ProjectRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get name => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set name($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasName() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearName() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get logoUrl => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set logoUrl($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasLogoUrl() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearLogoUrl() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get creatorId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set creatorId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasCreatorId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearCreatorId() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get orgId => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set orgId($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasOrgId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearOrgId() => clearField(4);
+}
+
 class Org extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Org', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
@@ -759,6 +820,67 @@ class Org extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(7)
   $core.List<Project> get projects => $_getList(6);
+}
+
+class OrgRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('OrgRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
+    ..aOS(1, 'name')
+    ..aOS(2, 'logoUrl')
+    ..aOS(3, 'contact')
+    ..aOS(4, 'creatorId')
+    ..hasRequiredFields = false
+  ;
+
+  OrgRequest._() : super();
+  factory OrgRequest() => create();
+  factory OrgRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory OrgRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  OrgRequest clone() => OrgRequest()..mergeFromMessage(this);
+  OrgRequest copyWith(void Function(OrgRequest) updates) => super.copyWith((message) => updates(message as OrgRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static OrgRequest create() => OrgRequest._();
+  OrgRequest createEmptyInstance() => create();
+  static $pb.PbList<OrgRequest> createRepeated() => $pb.PbList<OrgRequest>();
+  @$core.pragma('dart2js:noInline')
+  static OrgRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<OrgRequest>(create);
+  static OrgRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get name => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set name($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasName() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearName() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get logoUrl => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set logoUrl($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasLogoUrl() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearLogoUrl() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get contact => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set contact($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasContact() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearContact() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get creatorId => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set creatorId($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasCreatorId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearCreatorId() => clearField(4);
 }
 
 class IdRequest extends $pb.GeneratedMessage {

@@ -19,16 +19,16 @@ service AccountService {
 
 service OrgProjService {
   // Projects
-  rpc NewProject(v2.sys_account.services.Project) returns (v2.sys_account.services.Project) {};
+  rpc NewProject(v2.sys_account.services.ProjectRequest) returns (v2.sys_account.services.Project) {};
   rpc GetProject(v2.sys_account.services.IdRequest) returns (v2.sys_account.services.Project) {};
   rpc ListProject(v2.sys_account.services.ListRequest) returns (v2.sys_account.services.ListResponse) {};
-  rpc UpdateProject(v2.sys_account.services.Project) returns (v2.sys_account.services.Project) {};
+  rpc UpdateProject(v2.sys_account.services.ProjectRequest) returns (v2.sys_account.services.Project) {};
   rpc DeleteProject(v2.sys_account.services.IdRequest) returns (google.protobuf.Empty) {};
   // Orgs
-  rpc NewOrg(v2.sys_account.services.Org) returns (v2.sys_account.services.Org) {};
+  rpc NewOrg(v2.sys_account.services.OrgRequest) returns (v2.sys_account.services.Org) {};
   rpc GetOrg(v2.sys_account.services.IdRequest) returns (v2.sys_account.services.Org) {};
   rpc ListOrg(v2.sys_account.services.ListRequest) returns (v2.sys_account.services.ListResponse) {};
-  rpc UpdateOrg(v2.sys_account.services.Org) returns (v2.sys_account.services.Org) {};
+  rpc UpdateOrg(v2.sys_account.services.OrgRequest) returns (v2.sys_account.services.Org) {};
   rpc DeleteOrg(v2.sys_account.services.IdRequest) returns (google.protobuf.Empty) {};
 }
 

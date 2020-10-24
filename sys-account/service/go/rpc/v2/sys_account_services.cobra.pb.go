@@ -436,12 +436,7 @@ func OrgProjServiceClientCommand(options ...client.Option) *cobra.Command {
 }
 
 func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
-	req := &Project{
-		CreatedAt: &timestamp.Timestamp{},
-		Org: &Org{
-			CreatedAt: &timestamp.Timestamp{},
-		},
-	}
+	req := &ProjectRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("NewProject"),
@@ -458,7 +453,7 @@ func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewOrgProjServiceClient(cc)
-				v := &Project{}
+				v := &ProjectRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -477,20 +472,10 @@ func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
 	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
-	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.OrgId, cfg.FlagNamer("OrgId"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Org.Id, cfg.FlagNamer("Org Id"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Org.Name, cfg.FlagNamer("Org Name"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Org.LogoUrl, cfg.FlagNamer("Org LogoUrl"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Org.Contact, cfg.FlagNamer("Org Contact"), "", "")
-	cmd.PersistentFlags().Int64Var(&req.Org.CreatedAt.Seconds, cfg.FlagNamer("Org CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.Org.CreatedAt.Nanos, cfg.FlagNamer("Org CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
-	cmd.PersistentFlags().StringVar(&req.Org.CreatorId, cfg.FlagNamer("Org CreatorId"), "", "")
 
 	return cmd
 }
@@ -583,12 +568,7 @@ func _OrgProjServiceListProjectCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
-	req := &Project{
-		CreatedAt: &timestamp.Timestamp{},
-		Org: &Org{
-			CreatedAt: &timestamp.Timestamp{},
-		},
-	}
+	req := &ProjectRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("UpdateProject"),
@@ -605,7 +585,7 @@ func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewOrgProjServiceClient(cc)
-				v := &Project{}
+				v := &ProjectRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -624,20 +604,10 @@ func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
 	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
-	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.OrgId, cfg.FlagNamer("OrgId"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Org.Id, cfg.FlagNamer("Org Id"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Org.Name, cfg.FlagNamer("Org Name"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Org.LogoUrl, cfg.FlagNamer("Org LogoUrl"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Org.Contact, cfg.FlagNamer("Org Contact"), "", "")
-	cmd.PersistentFlags().Int64Var(&req.Org.CreatedAt.Seconds, cfg.FlagNamer("Org CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.Org.CreatedAt.Nanos, cfg.FlagNamer("Org CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
-	cmd.PersistentFlags().StringVar(&req.Org.CreatorId, cfg.FlagNamer("Org CreatorId"), "", "")
 
 	return cmd
 }
@@ -685,9 +655,7 @@ func _OrgProjServiceDeleteProjectCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _OrgProjServiceNewOrgCommand(cfg *client.Config) *cobra.Command {
-	req := &Org{
-		CreatedAt: &timestamp.Timestamp{},
-	}
+	req := &OrgRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("NewOrg"),
@@ -704,7 +672,7 @@ func _OrgProjServiceNewOrgCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewOrgProjServiceClient(cc)
-				v := &Org{}
+				v := &OrgRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -723,12 +691,9 @@ func _OrgProjServiceNewOrgCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
 	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "")
-	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
 
 	return cmd
@@ -822,9 +787,7 @@ func _OrgProjServiceListOrgCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _OrgProjServiceUpdateOrgCommand(cfg *client.Config) *cobra.Command {
-	req := &Org{
-		CreatedAt: &timestamp.Timestamp{},
-	}
+	req := &OrgRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("UpdateOrg"),
@@ -841,7 +804,7 @@ func _OrgProjServiceUpdateOrgCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewOrgProjServiceClient(cc)
-				v := &Org{}
+				v := &OrgRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -860,12 +823,9 @@ func _OrgProjServiceUpdateOrgCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
 	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "")
-	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
 
 	return cmd

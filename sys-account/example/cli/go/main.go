@@ -1,9 +1,10 @@
 package main
 
 import (
-	rpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+
+	pkg "github.com/getcouragenow/sys-share/sys-account/service/go/pkg"
 )
 
 var rootCmd = &cobra.Command{
@@ -12,7 +13,7 @@ var rootCmd = &cobra.Command{
 }
 
 func main() {
-	rootCmd.AddCommand(rpc.AuthServiceClientCommand())
+	rootCmd.AddCommand(pkg.NewSysShareProxyClient().CobraCommand())
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatalf("command failed: %v", err)
 	}
