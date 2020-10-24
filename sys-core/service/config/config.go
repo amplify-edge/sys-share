@@ -3,6 +3,8 @@ package config
 import (
 	"crypto/rand"
 	"crypto/tls"
+	"crypto/x509"
+	"fmt"
 	"google.golang.org/grpc/credentials"
 	"io/ioutil"
 	"math/big"
@@ -64,5 +66,20 @@ func LoadTLSKeypair(certPath, keyPath string) (credentials.TransportCredentials,
 		ClientAuth:   tls.NoClientCert,
 	}
 
+	return credentials.NewTLS(config), nil
+}
+
+func ClientLoadCA(cacertPath string) (credentials.TransportCredentials, error) {
+	pemServerCA, err := ioutil.ReadFile(cacertPath)
+	if err != nil {
+		return nil, err
+	}
+	certPool := x509.NewCertPool()
+	if !certPool.AppendCertsFromPEM(pemServerCA) {
+		return nil, fmt.Errorf("failed to add server CA's certificate")
+	}
+	config := &tls.Config{
+		RootCAs: certPool,
+	}
 	return credentials.NewTLS(config), nil
 }
