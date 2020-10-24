@@ -16,7 +16,6 @@ func RunBench(svcName, host, datapath, protopath string, total, concurrency uint
 			host,
 			runner.WithProtoFile(protopath, []string{}),
 			runner.WithDataFromFile(datapath),
-			//runner.WithInsecure(true),
 			runner.WithRootCertificate(tlspath),
 			runner.WithConcurrency(concurrency),
 			runner.WithTotalRequests(total),

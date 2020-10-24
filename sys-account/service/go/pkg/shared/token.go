@@ -6,10 +6,9 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
-
 	"github.com/getcouragenow/sys-share/sys-account/service/go/pkg"
 	"github.com/getcouragenow/sys-share/sys-core/service/config"
+	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
 )
 
 var (
@@ -163,8 +162,12 @@ func FromMetadata(ctx context.Context) (authMeta string, err error) {
 		return "", Error{Reason: ErrMissingToken}
 	}
 	splitted := strings.Split(authMeta, " ")
-	if len(splitted) != 2 && splitted[0] != "Bearer" {
+	if len(splitted) != 2 {
 		return "", Error{Reason: ErrMissingToken}
 	}
-	return authMeta, nil
+	bearer := strings.ToLower(splitted[0])
+	if bearer != "bearer" {
+		return "", Error{Reason: ErrMissingToken}
+	}
+	return splitted[1], nil
 }

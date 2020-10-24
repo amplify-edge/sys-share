@@ -1,6 +1,7 @@
 package shared
 
 import (
+	"fmt"
 	"github.com/getcouragenow/sys-share/sys-account/service/go/pkg"
 	"github.com/segmentio/ksuid"
 )
@@ -14,7 +15,7 @@ func IsAdmin(in *pkg.UserRoles) bool {
 }
 
 func validKsuid(in string) error {
-	_, err := ksuid.FromBytes([]byte(in))
+	_, err := ksuid.Parse(in)
 	if err != nil {
 		return err
 	}
@@ -22,17 +23,19 @@ func validKsuid(in string) error {
 }
 
 func AllowOrgMember(curAcc *pkg.Account, accountOrgId string) (bool, error) {
-	if err := validKsuid(accountOrgId); err != nil {
-		return false, err
+	allowed := curAcc.Role.OrgID == accountOrgId || IsSuperadmin(curAcc.Role)
+	if !allowed {
+		return false, fmt.Errorf("not allowed to access org: %s", accountOrgId)
 	}
-	return curAcc.Role.OrgID == accountOrgId, nil
+	return allowed, nil
 }
 
 func AllowProjectMember(curAcc *pkg.Account, accountProjectId string) (bool, error) {
-	if err := validKsuid(accountProjectId); err != nil {
-		return false, err
+	allowed := curAcc.Role.ProjectID == accountProjectId || IsSuperadmin(curAcc.Role)
+	if !allowed {
+		return false, fmt.Errorf("not allowed to access project: %s", accountProjectId)
 	}
-	return curAcc.Role.ProjectID == accountProjectId || IsSuperadmin(curAcc.Role), nil
+	return allowed, nil
 }
 
 func AllowOrgAdmin(curAcc *pkg.Account, accountOrgId string) (bool, error) {
@@ -63,4 +66,3 @@ func AllowProjectAdmin(curAcc *pkg.Account, accountOrgId, accountProjectId strin
 func AllowSelf(curAcc *pkg.Account, accountId string) bool {
 	return curAcc.Id == accountId && !curAcc.Disabled && curAcc.Verified
 }
-
