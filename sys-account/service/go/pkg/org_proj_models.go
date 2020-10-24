@@ -114,7 +114,6 @@ type OrgRequest struct {
 	Name      string `json:"name,omitempty"`
 	LogoUrl   string `json:"logoUrl,omitempty"`
 	Contact   string `json:"contact,omitempty"`
-	CreatedAt int64  `json:"createdAt,omitempty"`
 	CreatorId string `json:"creatorId,omitempty"`
 }
 
