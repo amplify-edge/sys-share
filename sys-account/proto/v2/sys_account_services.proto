@@ -14,6 +14,11 @@ service AccountService {
   rpc AssignAccountToRole(v2.sys_account.services.AssignAccountToRoleRequest) returns (v2.sys_account.services.Account) {};
   rpc UpdateAccount(v2.sys_account.services.Account) returns (v2.sys_account.services.Account) {};
   rpc DisableAccount(v2.sys_account.services.DisableAccountRequest) returns (v2.sys_account.services.Account) {};
+  // Projects
+  rpc NewProject(v2.sys_account.services.Project) returns (v2.sys_account.services.Project) {};
+  rpc UpdateProject(v2.sys_account.services.Project) returns (v2.sys_account.services.Project) {};
+  rpc GetProject(v2.sys_account.services.IdProjectRequest) returns (v2.sys_account.services.Project) {};
+  rpc DeleteProject(v2.sys_account.services.)
 }
 
 service AuthService {
@@ -25,3 +30,4 @@ service AuthService {
   // Refresh Access Token endpoint
   rpc RefreshAccessToken(v2.sys_account.services.RefreshAccessTokenRequest) returns (v2.sys_account.services.RefreshAccessTokenResponse) {};
 }
+

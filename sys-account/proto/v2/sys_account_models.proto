@@ -85,10 +85,23 @@ enum Roles {
 // resource: Project
 message Project {
   string id = 1;
+  string name = 2;
+  string logo_url = 3;
+}
+
+message IdProjectRequest {
+  string id = 1;
 }
 
 // resource: Org
 message Org {
+  string id = 1;
+  string name = 2;
+  string logo_url = 3;
+  string contact = 4;
+}
+
+message IdOrgRequest {
   string id = 1;
 }
 
@@ -101,8 +114,8 @@ message Org {
 // or specific org by its id (Org admin)
 message UserRoles {
   Roles role = 1;
-  Project project = 2;
-  Org org = 3;
+  string project_id = 2;
+  string org_id = 3;
   bool all = 4;
 }
 
