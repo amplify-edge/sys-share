@@ -5,6 +5,7 @@ go 1.15
 require (
 	github.com/bojand/ghz v0.61.0
 	github.com/brianvoe/gofakeit/v5 v5.9.3
+	github.com/caddyserver/certmagic v0.12.0
 	github.com/getcouragenow/protoc-gen-cobra v0.3.1-0.20201005114840-ccc8cd57bcdc
 	github.com/golang/protobuf v1.4.2
 	github.com/segmentio/encoding v0.2.0
