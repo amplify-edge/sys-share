@@ -438,6 +438,9 @@ func OrgProjServiceClientCommand(options ...client.Option) *cobra.Command {
 func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
 	req := &Project{
 		CreatedAt: &timestamp.Timestamp{},
+		Org: &Org{
+			CreatedAt: &timestamp.Timestamp{},
+		},
 	}
 
 	cmd := &cobra.Command{
@@ -480,6 +483,14 @@ func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.OrgId, cfg.FlagNamer("OrgId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Org.Id, cfg.FlagNamer("Org Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Org.Name, cfg.FlagNamer("Org Name"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Org.LogoUrl, cfg.FlagNamer("Org LogoUrl"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Org.Contact, cfg.FlagNamer("Org Contact"), "", "")
+	cmd.PersistentFlags().Int64Var(&req.Org.CreatedAt.Seconds, cfg.FlagNamer("Org CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
+	cmd.PersistentFlags().Int32Var(&req.Org.CreatedAt.Nanos, cfg.FlagNamer("Org CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	cmd.PersistentFlags().StringVar(&req.Org.CreatorId, cfg.FlagNamer("Org CreatorId"), "", "")
 
 	return cmd
 }
@@ -574,6 +585,9 @@ func _OrgProjServiceListProjectCommand(cfg *client.Config) *cobra.Command {
 func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
 	req := &Project{
 		CreatedAt: &timestamp.Timestamp{},
+		Org: &Org{
+			CreatedAt: &timestamp.Timestamp{},
+		},
 	}
 
 	cmd := &cobra.Command{
@@ -616,6 +630,14 @@ func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.OrgId, cfg.FlagNamer("OrgId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Org.Id, cfg.FlagNamer("Org Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Org.Name, cfg.FlagNamer("Org Name"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Org.LogoUrl, cfg.FlagNamer("Org LogoUrl"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Org.Contact, cfg.FlagNamer("Org Contact"), "", "")
+	cmd.PersistentFlags().Int64Var(&req.Org.CreatedAt.Seconds, cfg.FlagNamer("Org CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
+	cmd.PersistentFlags().Int32Var(&req.Org.CreatedAt.Nanos, cfg.FlagNamer("Org CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	cmd.PersistentFlags().StringVar(&req.Org.CreatorId, cfg.FlagNamer("Org CreatorId"), "", "")
 
 	return cmd
 }

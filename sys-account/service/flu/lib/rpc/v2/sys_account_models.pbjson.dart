@@ -136,6 +136,8 @@ const Project$json = const {
     const {'1': 'logo_url', '3': 3, '4': 1, '5': 9, '10': 'logoUrl'},
     const {'1': 'created_at', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
     const {'1': 'creator_id', '3': 5, '4': 1, '5': 9, '10': 'creatorId'},
+    const {'1': 'org_id', '3': 6, '4': 1, '5': 9, '10': 'orgId'},
+    const {'1': 'org', '3': 7, '4': 1, '5': 11, '6': '.v2.sys_account.services.Org', '10': 'org'},
   ],
 };
 
@@ -148,6 +150,7 @@ const Org$json = const {
     const {'1': 'contact', '3': 4, '4': 1, '5': 9, '10': 'contact'},
     const {'1': 'created_at', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
     const {'1': 'creator_id', '3': 6, '4': 1, '5': 9, '10': 'creatorId'},
+    const {'1': 'projects', '3': 7, '4': 3, '5': 11, '6': '.v2.sys_account.services.Project', '10': 'projects'},
   ],
 };
 

@@ -10,6 +10,8 @@ type Project struct {
 	LogoUrl   string `json:"logoUrl,omitempty"`
 	CreatedAt int64  `json:"createdAt,omitempty"`
 	CreatorId string `json:"creatorId,omitempty"`
+	OrgId     string `json:"orgId,omitempty"`
+	Org       *Org   `json:"org,omitempty"`
 }
 
 func (p *Project) ToProto() *accountRpc.Project {
@@ -19,6 +21,8 @@ func (p *Project) ToProto() *accountRpc.Project {
 		LogoUrl:   p.LogoUrl,
 		CreatedAt: unixToUtcTS(p.CreatedAt),
 		CreatorId: p.CreatorId,
+		OrgId:     p.OrgId,
+		Org:       p.Org.ToProto(),
 	}
 }
 
@@ -29,19 +33,28 @@ func ProjectFromProto(in *accountRpc.Project) *Project {
 		LogoUrl:   in.GetLogoUrl(),
 		CreatedAt: tsToUnixUTC(in.GetCreatedAt()),
 		CreatorId: in.GetCreatorId(),
+		OrgId:     in.OrgId,
+		Org:       OrgFromProto(in.Org),
 	}
 }
 
 type Org struct {
-	Id        string `json:"id,omitempty"`
-	Name      string `json:"name,omitempty"`
-	LogoUrl   string `json:"logoUrl,omitempty"`
-	Contact   string `json:"contact,omitempty"`
-	CreatedAt int64  `json:"createdAt,omitempty"`
-	CreatorId string `json:"creatorId,omitempty"`
+	Id        string     `json:"id,omitempty"`
+	Name      string     `json:"name,omitempty"`
+	LogoUrl   string     `json:"logoUrl,omitempty"`
+	Contact   string     `json:"contact,omitempty"`
+	CreatedAt int64      `json:"createdAt,omitempty"`
+	CreatorId string     `json:"creatorId,omitempty"`
+	Projects  []*Project `json:"projects,omitempty"`
 }
 
 func (o *Org) ToProto() *accountRpc.Org {
+	var projects []*accountRpc.Project
+	if o.Projects != nil && len(o.Projects) != 0 {
+		for _, p := range o.Projects {
+			projects = append(projects, p.ToProto())
+		}
+	}
 	return &accountRpc.Org{
 		Id:        o.Id,
 		Name:      o.Name,
@@ -49,10 +62,17 @@ func (o *Org) ToProto() *accountRpc.Org {
 		Contact:   o.Contact,
 		CreatedAt: unixToUtcTS(o.CreatedAt),
 		CreatorId: o.CreatorId,
+		Projects:  projects,
 	}
 }
 
 func OrgFromProto(in *accountRpc.Org) *Org {
+	var projects []*Project
+	if in.Projects != nil && len(in.Projects) != 0 {
+		for _, p := range in.Projects {
+			projects = append(projects, ProjectFromProto(p))
+		}
+	}
 	return &Org{
 		Id:        in.GetId(),
 		Name:      in.GetName(),
@@ -60,6 +80,7 @@ func OrgFromProto(in *accountRpc.Org) *Org {
 		Contact:   in.GetContact(),
 		CreatedAt: tsToUnixUTC(in.GetCreatedAt()),
 		CreatorId: in.GetCreatorId(),
+		Projects:  projects,
 	}
 }
 

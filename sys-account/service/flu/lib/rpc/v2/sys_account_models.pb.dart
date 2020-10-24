@@ -586,6 +586,8 @@ class Project extends $pb.GeneratedMessage {
     ..aOS(3, 'logoUrl')
     ..aOM<$2.Timestamp>(4, 'createdAt', subBuilder: $2.Timestamp.create)
     ..aOS(5, 'creatorId')
+    ..aOS(6, 'orgId')
+    ..aOM<Org>(7, 'org', subBuilder: Org.create)
     ..hasRequiredFields = false
   ;
 
@@ -650,6 +652,26 @@ class Project extends $pb.GeneratedMessage {
   $core.bool hasCreatorId() => $_has(4);
   @$pb.TagNumber(5)
   void clearCreatorId() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get orgId => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set orgId($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasOrgId() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearOrgId() => clearField(6);
+
+  @$pb.TagNumber(7)
+  Org get org => $_getN(6);
+  @$pb.TagNumber(7)
+  set org(Org v) { setField(7, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasOrg() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearOrg() => clearField(7);
+  @$pb.TagNumber(7)
+  Org ensureOrg() => $_ensure(6);
 }
 
 class Org extends $pb.GeneratedMessage {
@@ -660,6 +682,7 @@ class Org extends $pb.GeneratedMessage {
     ..aOS(4, 'contact')
     ..aOM<$2.Timestamp>(5, 'createdAt', subBuilder: $2.Timestamp.create)
     ..aOS(6, 'creatorId')
+    ..pc<Project>(7, 'projects', $pb.PbFieldType.PM, subBuilder: Project.create)
     ..hasRequiredFields = false
   ;
 
@@ -733,6 +756,9 @@ class Org extends $pb.GeneratedMessage {
   $core.bool hasCreatorId() => $_has(5);
   @$pb.TagNumber(6)
   void clearCreatorId() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.List<Project> get projects => $_getList(6);
 }
 
 class IdRequest extends $pb.GeneratedMessage {
