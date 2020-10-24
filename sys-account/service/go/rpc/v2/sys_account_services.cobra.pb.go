@@ -92,6 +92,7 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().Int64Var(&req.LastLogin.Seconds, cfg.FlagNamer("LastLogin Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.LastLogin.Nanos, cfg.FlagNamer("LastLogin Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().BoolVar(&req.Disabled, cfg.FlagNamer("Disabled"), false, "")
+	cmd.PersistentFlags().BoolVar(&req.Verified, cfg.FlagNamer("Verified"), false, "")
 
 	return cmd
 }
@@ -337,6 +338,7 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().Int64Var(&req.LastLogin.Seconds, cfg.FlagNamer("LastLogin Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.LastLogin.Nanos, cfg.FlagNamer("LastLogin Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().BoolVar(&req.Disabled, cfg.FlagNamer("Disabled"), false, "")
+	cmd.PersistentFlags().BoolVar(&req.Verified, cfg.FlagNamer("Verified"), false, "")
 
 	return cmd
 }

@@ -172,6 +172,7 @@ message Account {
   bool disabled = 8;
   UserDefinedFields fields = 9;
   UserDefinedFields survey = 10;
+  bool verified = 11;
 }
 
 message GetAccountRequest {

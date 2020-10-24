@@ -101,6 +101,7 @@ type Account struct {
 	Disabled  bool               `json:"disabled,omitempty"`
 	Fields    *UserDefinedFields `json:"fields,omitempty"`
 	Survey    *UserDefinedFields `json:"survey,omitempty"`
+	Verified  bool               `json:"verified,omitempty"`
 }
 
 func (acc *Account) GetEmail() string {
@@ -132,6 +133,7 @@ func (acc *Account) ToProto() (*accountRpc.Account, error) {
 		Disabled:  acc.Disabled,
 		Fields:    fields,
 		Survey:    surveyFields,
+		Verified:  acc.Verified,
 	}, nil
 }
 
@@ -148,6 +150,7 @@ func AccountFromProto(in *accountRpc.Account) *Account {
 		LastLogin: tsToUnixUTC(in.GetLastLogin()),
 		Disabled:  in.Disabled,
 		Fields:    fields,
+		Verified:  in.Verified,
 	}
 }
 
