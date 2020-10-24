@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
+	"github.com/segmentio/ksuid"
 	"io/ioutil"
 	"math/big"
 	"os"
@@ -110,4 +111,8 @@ func GenerateTLSConfig(staging bool, email string, domains ...string) (*tls.Conf
 		return nil, err
 	}
 	return magic.TLSConfig(), nil
+}
+
+func NewID() string {
+	return ksuid.New().String()
 }

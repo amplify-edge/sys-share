@@ -30,6 +30,14 @@ func PermissionFromProto(ap *accountRpc.Permission) *Permission {
 
 type Roles int32
 
+const (
+	INVALID    = Roles(accountRpc.Roles_INVALID)
+	GUEST      = Roles(accountRpc.Roles_GUEST)
+	USER       = Roles(accountRpc.Roles_USER)
+	ADMIN      = Roles(accountRpc.Roles_ADMIN)      // can be Org or Project Admin
+	SUPERADMIN = Roles(accountRpc.Roles_SUPERADMIN) // can do all
+)
+
 func (r Roles) ToProto() accountRpc.Roles {
 	return accountRpc.Roles(r)
 }
