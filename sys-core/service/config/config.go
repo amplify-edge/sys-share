@@ -2,6 +2,8 @@ package config
 
 import (
 	"crypto/rand"
+	"crypto/tls"
+	"google.golang.org/grpc/credentials"
 	"io/ioutil"
 	"math/big"
 	"os"
@@ -49,4 +51,18 @@ func PathExists(path string) (bool, error) {
 		return false, nil
 	}
 	return false, err
+}
+
+func LoadTLSKeypair(certPath, keyPath string) (credentials.TransportCredentials, error) {
+	serverCert, err := tls.LoadX509KeyPair(certPath, keyPath)
+	if err != nil {
+		return nil, err
+	}
+
+	config := &tls.Config{
+		Certificates: []tls.Certificate{serverCert},
+		ClientAuth:   tls.NoClientCert,
+	}
+
+	return credentials.NewTLS(config), nil
 }
