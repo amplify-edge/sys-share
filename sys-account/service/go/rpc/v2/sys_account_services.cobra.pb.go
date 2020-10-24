@@ -36,10 +36,7 @@ func AccountServiceClientCommand(options ...client.Option) *cobra.Command {
 
 func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &Account{
-		Role: &UserRoles{
-			Project: &Project{},
-			Org:     &Org{},
-		},
+		Role:      &UserRoles{},
 		CreatedAt: &timestamp.Timestamp{},
 		UpdatedAt: &timestamp.Timestamp{},
 		LastLogin: &timestamp.Timestamp{},
@@ -85,8 +82,8 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
 	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	cmd.PersistentFlags().StringVar(&req.Role.Project.Id, cfg.FlagNamer("Role Project Id"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Role.Org.Id, cfg.FlagNamer("Role Org Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Role.ProjectId, cfg.FlagNamer("Role ProjectId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Role.OrgId, cfg.FlagNamer("Role OrgId"), "", "")
 	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
 	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
@@ -180,7 +177,8 @@ func _AccountServiceListAccountsCommand(cfg *client.Config) *cobra.Command {
 
 	cmd.PersistentFlags().Int64Var(&req.PerPageEntries, cfg.FlagNamer("PerPageEntries"), 0, "limit")
 	cmd.PersistentFlags().StringVar(&req.OrderBy, cfg.FlagNamer("OrderBy"), "", "")
-	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_token is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
+	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
+	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
 
 	return cmd
 }
@@ -226,17 +224,15 @@ func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
 
 	cmd.PersistentFlags().Int64Var(&req.SearchParams.PerPageEntries, cfg.FlagNamer("SearchParams PerPageEntries"), 0, "limit")
 	cmd.PersistentFlags().StringVar(&req.SearchParams.OrderBy, cfg.FlagNamer("SearchParams OrderBy"), "", "")
-	cmd.PersistentFlags().StringVar(&req.SearchParams.CurrentPageId, cfg.FlagNamer("SearchParams CurrentPageId"), "", "number 3 => optional: current_page_token is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
+	cmd.PersistentFlags().StringVar(&req.SearchParams.CurrentPageId, cfg.FlagNamer("SearchParams CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
+	cmd.PersistentFlags().BoolVar(&req.SearchParams.IsDescending, cfg.FlagNamer("SearchParams IsDescending"), false, "")
 
 	return cmd
 }
 
 func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Command {
 	req := &AssignAccountToRoleRequest{
-		Role: &UserRoles{
-			Project: &Project{},
-			Org:     &Org{},
-		},
+		Role: &UserRoles{},
 	}
 
 	cmd := &cobra.Command{
@@ -276,8 +272,8 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 	cmd.PersistentFlags().StringVar(&req.AssigneeAccountId, cfg.FlagNamer("AssigneeAccountId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.AssignedAccountId, cfg.FlagNamer("AssignedAccountId"), "", "")
 	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	cmd.PersistentFlags().StringVar(&req.Role.Project.Id, cfg.FlagNamer("Role Project Id"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Role.Org.Id, cfg.FlagNamer("Role Org Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Role.ProjectId, cfg.FlagNamer("Role ProjectId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Role.OrgId, cfg.FlagNamer("Role OrgId"), "", "")
 	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
 
 	return cmd
@@ -285,10 +281,7 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 
 func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &Account{
-		Role: &UserRoles{
-			Project: &Project{},
-			Org:     &Org{},
-		},
+		Role:      &UserRoles{},
 		CreatedAt: &timestamp.Timestamp{},
 		UpdatedAt: &timestamp.Timestamp{},
 		LastLogin: &timestamp.Timestamp{},
@@ -334,8 +327,8 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
 	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	cmd.PersistentFlags().StringVar(&req.Role.Project.Id, cfg.FlagNamer("Role Project Id"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Role.Org.Id, cfg.FlagNamer("Role Org Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Role.ProjectId, cfg.FlagNamer("Role ProjectId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Role.OrgId, cfg.FlagNamer("Role OrgId"), "", "")
 	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
 	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
@@ -417,6 +410,485 @@ func parseRoles(s string) (Roles, error) {
 	} else {
 		return 0, err
 	}
+}
+
+func OrgProjServiceClientCommand(options ...client.Option) *cobra.Command {
+	cfg := client.NewConfig(options...)
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("OrgProjService"),
+		Short: "OrgProjService service client",
+		Long:  "",
+	}
+	cfg.BindFlags(cmd.PersistentFlags())
+	cmd.AddCommand(
+		_OrgProjServiceNewProjectCommand(cfg),
+		_OrgProjServiceGetProjectCommand(cfg),
+		_OrgProjServiceListProjectCommand(cfg),
+		_OrgProjServiceUpdateProjectCommand(cfg),
+		_OrgProjServiceDeleteProjectCommand(cfg),
+		_OrgProjServiceNewOrgCommand(cfg),
+		_OrgProjServiceGetOrgCommand(cfg),
+		_OrgProjServiceListOrgCommand(cfg),
+		_OrgProjServiceUpdateOrgCommand(cfg),
+		_OrgProjServiceDeleteOrgCommand(cfg),
+	)
+	return cmd
+}
+
+func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
+	req := &Project{
+		CreatedAt: &timestamp.Timestamp{},
+	}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("NewProject"),
+		Short: "NewProject RPC client",
+		Long:  "Projects",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "NewProject"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &Project{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.NewProject(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
+	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
+	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
+	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
+
+	return cmd
+}
+
+func _OrgProjServiceGetProjectCommand(cfg *client.Config) *cobra.Command {
+	req := &IdRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("GetProject"),
+		Short: "GetProject RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "GetProject"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &IdRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.GetProject(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+
+	return cmd
+}
+
+func _OrgProjServiceListProjectCommand(cfg *client.Config) *cobra.Command {
+	req := &ListRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("ListProject"),
+		Short: "ListProject RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "ListProject"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &ListRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.ListProject(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().Int64Var(&req.PerPageEntries, cfg.FlagNamer("PerPageEntries"), 0, "limit")
+	cmd.PersistentFlags().StringVar(&req.OrderBy, cfg.FlagNamer("OrderBy"), "", "")
+	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
+	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
+
+	return cmd
+}
+
+func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
+	req := &Project{
+		CreatedAt: &timestamp.Timestamp{},
+	}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("UpdateProject"),
+		Short: "UpdateProject RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "UpdateProject"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &Project{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.UpdateProject(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
+	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
+	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
+	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
+
+	return cmd
+}
+
+func _OrgProjServiceDeleteProjectCommand(cfg *client.Config) *cobra.Command {
+	req := &IdRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("DeleteProject"),
+		Short: "DeleteProject RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "DeleteProject"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &IdRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.DeleteProject(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+
+	return cmd
+}
+
+func _OrgProjServiceNewOrgCommand(cfg *client.Config) *cobra.Command {
+	req := &Org{
+		CreatedAt: &timestamp.Timestamp{},
+	}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("NewOrg"),
+		Short: "NewOrg RPC client",
+		Long:  "Orgs",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "NewOrg"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &Org{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.NewOrg(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
+	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "")
+	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
+	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
+
+	return cmd
+}
+
+func _OrgProjServiceGetOrgCommand(cfg *client.Config) *cobra.Command {
+	req := &IdRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("GetOrg"),
+		Short: "GetOrg RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "GetOrg"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &IdRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.GetOrg(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+
+	return cmd
+}
+
+func _OrgProjServiceListOrgCommand(cfg *client.Config) *cobra.Command {
+	req := &ListRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("ListOrg"),
+		Short: "ListOrg RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "ListOrg"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &ListRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.ListOrg(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().Int64Var(&req.PerPageEntries, cfg.FlagNamer("PerPageEntries"), 0, "limit")
+	cmd.PersistentFlags().StringVar(&req.OrderBy, cfg.FlagNamer("OrderBy"), "", "")
+	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
+	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
+
+	return cmd
+}
+
+func _OrgProjServiceUpdateOrgCommand(cfg *client.Config) *cobra.Command {
+	req := &Org{
+		CreatedAt: &timestamp.Timestamp{},
+	}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("UpdateOrg"),
+		Short: "UpdateOrg RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "UpdateOrg"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &Org{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.UpdateOrg(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
+	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "")
+	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
+	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
+
+	return cmd
+}
+
+func _OrgProjServiceDeleteOrgCommand(cfg *client.Config) *cobra.Command {
+	req := &IdRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("DeleteOrg"),
+		Short: "DeleteOrg RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "DeleteOrg"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &IdRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.DeleteOrg(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+
+	return cmd
 }
 
 func AuthServiceClientCommand(options ...client.Option) *cobra.Command {

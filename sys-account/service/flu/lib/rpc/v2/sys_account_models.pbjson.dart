@@ -132,6 +132,10 @@ const Project$json = const {
   '1': 'Project',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'logo_url', '3': 3, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'created_at', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
+    const {'1': 'creator_id', '3': 5, '4': 1, '5': 9, '10': 'creatorId'},
   ],
 };
 
@@ -139,6 +143,37 @@ const Org$json = const {
   '1': 'Org',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'logo_url', '3': 3, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'contact', '3': 4, '4': 1, '5': 9, '10': 'contact'},
+    const {'1': 'created_at', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
+    const {'1': 'creator_id', '3': 6, '4': 1, '5': 9, '10': 'creatorId'},
+  ],
+};
+
+const IdRequest$json = const {
+  '1': 'IdRequest',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+  ],
+};
+
+const ListRequest$json = const {
+  '1': 'ListRequest',
+  '2': const [
+    const {'1': 'per_page_entries', '3': 1, '4': 1, '5': 3, '10': 'perPageEntries'},
+    const {'1': 'order_by', '3': 2, '4': 1, '5': 9, '10': 'orderBy'},
+    const {'1': 'current_page_id', '3': 3, '4': 1, '5': 9, '10': 'currentPageId'},
+    const {'1': 'is_descending', '3': 4, '4': 1, '5': 8, '10': 'isDescending'},
+  ],
+};
+
+const ListResponse$json = const {
+  '1': 'ListResponse',
+  '2': const [
+    const {'1': 'projects', '3': 1, '4': 3, '5': 11, '6': '.v2.sys_account.services.Project', '10': 'projects'},
+    const {'1': 'orgs', '3': 2, '4': 3, '5': 11, '6': '.v2.sys_account.services.Org', '10': 'orgs'},
+    const {'1': 'next_page_id', '3': 3, '4': 1, '5': 9, '10': 'nextPageId'},
   ],
 };
 
@@ -146,8 +181,8 @@ const UserRoles$json = const {
   '1': 'UserRoles',
   '2': const [
     const {'1': 'role', '3': 1, '4': 1, '5': 14, '6': '.v2.sys_account.services.Roles', '10': 'role'},
-    const {'1': 'project', '3': 2, '4': 1, '5': 11, '6': '.v2.sys_account.services.Project', '10': 'project'},
-    const {'1': 'org', '3': 3, '4': 1, '5': 11, '6': '.v2.sys_account.services.Org', '10': 'org'},
+    const {'1': 'project_id', '3': 2, '4': 1, '5': 9, '10': 'projectId'},
+    const {'1': 'org_id', '3': 3, '4': 1, '5': 9, '10': 'orgId'},
     const {'1': 'all', '3': 4, '4': 1, '5': 8, '10': 'all'},
   ],
 };
@@ -190,6 +225,7 @@ const ListAccountsRequest$json = const {
     const {'1': 'per_page_entries', '3': 1, '4': 1, '5': 3, '10': 'perPageEntries'},
     const {'1': 'order_by', '3': 2, '4': 1, '5': 9, '10': 'orderBy'},
     const {'1': 'current_page_id', '3': 3, '4': 1, '5': 9, '10': 'currentPageId'},
+    const {'1': 'is_descending', '3': 4, '4': 1, '5': 8, '10': 'isDescending'},
   ],
 };
 

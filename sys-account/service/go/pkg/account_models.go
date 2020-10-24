@@ -48,18 +48,18 @@ type UserRoles struct {
 func (ur *UserRoles) ToProto() *accountRpc.UserRoles {
 	role := ur.Role.ToProto()
 	return &accountRpc.UserRoles{
-		Role:    role,
-		Project: &accountRpc.Project{Id: ur.ProjectID},
-		Org:     &accountRpc.Org{Id: ur.OrgID},
-		All:     ur.All,
+		Role:      role,
+		ProjectId: ur.ProjectID,
+		OrgId:     ur.OrgID,
+		All:       ur.All,
 	}
 }
 
 func UserRolesFromProto(in *accountRpc.UserRoles) *UserRoles {
 	return &UserRoles{
 		Role:      RolesFromProto(in.GetRole()),
-		ProjectID: in.GetProject().Id,
-		OrgID:     in.GetOrg().Id,
+		ProjectID: in.GetProjectId(),
+		OrgID:     in.GetOrgId(),
 		All:       in.GetAll(),
 	}
 }
@@ -163,6 +163,7 @@ type ListAccountsRequest struct {
 	PerPageEntries int64  `json:"perPageEntries,omitempty"`
 	OrderBy        string `json:"orderBy,omitempty"`
 	CurrentPageId  string `json:"currentPageId,omitempty"`
+	IsDescending   bool   `json:"isDescending,omitempty"`
 }
 
 func (lar *ListAccountsRequest) ToProto() *accountRpc.ListAccountsRequest {
@@ -170,6 +171,7 @@ func (lar *ListAccountsRequest) ToProto() *accountRpc.ListAccountsRequest {
 		PerPageEntries: lar.PerPageEntries,
 		OrderBy:        lar.OrderBy,
 		CurrentPageId:  lar.CurrentPageId,
+		IsDescending:   lar.IsDescending,
 	}
 }
 
@@ -178,6 +180,7 @@ func ListAccountsRequestFromProto(in *accountRpc.ListAccountsRequest) *ListAccou
 		PerPageEntries: in.GetPerPageEntries(),
 		OrderBy:        in.GetOrderBy(),
 		CurrentPageId:  in.GetCurrentPageId(),
+		IsDescending:   in.GetIsDescending(),
 	}
 }
 
@@ -272,5 +275,3 @@ type DisableAccountRequest struct {
 func (dar *DisableAccountRequest) ToProto() *accountRpc.DisableAccountRequest {
 	return &accountRpc.DisableAccountRequest{AccountId: dar.AccountId}
 }
-
-

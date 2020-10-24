@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
 import "sys_account_models.proto";
 
 package v2.sys_account.services;
@@ -14,11 +15,21 @@ service AccountService {
   rpc AssignAccountToRole(v2.sys_account.services.AssignAccountToRoleRequest) returns (v2.sys_account.services.Account) {};
   rpc UpdateAccount(v2.sys_account.services.Account) returns (v2.sys_account.services.Account) {};
   rpc DisableAccount(v2.sys_account.services.DisableAccountRequest) returns (v2.sys_account.services.Account) {};
+}
+
+service OrgProjService {
   // Projects
   rpc NewProject(v2.sys_account.services.Project) returns (v2.sys_account.services.Project) {};
+  rpc GetProject(v2.sys_account.services.IdRequest) returns (v2.sys_account.services.Project) {};
+  rpc ListProject(v2.sys_account.services.ListRequest) returns (v2.sys_account.services.ListResponse) {};
   rpc UpdateProject(v2.sys_account.services.Project) returns (v2.sys_account.services.Project) {};
-  rpc GetProject(v2.sys_account.services.IdProjectRequest) returns (v2.sys_account.services.Project) {};
-  rpc DeleteProject(v2.sys_account.services.)
+  rpc DeleteProject(v2.sys_account.services.IdRequest) returns (google.protobuf.Empty) {};
+  // Orgs
+  rpc NewOrg(v2.sys_account.services.Org) returns (v2.sys_account.services.Org) {};
+  rpc GetOrg(v2.sys_account.services.IdRequest) returns (v2.sys_account.services.Org) {};
+  rpc ListOrg(v2.sys_account.services.ListRequest) returns (v2.sys_account.services.ListResponse) {};
+  rpc UpdateOrg(v2.sys_account.services.Org) returns (v2.sys_account.services.Org) {};
+  rpc DeleteOrg(v2.sys_account.services.IdRequest) returns (google.protobuf.Empty) {};
 }
 
 service AuthService {

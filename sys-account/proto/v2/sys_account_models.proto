@@ -87,10 +87,8 @@ message Project {
   string id = 1;
   string name = 2;
   string logo_url = 3;
-}
-
-message IdProjectRequest {
-  string id = 1;
+  google.protobuf.Timestamp created_at = 4;
+  string creator_id = 5;
 }
 
 // resource: Org
@@ -99,11 +97,30 @@ message Org {
   string name = 2;
   string logo_url = 3;
   string contact = 4;
+  google.protobuf.Timestamp created_at = 5;
+  string creator_id = 6;
 }
 
-message IdOrgRequest {
+message IdRequest {
   string id = 1;
 }
+
+message ListRequest {
+  // limit
+  int64 per_page_entries = 1;
+  string order_by = 2;
+  // number 3 => optional: current_page_id is the last id of the
+  // (current) listed Accounts for pagination purpose (cursor).
+  string current_page_id = 3;
+  bool is_descending = 4;
+}
+
+message ListResponse {
+  repeated Project projects = 1;
+  repeated Org orgs = 2;
+  string next_page_id = 3;
+}
+
 
 // UserRole as a message is super simple
 // and probably not the very best
@@ -148,9 +165,10 @@ message ListAccountsRequest {
   // limit
   int64 per_page_entries = 1;
   string order_by = 2;
-  // number 3 => optional: current_page_token is the last id of the
+  // number 3 => optional: current_page_id is the last id of the
   // (current) listed Accounts for pagination purpose (cursor).
   string current_page_id = 3;
+  bool is_descending = 4;
 }
 
 message ListAccountsResponse {
