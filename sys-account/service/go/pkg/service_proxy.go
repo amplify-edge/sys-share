@@ -18,8 +18,8 @@ type SysAccountProxyService struct {
 }
 
 // Constructor for SysAccountProxyService
-func NewSysAccountProxyService(accountService AccountService, authService AuthService) *SysAccountProxyService {
-	sysAccountProxy := newSysAccountService(authService, accountService)
+func NewSysAccountProxyService(accountService AccountService, authService AuthService, orgProjectSvc OrgProjService) *SysAccountProxyService {
+	sysAccountProxy := newSysAccountService(authService, accountService, orgProjectSvc)
 	return &SysAccountProxyService{SysAccount: sysAccountProxy}
 }
 
@@ -33,12 +33,14 @@ func (s *SysAccountProxyService) RegisterSvc(server *grpc.Server) {
 type SysAccountProxyServiceClient struct {
 	*accountSvcClientProxy
 	*authSvcClientProxy
+	*orgProjectSvcClientProxy
 }
 
 func NewSysAccountProxyServiceClient(cc grpc.ClientConnInterface) *SysAccountProxyServiceClient {
 	return &SysAccountProxyServiceClient{
 		newAccountSvcClientProxy(cc),
 		newAuthSvcClientProxy(cc),
+		newOrgProjectSvcClientProxy(cc),
 	}
 }
 
