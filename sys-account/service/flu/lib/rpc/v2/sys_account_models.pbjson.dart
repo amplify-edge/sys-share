@@ -57,6 +57,7 @@ const RegisterResponse$json = const {
     const {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
     const {'1': 'success_msg', '3': 2, '4': 1, '5': 9, '10': 'successMsg'},
     const {'1': 'error_reason', '3': 3, '4': 1, '5': 11, '6': '.v2.sys_account.services.ErrorReason', '10': 'errorReason'},
+    const {'1': 'verify_token', '3': 4, '4': 1, '5': 9, '10': 'verifyToken'},
   ],
 };
 
@@ -126,6 +127,13 @@ const UserDefinedFields_FieldsEntry$json = const {
     const {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Value', '10': 'value'},
   ],
   '7': const {'7': true},
+};
+
+const VerifyAccountRequest$json = const {
+  '1': 'VerifyAccountRequest',
+  '2': const [
+    const {'1': 'verify_token', '3': 1, '4': 1, '5': 9, '10': 'verifyToken'},
+  ],
 };
 
 const Project$json = const {

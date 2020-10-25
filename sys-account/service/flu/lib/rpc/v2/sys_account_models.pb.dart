@@ -220,6 +220,7 @@ class RegisterResponse extends $pb.GeneratedMessage {
     ..aOB(1, 'success')
     ..aOS(2, 'successMsg')
     ..aOM<ErrorReason>(3, 'errorReason', subBuilder: ErrorReason.create)
+    ..aOS(4, 'verifyToken')
     ..hasRequiredFields = false
   ;
 
@@ -266,6 +267,15 @@ class RegisterResponse extends $pb.GeneratedMessage {
   void clearErrorReason() => clearField(3);
   @$pb.TagNumber(3)
   ErrorReason ensureErrorReason() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  $core.String get verifyToken => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set verifyToken($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasVerifyToken() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearVerifyToken() => clearField(4);
 }
 
 class ForgotPasswordRequest extends $pb.GeneratedMessage {
@@ -577,6 +587,37 @@ class UserDefinedFields extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.Map<$core.String, $3.Value> get fields => $_getMap(0);
+}
+
+class VerifyAccountRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('VerifyAccountRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
+    ..aOS(1, 'verifyToken')
+    ..hasRequiredFields = false
+  ;
+
+  VerifyAccountRequest._() : super();
+  factory VerifyAccountRequest() => create();
+  factory VerifyAccountRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory VerifyAccountRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  VerifyAccountRequest clone() => VerifyAccountRequest()..mergeFromMessage(this);
+  VerifyAccountRequest copyWith(void Function(VerifyAccountRequest) updates) => super.copyWith((message) => updates(message as VerifyAccountRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static VerifyAccountRequest create() => VerifyAccountRequest._();
+  VerifyAccountRequest createEmptyInstance() => create();
+  static $pb.PbList<VerifyAccountRequest> createRepeated() => $pb.PbList<VerifyAccountRequest>();
+  @$core.pragma('dart2js:noInline')
+  static VerifyAccountRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VerifyAccountRequest>(create);
+  static VerifyAccountRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get verifyToken => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set verifyToken($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasVerifyToken() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearVerifyToken() => clearField(1);
 }
 
 class Project extends $pb.GeneratedMessage {

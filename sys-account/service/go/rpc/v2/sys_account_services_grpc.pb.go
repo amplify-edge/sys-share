@@ -25,6 +25,7 @@ type AccountServiceClient interface {
 	AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error)
 	UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
 	DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type accountServiceClient struct {
@@ -126,6 +127,19 @@ func (c *accountServiceClient) DisableAccount(ctx context.Context, in *DisableAc
 	return out, nil
 }
 
+var accountServiceVerifyAccountStreamDesc = &grpc.StreamDesc{
+	StreamName: "VerifyAccount",
+}
+
+func (c *accountServiceClient) VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/VerifyAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceService is the service API for AccountService service.
 // Fields should be assigned to their respective handler implementations only before
 // RegisterAccountServiceService is called.  Any unassigned fields will result in the
@@ -138,6 +152,7 @@ type AccountServiceService struct {
 	AssignAccountToRole func(context.Context, *AssignAccountToRoleRequest) (*Account, error)
 	UpdateAccount       func(context.Context, *Account) (*Account, error)
 	DisableAccount      func(context.Context, *DisableAccountRequest) (*Account, error)
+	VerifyAccount       func(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
 }
 
 func (s *AccountServiceService) newAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -280,6 +295,26 @@ func (s *AccountServiceService) disableAccount(_ interface{}, ctx context.Contex
 	}
 	return interceptor(ctx, in, info, handler)
 }
+func (s *AccountServiceService) verifyAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.VerifyAccount == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method VerifyAccount not implemented")
+	}
+	in := new(VerifyAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.VerifyAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.AccountService/VerifyAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.VerifyAccount(ctx, req.(*VerifyAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
 
 // RegisterAccountServiceService registers a service implementation with a gRPC server.
 func RegisterAccountServiceService(s grpc.ServiceRegistrar, srv *AccountServiceService) {
@@ -313,6 +348,10 @@ func RegisterAccountServiceService(s grpc.ServiceRegistrar, srv *AccountServiceS
 			{
 				MethodName: "DisableAccount",
 				Handler:    srv.disableAccount,
+			},
+			{
+				MethodName: "VerifyAccount",
+				Handler:    srv.verifyAccount,
 			},
 		},
 		Streams:  []grpc.StreamDesc{},
@@ -365,6 +404,11 @@ func NewAccountServiceService(s interface{}) *AccountServiceService {
 	}); ok {
 		ns.DisableAccount = h.DisableAccount
 	}
+	if h, ok := s.(interface {
+		VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
+	}); ok {
+		ns.VerifyAccount = h.VerifyAccount
+	}
 	return ns
 }
 
@@ -380,6 +424,7 @@ type UnstableAccountServiceService interface {
 	AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
 	UpdateAccount(context.Context, *Account) (*Account, error)
 	DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
+	VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
 }
 
 // OrgProjServiceClient is the client API for OrgProjService service.

@@ -34,6 +34,7 @@ message RegisterResponse {
   bool success = 1;
   string success_msg = 2;
   ErrorReason error_reason = 3;
+  string verify_token = 4;
 }
 
 message ForgotPasswordRequest {
@@ -71,6 +72,10 @@ message RefreshAccessTokenResponse {
 
 message UserDefinedFields {
   map<string, google.protobuf.Value> fields = 1;
+}
+
+message VerifyAccountRequest {
+  string verify_token = 1;
 }
 
 // UserRoles for now

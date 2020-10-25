@@ -30,6 +30,7 @@ func AccountServiceClientCommand(options ...client.Option) *cobra.Command {
 		_AccountServiceAssignAccountToRoleCommand(cfg),
 		_AccountServiceUpdateAccountCommand(cfg),
 		_AccountServiceDisableAccountCommand(cfg),
+		_AccountServiceVerifyAccountCommand(cfg),
 	)
 	return cmd
 }
@@ -381,6 +382,48 @@ func _AccountServiceDisableAccountCommand(cfg *client.Config) *cobra.Command {
 	}
 
 	cmd.PersistentFlags().StringVar(&req.AccountId, cfg.FlagNamer("AccountId"), "", "")
+
+	return cmd
+}
+
+func _AccountServiceVerifyAccountCommand(cfg *client.Config) *cobra.Command {
+	req := &VerifyAccountRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("VerifyAccount"),
+		Short: "VerifyAccount RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AccountService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AccountService", "VerifyAccount"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewAccountServiceClient(cc)
+				v := &VerifyAccountRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.VerifyAccount(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.VerifyToken, cfg.FlagNamer("VerifyToken"), "", "")
 
 	return cmd
 }
