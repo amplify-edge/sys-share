@@ -4,8 +4,7 @@ import 'package:flash/flash.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/account_view_model.dart';
 
 class AuthDialog extends StatefulWidget {
-  final bool isRegister;
-  const AuthDialog({Key key, @required this.isRegister}) : super(key: key);
+  const AuthDialog({Key key}) : super(key: key);
   @override
   AuthDialogState createState() => AuthDialogState();
 }
@@ -176,7 +175,7 @@ class AuthDialogState extends State<AuthDialog> {
                               disabledColor: Colors.grey[400],
                               hoverColor: Colors.blueGrey[900],
                               highlightColor: Colors.black,
-                              onPressed: !widget.isRegister
+                              onPressed: model.isLogin
                                   ? model.isLoginParamValid
                                       ? () async {
                                           await model.login().then((_) {
@@ -232,9 +231,7 @@ class AuthDialogState extends State<AuthDialog> {
                                         ),
                                       )
                                     : Text(
-                                        !widget.isRegister
-                                            ? 'Log in'
-                                            : 'Register',
+                                        model.isLogin ? 'Log in' : 'Register',
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.white,

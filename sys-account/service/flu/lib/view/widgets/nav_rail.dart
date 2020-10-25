@@ -34,7 +34,7 @@ class AccountNavRail extends StatelessWidget {
       this.tabletBreakpoint = 768.0,
       this.desktopBreakpoint = 1400,
       this.minHeight = 400.0,
-      this.drawerWidth = 304.0,
+      this.drawerWidth = 100.0,
       this.actions,
       this.bottomNavigationBarType,
       this.bottomNavigationBarSelectedColor,
