@@ -63,6 +63,7 @@ type RegisterResponse struct {
 	Success     bool   `json:"success,omitempty"`
 	SuccessMsg  string `json:"successMsg,omitempty"`
 	ErrorReason string `json:"errorReason,omitempty"`
+	VerifyToken string `json:"verifyToken,omitempty"`
 }
 
 func RegisterResponseFromProto(in *authRpc.RegisterResponse) *RegisterResponse {
@@ -70,6 +71,7 @@ func RegisterResponseFromProto(in *authRpc.RegisterResponse) *RegisterResponse {
 		Success:     in.GetSuccess(),
 		SuccessMsg:  in.GetSuccessMsg(),
 		ErrorReason: in.GetErrorReason().GetReason(),
+		VerifyToken: in.GetVerifyToken(),
 	}
 }
 
@@ -78,7 +80,21 @@ func (r *RegisterResponse) ToProto() *authRpc.RegisterResponse {
 		Success:     r.Success,
 		SuccessMsg:  r.SuccessMsg,
 		ErrorReason: &authRpc.ErrorReason{Reason: r.ErrorReason},
+		VerifyToken: r.VerifyToken,
 	}
+}
+
+type VerifyAccountRequest struct {
+	VerifyToken string `json:"verifyToken,omitempty"`
+	AccountId   string `json:"accountId,omitempty"`
+}
+
+func (v *VerifyAccountRequest) ToProto() *authRpc.VerifyAccountRequest {
+	return &authRpc.VerifyAccountRequest{VerifyToken: v.VerifyToken, AccountId: v.AccountId}
+}
+
+func VerifyAccountRequestFromProto(in *authRpc.VerifyAccountRequest) *VerifyAccountRequest {
+	return &VerifyAccountRequest{VerifyToken: in.VerifyToken, AccountId: in.AccountId}
 }
 
 type LoginRequest struct {

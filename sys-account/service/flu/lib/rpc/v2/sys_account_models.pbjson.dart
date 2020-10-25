@@ -133,6 +133,7 @@ const VerifyAccountRequest$json = const {
   '1': 'VerifyAccountRequest',
   '2': const [
     const {'1': 'verify_token', '3': 1, '4': 1, '5': 9, '10': 'verifyToken'},
+    const {'1': 'account_id', '3': 2, '4': 1, '5': 9, '10': 'accountId'},
   ],
 };
 

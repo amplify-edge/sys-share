@@ -592,6 +592,7 @@ class UserDefinedFields extends $pb.GeneratedMessage {
 class VerifyAccountRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('VerifyAccountRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'verifyToken')
+    ..aOS(2, 'accountId')
     ..hasRequiredFields = false
   ;
 
@@ -618,6 +619,15 @@ class VerifyAccountRequest extends $pb.GeneratedMessage {
   $core.bool hasVerifyToken() => $_has(0);
   @$pb.TagNumber(1)
   void clearVerifyToken() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get accountId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set accountId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAccountId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAccountId() => clearField(2);
 }
 
 class Project extends $pb.GeneratedMessage {

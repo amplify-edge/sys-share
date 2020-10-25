@@ -76,6 +76,7 @@ message UserDefinedFields {
 
 message VerifyAccountRequest {
   string verify_token = 1;
+  string account_id = 2;
 }
 
 // UserRoles for now

@@ -2,8 +2,10 @@ package pkg
 
 import (
 	"context"
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	rpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 )
@@ -165,6 +167,7 @@ type AuthService interface {
 	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
+	VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
 }
 
 func authRegisterProxy(as AuthService) func(context.Context, *rpc.RegisterRequest) (*rpc.RegisterResponse, error) {
@@ -218,6 +221,16 @@ func authRefreshAccessTokenProxy(as AuthService) func(context.Context, *rpc.Refr
 			return nil, err
 		}
 		return resp.ToProto(), nil
+	}
+}
+
+func authVerifyAccountProxy(as AuthService) func(context.Context, *rpc.VerifyAccountRequest) (*emptypb.Empty, error) {
+	return func(ctx context.Context, request *rpc.VerifyAccountRequest) (*emptypb.Empty, error) {
+		resp, err := as.VerifyAccount(ctx, VerifyAccountRequestFromProto(request))
+		if err != nil {
+			return nil, err
+		}
+		return resp, nil
 	}
 }
 
@@ -361,6 +374,7 @@ type AuthServiceClient interface {
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error)
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error)
 	RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error)
+	VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type authSvcClientProxy struct {

@@ -19,6 +19,7 @@ const (
 	ErrQueryAccount
 	ErrVerifyPassword
 	ErrRequestUnauthenticated
+	ErrVerificationTokenMismatch
 )
 
 // AuthError containing error reason and golang's err
@@ -71,6 +72,9 @@ func (err Error) description() string {
 
 	case ErrRequestUnauthenticated:
 		return "Error: request unauthenticated"
+
+	case ErrVerificationTokenMismatch:
+		return "Error: verification token mismatch"
 	}
 
 	return "Unknown error"

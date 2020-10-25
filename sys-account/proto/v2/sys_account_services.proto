@@ -15,7 +15,6 @@ service AccountService {
   rpc AssignAccountToRole(v2.sys_account.services.AssignAccountToRoleRequest) returns (v2.sys_account.services.Account) {};
   rpc UpdateAccount(v2.sys_account.services.Account) returns (v2.sys_account.services.Account) {};
   rpc DisableAccount(v2.sys_account.services.DisableAccountRequest) returns (v2.sys_account.services.Account) {};
-  rpc VerifyAccount(v2.sys_account.services.VerifyAccountRequest) returns (google.protobuf.Empty) {};
 }
 
 service OrgProjService {
@@ -41,5 +40,6 @@ service AuthService {
   rpc ResetPassword(v2.sys_account.services.ResetPasswordRequest) returns (v2.sys_account.services.ResetPasswordResponse) {};
   // Refresh Access Token endpoint
   rpc RefreshAccessToken(v2.sys_account.services.RefreshAccessTokenRequest) returns (v2.sys_account.services.RefreshAccessTokenResponse) {};
+  rpc VerifyAccount(v2.sys_account.services.VerifyAccountRequest) returns (google.protobuf.Empty) {};
 }
 
