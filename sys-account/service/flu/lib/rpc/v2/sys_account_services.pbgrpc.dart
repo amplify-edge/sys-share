@@ -244,9 +244,9 @@ class OrgProjServiceClient extends $grpc.Client {
           ($0.ListRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.ListResponse.fromBuffer(value));
   static final _$updateProject =
-      $grpc.ClientMethod<$0.ProjectRequest, $0.Project>(
+      $grpc.ClientMethod<$0.ProjectUpdateRequest, $0.Project>(
           '/v2.sys_account.services.OrgProjService/UpdateProject',
-          ($0.ProjectRequest value) => value.writeToBuffer(),
+          ($0.ProjectUpdateRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Project.fromBuffer(value));
   static final _$deleteProject = $grpc.ClientMethod<$0.IdRequest, $1.Empty>(
       '/v2.sys_account.services.OrgProjService/DeleteProject',
@@ -264,9 +264,9 @@ class OrgProjServiceClient extends $grpc.Client {
       '/v2.sys_account.services.OrgProjService/ListOrg',
       ($0.ListRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.ListResponse.fromBuffer(value));
-  static final _$updateOrg = $grpc.ClientMethod<$0.OrgRequest, $0.Org>(
+  static final _$updateOrg = $grpc.ClientMethod<$0.OrgUpdateRequest, $0.Org>(
       '/v2.sys_account.services.OrgProjService/UpdateOrg',
-      ($0.OrgRequest value) => value.writeToBuffer(),
+      ($0.OrgUpdateRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Org.fromBuffer(value));
   static final _$deleteOrg = $grpc.ClientMethod<$0.IdRequest, $1.Empty>(
       '/v2.sys_account.services.OrgProjService/DeleteOrg',
@@ -300,7 +300,8 @@ class OrgProjServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$0.Project> updateProject($0.ProjectRequest request,
+  $grpc.ResponseFuture<$0.Project> updateProject(
+      $0.ProjectUpdateRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$updateProject, $async.Stream.fromIterable([request]),
@@ -337,7 +338,7 @@ class OrgProjServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$0.Org> updateOrg($0.OrgRequest request,
+  $grpc.ResponseFuture<$0.Org> updateOrg($0.OrgUpdateRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$updateOrg, $async.Stream.fromIterable([request]),
         options: options);
@@ -377,12 +378,13 @@ abstract class OrgProjServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.ListRequest.fromBuffer(value),
         ($0.ListResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.ProjectRequest, $0.Project>(
+    $addMethod($grpc.ServiceMethod<$0.ProjectUpdateRequest, $0.Project>(
         'UpdateProject',
         updateProject_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.ProjectRequest.fromBuffer(value),
+        ($core.List<$core.int> value) =>
+            $0.ProjectUpdateRequest.fromBuffer(value),
         ($0.Project value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.IdRequest, $1.Empty>(
         'DeleteProject',
@@ -412,12 +414,12 @@ abstract class OrgProjServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.ListRequest.fromBuffer(value),
         ($0.ListResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.OrgRequest, $0.Org>(
+    $addMethod($grpc.ServiceMethod<$0.OrgUpdateRequest, $0.Org>(
         'UpdateOrg',
         updateOrg_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.OrgRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.OrgUpdateRequest.fromBuffer(value),
         ($0.Org value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.IdRequest, $1.Empty>(
         'DeleteOrg',
@@ -443,8 +445,8 @@ abstract class OrgProjServiceBase extends $grpc.Service {
     return listProject(call, await request);
   }
 
-  $async.Future<$0.Project> updateProject_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.ProjectRequest> request) async {
+  $async.Future<$0.Project> updateProject_Pre($grpc.ServiceCall call,
+      $async.Future<$0.ProjectUpdateRequest> request) async {
     return updateProject(call, await request);
   }
 
@@ -468,8 +470,8 @@ abstract class OrgProjServiceBase extends $grpc.Service {
     return listOrg(call, await request);
   }
 
-  $async.Future<$0.Org> updateOrg_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.OrgRequest> request) async {
+  $async.Future<$0.Org> updateOrg_Pre($grpc.ServiceCall call,
+      $async.Future<$0.OrgUpdateRequest> request) async {
     return updateOrg(call, await request);
   }
 
@@ -485,7 +487,7 @@ abstract class OrgProjServiceBase extends $grpc.Service {
   $async.Future<$0.ListResponse> listProject(
       $grpc.ServiceCall call, $0.ListRequest request);
   $async.Future<$0.Project> updateProject(
-      $grpc.ServiceCall call, $0.ProjectRequest request);
+      $grpc.ServiceCall call, $0.ProjectUpdateRequest request);
   $async.Future<$1.Empty> deleteProject(
       $grpc.ServiceCall call, $0.IdRequest request);
   $async.Future<$0.Org> newOrg($grpc.ServiceCall call, $0.OrgRequest request);
@@ -493,7 +495,7 @@ abstract class OrgProjServiceBase extends $grpc.Service {
   $async.Future<$0.ListResponse> listOrg(
       $grpc.ServiceCall call, $0.ListRequest request);
   $async.Future<$0.Org> updateOrg(
-      $grpc.ServiceCall call, $0.OrgRequest request);
+      $grpc.ServiceCall call, $0.OrgUpdateRequest request);
   $async.Future<$1.Empty> deleteOrg(
       $grpc.ServiceCall call, $0.IdRequest request);
 }

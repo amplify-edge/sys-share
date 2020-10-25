@@ -390,13 +390,13 @@ type OrgProjServiceClient interface {
 	NewProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error)
 	GetProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Project, error)
 	ListProject(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
-	UpdateProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error)
+	UpdateProject(ctx context.Context, in *ProjectUpdateRequest, opts ...grpc.CallOption) (*Project, error)
 	DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	// Orgs
 	NewOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error)
 	GetOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Org, error)
 	ListOrg(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
-	UpdateOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error)
+	UpdateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error)
 	DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -451,7 +451,7 @@ var orgProjServiceUpdateProjectStreamDesc = &grpc.StreamDesc{
 	StreamName: "UpdateProject",
 }
 
-func (c *orgProjServiceClient) UpdateProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error) {
+func (c *orgProjServiceClient) UpdateProject(ctx context.Context, in *ProjectUpdateRequest, opts ...grpc.CallOption) (*Project, error) {
 	out := new(Project)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/UpdateProject", in, out, opts...)
 	if err != nil {
@@ -516,7 +516,7 @@ var orgProjServiceUpdateOrgStreamDesc = &grpc.StreamDesc{
 	StreamName: "UpdateOrg",
 }
 
-func (c *orgProjServiceClient) UpdateOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error) {
+func (c *orgProjServiceClient) UpdateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error) {
 	out := new(Org)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/UpdateOrg", in, out, opts...)
 	if err != nil {
@@ -547,13 +547,13 @@ type OrgProjServiceService struct {
 	NewProject    func(context.Context, *ProjectRequest) (*Project, error)
 	GetProject    func(context.Context, *IdRequest) (*Project, error)
 	ListProject   func(context.Context, *ListRequest) (*ListResponse, error)
-	UpdateProject func(context.Context, *ProjectRequest) (*Project, error)
+	UpdateProject func(context.Context, *ProjectUpdateRequest) (*Project, error)
 	DeleteProject func(context.Context, *IdRequest) (*empty.Empty, error)
 	// Orgs
 	NewOrg    func(context.Context, *OrgRequest) (*Org, error)
 	GetOrg    func(context.Context, *IdRequest) (*Org, error)
 	ListOrg   func(context.Context, *ListRequest) (*ListResponse, error)
-	UpdateOrg func(context.Context, *OrgRequest) (*Org, error)
+	UpdateOrg func(context.Context, *OrgUpdateRequest) (*Org, error)
 	DeleteOrg func(context.Context, *IdRequest) (*empty.Empty, error)
 }
 
@@ -621,7 +621,7 @@ func (s *OrgProjServiceService) updateProject(_ interface{}, ctx context.Context
 	if s.UpdateProject == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method UpdateProject not implemented")
 	}
-	in := new(ProjectRequest)
+	in := new(ProjectUpdateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -633,7 +633,7 @@ func (s *OrgProjServiceService) updateProject(_ interface{}, ctx context.Context
 		FullMethod: "/v2.sys_account.services.OrgProjService/UpdateProject",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.UpdateProject(ctx, req.(*ProjectRequest))
+		return s.UpdateProject(ctx, req.(*ProjectUpdateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -721,7 +721,7 @@ func (s *OrgProjServiceService) updateOrg(_ interface{}, ctx context.Context, de
 	if s.UpdateOrg == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method UpdateOrg not implemented")
 	}
-	in := new(OrgRequest)
+	in := new(OrgUpdateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -733,7 +733,7 @@ func (s *OrgProjServiceService) updateOrg(_ interface{}, ctx context.Context, de
 		FullMethod: "/v2.sys_account.services.OrgProjService/UpdateOrg",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.UpdateOrg(ctx, req.(*OrgRequest))
+		return s.UpdateOrg(ctx, req.(*OrgUpdateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -835,7 +835,7 @@ func NewOrgProjServiceService(s interface{}) *OrgProjServiceService {
 		ns.ListProject = h.ListProject
 	}
 	if h, ok := s.(interface {
-		UpdateProject(context.Context, *ProjectRequest) (*Project, error)
+		UpdateProject(context.Context, *ProjectUpdateRequest) (*Project, error)
 	}); ok {
 		ns.UpdateProject = h.UpdateProject
 	}
@@ -860,7 +860,7 @@ func NewOrgProjServiceService(s interface{}) *OrgProjServiceService {
 		ns.ListOrg = h.ListOrg
 	}
 	if h, ok := s.(interface {
-		UpdateOrg(context.Context, *OrgRequest) (*Org, error)
+		UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
 	}); ok {
 		ns.UpdateOrg = h.UpdateOrg
 	}
@@ -881,13 +881,13 @@ type UnstableOrgProjServiceService interface {
 	NewProject(context.Context, *ProjectRequest) (*Project, error)
 	GetProject(context.Context, *IdRequest) (*Project, error)
 	ListProject(context.Context, *ListRequest) (*ListResponse, error)
-	UpdateProject(context.Context, *ProjectRequest) (*Project, error)
+	UpdateProject(context.Context, *ProjectUpdateRequest) (*Project, error)
 	DeleteProject(context.Context, *IdRequest) (*empty.Empty, error)
 	// Orgs
 	NewOrg(context.Context, *OrgRequest) (*Org, error)
 	GetOrg(context.Context, *IdRequest) (*Org, error)
 	ListOrg(context.Context, *ListRequest) (*ListResponse, error)
-	UpdateOrg(context.Context, *OrgRequest) (*Org, error)
+	UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
 	DeleteOrg(context.Context, *IdRequest) (*empty.Empty, error)
 }
 

@@ -14,13 +14,13 @@ type OrgProjService interface {
 	NewProject(context.Context, *ProjectRequest) (*Project, error)
 	GetProject(context.Context, *IdRequest) (*Project, error)
 	ListProject(context.Context, *ListRequest) (*ListResponse, error)
-	UpdateProject(context.Context, *ProjectRequest) (*Project, error)
+	UpdateProject(context.Context, *ProjectUpdateRequest) (*Project, error)
 	DeleteProject(context.Context, *IdRequest) (*empty.Empty, error)
 	// Orgs
 	NewOrg(context.Context, *OrgRequest) (*Org, error)
 	GetOrg(context.Context, *IdRequest) (*Org, error)
 	ListOrg(context.Context, *ListRequest) (*ListResponse, error)
-	UpdateOrg(context.Context, *OrgRequest) (*Org, error)
+	UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
 	DeleteOrg(context.Context, *IdRequest) (*empty.Empty, error)
 }
 
@@ -54,9 +54,9 @@ func listProjectProxy(o OrgProjService) func(context.Context, *accountRpc.ListRe
 	}
 }
 
-func updateProjectProxy(o OrgProjService) func(context.Context, *accountRpc.ProjectRequest) (*accountRpc.Project, error) {
-	return func(ctx context.Context, in *accountRpc.ProjectRequest) (*accountRpc.Project, error) {
-		resp, err := o.UpdateProject(ctx, ProjectRequestFromProto(in))
+func updateProjectProxy(o OrgProjService) func(context.Context, *accountRpc.ProjectUpdateRequest) (*accountRpc.Project, error) {
+	return func(ctx context.Context, in *accountRpc.ProjectUpdateRequest) (*accountRpc.Project, error) {
+		resp, err := o.UpdateProject(ctx, ProjectUpdateRequestFromProto(in))
 		if err != nil {
 			return nil, err
 		}
@@ -104,9 +104,9 @@ func listOrgProxy(o OrgProjService) func(context.Context, *accountRpc.ListReques
 	}
 }
 
-func updateOrgProxy(o OrgProjService) func(context.Context, *accountRpc.OrgRequest) (*accountRpc.Org, error) {
-	return func(ctx context.Context, in *accountRpc.OrgRequest) (*accountRpc.Org, error) {
-		resp, err := o.UpdateOrg(ctx, OrgRequestFromProto(in))
+func updateOrgProxy(o OrgProjService) func(context.Context, *accountRpc.OrgUpdateRequest) (*accountRpc.Org, error) {
+	return func(ctx context.Context, in *accountRpc.OrgUpdateRequest) (*accountRpc.Org, error) {
+		resp, err := o.UpdateOrg(ctx, OrgUpdateRequestFromProto(in))
 		if err != nil {
 			return nil, err
 		}
@@ -152,13 +152,13 @@ type OrgProjServiceClient interface {
 	NewProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error)
 	GetProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Project, error)
 	ListProject(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
-	UpdateProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error)
+	UpdateProject(ctx context.Context, in *ProjectUpdateRequest, opts ...grpc.CallOption) (*Project, error)
 	DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	// Orgs
 	NewOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error)
 	GetOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Org, error)
 	ListOrg(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
-	UpdateOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error)
+	UpdateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error)
 	DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -195,7 +195,7 @@ func (o *orgProjectSvcClientProxy) listProject(ctx context.Context, in *ListRequ
 	}
 	return ListResponseFromProto(resp), nil
 }
-func (o *orgProjectSvcClientProxy) updateProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error) {
+func (o *orgProjectSvcClientProxy) updateProject(ctx context.Context, in *ProjectUpdateRequest, opts ...grpc.CallOption) (*Project, error) {
 	req := in.ToProto()
 	resp, err := o.svcClient.UpdateProject(ctx, req, opts...)
 	if err != nil {
@@ -237,9 +237,9 @@ func (o *orgProjectSvcClientProxy) listOrg(ctx context.Context, in *ListRequest,
 	}
 	return ListResponseFromProto(resp), nil
 }
-func (o *orgProjectSvcClientProxy) updateOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error) {
+func (o *orgProjectSvcClientProxy) updateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error) {
 	req := in.ToProto()
-	resp, err := o.svcClient.NewOrg(ctx, req, opts...)
+	resp, err := o.svcClient.UpdateOrg(ctx, req, opts...)
 	if err != nil {
 		return nil, err
 	}

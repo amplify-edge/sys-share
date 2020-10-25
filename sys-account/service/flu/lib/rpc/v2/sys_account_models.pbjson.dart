@@ -151,6 +151,15 @@ const ProjectRequest$json = const {
   ],
 };
 
+const ProjectUpdateRequest$json = const {
+  '1': 'ProjectUpdateRequest',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'logo_url', '3': 3, '4': 1, '5': 9, '10': 'logoUrl'},
+  ],
+};
+
 const Org$json = const {
   '1': 'Org',
   '2': const [
@@ -171,6 +180,16 @@ const OrgRequest$json = const {
     const {'1': 'logo_url', '3': 2, '4': 1, '5': 9, '10': 'logoUrl'},
     const {'1': 'contact', '3': 3, '4': 1, '5': 9, '10': 'contact'},
     const {'1': 'creator_id', '3': 4, '4': 1, '5': 9, '10': 'creatorId'},
+  ],
+};
+
+const OrgUpdateRequest$json = const {
+  '1': 'OrgUpdateRequest',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'contact', '3': 3, '4': 1, '5': 9, '10': 'contact'},
+    const {'1': 'logo_url', '3': 4, '4': 1, '5': 9, '10': 'logoUrl'},
   ],
 };
 

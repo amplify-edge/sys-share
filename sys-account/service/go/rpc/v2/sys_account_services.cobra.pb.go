@@ -570,7 +570,7 @@ func _OrgProjServiceListProjectCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
-	req := &ProjectRequest{}
+	req := &ProjectUpdateRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("UpdateProject"),
@@ -587,7 +587,7 @@ func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewOrgProjServiceClient(cc)
-				v := &ProjectRequest{}
+				v := &ProjectUpdateRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -606,10 +606,9 @@ func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
 	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
-	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
-	cmd.PersistentFlags().StringVar(&req.OrgId, cfg.FlagNamer("OrgId"), "", "")
 
 	return cmd
 }
@@ -789,7 +788,7 @@ func _OrgProjServiceListOrgCommand(cfg *client.Config) *cobra.Command {
 }
 
 func _OrgProjServiceUpdateOrgCommand(cfg *client.Config) *cobra.Command {
-	req := &OrgRequest{}
+	req := &OrgUpdateRequest{}
 
 	cmd := &cobra.Command{
 		Use:   cfg.CommandNamer("UpdateOrg"),
@@ -806,7 +805,7 @@ func _OrgProjServiceUpdateOrgCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewOrgProjServiceClient(cc)
-				v := &OrgRequest{}
+				v := &OrgUpdateRequest{}
 
 				if err := in(v); err != nil {
 					return err
@@ -825,10 +824,10 @@ func _OrgProjServiceUpdateOrgCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
-	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "")
-	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.LogoUrl, cfg.FlagNamer("LogoUrl"), "", "")
 
 	return cmd
 }

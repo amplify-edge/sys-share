@@ -64,6 +64,28 @@ func ProjectRequestFromProto(in *accountRpc.ProjectRequest) *ProjectRequest {
 	}
 }
 
+type ProjectUpdateRequest struct {
+	Id      string `json:"id,omitempty"`
+	Name    string `json:"name,omitempty"`
+	LogoUrl string `json:"logoUrl,omitempty"`
+}
+
+func (p *ProjectUpdateRequest) ToProto() *accountRpc.ProjectUpdateRequest {
+	return &accountRpc.ProjectUpdateRequest{
+		Id:      p.Id,
+		Name:    p.Name,
+		LogoUrl: p.LogoUrl,
+	}
+}
+
+func ProjectUpdateRequestFromProto(in *accountRpc.ProjectUpdateRequest) *ProjectUpdateRequest {
+	return &ProjectUpdateRequest{
+		Id:      in.GetId(),
+		Name:    in.GetName(),
+		LogoUrl: in.GetLogoUrl(),
+	}
+}
+
 type Org struct {
 	Id        string     `json:"id,omitempty"`
 	Name      string     `json:"name,omitempty"`
@@ -132,6 +154,31 @@ func OrgRequestFromProto(in *accountRpc.OrgRequest) *OrgRequest {
 		LogoUrl:   in.GetLogoUrl(),
 		Contact:   in.GetContact(),
 		CreatorId: in.GetCreatorId(),
+	}
+}
+
+type OrgUpdateRequest struct {
+	Id      string `json:"id,omitempty"`
+	Name    string `json:"name,omitempty"`
+	LogoUrl string `json:"logoUrl,omitempty"`
+	Contact string `json:"contact,omitempty"`
+}
+
+func (o *OrgUpdateRequest) ToProto() *accountRpc.OrgUpdateRequest {
+	return &accountRpc.OrgUpdateRequest{
+		Id:      o.Id,
+		Name:    o.Name,
+		LogoUrl: o.LogoUrl,
+		Contact: o.Contact,
+	}
+}
+
+func OrgUpdateRequestFromProto(in *accountRpc.OrgUpdateRequest) *OrgUpdateRequest {
+	return &OrgUpdateRequest{
+		Id:      in.GetId(),
+		Name:    in.GetName(),
+		LogoUrl: in.GetLogoUrl(),
+		Contact: in.GetContact(),
 	}
 }
 
