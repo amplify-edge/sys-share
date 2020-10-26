@@ -2,7 +2,7 @@
 bin-all
 
 ## Flutter locks
-pubspec.lock
+*pubspec.lock
 
 # JSONNET locks
 *.lock.json
