@@ -127,3 +127,95 @@ class RestoreRequest extends $pb.GeneratedMessage {
   void clearBackupFile() => clearField(1);
 }
 
+class EventRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EventRequest', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, 'eventName', protoName: 'eventName')
+    ..aOS(2, 'initiator')
+    ..aOS(3, 'userId', protoName: 'userId')
+    ..a<$core.List<$core.int>>(4, 'jsonPayload', $pb.PbFieldType.OY, protoName: 'jsonPayload')
+    ..hasRequiredFields = false
+  ;
+
+  EventRequest._() : super();
+  factory EventRequest() => create();
+  factory EventRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory EventRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  EventRequest clone() => EventRequest()..mergeFromMessage(this);
+  EventRequest copyWith(void Function(EventRequest) updates) => super.copyWith((message) => updates(message as EventRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static EventRequest create() => EventRequest._();
+  EventRequest createEmptyInstance() => create();
+  static $pb.PbList<EventRequest> createRepeated() => $pb.PbList<EventRequest>();
+  @$core.pragma('dart2js:noInline')
+  static EventRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<EventRequest>(create);
+  static EventRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get eventName => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set eventName($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEventName() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEventName() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get initiator => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set initiator($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasInitiator() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearInitiator() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get userId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set userId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasUserId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearUserId() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.List<$core.int> get jsonPayload => $_getN(3);
+  @$pb.TagNumber(4)
+  set jsonPayload($core.List<$core.int> v) { $_setBytes(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasJsonPayload() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearJsonPayload() => clearField(4);
+}
+
+class EventResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EventResponse', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(1, 'reply', $pb.PbFieldType.OY)
+    ..hasRequiredFields = false
+  ;
+
+  EventResponse._() : super();
+  factory EventResponse() => create();
+  factory EventResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory EventResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  EventResponse clone() => EventResponse()..mergeFromMessage(this);
+  EventResponse copyWith(void Function(EventResponse) updates) => super.copyWith((message) => updates(message as EventResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static EventResponse create() => EventResponse._();
+  EventResponse createEmptyInstance() => create();
+  static $pb.PbList<EventResponse> createRepeated() => $pb.PbList<EventResponse>();
+  @$core.pragma('dart2js:noInline')
+  static EventResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<EventResponse>(create);
+  static EventResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<$core.int> get reply => $_getN(0);
+  @$pb.TagNumber(1)
+  set reply($core.List<$core.int> v) { $_setBytes(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasReply() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearReply() => clearField(1);
+}
+

@@ -104,3 +104,43 @@ abstract class DbAdminServiceBase extends $grpc.Service {
   $async.Future<$1.RestoreResult> restore(
       $grpc.ServiceCall call, $1.RestoreRequest request);
 }
+
+class BusServiceClient extends $grpc.Client {
+  static final _$broadcast =
+      $grpc.ClientMethod<$1.EventRequest, $1.EventResponse>(
+          '/v2.sys_core.services.BusService/Broadcast',
+          ($1.EventRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EventResponse.fromBuffer(value));
+
+  BusServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
+      : super(channel, options: options);
+
+  $grpc.ResponseFuture<$1.EventResponse> broadcast($1.EventRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$broadcast, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+}
+
+abstract class BusServiceBase extends $grpc.Service {
+  $core.String get $name => 'v2.sys_core.services.BusService';
+
+  BusServiceBase() {
+    $addMethod($grpc.ServiceMethod<$1.EventRequest, $1.EventResponse>(
+        'Broadcast',
+        broadcast_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.EventRequest.fromBuffer(value),
+        ($1.EventResponse value) => value.writeToBuffer()));
+  }
+
+  $async.Future<$1.EventResponse> broadcast_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.EventRequest> request) async {
+    return broadcast(call, await request);
+  }
+
+  $async.Future<$1.EventResponse> broadcast(
+      $grpc.ServiceCall call, $1.EventRequest request);
+}

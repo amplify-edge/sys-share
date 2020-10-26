@@ -4,6 +4,7 @@ package v2
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -381,6 +382,515 @@ type UnstableAccountServiceService interface {
 	DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
 }
 
+// OrgProjServiceClient is the client API for OrgProjService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type OrgProjServiceClient interface {
+	// Projects
+	NewProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error)
+	GetProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Project, error)
+	ListProject(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
+	UpdateProject(ctx context.Context, in *ProjectUpdateRequest, opts ...grpc.CallOption) (*Project, error)
+	DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// Orgs
+	NewOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error)
+	GetOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Org, error)
+	ListOrg(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
+	UpdateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error)
+	DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+}
+
+type orgProjServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewOrgProjServiceClient(cc grpc.ClientConnInterface) OrgProjServiceClient {
+	return &orgProjServiceClient{cc}
+}
+
+var orgProjServiceNewProjectStreamDesc = &grpc.StreamDesc{
+	StreamName: "NewProject",
+}
+
+func (c *orgProjServiceClient) NewProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error) {
+	out := new(Project)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/NewProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var orgProjServiceGetProjectStreamDesc = &grpc.StreamDesc{
+	StreamName: "GetProject",
+}
+
+func (c *orgProjServiceClient) GetProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Project, error) {
+	out := new(Project)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/GetProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var orgProjServiceListProjectStreamDesc = &grpc.StreamDesc{
+	StreamName: "ListProject",
+}
+
+func (c *orgProjServiceClient) ListProject(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
+	out := new(ListResponse)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/ListProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var orgProjServiceUpdateProjectStreamDesc = &grpc.StreamDesc{
+	StreamName: "UpdateProject",
+}
+
+func (c *orgProjServiceClient) UpdateProject(ctx context.Context, in *ProjectUpdateRequest, opts ...grpc.CallOption) (*Project, error) {
+	out := new(Project)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/UpdateProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var orgProjServiceDeleteProjectStreamDesc = &grpc.StreamDesc{
+	StreamName: "DeleteProject",
+}
+
+func (c *orgProjServiceClient) DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/DeleteProject", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var orgProjServiceNewOrgStreamDesc = &grpc.StreamDesc{
+	StreamName: "NewOrg",
+}
+
+func (c *orgProjServiceClient) NewOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error) {
+	out := new(Org)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/NewOrg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var orgProjServiceGetOrgStreamDesc = &grpc.StreamDesc{
+	StreamName: "GetOrg",
+}
+
+func (c *orgProjServiceClient) GetOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Org, error) {
+	out := new(Org)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/GetOrg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var orgProjServiceListOrgStreamDesc = &grpc.StreamDesc{
+	StreamName: "ListOrg",
+}
+
+func (c *orgProjServiceClient) ListOrg(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
+	out := new(ListResponse)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/ListOrg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var orgProjServiceUpdateOrgStreamDesc = &grpc.StreamDesc{
+	StreamName: "UpdateOrg",
+}
+
+func (c *orgProjServiceClient) UpdateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error) {
+	out := new(Org)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/UpdateOrg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var orgProjServiceDeleteOrgStreamDesc = &grpc.StreamDesc{
+	StreamName: "DeleteOrg",
+}
+
+func (c *orgProjServiceClient) DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/DeleteOrg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// OrgProjServiceService is the service API for OrgProjService service.
+// Fields should be assigned to their respective handler implementations only before
+// RegisterOrgProjServiceService is called.  Any unassigned fields will result in the
+// handler for that method returning an Unimplemented error.
+type OrgProjServiceService struct {
+	// Projects
+	NewProject    func(context.Context, *ProjectRequest) (*Project, error)
+	GetProject    func(context.Context, *IdRequest) (*Project, error)
+	ListProject   func(context.Context, *ListRequest) (*ListResponse, error)
+	UpdateProject func(context.Context, *ProjectUpdateRequest) (*Project, error)
+	DeleteProject func(context.Context, *IdRequest) (*empty.Empty, error)
+	// Orgs
+	NewOrg    func(context.Context, *OrgRequest) (*Org, error)
+	GetOrg    func(context.Context, *IdRequest) (*Org, error)
+	ListOrg   func(context.Context, *ListRequest) (*ListResponse, error)
+	UpdateOrg func(context.Context, *OrgUpdateRequest) (*Org, error)
+	DeleteOrg func(context.Context, *IdRequest) (*empty.Empty, error)
+}
+
+func (s *OrgProjServiceService) newProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.NewProject == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method NewProject not implemented")
+	}
+	in := new(ProjectRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.NewProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/NewProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.NewProject(ctx, req.(*ProjectRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *OrgProjServiceService) getProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.GetProject == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method GetProject not implemented")
+	}
+	in := new(IdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.GetProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/GetProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.GetProject(ctx, req.(*IdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *OrgProjServiceService) listProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.ListProject == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method ListProject not implemented")
+	}
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.ListProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/ListProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.ListProject(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *OrgProjServiceService) updateProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.UpdateProject == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method UpdateProject not implemented")
+	}
+	in := new(ProjectUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.UpdateProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/UpdateProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.UpdateProject(ctx, req.(*ProjectUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *OrgProjServiceService) deleteProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.DeleteProject == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method DeleteProject not implemented")
+	}
+	in := new(IdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.DeleteProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/DeleteProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.DeleteProject(ctx, req.(*IdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *OrgProjServiceService) newOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.NewOrg == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method NewOrg not implemented")
+	}
+	in := new(OrgRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.NewOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/NewOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.NewOrg(ctx, req.(*OrgRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *OrgProjServiceService) getOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.GetOrg == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method GetOrg not implemented")
+	}
+	in := new(IdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.GetOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/GetOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.GetOrg(ctx, req.(*IdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *OrgProjServiceService) listOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.ListOrg == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method ListOrg not implemented")
+	}
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.ListOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/ListOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.ListOrg(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *OrgProjServiceService) updateOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.UpdateOrg == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method UpdateOrg not implemented")
+	}
+	in := new(OrgUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.UpdateOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/UpdateOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.UpdateOrg(ctx, req.(*OrgUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *OrgProjServiceService) deleteOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.DeleteOrg == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method DeleteOrg not implemented")
+	}
+	in := new(IdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.DeleteOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/DeleteOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.DeleteOrg(ctx, req.(*IdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// RegisterOrgProjServiceService registers a service implementation with a gRPC server.
+func RegisterOrgProjServiceService(s grpc.ServiceRegistrar, srv *OrgProjServiceService) {
+	sd := grpc.ServiceDesc{
+		ServiceName: "v2.sys_account.services.OrgProjService",
+		Methods: []grpc.MethodDesc{
+			{
+				MethodName: "NewProject",
+				Handler:    srv.newProject,
+			},
+			{
+				MethodName: "GetProject",
+				Handler:    srv.getProject,
+			},
+			{
+				MethodName: "ListProject",
+				Handler:    srv.listProject,
+			},
+			{
+				MethodName: "UpdateProject",
+				Handler:    srv.updateProject,
+			},
+			{
+				MethodName: "DeleteProject",
+				Handler:    srv.deleteProject,
+			},
+			{
+				MethodName: "NewOrg",
+				Handler:    srv.newOrg,
+			},
+			{
+				MethodName: "GetOrg",
+				Handler:    srv.getOrg,
+			},
+			{
+				MethodName: "ListOrg",
+				Handler:    srv.listOrg,
+			},
+			{
+				MethodName: "UpdateOrg",
+				Handler:    srv.updateOrg,
+			},
+			{
+				MethodName: "DeleteOrg",
+				Handler:    srv.deleteOrg,
+			},
+		},
+		Streams:  []grpc.StreamDesc{},
+		Metadata: "sys_account_services.proto",
+	}
+
+	s.RegisterService(&sd, nil)
+}
+
+// NewOrgProjServiceService creates a new OrgProjServiceService containing the
+// implemented methods of the OrgProjService service in s.  Any unimplemented
+// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
+// This includes situations where the method handler is misspelled or has the wrong
+// signature.  For this reason, this function should be used with great care and
+// is not recommended to be used by most users.
+func NewOrgProjServiceService(s interface{}) *OrgProjServiceService {
+	ns := &OrgProjServiceService{}
+	if h, ok := s.(interface {
+		NewProject(context.Context, *ProjectRequest) (*Project, error)
+	}); ok {
+		ns.NewProject = h.NewProject
+	}
+	if h, ok := s.(interface {
+		GetProject(context.Context, *IdRequest) (*Project, error)
+	}); ok {
+		ns.GetProject = h.GetProject
+	}
+	if h, ok := s.(interface {
+		ListProject(context.Context, *ListRequest) (*ListResponse, error)
+	}); ok {
+		ns.ListProject = h.ListProject
+	}
+	if h, ok := s.(interface {
+		UpdateProject(context.Context, *ProjectUpdateRequest) (*Project, error)
+	}); ok {
+		ns.UpdateProject = h.UpdateProject
+	}
+	if h, ok := s.(interface {
+		DeleteProject(context.Context, *IdRequest) (*empty.Empty, error)
+	}); ok {
+		ns.DeleteProject = h.DeleteProject
+	}
+	if h, ok := s.(interface {
+		NewOrg(context.Context, *OrgRequest) (*Org, error)
+	}); ok {
+		ns.NewOrg = h.NewOrg
+	}
+	if h, ok := s.(interface {
+		GetOrg(context.Context, *IdRequest) (*Org, error)
+	}); ok {
+		ns.GetOrg = h.GetOrg
+	}
+	if h, ok := s.(interface {
+		ListOrg(context.Context, *ListRequest) (*ListResponse, error)
+	}); ok {
+		ns.ListOrg = h.ListOrg
+	}
+	if h, ok := s.(interface {
+		UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
+	}); ok {
+		ns.UpdateOrg = h.UpdateOrg
+	}
+	if h, ok := s.(interface {
+		DeleteOrg(context.Context, *IdRequest) (*empty.Empty, error)
+	}); ok {
+		ns.DeleteOrg = h.DeleteOrg
+	}
+	return ns
+}
+
+// UnstableOrgProjServiceService is the service API for OrgProjService service.
+// New methods may be added to this interface if they are added to the service
+// definition, which is not a backward-compatible change.  For this reason,
+// use of this type is not recommended.
+type UnstableOrgProjServiceService interface {
+	// Projects
+	NewProject(context.Context, *ProjectRequest) (*Project, error)
+	GetProject(context.Context, *IdRequest) (*Project, error)
+	ListProject(context.Context, *ListRequest) (*ListResponse, error)
+	UpdateProject(context.Context, *ProjectUpdateRequest) (*Project, error)
+	DeleteProject(context.Context, *IdRequest) (*empty.Empty, error)
+	// Orgs
+	NewOrg(context.Context, *OrgRequest) (*Org, error)
+	GetOrg(context.Context, *IdRequest) (*Org, error)
+	ListOrg(context.Context, *ListRequest) (*ListResponse, error)
+	UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
+	DeleteOrg(context.Context, *IdRequest) (*empty.Empty, error)
+}
+
 // AuthServiceClient is the client API for AuthService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
@@ -392,6 +902,7 @@ type AuthServiceClient interface {
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error)
+	VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type authServiceClient struct {
@@ -467,6 +978,19 @@ func (c *authServiceClient) RefreshAccessToken(ctx context.Context, in *RefreshA
 	return out, nil
 }
 
+var authServiceVerifyAccountStreamDesc = &grpc.StreamDesc{
+	StreamName: "VerifyAccount",
+}
+
+func (c *authServiceClient) VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/VerifyAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServiceService is the service API for AuthService service.
 // Fields should be assigned to their respective handler implementations only before
 // RegisterAuthServiceService is called.  Any unassigned fields will result in the
@@ -479,6 +1003,7 @@ type AuthServiceService struct {
 	ResetPassword  func(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken func(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
+	VerifyAccount      func(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
 }
 
 func (s *AuthServiceService) register(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -581,6 +1106,26 @@ func (s *AuthServiceService) refreshAccessToken(_ interface{}, ctx context.Conte
 	}
 	return interceptor(ctx, in, info, handler)
 }
+func (s *AuthServiceService) verifyAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.VerifyAccount == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method VerifyAccount not implemented")
+	}
+	in := new(VerifyAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.VerifyAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.AuthService/VerifyAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.VerifyAccount(ctx, req.(*VerifyAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
 
 // RegisterAuthServiceService registers a service implementation with a gRPC server.
 func RegisterAuthServiceService(s grpc.ServiceRegistrar, srv *AuthServiceService) {
@@ -606,6 +1151,10 @@ func RegisterAuthServiceService(s grpc.ServiceRegistrar, srv *AuthServiceService
 			{
 				MethodName: "RefreshAccessToken",
 				Handler:    srv.refreshAccessToken,
+			},
+			{
+				MethodName: "VerifyAccount",
+				Handler:    srv.verifyAccount,
 			},
 		},
 		Streams:  []grpc.StreamDesc{},
@@ -648,6 +1197,11 @@ func NewAuthServiceService(s interface{}) *AuthServiceService {
 	}); ok {
 		ns.RefreshAccessToken = h.RefreshAccessToken
 	}
+	if h, ok := s.(interface {
+		VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
+	}); ok {
+		ns.VerifyAccount = h.VerifyAccount
+	}
 	return ns
 }
 
@@ -663,4 +1217,5 @@ type UnstableAuthServiceService interface {
 	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
+	VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
 }

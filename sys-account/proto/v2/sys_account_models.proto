@@ -34,6 +34,8 @@ message RegisterResponse {
   bool success = 1;
   string success_msg = 2;
   ErrorReason error_reason = 3;
+  string verify_token = 4;
+  string temp_user_id = 5;
 }
 
 message ForgotPasswordRequest {
@@ -51,6 +53,7 @@ message ResetPasswordRequest {
   string email = 1;
   string password = 2;
   string password_confirm = 3;
+  string verify_token = 4;
 }
 
 message ResetPasswordResponse {
@@ -73,6 +76,11 @@ message UserDefinedFields {
   map<string, google.protobuf.Value> fields = 1;
 }
 
+message VerifyAccountRequest {
+  string verify_token = 1;
+  string account_id = 2;
+}
+
 // UserRoles for now
 enum Roles {
   INVALID = 0;
@@ -85,12 +93,72 @@ enum Roles {
 // resource: Project
 message Project {
   string id = 1;
+  string name = 2;
+  string logo_url = 3;
+  google.protobuf.Timestamp created_at = 4;
+  string creator_id = 5;
+  string org_id = 6;
+  Org org = 7;
+}
+
+message ProjectRequest {
+  string name = 1;
+  string logo_url = 2;
+  string creator_id = 3;
+  string org_id = 4;
+}
+
+message ProjectUpdateRequest {
+  string id = 1;
+  string name = 2;
+  string logo_url = 3;
 }
 
 // resource: Org
 message Org {
   string id = 1;
+  string name = 2;
+  string logo_url = 3;
+  string contact = 4;
+  google.protobuf.Timestamp created_at = 5;
+  string creator_id = 6;
+  repeated Project projects = 7;
 }
+
+message OrgRequest {
+  string name = 1;
+  string logo_url = 2;
+  string contact = 3;
+  string creator_id = 4;
+}
+
+message OrgUpdateRequest {
+  string id = 1;
+  string name = 2;
+  string contact = 3;
+  string logo_url = 4;
+}
+
+message IdRequest {
+  string id = 1;
+}
+
+message ListRequest {
+  // limit
+  int64 per_page_entries = 1;
+  string order_by = 2;
+  // number 3 => optional: current_page_id is the last id of the
+  // (current) listed Accounts for pagination purpose (cursor).
+  string current_page_id = 3;
+  bool is_descending = 4;
+}
+
+message ListResponse {
+  repeated Project projects = 1;
+  repeated Org orgs = 2;
+  string next_page_id = 3;
+}
+
 
 // UserRole as a message is super simple
 // and probably not the very best
@@ -101,8 +169,8 @@ message Org {
 // or specific org by its id (Org admin)
 message UserRoles {
   Roles role = 1;
-  Project project = 2;
-  Org org = 3;
+  string project_id = 2;
+  string org_id = 3;
   bool all = 4;
 }
 
@@ -125,6 +193,7 @@ message Account {
   bool disabled = 8;
   UserDefinedFields fields = 9;
   UserDefinedFields survey = 10;
+  bool verified = 11;
 }
 
 message GetAccountRequest {
@@ -135,9 +204,10 @@ message ListAccountsRequest {
   // limit
   int64 per_page_entries = 1;
   string order_by = 2;
-  // number 3 => optional: current_page_token is the last id of the
+  // number 3 => optional: current_page_id is the last id of the
   // (current) listed Accounts for pagination purpose (cursor).
   string current_page_id = 3;
+  bool is_descending = 4;
 }
 
 message ListAccountsResponse {

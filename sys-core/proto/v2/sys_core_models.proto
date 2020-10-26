@@ -19,3 +19,16 @@ message ListBackupResult {
 message RestoreRequest {
   string backupFile = 1;
 }
+
+// This will be replaced by NATS in the future
+message EventRequest {
+  string eventName = 1;
+  string initiator = 2;
+  string userId = 3;
+  bytes jsonPayload = 4;
+}
+
+message EventResponse {
+  // will return a json / msgpack encoded as string
+  bytes reply = 1;
+}

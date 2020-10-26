@@ -59,3 +59,44 @@ func (r *RestoreRequest) ToProto() *dbrpc.RestoreRequest {
 func RestoreRequestFromProto(in *dbrpc.RestoreRequest) *RestoreRequest {
 	return &RestoreRequest{BackupFile: in.BackupFile}
 }
+
+type EventRequest struct {
+	EventName   string `json:"eventName,omitempty"`
+	Initiator   string `json:"initiator,omitempty"`
+	UserId      string `json:"userId,omitempty"`
+	JsonPayload []byte `json:"jsonPayload,omitempty"`
+}
+
+func (e *EventRequest) ToProto() *dbrpc.EventRequest {
+	return &dbrpc.EventRequest{
+		EventName:   e.EventName,
+		Initiator:   e.Initiator,
+		UserId:      e.UserId,
+		JsonPayload: e.JsonPayload,
+	}
+}
+
+func EventRequestFromProto(in *dbrpc.EventRequest) *EventRequest {
+	return &EventRequest{
+		EventName:   in.EventName,
+		Initiator:   in.Initiator,
+		UserId:      in.GetUserId(),
+		JsonPayload: in.GetJsonPayload(),
+	}
+}
+
+type EventResponse struct {
+	Reply []byte `json:"reply"`
+}
+
+func (e *EventResponse) ToProto() *dbrpc.EventResponse {
+	return &dbrpc.EventResponse{
+		Reply: e.Reply,
+	}
+}
+
+func EventResponseFromProto(in *dbrpc.EventResponse) *EventResponse {
+	return &EventResponse{
+		Reply: in.GetReply(),
+	}
+}

@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
 import "sys_account_models.proto";
 
 package v2.sys_account.services;
@@ -16,6 +17,21 @@ service AccountService {
   rpc DisableAccount(v2.sys_account.services.DisableAccountRequest) returns (v2.sys_account.services.Account) {};
 }
 
+service OrgProjService {
+  // Projects
+  rpc NewProject(v2.sys_account.services.ProjectRequest) returns (v2.sys_account.services.Project) {};
+  rpc GetProject(v2.sys_account.services.IdRequest) returns (v2.sys_account.services.Project) {};
+  rpc ListProject(v2.sys_account.services.ListRequest) returns (v2.sys_account.services.ListResponse) {};
+  rpc UpdateProject(v2.sys_account.services.ProjectUpdateRequest) returns (v2.sys_account.services.Project) {};
+  rpc DeleteProject(v2.sys_account.services.IdRequest) returns (google.protobuf.Empty) {};
+  // Orgs
+  rpc NewOrg(v2.sys_account.services.OrgRequest) returns (v2.sys_account.services.Org) {};
+  rpc GetOrg(v2.sys_account.services.IdRequest) returns (v2.sys_account.services.Org) {};
+  rpc ListOrg(v2.sys_account.services.ListRequest) returns (v2.sys_account.services.ListResponse) {};
+  rpc UpdateOrg(v2.sys_account.services.OrgUpdateRequest) returns (v2.sys_account.services.Org) {};
+  rpc DeleteOrg(v2.sys_account.services.IdRequest) returns (google.protobuf.Empty) {};
+}
+
 service AuthService {
   rpc Register(v2.sys_account.services.RegisterRequest) returns (v2.sys_account.services.RegisterResponse) {};
   rpc Login(v2.sys_account.services.LoginRequest) returns (v2.sys_account.services.LoginResponse) {};
@@ -24,4 +40,6 @@ service AuthService {
   rpc ResetPassword(v2.sys_account.services.ResetPasswordRequest) returns (v2.sys_account.services.ResetPasswordResponse) {};
   // Refresh Access Token endpoint
   rpc RefreshAccessToken(v2.sys_account.services.RefreshAccessTokenRequest) returns (v2.sys_account.services.RefreshAccessTokenResponse) {};
+  rpc VerifyAccount(v2.sys_account.services.VerifyAccountRequest) returns (google.protobuf.Empty) {};
 }
+

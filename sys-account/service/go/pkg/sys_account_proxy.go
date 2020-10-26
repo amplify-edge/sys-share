@@ -2,23 +2,27 @@ package pkg
 
 import (
 	"context"
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	rpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 )
 
 // SysAccountClient is just a stub
 type sysAccountClient struct {
-	auth    *cobra.Command
-	account *cobra.Command
+	auth       *cobra.Command
+	account    *cobra.Command
+	orgProject *cobra.Command
 }
 
 func newSysAccountClient() *sysAccountClient {
 
 	return &sysAccountClient{
-		auth:    rpc.AuthServiceClientCommand(),
-		account: rpc.AccountServiceClientCommand(),
+		auth:       rpc.AuthServiceClientCommand(),
+		account:    rpc.AccountServiceClientCommand(),
+		orgProject: rpc.OrgProjServiceClientCommand(),
 	}
 }
 
@@ -27,7 +31,7 @@ func (sac *sysAccountClient) cobraCommand() *cobra.Command {
 		Use:   "sys-account client",
 		Short: "sys-account client cli",
 	}
-	rootCmd.AddCommand(sac.auth, sac.account)
+	rootCmd.AddCommand(sac.auth, sac.account, sac.orgProject)
 	return rootCmd
 }
 
@@ -36,16 +40,19 @@ func (sac *sysAccountClient) cobraCommand() *cobra.Command {
 type sysAccountService struct {
 	account *accountService
 	auth    *authService
+	orgProj *orgProjectService
 }
 
 // NewSysAccountService creates new SysAccountService object
 // it contains account and auth service as defined by the protobuf service definition
-func newSysAccountService(au AuthService, acc AccountService) *sysAccountService {
+func newSysAccountService(au AuthService, acc AccountService, o OrgProjService) *sysAccountService {
 	authSvc := newAuthService(au)
 	accountSvc := newAccountService(acc)
+	orgProjectSvc := newOrgProjService(o)
 	return &sysAccountService{
 		account: accountSvc,
 		auth:    authSvc,
+		orgProj: orgProjectSvc,
 	}
 }
 
@@ -53,6 +60,7 @@ func newSysAccountService(au AuthService, acc AccountService) *sysAccountService
 func (sas *sysAccountService) registerSvc(server *grpc.Server) {
 	sas.auth.registerSvc(server)
 	sas.account.registerSvc(server)
+	sas.orgProj.registerSvc(server)
 }
 
 // AccountService is the abstract contract needed to satisfy the
@@ -159,6 +167,7 @@ type AuthService interface {
 	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
+	VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
 }
 
 func authRegisterProxy(as AuthService) func(context.Context, *rpc.RegisterRequest) (*rpc.RegisterResponse, error) {
@@ -215,6 +224,16 @@ func authRefreshAccessTokenProxy(as AuthService) func(context.Context, *rpc.Refr
 	}
 }
 
+func authVerifyAccountProxy(as AuthService) func(context.Context, *rpc.VerifyAccountRequest) (*emptypb.Empty, error) {
+	return func(ctx context.Context, request *rpc.VerifyAccountRequest) (*emptypb.Empty, error) {
+		resp, err := as.VerifyAccount(ctx, VerifyAccountRequestFromProto(request))
+		if err != nil {
+			return nil, err
+		}
+		return resp, nil
+	}
+}
+
 // Thin wrapper around rpc defined services
 type accountService struct {
 	svc *rpc.AccountServiceService
@@ -250,6 +269,7 @@ func newAuthService(au AuthService) *authService {
 			ForgotPassword:     authForgotPasswordProxy(au),
 			ResetPassword:      authResetPasswordProxy(au),
 			RefreshAccessToken: authRefreshAccessTokenProxy(au),
+			VerifyAccount:      authVerifyAccountProxy(au),
 		},
 	}
 }
@@ -292,14 +312,18 @@ func (as *accountSvcClientProxy) NewAccount(ctx context.Context, in *Account, op
 func (as *accountSvcClientProxy) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	req := in.ToProto()
 	resp, err := as.svcClient.GetAccount(ctx, req, opts...)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 	return AccountFromProto(resp), nil
 }
 
 func (as *accountSvcClientProxy) ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error) {
 	req := in.ToProto()
 	resp, err := as.svcClient.ListAccounts(ctx, req, opts...)
-	if err != nil { return nil, err}
+	if err != nil {
+		return nil, err
+	}
 	return ListAccountsResponseFromProto(resp), nil
 }
 
@@ -309,14 +333,18 @@ func (as *accountSvcClientProxy) SearchAccounts(ctx context.Context, in *SearchA
 		return nil, err
 	}
 	resp, err := as.svcClient.SearchAccounts(ctx, req, opts...)
-	if err != nil { return nil, err}
+	if err != nil {
+		return nil, err
+	}
 	return SearchAccountResponseFromProto(resp), nil
 }
 
 func (as *accountSvcClientProxy) AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error) {
 	req := in.ToProto()
 	resp, err := as.svcClient.AssignAccountToRole(ctx, req, opts...)
-	if err != nil { return nil, err}
+	if err != nil {
+		return nil, err
+	}
 	return AccountFromProto(resp), nil
 }
 
@@ -341,13 +369,13 @@ func (as *accountSvcClientProxy) DisableAccount(ctx context.Context, in *Disable
 	return AccountFromProto(resp), nil
 }
 
-
 type AuthServiceClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error)
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error)
 	RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error)
+	VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type authSvcClientProxy struct {
@@ -361,8 +389,10 @@ func newAuthSvcClientProxy(cc grpc.ClientConnInterface) *authSvcClientProxy {
 
 func (as *authSvcClientProxy) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
 	req := in.ToProto()
-	resp,err := as.svcClient.Register(ctx, req, opts...)
-	if err != nil { return nil, err }
+	resp, err := as.svcClient.Register(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
 	return RegisterResponseFromProto(resp), nil
 }
 

@@ -63,6 +63,8 @@ type RegisterResponse struct {
 	Success     bool   `json:"success,omitempty"`
 	SuccessMsg  string `json:"successMsg,omitempty"`
 	ErrorReason string `json:"errorReason,omitempty"`
+	VerifyToken string `json:"verifyToken,omitempty"`
+	TempUserId  string `json:"tempUserId,omitempty"`
 }
 
 func RegisterResponseFromProto(in *authRpc.RegisterResponse) *RegisterResponse {
@@ -70,6 +72,8 @@ func RegisterResponseFromProto(in *authRpc.RegisterResponse) *RegisterResponse {
 		Success:     in.GetSuccess(),
 		SuccessMsg:  in.GetSuccessMsg(),
 		ErrorReason: in.GetErrorReason().GetReason(),
+		VerifyToken: in.GetVerifyToken(),
+		TempUserId:  in.GetTempUserId(),
 	}
 }
 
@@ -78,7 +82,22 @@ func (r *RegisterResponse) ToProto() *authRpc.RegisterResponse {
 		Success:     r.Success,
 		SuccessMsg:  r.SuccessMsg,
 		ErrorReason: &authRpc.ErrorReason{Reason: r.ErrorReason},
+		VerifyToken: r.VerifyToken,
+		TempUserId:  r.TempUserId,
 	}
+}
+
+type VerifyAccountRequest struct {
+	VerifyToken string `json:"verifyToken,omitempty"`
+	AccountId   string `json:"accountId,omitempty"`
+}
+
+func (v *VerifyAccountRequest) ToProto() *authRpc.VerifyAccountRequest {
+	return &authRpc.VerifyAccountRequest{VerifyToken: v.VerifyToken, AccountId: v.AccountId}
+}
+
+func VerifyAccountRequestFromProto(in *authRpc.VerifyAccountRequest) *VerifyAccountRequest {
+	return &VerifyAccountRequest{VerifyToken: in.VerifyToken, AccountId: in.AccountId}
 }
 
 type LoginRequest struct {
@@ -165,6 +184,7 @@ type ResetPasswordRequest struct {
 	Email           string `json:"email,omitempty"`
 	Password        string `json:"password,omitempty"`
 	PasswordConfirm string `json:"passwordConfirm,omitempty"`
+	VerifyToken     string `json:"verifyToken,omitempty"`
 }
 
 func (rpr *ResetPasswordRequest) ToProto() *authRpc.ResetPasswordRequest {
@@ -172,6 +192,7 @@ func (rpr *ResetPasswordRequest) ToProto() *authRpc.ResetPasswordRequest {
 		Email:           rpr.Email,
 		Password:        rpr.Password,
 		PasswordConfirm: rpr.PasswordConfirm,
+		VerifyToken:     rpr.VerifyToken,
 	}
 }
 

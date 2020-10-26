@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:flash/flash.dart';
+import 'package:sys_core/sys_core.dart';
+import 'package:sys_share_sys_account_service/view/widgets/forgot_password_dialog.dart';
+import 'package:sys_share_sys_account_service/view/widgets/verify_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/account_view_model.dart';
 
 class AuthDialog extends StatefulWidget {
   const AuthDialog({Key key}) : super(key: key);
+
   @override
   AuthDialogState createState() => AuthDialogState();
 }
@@ -181,12 +184,14 @@ class AuthDialogState extends State<AuthDialog> {
                                           await model.login().then((_) {
                                             Navigator.pop(context);
                                             if (model.errMsg.isNotEmpty) {
-                                              _notify(
+                                              notify(
+                                                context: context,
                                                 message: model.errMsg,
                                                 error: true,
                                               );
                                             } else {
-                                              _notify(
+                                              notify(
+                                                context: context,
                                                 message: model.successMsg,
                                                 error: false,
                                               );
@@ -196,18 +201,28 @@ class AuthDialogState extends State<AuthDialog> {
                                       : null
                                   : model.isRegisterParamValid
                                       ? () async {
-                                          await model.register().then((_) {
-                                            Navigator.pop(context);
-                                            if (model.errMsg.isNotEmpty) {
-                                              _notify(
-                                                  message: model.errMsg,
-                                                  error: true);
-                                            } else {
-                                              _notify(
-                                                  message: model.successMsg,
-                                                  error: false);
-                                            }
-                                          });
+                                          await model.register().then(
+                                            (_) {
+                                              Navigator.pop(context);
+                                              if (model.errMsg.isNotEmpty) {
+                                                notify(
+                                                    context: context,
+                                                    message: model.errMsg,
+                                                    error: true);
+                                              } else {
+                                                notify(
+                                                    context: context,
+                                                    message: model.successMsg,
+                                                    error: false);
+                                                showDialog(
+                                                  barrierDismissible: false,
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      VerifyDialog(),
+                                                );
+                                              }
+                                            },
+                                          );
                                         }
                                       : null,
                               shape: RoundedRectangleBorder(
@@ -258,9 +273,30 @@ class AuthDialogState extends State<AuthDialog> {
                             child: TextButton(
                               onPressed: () => model.setIsLogin(!model.isLogin),
                               child: Text(
-                                model.isLogin
-                                    ? "Don't have account? Sign Up!"
-                                    : "Already have account? Sign In",
+                                model.isLogin ? "Sign Up!" : "Sign In",
+                                style: TextStyle(
+                                  color: Colors.blue[500],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            width: double.maxFinite,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) => ForgotPasswordDialog(),
+                                );
+                              },
+                              child: Text(
+                                'Forgot Password?',
                                 style: TextStyle(
                                   color: Colors.blue[500],
                                   fontWeight: FontWeight.bold,
@@ -295,29 +331,6 @@ class AuthDialogState extends State<AuthDialog> {
           ),
         ),
       ),
-    );
-  }
-
-  void _notify({
-    String message,
-    bool error,
-    flashStyle = FlashStyle.floating,
-  }) {
-    showFlash(
-      context: context,
-      duration: Duration(seconds: 3),
-      builder: (context, controller) {
-        return Flash(
-          controller: controller,
-          style: flashStyle,
-          boxShadows: kElevationToShadow[4],
-          horizontalDismissDirection: HorizontalDismissDirection.horizontal,
-          child: FlashBar(
-            leftBarIndicatorColor: error ? Colors.red[500] : Colors.green[500],
-            message: Text(message),
-          ),
-        );
-      },
     );
   }
 }

@@ -9,6 +9,19 @@ import (
 	dbrpc "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2"
 )
 
+// CLI
+type busClient struct {
+	bus *cobra.Command
+}
+
+func newBusClient() *busClient {
+	return &busClient{bus: dbrpc.BusServiceClientCommand()}
+}
+
+func (b *busClient) cobraCommand() *cobra.Command {
+	return b.bus
+}
+
 type sysCoreClient struct {
 	dbadmin *cobra.Command
 }
@@ -39,6 +52,7 @@ func (s *sysCoreService) registerSvc(server *grpc.Server) {
 	dbrpc.RegisterDbAdminServiceService(server, s.svc)
 }
 
+// SERVICES
 type DbAdminService interface {
 	Backup(context.Context, *emptypb.Empty) (*BackupResult, error)
 	ListBackup(context.Context, *emptypb.Empty) (*ListBackupResult, error)
@@ -73,6 +87,55 @@ func restoreProxy(d DbAdminService) func(context.Context, *dbrpc.RestoreRequest)
 		}
 		return res.ToProto(), nil
 	}
+}
+
+type BusService interface {
+	Broadcast(context.Context, *EventRequest) (*EventResponse, error)
+}
+
+type busProxyService struct {
+	svc *dbrpc.BusServiceService
+}
+
+func newBusServiceProxy(b BusService) *busProxyService {
+	return &busProxyService{svc: &dbrpc.BusServiceService{
+		Broadcast: broadcastProxy(b),
+	}}
+}
+
+func (b *busProxyService) registerSvc(srv *grpc.Server) {
+	dbrpc.RegisterBusServiceService(srv, b.svc)
+}
+
+func broadcastProxy(b BusService) func(context.Context, *dbrpc.EventRequest) (*dbrpc.EventResponse, error) {
+	return func(ctx context.Context, in *dbrpc.EventRequest) (*dbrpc.EventResponse, error) {
+		res, err := b.Broadcast(ctx, EventRequestFromProto(in))
+		if err != nil {
+			return nil, err
+		}
+		return res.ToProto(), nil
+	}
+}
+
+// CLIENT SIDE (LIBRARY)
+type BusServiceClient interface {
+	Broadcast(ctx context.Context, in *EventRequest, opts ...grpc.CallOption) (*EventResponse, error)
+}
+
+type busClientProxy struct {
+	client dbrpc.BusServiceClient
+}
+
+func newBusClientProxy(cc grpc.ClientConnInterface) *busClientProxy {
+	return &busClientProxy{client: dbrpc.NewBusServiceClient(cc)}
+}
+
+func (b *busClientProxy) Broadcast(ctx context.Context, in *EventRequest, opts ...grpc.CallOption) (*EventResponse, error) {
+	resp, err := b.client.Broadcast(ctx, in.ToProto(), opts...)
+	if err != nil {
+		return nil, err
+	}
+	return EventResponseFromProto(resp), nil
 }
 
 type DbAdminServiceClient interface {

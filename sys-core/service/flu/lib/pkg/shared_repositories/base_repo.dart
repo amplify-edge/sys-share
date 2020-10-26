@@ -7,6 +7,7 @@ class BaseRepo {
   };
 
   static GrpcWebClientChannel _grpcWebClientChannel() {
-    return GrpcWebClientChannel.xhr(Uri(host: "127.0.0.1", port: 9074));
+    return GrpcWebClientChannel.xhr(
+        Uri(scheme: "https", host: "127.0.0.1", port: 8888));
   }
 }

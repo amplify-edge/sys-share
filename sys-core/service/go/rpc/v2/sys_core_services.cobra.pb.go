@@ -149,3 +149,62 @@ func _DbAdminServiceRestoreCommand(cfg *client.Config) *cobra.Command {
 
 	return cmd
 }
+
+func BusServiceClientCommand(options ...client.Option) *cobra.Command {
+	cfg := client.NewConfig(options...)
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("BusService"),
+		Short: "BusService service client",
+		Long:  "",
+	}
+	cfg.BindFlags(cmd.PersistentFlags())
+	cmd.AddCommand(
+		_BusServiceBroadcastCommand(cfg),
+	)
+	return cmd
+}
+
+func _BusServiceBroadcastCommand(cfg *client.Config) *cobra.Command {
+	req := &EventRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("Broadcast"),
+		Short: "Broadcast RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "BusService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "BusService", "Broadcast"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewBusServiceClient(cc)
+				v := &EventRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.Broadcast(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.EventName, cfg.FlagNamer("EventName"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Initiator, cfg.FlagNamer("Initiator"), "", "")
+	cmd.PersistentFlags().StringVar(&req.UserId, cfg.FlagNamer("UserId"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.JsonPayload, cfg.FlagNamer("JsonPayload"), "")
+
+	return cmd
+}
