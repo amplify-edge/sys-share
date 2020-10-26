@@ -5,26 +5,6 @@ import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart
 
 void main() => runApp(ModularApp(module: AppModule()));
 
-class AccountModule extends ChildModule {
-  static String baseRoute;
-
-  AccountModule(String baseRoute) {
-    if (baseRoute == '/') {
-      baseRoute = '';
-    }
-    assert(baseRoute != null);
-    AccountModule.baseRoute = baseRoute;
-  }
-  @override
-  List<Bind> get binds => [Bind((i) => baseRoute)];
-
-  @override
-  List<ModularRouter> get routers =>
-      [ModularRouter('/', child: (_, args) => AccountView())];
-
-  static Inject get to => Inject<AccountModule>.of();
-}
-
 class AppModule extends MainModule {
   // here will be any class you want to inject into your project (eg bloc, dependency)
   @override

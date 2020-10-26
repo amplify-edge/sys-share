@@ -112,6 +112,10 @@ type Account struct {
 	Verified  bool               `json:"verified,omitempty"`
 }
 
+func (acc *Account) GetId() string {
+	return acc.Id
+}
+
 func (acc *Account) GetEmail() string {
 	return acc.Email
 }

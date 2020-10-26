@@ -51,6 +51,7 @@ func NewTokenConfig(accessSecret, refreshSecret []byte) *TokenConfig {
 
 // Claimants are ones who are able to get token claims
 type Claimant interface {
+	GetId() string
 	GetEmail() string
 	GetRole() *pkg.UserRoles
 }
@@ -101,6 +102,7 @@ func (tc *TokenConfig) NewTokenPairs(claimant Claimant) (*TokenPairDetails, erro
 func NewTokenClaims(exp time.Duration, c Claimant) *TokenClaims {
 	role := c.GetRole()
 	claims := TokenClaims{
+		UserId:    c.GetId(),
 		Role:      role,
 		UserEmail: c.GetEmail(),
 		StandardClaims: jwt.StandardClaims{

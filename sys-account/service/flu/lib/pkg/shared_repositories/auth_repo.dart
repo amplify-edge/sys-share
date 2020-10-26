@@ -92,6 +92,18 @@ class AuthRepo extends BaseRepo {
     }
   }
 
+  static Future<void> verifyAccount(
+      {@required String id, @required String verificationToken}) async {
+    final req = rpc.VerifyAccountRequest()
+      ..accountId = id
+      ..verifyToken = verificationToken;
+    try {
+      await client.verifyAccount(req);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   static rpc.AuthServiceClient _authClient() {
     return rpc.AuthServiceClient(BaseRepo.channel);
   }
