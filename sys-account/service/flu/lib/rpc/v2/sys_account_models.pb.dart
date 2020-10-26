@@ -389,6 +389,7 @@ class ResetPasswordRequest extends $pb.GeneratedMessage {
     ..aOS(1, 'email')
     ..aOS(2, 'password')
     ..aOS(3, 'passwordConfirm')
+    ..aOS(4, 'verifyToken')
     ..hasRequiredFields = false
   ;
 
@@ -433,6 +434,15 @@ class ResetPasswordRequest extends $pb.GeneratedMessage {
   $core.bool hasPasswordConfirm() => $_has(2);
   @$pb.TagNumber(3)
   void clearPasswordConfirm() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get verifyToken => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set verifyToken($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasVerifyToken() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearVerifyToken() => clearField(4);
 }
 
 class ResetPasswordResponse extends $pb.GeneratedMessage {

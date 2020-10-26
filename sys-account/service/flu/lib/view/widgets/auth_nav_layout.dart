@@ -41,9 +41,11 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
         tabs: [
           TabItem(
             title: Text('Sign In'),
-            icon: Icon(Icons.chat),
+            icon: Icon(Icons.login),
             onTap: () => showDialog(
-                context: context, builder: (context) => AuthDialog()),
+              context: context,
+              builder: (context) => AuthDialog(),
+            ),
           ),
         ],
         onPressed: (index) {

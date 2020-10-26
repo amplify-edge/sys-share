@@ -11,9 +11,8 @@ class VerifyAccountViewModel extends BaseModel {
   String _successMsg = '';
 
   bool get hasResponse => _hasResponse;
-
+  bool get isVerificationValid => _validateVerifyToken();
   bool get isVerifyTokenEnabled => _isVerifyTokenEnabled;
-
   String get getVerifyToken => _userVerifyToken;
 
   String get errMsg => _errMsg;
@@ -57,5 +56,19 @@ class VerifyAccountViewModel extends BaseModel {
       _setErrMsg(e.toString());
     });
     _loadingProcess(false);
+  }
+
+  String validateVerificationToken() {
+    if (!_validateVerifyToken()) {
+      return "Invalid Verification Token";
+    }
+    return null;
+  }
+
+  bool _validateVerifyToken() {
+    if (_userVerifyToken.isEmpty) {
+      return false;
+    }
+    return true;
   }
 }

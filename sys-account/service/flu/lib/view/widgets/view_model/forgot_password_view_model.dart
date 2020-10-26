@@ -16,6 +16,8 @@ class ForgotPasswordViewModel extends BaseModel {
 
   String get getEmail => _userEmail;
 
+  bool get isForgotPasswordValid => _validateEmail();
+
   String get errMsg => _errMsg;
 
   String get successMsg => _successMsg;
@@ -58,5 +60,20 @@ class ForgotPasswordViewModel extends BaseModel {
       print(e);
       _setErrMsg(e.toString());
     });
+  }
+
+  String validateEmailText() {
+    if (!_validateEmail()) {
+      return 'Invalid email';
+    }
+    return null;
+  }
+
+  bool _validateEmail() {
+    if (_userEmail.isEmpty) {
+      return false;
+    }
+    return _userEmail.contains(RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"));
   }
 }

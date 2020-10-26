@@ -135,7 +135,7 @@ packages:
     source: hosted
     version: "0.10.11"
   flash:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flash
       url: "https://pub.dartlang.org"

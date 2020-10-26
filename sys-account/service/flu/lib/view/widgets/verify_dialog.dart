@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
-import 'package:sys_share_sys_account_service/view/widgets/reset_password_dialog.dart';
-import 'package:sys_share_sys_account_service/view/widgets/view_model/forgot_password_view_model.dart';
+import 'package:sys_share_sys_account_service/view/widgets/view_model/verify_view_model.dart';
 
-class ForgotPasswordDialog extends StatefulWidget {
-  const ForgotPasswordDialog({Key key}) : super(key: key);
+class VerifyDialog extends StatefulWidget {
+  const VerifyDialog({Key key}) : super(key: key);
 
   @override
-  ForgotPasswordDialogState createState() => ForgotPasswordDialogState();
+  VerifyDialogState createState() => VerifyDialogState();
 }
 
-class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
-  final _emailCtrl = TextEditingController();
-  final _emailFocusNode = FocusNode();
+class VerifyDialogState extends State<VerifyDialog> {
+  final _verifyTokenCtrl = TextEditingController();
+  final _verifyTokenFocusNode = FocusNode();
 
   @override
   void dispose() {
-    _emailCtrl.dispose();
-    _emailFocusNode.dispose();
+    _verifyTokenCtrl.dispose();
+    _verifyTokenFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext buildContext) {
-    return ViewModelBuilder<ForgotPasswordViewModel>.reactive(
-      viewModelBuilder: () => ForgotPasswordViewModel(),
-      onModelReady: (ForgotPasswordViewModel model) {
-        _emailCtrl.text = model.getEmail;
+    return ViewModelBuilder<VerifyAccountViewModel>.reactive(
+      viewModelBuilder: () => VerifyAccountViewModel(),
+      onModelReady: (VerifyAccountViewModel model) {
+        _verifyTokenCtrl.text = model.getVerifyToken;
       },
       builder: (context, model, child) => Dialog(
         backgroundColor: Colors.grey[100],
@@ -57,7 +56,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      'Email',
+                      'Verify Account',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -69,15 +68,15 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
-                      focusNode: _emailFocusNode,
+                      focusNode: _verifyTokenFocusNode,
                       keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.done,
-                      controller: _emailCtrl,
+                      textInputAction: TextInputAction.next,
+                      controller: _verifyTokenCtrl,
                       autofocus: false,
-                      onChanged: (v) => model.setEmail(v),
-                      enabled: model.isEmailEnabled,
+                      onChanged: (v) => model.setVerifyToken(v),
+                      enabled: model.isVerifyTokenEnabled,
                       onSubmitted: (v) {
-                        _emailFocusNode.unfocus();
+                        _verifyTokenFocusNode.unfocus();
                       },
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
@@ -92,9 +91,9 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                         hintStyle: new TextStyle(
                           color: Colors.blueGrey[300],
                         ),
-                        hintText: "Email",
+                        hintText: "Verification Token",
                         fillColor: Colors.white,
-                        errorText: model.validateEmailText(),
+                        errorText: model.validateVerificationToken(),
                         errorStyle: TextStyle(
                           fontSize: 12,
                           color: Colors.redAccent,
@@ -117,22 +116,15 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                               disabledColor: Colors.grey[400],
                               hoverColor: Colors.blueGrey[900],
                               highlightColor: Colors.black,
-                              onPressed: model.isForgotPasswordValid
+                              onPressed: model.isVerificationValid
                                   ? () async {
-                                      await model.submitEmail().then((_) {
+                                      await model.submitVerifyToken().then((_) {
                                         if (model.successMsg.isNotEmpty) {
                                           Navigator.pop(context);
                                           notify(
-                                            context: context,
-                                            message: model.successMsg,
-                                            error: false,
-                                          );
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: buildContext,
-                                            builder: (context) =>
-                                                ResetPasswordDialog(),
-                                          );
+                                              context: context,
+                                              message: model.successMsg,
+                                              error: false);
                                         } else {
                                           notify(
                                               context: context,
@@ -162,7 +154,13 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                                           ),
                                         ),
                                       )
-                                    : Text('Reset Password!'),
+                                    : Text(
+                                        'Verify Account',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                               ),
                             ),
                           ),
@@ -170,6 +168,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                       ],
                     ),
                   ),
+                  SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

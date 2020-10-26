@@ -19,6 +19,7 @@ dependencies:
   protobuf: ^1.0.1
   hive: ^1.4.1+1
   shared_preferences: '>=0.5.12+2 <2.0.0'
+  flash: ^1.2.0
 
 dev_dependencies:
   flutter_test:

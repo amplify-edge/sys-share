@@ -1062,6 +1062,7 @@ func _AuthServiceResetPasswordCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
 	cmd.PersistentFlags().StringVar(&req.PasswordConfirm, cfg.FlagNamer("PasswordConfirm"), "", "")
+	cmd.PersistentFlags().StringVar(&req.VerifyToken, cfg.FlagNamer("VerifyToken"), "", "")
 
 	return cmd
 }

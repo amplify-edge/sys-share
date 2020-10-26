@@ -85,6 +85,7 @@ const ResetPasswordRequest$json = const {
     const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'password', '3': 2, '4': 1, '5': 9, '10': 'password'},
     const {'1': 'password_confirm', '3': 3, '4': 1, '5': 9, '10': 'passwordConfirm'},
+    const {'1': 'verify_token', '3': 4, '4': 1, '5': 9, '10': 'verifyToken'},
   ],
 };
 

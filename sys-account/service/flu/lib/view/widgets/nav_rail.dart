@@ -189,33 +189,38 @@ class AccountNavRail extends StatelessWidget {
               for (var tab in tabs) ...[
                 InkWell(
                   child: Container(
-                    height: 56,
+                    height: 46,
                     child: Row(
-                      //selected: currentIndex == tabs.indexOf(tab),
-                      children: <Widget>[
+                      children: [
                         SizedBox(width: 16),
-
-                        //logic taken from ListTile
-                        IconTheme.merge(
-                            data: IconThemeData(
-                                color: (currentIndex != tabs.indexOf(tab)
-                                    ? Theme.of(context).disabledColor
-                                    : Theme.of(context).accentColor)),
-                            child: tab?.icon),
-                        SizedBox(width: 16),
-                        //logic taken from ListTile
-                        DefaultTextStyle(
-                          child: tab?.title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              .merge(TextStyle(
-                                color: (currentIndex != tabs.indexOf(tab)
-                                    ? Theme.of(context).disabledColor
-                                    : Theme.of(context).accentColor),
-                              )),
+                        Column(
+                          //selected: currentIndex == tabs.indexOf(tab),
+                          children: <Widget>[
+                            //logic taken from ListTile
+                            IconTheme.merge(
+                                data: IconThemeData(
+                                    color: (currentIndex != tabs.indexOf(tab)
+                                        ? Theme.of(context).disabledColor
+                                        : Theme.of(context).accentColor)),
+                                child: tab?.icon),
+                            SizedBox(width: 16),
+                            //logic taken from ListTile
+                            DefaultTextStyle(
+                              child: tab?.title,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .merge(
+                                    TextStyle(
+                                      color: (currentIndex != tabs.indexOf(tab)
+                                          ? Theme.of(context).disabledColor
+                                          : Theme.of(context).accentColor),
+                                    ),
+                                  ),
+                            ),
+                            SizedBox(width: 50),
+                          ],
                         ),
-                        SizedBox(width: 50),
                       ],
                     ),
                   ),

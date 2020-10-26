@@ -184,6 +184,7 @@ type ResetPasswordRequest struct {
 	Email           string `json:"email,omitempty"`
 	Password        string `json:"password,omitempty"`
 	PasswordConfirm string `json:"passwordConfirm,omitempty"`
+	VerifyToken     string `json:"verifyToken,omitempty"`
 }
 
 func (rpr *ResetPasswordRequest) ToProto() *authRpc.ResetPasswordRequest {
@@ -191,6 +192,7 @@ func (rpr *ResetPasswordRequest) ToProto() *authRpc.ResetPasswordRequest {
 		Email:           rpr.Email,
 		Password:        rpr.Password,
 		PasswordConfirm: rpr.PasswordConfirm,
+		VerifyToken:     rpr.VerifyToken,
 	}
 }
 

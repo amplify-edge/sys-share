@@ -49,6 +49,9 @@ class AuthRepo extends BaseRepo {
         ..password = password
         ..passwordConfirm = passwordConfirm;
       final resp = await client.register(request);
+      if (resp.hasVerifyToken()) {
+        print(resp.verifyToken);
+      }
       await insertTempAccountId(tempAccountId: resp.tempUserId);
       return resp;
     } catch (e) {
@@ -66,14 +69,17 @@ class AuthRepo extends BaseRepo {
     }
   }
 
-  static Future<rpc.ResetPasswordResponse> resetPassword(
-      {@required String email,
-      @required String password,
-      @required String passwordConfirm}) async {
+  static Future<rpc.ResetPasswordResponse> resetPassword({
+    @required String email,
+    @required String password,
+    @required String passwordConfirm,
+    @required String verificationToken,
+  }) async {
     final req = rpc.ResetPasswordRequest()
       ..email = email
       ..password = password
-      ..passwordConfirm = passwordConfirm;
+      ..passwordConfirm = passwordConfirm
+      ..verifyToken = verificationToken;
 
     try {
       return await client.resetPassword(req);
