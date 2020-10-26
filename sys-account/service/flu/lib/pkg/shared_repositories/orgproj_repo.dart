@@ -4,6 +4,7 @@ import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart
     as rpc;
 import 'package:fixnum/fixnum.dart';
 import 'package:meta/meta.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart';
 
 class OrgProjRepo {
   static Future<rpc.ListResponse> listUserOrgs(

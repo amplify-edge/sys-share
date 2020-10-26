@@ -1,8 +1,8 @@
-module example/go
+module sys_share_sys_account_example/go
 
-go 1.13
+go 1.15
 
 require (
-	github.com/go-flutter-desktop/go-flutter v0.37.0
+	github.com/go-flutter-desktop/go-flutter v0.42.0
 	github.com/pkg/errors v0.9.1
 )

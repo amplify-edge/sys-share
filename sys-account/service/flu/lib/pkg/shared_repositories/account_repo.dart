@@ -3,10 +3,9 @@ import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart
     as rpc;
 import 'package:fixnum/fixnum.dart';
 import 'package:meta/meta.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart';
 
 class UserRepo {
-  // TODO @winwisely268: this is ugly, ideally we want flu side interceptor
-  // as well so each request will have authorization metadata.
   static Future<rpc.Account> getAccount({@required String id}) async {
     final req = rpc.GetAccountRequest()..id = id;
 
