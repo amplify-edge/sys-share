@@ -49,6 +49,7 @@ class AuthRepo extends BaseRepo {
         ..password = password
         ..passwordConfirm = passwordConfirm;
       final resp = await client.register(request);
+      await insertTempAccountId(tempAccountId: resp.tempUserId);
       return resp;
     } catch (e) {
       throw e;
@@ -115,6 +116,7 @@ class AuthRepo extends BaseRepo {
 const _accessTokenKey = "accessToken";
 const _refreshTokenKey = "refreshToken";
 const _accountIdKey = "accountId";
+const _tempAccountIdKey = "tempAccountId";
 const _minute = 60; // 60 seconds
 
 Future<CallOptions> getCallOptions() async {
@@ -215,4 +217,27 @@ Future<bool> isLoggedIn() async {
     return true;
   }
   return false;
+}
+
+Future<String> getAccountId() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final accountId = prefs.getString(_accountIdKey);
+  if (accountId != null && accountId.isNotEmpty) {
+    return accountId;
+  }
+  return "";
+}
+
+Future<void> insertTempAccountId({@required String tempAccountId}) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString(_tempAccountIdKey, tempAccountId);
+}
+
+Future<String> getTempAccountId() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final accountId = prefs.getString(_tempAccountIdKey);
+  if (accountId != null && accountId.isNotEmpty) {
+    return accountId;
+  }
+  return "";
 }

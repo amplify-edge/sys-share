@@ -64,6 +64,7 @@ type RegisterResponse struct {
 	SuccessMsg  string `json:"successMsg,omitempty"`
 	ErrorReason string `json:"errorReason,omitempty"`
 	VerifyToken string `json:"verifyToken,omitempty"`
+	TempUserId  string `json:"tempUserId,omitempty"`
 }
 
 func RegisterResponseFromProto(in *authRpc.RegisterResponse) *RegisterResponse {
@@ -72,6 +73,7 @@ func RegisterResponseFromProto(in *authRpc.RegisterResponse) *RegisterResponse {
 		SuccessMsg:  in.GetSuccessMsg(),
 		ErrorReason: in.GetErrorReason().GetReason(),
 		VerifyToken: in.GetVerifyToken(),
+		TempUserId:  in.GetTempUserId(),
 	}
 }
 
@@ -81,6 +83,7 @@ func (r *RegisterResponse) ToProto() *authRpc.RegisterResponse {
 		SuccessMsg:  r.SuccessMsg,
 		ErrorReason: &authRpc.ErrorReason{Reason: r.ErrorReason},
 		VerifyToken: r.VerifyToken,
+		TempUserId:  r.TempUserId,
 	}
 }
 

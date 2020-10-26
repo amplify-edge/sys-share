@@ -58,6 +58,7 @@ const RegisterResponse$json = const {
     const {'1': 'success_msg', '3': 2, '4': 1, '5': 9, '10': 'successMsg'},
     const {'1': 'error_reason', '3': 3, '4': 1, '5': 11, '6': '.v2.sys_account.services.ErrorReason', '10': 'errorReason'},
     const {'1': 'verify_token', '3': 4, '4': 1, '5': 9, '10': 'verifyToken'},
+    const {'1': 'temp_user_id', '3': 5, '4': 1, '5': 9, '10': 'tempUserId'},
   ],
 };
 

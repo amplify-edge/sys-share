@@ -47,6 +47,15 @@ class VerifyAccountViewModel extends BaseModel {
 
   Future<void> submitVerifyToken() async {
     _loadingProcess(true);
+    final accountId = await getTempAccountId();
+    await authRepo.AuthRepo.verifyAccount(
+            id: accountId, verificationToken: _userVerifyToken)
+        .then((_) {
+      _setSuccessMsg("account verified");
+    }).catchError((e) {
+      print(e);
+      _setErrMsg(e.toString());
+    });
     _loadingProcess(false);
   }
 }

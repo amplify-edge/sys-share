@@ -221,6 +221,7 @@ class RegisterResponse extends $pb.GeneratedMessage {
     ..aOS(2, 'successMsg')
     ..aOM<ErrorReason>(3, 'errorReason', subBuilder: ErrorReason.create)
     ..aOS(4, 'verifyToken')
+    ..aOS(5, 'tempUserId')
     ..hasRequiredFields = false
   ;
 
@@ -276,6 +277,15 @@ class RegisterResponse extends $pb.GeneratedMessage {
   $core.bool hasVerifyToken() => $_has(3);
   @$pb.TagNumber(4)
   void clearVerifyToken() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get tempUserId => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set tempUserId($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasTempUserId() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearTempUserId() => clearField(5);
 }
 
 class ForgotPasswordRequest extends $pb.GeneratedMessage {
