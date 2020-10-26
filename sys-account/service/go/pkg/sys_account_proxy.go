@@ -269,6 +269,7 @@ func newAuthService(au AuthService) *authService {
 			ForgotPassword:     authForgotPasswordProxy(au),
 			ResetPassword:      authResetPasswordProxy(au),
 			RefreshAccessToken: authRefreshAccessTokenProxy(au),
+			VerifyAccount:      authVerifyAccountProxy(au),
 		},
 	}
 }
