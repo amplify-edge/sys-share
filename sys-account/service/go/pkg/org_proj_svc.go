@@ -46,7 +46,11 @@ func getProjectProxy(o OrgProjService) func(context.Context, *accountRpc.IdReque
 
 func listProjectProxy(o OrgProjService) func(context.Context, *accountRpc.ListRequest) (*accountRpc.ListResponse, error) {
 	return func(ctx context.Context, in *accountRpc.ListRequest) (*accountRpc.ListResponse, error) {
-		resp, err := o.ListProject(ctx, ListRequestFromProto(in))
+		listReq, err := ListRequestFromProto(in)
+		if err != nil {
+			return nil, err
+		}
+		resp, err := o.ListProject(ctx, listReq)
 		if err != nil {
 			return nil, err
 		}
@@ -96,7 +100,11 @@ func getOrgProxy(o OrgProjService) func(context.Context, *accountRpc.IdRequest) 
 
 func listOrgProxy(o OrgProjService) func(context.Context, *accountRpc.ListRequest) (*accountRpc.ListResponse, error) {
 	return func(ctx context.Context, in *accountRpc.ListRequest) (*accountRpc.ListResponse, error) {
-		resp, err := o.ListOrg(ctx, ListRequestFromProto(in))
+		listReq, err := ListRequestFromProto(in)
+		if err != nil {
+			return nil, err
+		}
+		resp, err := o.ListOrg(ctx, listReq)
 		if err != nil {
 			return nil, err
 		}
@@ -188,7 +196,10 @@ func (o *orgProjectSvcClientProxy) getProject(ctx context.Context, in *IdRequest
 	return ProjectFromProto(resp), nil
 }
 func (o *orgProjectSvcClientProxy) listProject(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
-	req := in.ToProto()
+	req, err := in.ToProto()
+	if err != nil {
+		return nil, err
+	}
 	resp, err := o.svcClient.ListProject(ctx, req, opts...)
 	if err != nil {
 		return nil, err
@@ -230,7 +241,10 @@ func (o *orgProjectSvcClientProxy) getOrg(ctx context.Context, in *IdRequest, op
 	return OrgFromProto(resp), nil
 }
 func (o *orgProjectSvcClientProxy) listOrg(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
-	req := in.ToProto()
+	req, err := in.ToProto()
+	if err != nil {
+		return nil, err
+	}
 	resp, err := o.svcClient.ListOrg(ctx, req, opts...)
 	if err != nil {
 		return nil, err

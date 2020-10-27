@@ -53,14 +53,14 @@ func NewTokenConfig(accessSecret, refreshSecret []byte) *TokenConfig {
 type Claimant interface {
 	GetId() string
 	GetEmail() string
-	GetRole() *pkg.UserRoles
+	GetRole() []*pkg.UserRoles
 }
 
 // TokenClaims is the representation of JWT auth claims
 type TokenClaims struct {
-	UserId    string         `json:"userId"`
-	Role      *pkg.UserRoles `json:"role"`
-	UserEmail string         `json:"userEmail"`
+	UserId    string           `json:"userId"`
+	Role      []*pkg.UserRoles `json:"role"`
+	UserEmail string           `json:"userEmail"`
 	jwt.StandardClaims
 }
 

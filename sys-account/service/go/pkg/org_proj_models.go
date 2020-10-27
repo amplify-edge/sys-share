@@ -2,6 +2,7 @@ package pkg
 
 import (
 	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
+	"github.com/segmentio/encoding/json"
 )
 
 type Project struct {
@@ -183,28 +184,47 @@ func OrgUpdateRequestFromProto(in *accountRpc.OrgUpdateRequest) *OrgUpdateReques
 }
 
 type ListRequest struct {
-	PerPageEntries int64  `json:"perPageEntries,omitempty"`
-	OrderBy        string `json:"orderBy,omitempty"`
-	CurrentPageId  string `json:"currentPageId,omitempty"`
-	IsDescending   bool   `json:"isDescending,omitempty"`
+	PerPageEntries int64                  `json:"perPageEntries,omitempty"`
+	OrderBy        string                 `json:"orderBy,omitempty"`
+	CurrentPageId  string                 `json:"currentPageId,omitempty"`
+	IsDescending   bool                   `json:"isDescending,omitempty"`
+	Filters        map[string]interface{} `json:"filters,omitempty"`
 }
 
-func (l *ListRequest) ToProto() *accountRpc.ListRequest {
+func (l *ListRequest) ToProto() (*accountRpc.ListRequest, error) {
+	rpcFilter := []byte{}
+	var err error
+	if l.Filters != nil {
+		rpcFilter, err = json.Marshal(l.Filters)
+		if err != nil {
+			return nil, err
+		}
+	}
 	return &accountRpc.ListRequest{
 		PerPageEntries: l.PerPageEntries,
 		OrderBy:        l.OrderBy,
 		CurrentPageId:  l.CurrentPageId,
 		IsDescending:   l.IsDescending,
-	}
+		Filters:        rpcFilter,
+	}, nil
 }
 
-func ListRequestFromProto(in *accountRpc.ListRequest) *ListRequest {
+func ListRequestFromProto(in *accountRpc.ListRequest) (*ListRequest, error) {
+	pkgFilter := map[string]interface{}{}
+	var err error
+	if in.Filters != nil {
+		err = json.Unmarshal(in.Filters, &pkgFilter)
+		if err != nil {
+			return nil, err
+		}
+	}
 	return &ListRequest{
 		PerPageEntries: in.GetPerPageEntries(),
 		OrderBy:        in.GetOrderBy(),
 		CurrentPageId:  in.GetCurrentPageId(),
 		IsDescending:   in.GetIsDescending(),
-	}
+		Filters:        pkgFilter,
+	}, nil
 }
 
 type ListResponse struct {

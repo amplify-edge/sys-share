@@ -4,9 +4,14 @@ import 'package:sys_core/sys_core.dart';
 import 'package:sys_share_sys_account_service/view/widgets/forgot_password_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/verify_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/account_view_model.dart';
+import 'package:meta/meta.dart';
 
 class AuthDialog extends StatefulWidget {
-  const AuthDialog({Key key}) : super(key: key);
+  final Function _callback;
+
+  const AuthDialog({Key key, @required Function callback})
+      : _callback = callback,
+        super(key: key);
 
   @override
   AuthDialogState createState() => AuthDialogState();
@@ -195,6 +200,7 @@ class AuthDialogState extends State<AuthDialog> {
                                                 message: model.successMsg,
                                                 error: false,
                                               );
+                                              widget._callback();
                                             }
                                           });
                                         }

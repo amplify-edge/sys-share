@@ -1,9 +1,9 @@
 package pkg
 
 import (
-	"google.golang.org/protobuf/types/known/structpb"
-
 	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
+	"github.com/segmentio/encoding/json"
+	log "github.com/sirupsen/logrus"
 )
 
 type Permission struct {
@@ -76,33 +76,29 @@ type UserDefinedFields struct {
 	Fields map[string]interface{} `json:"fields,omitempty"`
 }
 
-func UserDefinedFieldsFromProto(in *accountRpc.UserDefinedFields) *UserDefinedFields {
+func UserDefinedFieldsFromProto(in *accountRpc.UserDefinedFields) (*UserDefinedFields, error) {
 	fields := map[string]interface{}{}
-	if in != nil {
-		for k, v := range in.Fields {
-			fields[k] = v
-		}
-	}
-	return &UserDefinedFields{Fields: fields}
-}
-
-func (udf *UserDefinedFields) ToProto() (*accountRpc.UserDefinedFields, error) {
-	userFields := map[string]*structpb.Value{}
-	var err error
-	for k, v := range udf.Fields {
-		userFields[k], err = structpb.NewValue(v)
-		if err != nil {
+	if in != nil && in.Fields != nil {
+		if err := json.Unmarshal(in.Fields, &fields); err != nil {
 			return nil, err
 		}
 	}
-	return &accountRpc.UserDefinedFields{Fields: userFields}, nil
+	return &UserDefinedFields{Fields: fields}, nil
+}
+
+func (udf *UserDefinedFields) ToProto() (*accountRpc.UserDefinedFields, error) {
+	fields, err := json.Marshal(udf.Fields)
+	if err != nil {
+		return nil, err
+	}
+	return &accountRpc.UserDefinedFields{Fields: fields}, nil
 }
 
 type Account struct {
 	Id        string             `json:"id,omitempty"`
 	Email     string             `json:"email,omitempty"`
 	Password  string             `json:"password,omitempty"`
-	Role      *UserRoles         `json:"role,omitempty"`
+	Role      []*UserRoles       `json:"roles,omitempty"`
 	CreatedAt int64              `json:"created_at,omitempty"`
 	UpdatedAt int64              `json:"updated_at,omitempty"`
 	LastLogin int64              `json:"last_login,omitempty"`
@@ -120,12 +116,18 @@ func (acc *Account) GetEmail() string {
 	return acc.Email
 }
 
-func (acc *Account) GetRole() *UserRoles {
+func (acc *Account) GetRole() []*UserRoles {
 	return acc.Role
 }
 
 func (acc *Account) ToProto() (*accountRpc.Account, error) {
-	role := acc.Role.ToProto()
+	var roles []*accountRpc.UserRoles
+	if len(acc.Role) > 0 {
+		for _, r := range acc.Role {
+			role := r.ToProto()
+			roles = append(roles, role)
+		}
+	}
 	surveyFields, err := acc.Survey.ToProto()
 	if err != nil {
 		return nil, err
@@ -138,7 +140,7 @@ func (acc *Account) ToProto() (*accountRpc.Account, error) {
 		Id:        acc.Id,
 		Email:     acc.Email,
 		Password:  acc.Password,
-		Role:      role,
+		Roles:     roles,
 		CreatedAt: unixToUtcTS(acc.CreatedAt),
 		UpdatedAt: unixToUtcTS(acc.UpdatedAt),
 		LastLogin: unixToUtcTS(acc.LastLogin),
@@ -149,21 +151,31 @@ func (acc *Account) ToProto() (*accountRpc.Account, error) {
 	}, nil
 }
 
-func AccountFromProto(in *accountRpc.Account) *Account {
-	role := UserRolesFromProto(in.GetRole())
-	fields := UserDefinedFieldsFromProto(in.Fields)
+func AccountFromProto(in *accountRpc.Account) (*Account, error) {
+	var roles []*UserRoles
+	log.Debugf("converting account from protobuf")
+	if in.Roles !=  nil && len(in.Roles) > 0 {
+		for _, r := range in.Roles {
+			role := UserRolesFromProto(r)
+			roles = append(roles, role)
+		}
+	}
+	fields, err := UserDefinedFieldsFromProto(in.Fields)
+	if err != nil {
+		return nil, err
+	}
 	return &Account{
 		Id:        in.GetId(),
 		Email:     in.GetEmail(),
 		Password:  in.GetPassword(),
-		Role:      role,
+		Role:      roles,
 		CreatedAt: tsToUnixUTC(in.GetCreatedAt()),
 		UpdatedAt: tsToUnixUTC(in.GetUpdatedAt()),
 		LastLogin: tsToUnixUTC(in.GetLastLogin()),
 		Disabled:  in.Disabled,
 		Fields:    fields,
 		Verified:  in.Verified,
-	}
+	}, nil
 }
 
 type GetAccountRequest struct {
@@ -175,28 +187,46 @@ func (gar *GetAccountRequest) ToProto() *accountRpc.GetAccountRequest {
 }
 
 type ListAccountsRequest struct {
-	PerPageEntries int64  `json:"perPageEntries,omitempty"`
-	OrderBy        string `json:"orderBy,omitempty"`
-	CurrentPageId  string `json:"currentPageId,omitempty"`
-	IsDescending   bool   `json:"isDescending,omitempty"`
+	PerPageEntries int64                  `json:"perPageEntries,omitempty"`
+	OrderBy        string                 `json:"orderBy,omitempty"`
+	CurrentPageId  string                 `json:"currentPageId,omitempty"`
+	IsDescending   bool                   `json:"isDescending,omitempty"`
+	Filters        map[string]interface{} `json:"filters,omitempty"`
 }
 
-func (lar *ListAccountsRequest) ToProto() *accountRpc.ListAccountsRequest {
+func (lar *ListAccountsRequest) ToProto() (*accountRpc.ListAccountsRequest, error) {
+	var rpcFilter []byte
+	var err error
+	if lar.Filters != nil {
+		rpcFilter, err = json.Marshal(&lar.Filters)
+		if err != nil {
+			return nil, err
+		}
+	}
 	return &accountRpc.ListAccountsRequest{
 		PerPageEntries: lar.PerPageEntries,
 		OrderBy:        lar.OrderBy,
 		CurrentPageId:  lar.CurrentPageId,
 		IsDescending:   lar.IsDescending,
-	}
+		Filters:        rpcFilter,
+	}, nil
 }
 
-func ListAccountsRequestFromProto(in *accountRpc.ListAccountsRequest) *ListAccountsRequest {
+func ListAccountsRequestFromProto(in *accountRpc.ListAccountsRequest) (*ListAccountsRequest, error) {
+	pkgFilter := map[string]interface{}{}
+	if in.Filters != nil {
+		err := json.Unmarshal(in.Filters, &pkgFilter)
+		if err != nil {
+			return nil, err
+		}
+	}
 	return &ListAccountsRequest{
 		PerPageEntries: in.GetPerPageEntries(),
 		OrderBy:        in.GetOrderBy(),
 		CurrentPageId:  in.GetCurrentPageId(),
 		IsDescending:   in.GetIsDescending(),
-	}
+		Filters:        pkgFilter,
+	}, nil
 }
 
 type ListAccountsResponse struct {
@@ -219,32 +249,35 @@ func (lsp *ListAccountsResponse) ToProto() (*accountRpc.ListAccountsResponse, er
 	}, nil
 }
 
-func ListAccountsResponseFromProto(resp *accountRpc.ListAccountsResponse) *ListAccountsResponse {
+func ListAccountsResponseFromProto(resp *accountRpc.ListAccountsResponse) (*ListAccountsResponse, error) {
 	var accs []*Account
 	for _, acc := range resp.Accounts {
-		account := AccountFromProto(acc)
+		account, err := AccountFromProto(acc)
+		if err != nil {
+			return nil, err
+		}
 		accs = append(accs, account)
 	}
 	return &ListAccountsResponse{
 		Accounts:   accs,
 		NextPageId: resp.GetNextPageId(),
-	}
+	}, nil
 }
 
 type SearchAccountsRequest struct {
-	Query       map[string]string    `json:"query,omitempty"`
-	SearchParam *ListAccountsRequest `json:"searchParam,omitempty"`
+	Query       map[string]interface{} `json:"query,omitempty"`
+	SearchParam *ListAccountsRequest   `json:"searchParam,omitempty"`
 }
 
 func (sar *SearchAccountsRequest) ToProto() (*accountRpc.SearchAccountsRequest, error) {
 	var err error
-	searchParam := sar.SearchParam.ToProto()
-	queryFields := map[string]*structpb.Value{}
-	for k, v := range sar.Query {
-		queryFields[k], err = structpb.NewValue(v)
-		if err != nil {
-			return nil, err
-		}
+	searchParam, err := sar.SearchParam.ToProto()
+	if err != nil {
+		return nil, err
+	}
+	queryFields, err := json.Marshal(&sar.Query)
+	if err != nil {
+		return nil, err
 	}
 	return &accountRpc.SearchAccountsRequest{
 		Query:        queryFields,
@@ -264,8 +297,12 @@ func (sar *SearchAccountsResponse) ToProto() (*accountRpc.SearchAccountsResponse
 	return &accountRpc.SearchAccountsResponse{SearchResponse: listResp}, nil
 }
 
-func SearchAccountResponseFromProto(in *accountRpc.SearchAccountsResponse) *SearchAccountsResponse {
-	return &SearchAccountsResponse{SearchResponse: ListAccountsResponseFromProto(in.GetSearchResponse())}
+func SearchAccountResponseFromProto(in *accountRpc.SearchAccountsResponse) (*SearchAccountsResponse, error) {
+	larp, err := ListAccountsResponseFromProto(in.GetSearchResponse())
+	if err != nil {
+		return nil, err
+	}
+	return &SearchAccountsResponse{SearchResponse: larp}, nil
 }
 
 type AssignAccountToRoleRequest struct {
