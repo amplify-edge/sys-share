@@ -137,7 +137,7 @@ class AuthDialogState extends State<AuthDialog> {
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       controller: _passwordCtrl,
-                      obscureText: true,
+                      obscureText: model.isPasswordObscured,
                       autofocus: false,
                       onChanged: (v) => model.setPassword(v),
                       enabled: model.isPasswordEnabled,
@@ -164,6 +164,18 @@ class AuthDialogState extends State<AuthDialog> {
                         errorStyle: TextStyle(
                           fontSize: 12,
                           color: Colors.redAccent,
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            model.isPasswordObscured
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                          onPressed: () {
+                            model
+                                .setPasswordObscured(!model.isPasswordObscured);
+                          },
                         ),
                       ),
                     ),
