@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/struct.proto";
 
 package v2.sys_account.services;
 
@@ -73,7 +72,7 @@ message RefreshAccessTokenResponse {
 }
 
 message UserDefinedFields {
-  map<string, google.protobuf.Value> fields = 1;
+  bytes fields = 1;
 }
 
 message VerifyAccountRequest {
@@ -151,6 +150,7 @@ message ListRequest {
   // (current) listed Accounts for pagination purpose (cursor).
   string current_page_id = 3;
   bool is_descending = 4;
+  bytes filters = 5;
 }
 
 message ListResponse {
@@ -208,6 +208,7 @@ message ListAccountsRequest {
   // (current) listed Accounts for pagination purpose (cursor).
   string current_page_id = 3;
   bool is_descending = 4;
+  bytes filters = 5;
 }
 
 message ListAccountsResponse {
@@ -218,7 +219,7 @@ message ListAccountsResponse {
 
 message SearchAccountsRequest {
   // query can be either email, UserDefinedFields fields
-  map<string, google.protobuf.Value> query = 1;
+  bytes query = 1;
   ListAccountsRequest search_params = 2;
 }
 

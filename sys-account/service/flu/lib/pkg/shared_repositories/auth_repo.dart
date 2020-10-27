@@ -247,3 +247,10 @@ Future<String> getTempAccountId() async {
   }
   return "";
 }
+
+Future<void> logOut() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove(_accountIdKey);
+  prefs.remove(_accessTokenKey);
+  prefs.remove(_refreshTokenKey);
+}

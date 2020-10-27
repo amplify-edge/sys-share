@@ -92,6 +92,8 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().Int64Var(&req.LastLogin.Seconds, cfg.FlagNamer("LastLogin Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.LastLogin.Nanos, cfg.FlagNamer("LastLogin Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().BoolVar(&req.Disabled, cfg.FlagNamer("Disabled"), false, "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Fields.Fields, cfg.FlagNamer("Fields Fields"), "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Survey.Fields, cfg.FlagNamer("Survey Fields"), "")
 	cmd.PersistentFlags().BoolVar(&req.Verified, cfg.FlagNamer("Verified"), false, "")
 
 	return cmd
@@ -180,6 +182,7 @@ func _AccountServiceListAccountsCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.OrderBy, cfg.FlagNamer("OrderBy"), "", "")
 	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
 
 	return cmd
 }
@@ -223,10 +226,12 @@ func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Query, cfg.FlagNamer("Query"), "query can be either email, UserDefinedFields fields")
 	cmd.PersistentFlags().Int64Var(&req.SearchParams.PerPageEntries, cfg.FlagNamer("SearchParams PerPageEntries"), 0, "limit")
 	cmd.PersistentFlags().StringVar(&req.SearchParams.OrderBy, cfg.FlagNamer("SearchParams OrderBy"), "", "")
 	cmd.PersistentFlags().StringVar(&req.SearchParams.CurrentPageId, cfg.FlagNamer("SearchParams CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 	cmd.PersistentFlags().BoolVar(&req.SearchParams.IsDescending, cfg.FlagNamer("SearchParams IsDescending"), false, "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.SearchParams.Filters, cfg.FlagNamer("SearchParams Filters"), "")
 
 	return cmd
 }
@@ -338,6 +343,8 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().Int64Var(&req.LastLogin.Seconds, cfg.FlagNamer("LastLogin Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.LastLogin.Nanos, cfg.FlagNamer("LastLogin Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().BoolVar(&req.Disabled, cfg.FlagNamer("Disabled"), false, "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Fields.Fields, cfg.FlagNamer("Fields Fields"), "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Survey.Fields, cfg.FlagNamer("Survey Fields"), "")
 	cmd.PersistentFlags().BoolVar(&req.Verified, cfg.FlagNamer("Verified"), false, "")
 
 	return cmd
@@ -565,6 +572,7 @@ func _OrgProjServiceListProjectCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.OrderBy, cfg.FlagNamer("OrderBy"), "", "")
 	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
 
 	return cmd
 }
@@ -783,6 +791,7 @@ func _OrgProjServiceListOrgCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.OrderBy, cfg.FlagNamer("OrderBy"), "", "")
 	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
 
 	return cmd
 }

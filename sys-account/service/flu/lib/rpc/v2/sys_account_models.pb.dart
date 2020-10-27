@@ -11,7 +11,6 @@ import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'google/protobuf/timestamp.pb.dart' as $2;
-import 'google/protobuf/struct.pb.dart' as $3;
 
 import 'sys_account_models.pbenum.dart';
 
@@ -586,7 +585,7 @@ class RefreshAccessTokenResponse extends $pb.GeneratedMessage {
 
 class UserDefinedFields extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('UserDefinedFields', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
-    ..m<$core.String, $3.Value>(1, 'fields', entryClassName: 'UserDefinedFields.FieldsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $3.Value.create, packageName: const $pb.PackageName('v2.sys_account.services'))
+    ..a<$core.List<$core.int>>(1, 'fields', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -606,7 +605,13 @@ class UserDefinedFields extends $pb.GeneratedMessage {
   static UserDefinedFields _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.Map<$core.String, $3.Value> get fields => $_getMap(0);
+  $core.List<$core.int> get fields => $_getN(0);
+  @$pb.TagNumber(1)
+  set fields($core.List<$core.int> v) { $_setBytes(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasFields() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearFields() => clearField(1);
 }
 
 class VerifyAccountRequest extends $pb.GeneratedMessage {
@@ -1103,6 +1108,7 @@ class ListRequest extends $pb.GeneratedMessage {
     ..aOS(2, 'orderBy')
     ..aOS(3, 'currentPageId')
     ..aOB(4, 'isDescending')
+    ..a<$core.List<$core.int>>(5, 'filters', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -1156,6 +1162,15 @@ class ListRequest extends $pb.GeneratedMessage {
   $core.bool hasIsDescending() => $_has(3);
   @$pb.TagNumber(4)
   void clearIsDescending() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.List<$core.int> get filters => $_getN(4);
+  @$pb.TagNumber(5)
+  set filters($core.List<$core.int> v) { $_setBytes(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasFilters() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearFilters() => clearField(5);
 }
 
 class ListResponse extends $pb.GeneratedMessage {
@@ -1483,6 +1498,7 @@ class ListAccountsRequest extends $pb.GeneratedMessage {
     ..aOS(2, 'orderBy')
     ..aOS(3, 'currentPageId')
     ..aOB(4, 'isDescending')
+    ..a<$core.List<$core.int>>(5, 'filters', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -1536,6 +1552,15 @@ class ListAccountsRequest extends $pb.GeneratedMessage {
   $core.bool hasIsDescending() => $_has(3);
   @$pb.TagNumber(4)
   void clearIsDescending() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.List<$core.int> get filters => $_getN(4);
+  @$pb.TagNumber(5)
+  set filters($core.List<$core.int> v) { $_setBytes(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasFilters() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearFilters() => clearField(5);
 }
 
 class ListAccountsResponse extends $pb.GeneratedMessage {
@@ -1575,7 +1600,7 @@ class ListAccountsResponse extends $pb.GeneratedMessage {
 
 class SearchAccountsRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('SearchAccountsRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
-    ..m<$core.String, $3.Value>(1, 'query', entryClassName: 'SearchAccountsRequest.QueryEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OM, valueCreator: $3.Value.create, packageName: const $pb.PackageName('v2.sys_account.services'))
+    ..a<$core.List<$core.int>>(1, 'query', $pb.PbFieldType.OY)
     ..aOM<ListAccountsRequest>(2, 'searchParams', subBuilder: ListAccountsRequest.create)
     ..hasRequiredFields = false
   ;
@@ -1596,7 +1621,13 @@ class SearchAccountsRequest extends $pb.GeneratedMessage {
   static SearchAccountsRequest _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.Map<$core.String, $3.Value> get query => $_getMap(0);
+  $core.List<$core.int> get query => $_getN(0);
+  @$pb.TagNumber(1)
+  set query($core.List<$core.int> v) { $_setBytes(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasQuery() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearQuery() => clearField(1);
 
   @$pb.TagNumber(2)
   ListAccountsRequest get searchParams => $_getN(1);

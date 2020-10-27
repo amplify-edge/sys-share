@@ -3,6 +3,7 @@ package pkg
 import (
 	"context"
 	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/segmentio/encoding/json"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -77,7 +78,11 @@ type AccountService interface {
 
 func newAccountProxy(as AccountService) func(context.Context, *rpc.Account) (*rpc.Account, error) {
 	return func(ctx context.Context, acc *rpc.Account) (*rpc.Account, error) {
-		account, err := as.NewAccount(ctx, AccountFromProto(acc))
+		pkgAccount, err := AccountFromProto(acc)
+		if err != nil {
+			return nil, err
+		}
+		account, err := as.NewAccount(ctx, pkgAccount)
 		if err != nil {
 			return nil, err
 		}
@@ -97,7 +102,11 @@ func getAccountProxy(as AccountService) func(context.Context, *rpc.GetAccountReq
 
 func listAccountsProxy(as AccountService) func(context.Context, *rpc.ListAccountsRequest) (*rpc.ListAccountsResponse, error) {
 	return func(ctx context.Context, lar *rpc.ListAccountsRequest) (*rpc.ListAccountsResponse, error) {
-		accounts, err := as.ListAccounts(ctx, ListAccountsRequestFromProto(lar))
+		listAccounts, err := ListAccountsRequestFromProto(lar)
+		if err != nil {
+			return nil, err
+		}
+		accounts, err := as.ListAccounts(ctx, listAccounts)
 		if err != nil {
 			return nil, err
 		}
@@ -121,13 +130,19 @@ func assignToRoleProxy(as AccountService) func(context.Context, *rpc.AssignAccou
 
 func searchAccountsProxy(as AccountService) func(context.Context, *rpc.SearchAccountsRequest) (*rpc.SearchAccountsResponse, error) {
 	return func(ctx context.Context, sar *rpc.SearchAccountsRequest) (*rpc.SearchAccountsResponse, error) {
-		queryFields := map[string]string{}
-		for k, v := range sar.GetQuery() {
-			queryFields[k] = v.String()
+		queryFields := map[string]interface{}{}
+		if sar.Query != nil {
+			if err := json.Unmarshal(sar.Query, &queryFields); err != nil {
+				return nil, err
+			}
+		}
+		listAccountRequest, err := ListAccountsRequestFromProto(sar.GetSearchParams())
+		if err != nil {
+			return nil, err
 		}
 		accounts, err := as.SearchAccounts(ctx, &SearchAccountsRequest{
 			Query:       queryFields,
-			SearchParam: ListAccountsRequestFromProto(sar.GetSearchParams()),
+			SearchParam: listAccountRequest,
 		})
 		if err != nil {
 			return nil, err
@@ -138,7 +153,10 @@ func searchAccountsProxy(as AccountService) func(context.Context, *rpc.SearchAcc
 
 func updateAccountProxy(as AccountService) func(context.Context, *rpc.Account) (*rpc.Account, error) {
 	return func(ctx context.Context, in *rpc.Account) (*rpc.Account, error) {
-		req := AccountFromProto(in)
+		req, err := AccountFromProto(in)
+		if err != nil {
+			return nil, err
+		}
 		acc, err := as.UpdateAccount(ctx, req)
 		if err != nil {
 			return nil, err
@@ -306,7 +324,11 @@ func (as *accountSvcClientProxy) NewAccount(ctx context.Context, in *Account, op
 	if err != nil {
 		return nil, err
 	}
-	return AccountFromProto(resp), nil
+	account, err := AccountFromProto(resp)
+	if err != nil {
+		return nil, err
+	}
+	return account, nil
 }
 
 func (as *accountSvcClientProxy) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
@@ -315,16 +337,27 @@ func (as *accountSvcClientProxy) GetAccount(ctx context.Context, in *GetAccountR
 	if err != nil {
 		return nil, err
 	}
-	return AccountFromProto(resp), nil
+	account, err := AccountFromProto(resp)
+	if err != nil {
+		return nil, err
+	}
+	return account, nil
 }
 
 func (as *accountSvcClientProxy) ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error) {
-	req := in.ToProto()
+	req, err := in.ToProto()
+	if err != nil {
+		return nil, err
+	}
 	resp, err := as.svcClient.ListAccounts(ctx, req, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ListAccountsResponseFromProto(resp), nil
+	listAccounts, err := ListAccountsResponseFromProto(resp)
+	if err != nil {
+		return nil, err
+	}
+	return listAccounts, nil
 }
 
 func (as *accountSvcClientProxy) SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error) {
@@ -336,7 +369,11 @@ func (as *accountSvcClientProxy) SearchAccounts(ctx context.Context, in *SearchA
 	if err != nil {
 		return nil, err
 	}
-	return SearchAccountResponseFromProto(resp), nil
+	searchAccounts, err := SearchAccountResponseFromProto(resp)
+	if err != nil {
+		return nil, err
+	}
+	return searchAccounts, nil
 }
 
 func (as *accountSvcClientProxy) AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error) {
@@ -345,7 +382,11 @@ func (as *accountSvcClientProxy) AssignAccountToRole(ctx context.Context, in *As
 	if err != nil {
 		return nil, err
 	}
-	return AccountFromProto(resp), nil
+	account, err := AccountFromProto(resp)
+	if err != nil {
+		return nil, err
+	}
+	return account, nil
 }
 
 func (as *accountSvcClientProxy) UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
@@ -357,7 +398,11 @@ func (as *accountSvcClientProxy) UpdateAccount(ctx context.Context, in *Account,
 	if err != nil {
 		return nil, err
 	}
-	return AccountFromProto(resp), nil
+	account, err := AccountFromProto(resp)
+	if err != nil {
+		return nil, err
+	}
+	return account, nil
 }
 
 func (as *accountSvcClientProxy) DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error) {
@@ -366,7 +411,11 @@ func (as *accountSvcClientProxy) DisableAccount(ctx context.Context, in *Disable
 	if err != nil {
 		return nil, err
 	}
-	return AccountFromProto(resp), nil
+	account, err := AccountFromProto(resp)
+	if err != nil {
+		return nil, err
+	}
+	return account, nil
 }
 
 type AuthServiceClient interface {

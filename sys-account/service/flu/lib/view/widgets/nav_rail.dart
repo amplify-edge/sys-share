@@ -189,7 +189,7 @@ class AccountNavRail extends StatelessWidget {
               for (var tab in tabs) ...[
                 InkWell(
                   child: Container(
-                    height: 46,
+                    height: 50,
                     child: Row(
                       children: [
                         SizedBox(width: 16),
@@ -218,7 +218,7 @@ class AccountNavRail extends StatelessWidget {
                                     ),
                                   ),
                             ),
-                            SizedBox(width: 50),
+                            SizedBox(width: 70),
                           ],
                         ),
                       ],
@@ -228,6 +228,9 @@ class AccountNavRail extends StatelessWidget {
                     onPressed(tabs.indexOf(tab));
                     tab.onTap();
                   },
+                ),
+                SizedBox(
+                  height: 20,
                 ),
               ]
             ],
@@ -301,7 +304,7 @@ class AccountNavRail extends StatelessWidget {
 
 class TabItem extends StatelessWidget {
   final Text title;
-  final Icon icon;
+  final Widget icon;
   final Function onTap;
 
   const TabItem({

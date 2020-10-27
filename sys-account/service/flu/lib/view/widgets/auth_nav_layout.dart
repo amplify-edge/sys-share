@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sys_share_sys_account_service/view/widgets/view_model/org_sidebar_view_model.dart';
+import 'package:sys_share_sys_account_service/view/widgets/view_model/auth_nav_view_model.dart';
 import 'nav_rail.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/sys_core.dart';
@@ -23,12 +23,21 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
     if (isTablet(context)) platform = "tablet";
     if (isDesktop(context)) platform = "desktop";
 
-    return ViewModelBuilder<OrgProjViewModel>.reactive(
-      viewModelBuilder: () => OrgProjViewModel(),
+    return ViewModelBuilder<AuthNavViewModel>.reactive(
+      viewModelBuilder: () => AuthNavViewModel(),
+      onModelReady: (AuthNavViewModel model) async {
+        await model.isUserLoggedIn();
+        if (model.isLoggedIn) {
+          print("USER IS LOGGED IN");
+          await model.getSubscribedOrgs();
+          print("ALL ORGS FROM AUTHNAV: " + model.subscribedOrgs.toString());
+        }
+      },
       builder: (context, model, child) => AccountNavRail(
         //rebuild here on every platform change
         //unique keys would lead to rerender on every pixel change when resizing
         // the window
+        isDense: false,
         key: ValueKey(platform),
         currentIndex: _currentIndex,
         drawerHeader: Container(height: 74, child: Text("")),
@@ -39,14 +48,43 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                 : Theme.of(context).primaryColor,
         bottomNavigationBarUnselectedColor: Colors.grey,
         tabs: [
-          TabItem(
-            title: Text('Sign In'),
-            icon: Icon(Icons.login),
-            onTap: () => showDialog(
-              context: context,
-              builder: (context) => AuthDialog(),
-            ),
-          ),
+          for (var org in model.subscribedOrgs) ...[
+            TabItem(
+              icon: ClipOval(
+                child: Image.network(
+                  org.logoUrl,
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              title: Text(org.name),
+              onTap: () {
+                print(org.id);
+              },
+            )
+          ],
+          model.isLoggedIn
+              ? TabItem(
+                  title: Text('Sign Out'),
+                  icon: Icon(Icons.logout),
+                  onTap: () async => await model.logOut(),
+                )
+              : TabItem(
+                  title: Text('Sign In'),
+                  icon: Icon(Icons.login),
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => AuthDialog(
+                      callback: () async {
+                        await model.isUserLoggedIn();
+                        if (model.isLoggedIn) {
+                          await model.getSubscribedOrgs();
+                        }
+                      },
+                    ),
+                  ),
+                ),
         ],
         onPressed: (index) {
           print(index);

@@ -1,4 +1,8 @@
+## EDITORS
 .idea
+.vscode
+
+## Binaries
 bin-all
 
 ## Flutter locks
@@ -6,3 +10,4 @@ bin-all
 
 # JSONNET locks
 *.lock.json
+
