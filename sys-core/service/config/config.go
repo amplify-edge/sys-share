@@ -6,9 +6,11 @@ import (
 	"crypto/x509"
 	"fmt"
 	"github.com/segmentio/ksuid"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"io/ioutil"
 	"math/big"
 	"os"
+	"time"
 
 	"github.com/caddyserver/certmagic"
 	"google.golang.org/grpc/credentials"
@@ -115,4 +117,10 @@ func GenerateTLSConfig(staging bool, email string, domains ...string) (*tls.Conf
 
 func NewID() string {
 	return ksuid.New().String()
+}
+
+// helper func to convert unix timestamp (seconds) to timestamppb.Timestamp
+func UnixToUtcTS(in int64) *timestamppb.Timestamp {
+	t := time.Unix(in, 0).UTC()
+	return timestamppb.New(t)
 }
