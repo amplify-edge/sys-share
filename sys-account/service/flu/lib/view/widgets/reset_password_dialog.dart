@@ -163,6 +163,18 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                           fontSize: 12,
                           color: Colors.redAccent,
                         ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            model.isPasswordObscured
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                          onPressed: () {
+                            model
+                                .setPasswordObscured(!model.isPasswordObscured);
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -172,7 +184,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                       bottom: 8,
                     ),
                     child: Text(
-                      'Password',
+                      'Verification Token',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -189,7 +201,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       controller: _verificationCtrl,
-                      obscureText: true,
+                      obscureText: false,
                       autofocus: false,
                       onChanged: (v) => model.setVerificationTokenText(v),
                       enabled: model.isVerificationFieldEnabled,

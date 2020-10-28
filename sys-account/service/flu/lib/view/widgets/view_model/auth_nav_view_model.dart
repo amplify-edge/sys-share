@@ -7,6 +7,7 @@ import 'package:sys_share_sys_account_service/pkg/shared_repositories/orgproj_re
     as orgRepo;
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart'
     as rpc;
+import 'dart:convert';
 
 class AuthNavViewModel extends BaseModel {
   // fields
@@ -19,6 +20,7 @@ class AuthNavViewModel extends BaseModel {
   bool _isSuperuser = false;
   bool _isAdmin = false;
   int _currentPageId = 0;
+  Map<int, rpc.UserRoles> _mapRoles = Map<int, rpc.UserRoles>();
   Map<String, dynamic> _filters = Map<String, dynamic>();
   List<rpc.Org> _subscribedOrgs = List<rpc.Org>();
   List<rpc.Project> _subscribedProjects = List<rpc.Project>();
@@ -104,7 +106,9 @@ class AuthNavViewModel extends BaseModel {
   Future<void> verifySuperuser() async {
     if (_isLoggedIn) {
       await _fetchAccountId();
-      if (_currentAccount.role.role == rpc.Roles.SUPERADMIN) {
+      final _isSuperAdmin = authRepo.isSuperAdmin(_currentAccount);
+      if (_isSuperAdmin) {
+        print("USER IS SUPERUSER!!!");
         _setSuperUser(true);
       }
     }
@@ -113,7 +117,9 @@ class AuthNavViewModel extends BaseModel {
   Future<void> verifyAdmin() async {
     if (_isLoggedIn) {
       await _fetchAccountId();
-      if (_currentAccount.role.role == rpc.Roles.ADMIN) {
+      _mapRoles = authRepo.isAdmin(_currentAccount);
+      notifyListeners();
+      if (_mapRoles.isNotEmpty) {
         _setAdmin(true);
       }
     }
@@ -135,41 +141,42 @@ class AuthNavViewModel extends BaseModel {
     await authRepo.logOut();
   }
 
+  Future<void> _fetchOrgs(
+      Map<String, dynamic> filter, int perPageEntries) async {
+    final filterBytes = Utf8Codec().encode(filter.toString());
+    await orgRepo.OrgProjRepo.listUserOrgs(
+      currentPageId: _currentPageId.toString(),
+      orderBy: _orderBy,
+      isDescending: _isDescending,
+      perPageEntries: perPageEntries,
+      filters: filterBytes,
+    ).then((resp) {
+      setCurrentPageId(int.parse(resp.nextPageId));
+      _setSubscribedOrgs(resp.orgs);
+    }).catchError((e) {
+      setErrMsg(e.toString());
+    });
+  }
+
   Future<void> getSubscribedOrgs({perPageEntries = 10}) async {
     if (_currentAccount.id.isEmpty) {
       await _fetchAccountId();
     }
     await verifySuperuser();
-    print("USER IS SUPERUSER? " + _isSuperuser.toString());
     await verifyAdmin();
-    print("USER IS ADMIN? " + _isSuperuser.toString());
-    print("CURRENT USER ROLE: " + _currentAccount.role.toString());
-    if (_currentAccount.hasRole() && _currentAccount.role.hasOrgId()) {
-      orgRepo.OrgProjRepo.listUserOrgs(
-        currentPageId: _currentPageId.toString(),
-        orderBy: _orderBy,
-        isDescending: _isDescending,
-        perPageEntries: perPageEntries,
-      ).then((resp) {
-        setCurrentPageId(int.parse(resp.nextPageId));
-        _setSubscribedOrgs(resp.orgs);
-      }).catchError((e) {
-        setErrMsg(e.toString());
+    if (!_isSuperuser) {
+      final orgIds = authRepo.getSubscribedOrgs(_currentAccount);
+      List<rpc.Org> _orgs = List<rpc.Org>();
+      orgIds.map((_id) async {
+        await orgRepo.OrgProjRepo.getOrg(id: _id).then((_org) {
+          _orgs.add(_org);
+        }).catchError((e) {
+          setErrMsg(e.toString());
+        });
       });
-    } else if (_currentAccount.hasRole() && _isSuperuser) {
+    } else {
       print("FETCHING ALL ORGS");
-      orgRepo.OrgProjRepo.listUserOrgs(
-        currentPageId: _currentPageId.toString(),
-        orderBy: _orderBy,
-        isDescending: _isDescending,
-        perPageEntries: perPageEntries,
-      ).then((resp) {
-        setCurrentPageId(int.parse(resp.nextPageId));
-        _setSubscribedOrgs(resp.orgs);
-        print("ALL ORGS: " + _subscribedOrgs.toString());
-      }).catchError((e) {
-        setErrMsg(e.toString());
-      });
+      await _fetchOrgs(Map<String, dynamic>(), perPageEntries);
     }
   }
 }

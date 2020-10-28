@@ -246,7 +246,7 @@ const Account$json = const {
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'email', '3': 2, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'password', '3': 3, '4': 1, '5': 9, '10': 'password'},
-    const {'1': 'role', '3': 4, '4': 1, '5': 11, '6': '.v2.sys_account.services.UserRoles', '10': 'role'},
+    const {'1': 'roles', '3': 4, '4': 3, '5': 11, '6': '.v2.sys_account.services.UserRoles', '10': 'roles'},
     const {'1': 'created_at', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
     const {'1': 'updated_at', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'updatedAt'},
     const {'1': 'last_login', '3': 7, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'lastLogin'},

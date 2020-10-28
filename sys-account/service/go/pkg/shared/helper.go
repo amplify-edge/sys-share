@@ -4,10 +4,16 @@ import (
 	"fmt"
 	"github.com/getcouragenow/sys-share/sys-account/service/go/pkg"
 	"github.com/segmentio/ksuid"
+	log "github.com/sirupsen/logrus"
 )
 
-func IsSuperadmin(in *pkg.UserRoles) bool {
-	return in.Role == pkg.SUPERADMIN
+func IsSuperadmin(in []*pkg.UserRoles) bool {
+	for _, userRole := range in {
+		if userRole.Role == pkg.SUPERADMIN {
+			return true
+		}
+	}
+	return false
 }
 
 func IsDisabled(in *pkg.Account) bool {
@@ -18,8 +24,13 @@ func IsVerified(in *pkg.Account) bool {
 	return in.Verified
 }
 
-func IsAdmin(in *pkg.UserRoles) bool {
-	return in.Role == pkg.ADMIN
+func IsAdmin(in []*pkg.UserRoles) (bool, *int) {
+	for idx, userRole := range in {
+		if userRole.Role == pkg.ADMIN {
+			return true, &idx
+		}
+	}
+	return false, nil
 }
 
 func validKsuid(in string) error {
@@ -30,11 +41,31 @@ func validKsuid(in string) error {
 	return nil
 }
 
+func findOrgId(curAcc *pkg.Account, orgId string) bool {
+	for _, role := range curAcc.Role {
+		if role.OrgID == orgId {
+			log.Warnf("FOUND!")
+			return true
+		}
+	}
+	log.Warnf("NOT FOUND")
+	return false
+}
+
+func findProjectId(curAcc *pkg.Account, projId string) bool {
+	for _, role := range curAcc.Role {
+		if role.ProjectID == projId {
+			return true
+		}
+	}
+	return false
+}
+
 func AllowOrgMember(curAcc *pkg.Account, accountOrgId string) (bool, error) {
-	if !IsDisabled(curAcc) || !IsVerified(curAcc) {
+	if IsDisabled(curAcc) || !IsVerified(curAcc) {
 		return false, fmt.Errorf("not allowed to access org: %s", accountOrgId)
 	}
-	allowed := curAcc.Role.OrgID == accountOrgId || IsSuperadmin(curAcc.Role)
+	allowed := findOrgId(curAcc, accountOrgId) || IsSuperadmin(curAcc.Role)
 	if !allowed {
 		return false, fmt.Errorf("not allowed to access org: %s", accountOrgId)
 	}
@@ -42,10 +73,10 @@ func AllowOrgMember(curAcc *pkg.Account, accountOrgId string) (bool, error) {
 }
 
 func AllowProjectMember(curAcc *pkg.Account, accountProjectId string) (bool, error) {
-	if !IsDisabled(curAcc) || !IsVerified(curAcc) {
+	if IsDisabled(curAcc) || !IsVerified(curAcc) {
 		return false, fmt.Errorf("not allowed to access project: %s", accountProjectId)
 	}
-	allowed := curAcc.Role.ProjectID == accountProjectId || IsSuperadmin(curAcc.Role)
+	allowed := findProjectId(curAcc, accountProjectId) || IsSuperadmin(curAcc.Role)
 	if !allowed {
 		return false, fmt.Errorf("not allowed to access project: %s", accountProjectId)
 	}
@@ -53,38 +84,39 @@ func AllowProjectMember(curAcc *pkg.Account, accountProjectId string) (bool, err
 }
 
 func AllowOrgAdmin(curAcc *pkg.Account, accountOrgId string) (bool, error) {
-	if !IsDisabled(curAcc) || !IsVerified(curAcc) {
+	if IsDisabled(curAcc) || !IsVerified(curAcc) {
 		return false, fmt.Errorf("not allowed to access org: %s", accountOrgId)
 	}
-	isAdm := IsAdmin(curAcc.Role)
-	allowMember, err := AllowOrgMember(curAcc, accountOrgId)
-	if err != nil {
-		return false, err
+	if accountOrgId == "" {
+		return false, fmt.Errorf("not allowed, empty org id")
 	}
-	return (isAdm && allowMember) || IsSuperadmin(curAcc.Role), nil
+	isAdm, idx := IsAdmin(curAcc.Role)
+	if !isAdm || IsSuperadmin(curAcc.Role) {
+		return false, fmt.Errorf("not allowed to access org: %s", accountOrgId)
+	}
+	return curAcc.Role[*idx].OrgID == accountOrgId || IsSuperadmin(curAcc.Role), nil
 }
 
 func AllowProjectAdmin(curAcc *pkg.Account, accountOrgId, accountProjectId string) (bool, error) {
-	if !IsDisabled(curAcc) || !IsVerified(curAcc) {
+	if IsDisabled(curAcc) || !IsVerified(curAcc) {
 		return false, fmt.Errorf("not allowed to access project: %s", accountProjectId)
 	}
-	isAdm := IsAdmin(curAcc.Role)
-	allowMember, err := AllowProjectMember(curAcc, accountProjectId)
-	if err != nil {
-		return false, err
+	isAdm, idx := IsAdmin(curAcc.Role)
+	if !isAdm || IsSuperadmin(curAcc.Role) {
+		return false, fmt.Errorf("not allowed to access org: %s", accountOrgId)
 	}
-	if accountOrgId != "" {
+	if accountProjectId == "" && accountOrgId != "" {
 		allowOrgAdmin, err := AllowOrgAdmin(curAcc, accountOrgId)
 		if err != nil {
 			return false, err
 		}
-		return (isAdm && allowMember) || allowOrgAdmin || IsSuperadmin(curAcc.Role), nil
+		return allowOrgAdmin, nil
 	}
-	return (isAdm && allowMember) || IsSuperadmin(curAcc.Role), nil
+	return curAcc.Role[*idx].ProjectID == accountProjectId || IsSuperadmin(curAcc.Role), nil
 }
 
 func AllowSelf(curAcc *pkg.Account, accountId string) bool {
-	if !IsDisabled(curAcc) || !IsVerified(curAcc) {
+	if IsDisabled(curAcc) || !IsVerified(curAcc) {
 		return false
 	}
 	return curAcc.Id == accountId && !curAcc.Disabled && curAcc.Verified

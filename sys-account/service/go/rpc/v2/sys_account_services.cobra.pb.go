@@ -36,7 +36,6 @@ func AccountServiceClientCommand(options ...client.Option) *cobra.Command {
 
 func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &Account{
-		Role:      &UserRoles{},
 		CreatedAt: &timestamp.Timestamp{},
 		UpdatedAt: &timestamp.Timestamp{},
 		LastLogin: &timestamp.Timestamp{},
@@ -81,10 +80,6 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
-	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	cmd.PersistentFlags().StringVar(&req.Role.ProjectId, cfg.FlagNamer("Role ProjectId"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Role.OrgId, cfg.FlagNamer("Role OrgId"), "", "")
-	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
 	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().Int64Var(&req.UpdatedAt.Seconds, cfg.FlagNamer("UpdatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
@@ -287,7 +282,6 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 
 func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &Account{
-		Role:      &UserRoles{},
 		CreatedAt: &timestamp.Timestamp{},
 		UpdatedAt: &timestamp.Timestamp{},
 		LastLogin: &timestamp.Timestamp{},
@@ -332,10 +326,6 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
-	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
-	cmd.PersistentFlags().StringVar(&req.Role.ProjectId, cfg.FlagNamer("Role ProjectId"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Role.OrgId, cfg.FlagNamer("Role OrgId"), "", "")
-	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
 	cmd.PersistentFlags().Int64Var(&req.CreatedAt.Seconds, cfg.FlagNamer("CreatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
 	cmd.PersistentFlags().Int32Var(&req.CreatedAt.Nanos, cfg.FlagNamer("CreatedAt Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 	cmd.PersistentFlags().Int64Var(&req.UpdatedAt.Seconds, cfg.FlagNamer("UpdatedAt Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")

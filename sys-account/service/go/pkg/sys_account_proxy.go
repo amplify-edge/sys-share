@@ -224,6 +224,7 @@ func authResetPasswordProxy(as AuthService) func(context.Context, *rpc.ResetPass
 			Email:           in.GetEmail(),
 			Password:        in.GetPassword(),
 			PasswordConfirm: in.GetPasswordConfirm(),
+			VerifyToken: in.GetVerifyToken(),
 		})
 		if err != nil {
 			return nil, err

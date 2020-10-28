@@ -7,6 +7,7 @@ class AccountViewModel extends BaseModel {
   bool _isEmailEnabled = true;
   bool _isPasswordEnabled = true;
   bool _isLogin = true;
+  bool _isPasswordObscured = true;
   String _userEmail = '';
   String _userPassword = '';
   String _refreshToken = '';
@@ -17,6 +18,7 @@ class AccountViewModel extends BaseModel {
   bool get hasResponse => _hasResponse;
   bool get isEmailEnabled => _isEmailEnabled;
   bool get isPasswordEnabled => _isPasswordEnabled;
+  bool get isPasswordObscured => _isPasswordObscured;
   bool get isLogin => _isLogin;
   bool get isLoginParamValid => _validateEmail() && _validatePassword();
   bool get isRegisterParamValid => _validateEmail() && _validatePassword();
@@ -49,6 +51,11 @@ class AccountViewModel extends BaseModel {
 
   void setPassword(String value) {
     _userPassword = value;
+    notifyListeners();
+  }
+
+  void setPasswordObscured(bool value) {
+    _isPasswordObscured = value;
     notifyListeners();
   }
 

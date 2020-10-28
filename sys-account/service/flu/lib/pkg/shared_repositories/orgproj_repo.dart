@@ -11,12 +11,14 @@ class OrgProjRepo {
       {String currentPageId = '0',
       String orderBy,
       int perPageEntries = 10,
+      @required List<int> filters,
       bool isDescending = false}) async {
     final ppe = Int64(perPageEntries);
     final req = rpc.ListRequest()
       ..perPageEntries = ppe
       ..currentPageId = currentPageId
       ..orderBy = orderBy
+      ..filters = filters
       ..isDescending = isDescending;
 
     try {

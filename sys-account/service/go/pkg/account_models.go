@@ -77,7 +77,7 @@ type UserDefinedFields struct {
 
 func UserDefinedFieldsFromProto(in *accountRpc.UserDefinedFields) (*UserDefinedFields, error) {
 	fields := map[string]interface{}{}
-	if in != nil {
+	if in != nil && in.Fields != nil {
 		if err := json.Unmarshal(in.Fields, &fields); err != nil {
 			return nil, err
 		}
@@ -97,7 +97,7 @@ type Account struct {
 	Id        string             `json:"id,omitempty"`
 	Email     string             `json:"email,omitempty"`
 	Password  string             `json:"password,omitempty"`
-	Role      *UserRoles         `json:"role,omitempty"`
+	Role      []*UserRoles       `json:"roles,omitempty"`
 	CreatedAt int64              `json:"created_at,omitempty"`
 	UpdatedAt int64              `json:"updated_at,omitempty"`
 	LastLogin int64              `json:"last_login,omitempty"`
@@ -115,12 +115,18 @@ func (acc *Account) GetEmail() string {
 	return acc.Email
 }
 
-func (acc *Account) GetRole() *UserRoles {
+func (acc *Account) GetRole() []*UserRoles {
 	return acc.Role
 }
 
 func (acc *Account) ToProto() (*accountRpc.Account, error) {
-	role := acc.Role.ToProto()
+	var roles []*accountRpc.UserRoles
+	if len(acc.Role) > 0 {
+		for _, r := range acc.Role {
+			role := r.ToProto()
+			roles = append(roles, role)
+		}
+	}
 	surveyFields, err := acc.Survey.ToProto()
 	if err != nil {
 		return nil, err
@@ -133,7 +139,7 @@ func (acc *Account) ToProto() (*accountRpc.Account, error) {
 		Id:        acc.Id,
 		Email:     acc.Email,
 		Password:  acc.Password,
-		Role:      role,
+		Roles:     roles,
 		CreatedAt: unixToUtcTS(acc.CreatedAt),
 		UpdatedAt: unixToUtcTS(acc.UpdatedAt),
 		LastLogin: unixToUtcTS(acc.LastLogin),
@@ -145,7 +151,13 @@ func (acc *Account) ToProto() (*accountRpc.Account, error) {
 }
 
 func AccountFromProto(in *accountRpc.Account) (*Account, error) {
-	role := UserRolesFromProto(in.GetRole())
+	var roles []*UserRoles
+	if in.Roles !=  nil && len(in.Roles) > 0 {
+		for _, r := range in.Roles {
+			role := UserRolesFromProto(r)
+			roles = append(roles, role)
+		}
+	}
 	fields, err := UserDefinedFieldsFromProto(in.Fields)
 	if err != nil {
 		return nil, err
@@ -154,7 +166,7 @@ func AccountFromProto(in *accountRpc.Account) (*Account, error) {
 		Id:        in.GetId(),
 		Email:     in.GetEmail(),
 		Password:  in.GetPassword(),
-		Role:      role,
+		Role:      roles,
 		CreatedAt: tsToUnixUTC(in.GetCreatedAt()),
 		UpdatedAt: tsToUnixUTC(in.GetUpdatedAt()),
 		LastLogin: tsToUnixUTC(in.GetLastLogin()),

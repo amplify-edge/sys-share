@@ -1323,7 +1323,7 @@ class Account extends $pb.GeneratedMessage {
     ..aOS(1, 'id')
     ..aOS(2, 'email')
     ..aOS(3, 'password')
-    ..aOM<UserRoles>(4, 'role', subBuilder: UserRoles.create)
+    ..pc<UserRoles>(4, 'roles', $pb.PbFieldType.PM, subBuilder: UserRoles.create)
     ..aOM<$2.Timestamp>(5, 'createdAt', subBuilder: $2.Timestamp.create)
     ..aOM<$2.Timestamp>(6, 'updatedAt', subBuilder: $2.Timestamp.create)
     ..aOM<$2.Timestamp>(7, 'lastLogin', subBuilder: $2.Timestamp.create)
@@ -1377,15 +1377,7 @@ class Account extends $pb.GeneratedMessage {
   void clearPassword() => clearField(3);
 
   @$pb.TagNumber(4)
-  UserRoles get role => $_getN(3);
-  @$pb.TagNumber(4)
-  set role(UserRoles v) { setField(4, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasRole() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearRole() => clearField(4);
-  @$pb.TagNumber(4)
-  UserRoles ensureRole() => $_ensure(3);
+  $core.List<UserRoles> get roles => $_getList(3);
 
   @$pb.TagNumber(5)
   $2.Timestamp get createdAt => $_getN(4);
