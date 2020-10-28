@@ -247,3 +247,40 @@ Future<String> getTempAccountId() async {
   }
   return "";
 }
+
+Future<void> logOut() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove(_accountIdKey);
+  prefs.remove(_accessTokenKey);
+  prefs.remove(_refreshTokenKey);
+}
+
+bool isSuperAdmin(rpc.Account account) {
+  var isSuper = false;
+  account.roles.forEach((role) {
+    if (role.role.name == rpc.Roles.SUPERADMIN.name) {
+      isSuper = true;
+    }
+  });
+  return isSuper;
+}
+
+Map<int, rpc.UserRoles> isAdmin(rpc.Account account) {
+  var mapAdminRoles = Map<int, rpc.UserRoles>();
+  for (var i = 0; i < account.roles.length; i++) {
+    if (account.roles[i].role == rpc.Roles.ADMIN) {
+      mapAdminRoles[i] = account.roles[i];
+    }
+  }
+  return mapAdminRoles;
+}
+
+List<String> getSubscribedOrgs(rpc.Account account) {
+  var listSubscribedOrgs = List<String>();
+  account.roles.forEach((role) {
+    if (role.orgId.isNotEmpty) {
+      listSubscribedOrgs.add(role.orgId);
+    }
+  });
+  return listSubscribedOrgs;
+}

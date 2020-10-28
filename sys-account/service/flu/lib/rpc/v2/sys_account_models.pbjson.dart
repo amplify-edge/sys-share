@@ -117,18 +117,8 @@ const RefreshAccessTokenResponse$json = const {
 const UserDefinedFields$json = const {
   '1': 'UserDefinedFields',
   '2': const [
-    const {'1': 'fields', '3': 1, '4': 3, '5': 11, '6': '.v2.sys_account.services.UserDefinedFields.FieldsEntry', '10': 'fields'},
+    const {'1': 'fields', '3': 1, '4': 1, '5': 12, '10': 'fields'},
   ],
-  '3': const [UserDefinedFields_FieldsEntry$json],
-};
-
-const UserDefinedFields_FieldsEntry$json = const {
-  '1': 'FieldsEntry',
-  '2': const [
-    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    const {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Value', '10': 'value'},
-  ],
-  '7': const {'7': true},
 };
 
 const VerifyAccountRequest$json = const {
@@ -218,6 +208,7 @@ const ListRequest$json = const {
     const {'1': 'order_by', '3': 2, '4': 1, '5': 9, '10': 'orderBy'},
     const {'1': 'current_page_id', '3': 3, '4': 1, '5': 9, '10': 'currentPageId'},
     const {'1': 'is_descending', '3': 4, '4': 1, '5': 8, '10': 'isDescending'},
+    const {'1': 'filters', '3': 5, '4': 1, '5': 12, '10': 'filters'},
   ],
 };
 
@@ -255,7 +246,7 @@ const Account$json = const {
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'email', '3': 2, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'password', '3': 3, '4': 1, '5': 9, '10': 'password'},
-    const {'1': 'role', '3': 4, '4': 1, '5': 11, '6': '.v2.sys_account.services.UserRoles', '10': 'role'},
+    const {'1': 'roles', '3': 4, '4': 3, '5': 11, '6': '.v2.sys_account.services.UserRoles', '10': 'roles'},
     const {'1': 'created_at', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
     const {'1': 'updated_at', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'updatedAt'},
     const {'1': 'last_login', '3': 7, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'lastLogin'},
@@ -280,6 +271,7 @@ const ListAccountsRequest$json = const {
     const {'1': 'order_by', '3': 2, '4': 1, '5': 9, '10': 'orderBy'},
     const {'1': 'current_page_id', '3': 3, '4': 1, '5': 9, '10': 'currentPageId'},
     const {'1': 'is_descending', '3': 4, '4': 1, '5': 8, '10': 'isDescending'},
+    const {'1': 'filters', '3': 5, '4': 1, '5': 12, '10': 'filters'},
   ],
 };
 
@@ -294,19 +286,9 @@ const ListAccountsResponse$json = const {
 const SearchAccountsRequest$json = const {
   '1': 'SearchAccountsRequest',
   '2': const [
-    const {'1': 'query', '3': 1, '4': 3, '5': 11, '6': '.v2.sys_account.services.SearchAccountsRequest.QueryEntry', '10': 'query'},
+    const {'1': 'query', '3': 1, '4': 1, '5': 12, '10': 'query'},
     const {'1': 'search_params', '3': 2, '4': 1, '5': 11, '6': '.v2.sys_account.services.ListAccountsRequest', '10': 'searchParams'},
   ],
-  '3': const [SearchAccountsRequest_QueryEntry$json],
-};
-
-const SearchAccountsRequest_QueryEntry$json = const {
-  '1': 'QueryEntry',
-  '2': const [
-    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
-    const {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Value', '10': 'value'},
-  ],
-  '7': const {'7': true},
 };
 
 const SearchAccountsResponse$json = const {

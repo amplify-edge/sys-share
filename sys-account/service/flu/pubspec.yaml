@@ -25,7 +25,6 @@ dependencies:
   grpc:
   intl: ^0.16.1
   intl_translation: ^0.17.9
-#  flash: ^1.2.0
   stacked: ^1.7.6
   shared_preferences: '>=0.5.12+2 <2.0.0'
   sys_core:

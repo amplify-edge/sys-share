@@ -8,6 +8,7 @@ class ResetPasswordViewModel extends BaseModel {
   bool _isPasswordEnabled = true;
   bool _isVerificationFieldEnabled = true;
   bool _isLogin = true;
+  bool _isPasswordObscured = true;
   String _userEmail = '';
   String _userPassword = '';
   String _verificationToken = '';
@@ -21,6 +22,7 @@ class ResetPasswordViewModel extends BaseModel {
   bool get isPasswordEnabled => _isPasswordEnabled;
 
   bool get isVerificationFieldEnabled => _isVerificationFieldEnabled;
+  bool get isPasswordObscured => _isPasswordObscured;
 
   bool get isLogin => _isLogin;
 
@@ -79,6 +81,11 @@ class ResetPasswordViewModel extends BaseModel {
 
   void _setSuccessMsg(String msg) {
     _successMsg = msg;
+    notifyListeners();
+  }
+
+  void setPasswordObscured(bool value) {
+    _isPasswordObscured = value;
     notifyListeners();
   }
 
