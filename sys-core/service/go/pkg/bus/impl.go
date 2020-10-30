@@ -2,13 +2,13 @@ package bus
 
 import (
 	"context"
+
 	"github.com/segmentio/encoding/json"
 
-	"github.com/getcouragenow/sys-share/sys-core/service/go/pkg")
+	"github.com/getcouragenow/sys-share/sys-core/service/go/pkg"
+)
 
-type ActionDispatcher interface {
-	Dispatch(request *pkg.EventRequest) (map[string]interface{}, error)
-}
+type ActionDispatcher func(context.Context, *pkg.EventRequest) (map[string]interface{}, error)
 
 type CoreBus struct {
 	actions map[string]ActionDispatcher
@@ -33,7 +33,7 @@ func (c *CoreBus) Broadcast(ctx context.Context, in *pkg.EventRequest) (*pkg.Eve
 			Reason: errUnknownEvent,
 		}
 	}
-	resp, err := c.actions[in.EventName].Dispatch(in)
+	resp, err := c.actions[in.EventName](ctx, in)
 	if err != nil {
 		return nil, err
 	}
