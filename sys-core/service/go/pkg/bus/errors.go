@@ -14,6 +14,7 @@ type ErrorReason int
 const (
 	errEmptyAction = iota
 	errUnknownEvent
+	ErrInvalidEventPayload
 )
 
 type Error struct {
@@ -44,6 +45,8 @@ func (err Error) desc() string {
 		return "bus has no dispatch action"
 	case errUnknownEvent:
 		return "error, bus received unknown event"
+	case ErrInvalidEventPayload:
+		return "error, bus received invalid event payload"
 	default:
 		return "unknown error occurred"
 	}

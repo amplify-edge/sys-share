@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/getcouragenow/sys-share/sys-account/service/go/pkg"
 	"github.com/segmentio/ksuid"
-	log "github.com/sirupsen/logrus"
 )
 
 func IsSuperadmin(in []*pkg.UserRoles) bool {
@@ -44,11 +43,9 @@ func validKsuid(in string) error {
 func findOrgId(curAcc *pkg.Account, orgId string) bool {
 	for _, role := range curAcc.Role {
 		if role.OrgID == orgId {
-			log.Warnf("FOUND!")
 			return true
 		}
 	}
-	log.Warnf("NOT FOUND")
 	return false
 }
 
