@@ -15,7 +15,7 @@ type CoreBus struct {
 }
 
 func NewCoreBus() *CoreBus {
-	return &CoreBus{}
+	return &CoreBus{actions: map[string]ActionDispatcher{}}
 }
 
 func (c *CoreBus) RegisterAction(name string, in ActionDispatcher) {
