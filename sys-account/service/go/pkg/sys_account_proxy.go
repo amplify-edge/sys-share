@@ -224,7 +224,7 @@ func authResetPasswordProxy(as AuthService) func(context.Context, *rpc.ResetPass
 			Email:           in.GetEmail(),
 			Password:        in.GetPassword(),
 			PasswordConfirm: in.GetPasswordConfirm(),
-			VerifyToken: in.GetVerifyToken(),
+			VerifyToken:     in.GetVerifyToken(),
 		})
 		if err != nil {
 			return nil, err
@@ -480,4 +480,13 @@ func (as *authSvcClientProxy) RefreshAccessToken(ctx context.Context, in *Refres
 		return nil, err
 	}
 	return RefreshAccessTokenFromProto(resp), nil
+}
+
+func (as *authSvcClientProxy) VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.VerifyAccount(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
