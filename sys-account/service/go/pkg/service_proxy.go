@@ -2,15 +2,14 @@ package pkg
 
 import (
 	"context"
+	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
+	"github.com/getcouragenow/protoc-gen-cobra/naming"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/oauth"
 	"google.golang.org/grpc/reflection"
-
-	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
-	"github.com/getcouragenow/protoc-gen-cobra/naming"
 )
 
 type SysAccountProxyService struct {
