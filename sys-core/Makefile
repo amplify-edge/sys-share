@@ -55,10 +55,27 @@ this-gen: this-gen-delete
 	@echo "Generating GRPC models and services for Go & Flutter"
 	@mkdir -p service/{flu/lib,go}/rpc/v2
 	@go generate
+	@echo "Generating Flutter Config"
+
 #   $(MAKE) flu-gen-all
 #	$(MAKE) flu-gen-lang
 
-this-gen-delete:
+this-config-gen: this-config-dep
+	@echo Generating Config
+	@mkdir -p service/flu/lib/assets
+	jsonnet -S service/go/flutter_base_repo.jsonnet \
+		-V SYS_CORE_HOST="127.0.0.1" \
+		-V SYS_CORE_PORT="8888" \
+		> ./service/flu/lib/assets/hostconfig.json
+
+this-config-clean:
+	@echo Deleting previously generated config
+	rm -rf ./service/flu/lib/assets/hostconfig.json
+
+this-config-dep:
+	#cd service/go && jb install && jb update
+
+this-gen-delete: this-config-clean
 	@echo 'Removing generated protobuf definition (Go and Flutter)'
 	rm -rf service/{flu/lib,go}/rpc/v2/*.{dart,go}
 

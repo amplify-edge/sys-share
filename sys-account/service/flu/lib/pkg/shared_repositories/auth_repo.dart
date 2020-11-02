@@ -7,8 +7,6 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 
 class AuthRepo extends BaseRepo {
-  static final client = _authClient();
-
   static Future<rpc.LoginResponse> loginUser(
       {@required String email, @required String password}) async {
     final req = rpc.LoginRequest()
@@ -16,6 +14,7 @@ class AuthRepo extends BaseRepo {
       ..password = password;
 
     try {
+      final client = await _authClient();
       final resp = await client.login(req).then((res) {
         print(res);
         return res;
@@ -44,6 +43,7 @@ class AuthRepo extends BaseRepo {
     }
 
     try {
+      final client = await _authClient();
       final request = rpc.RegisterRequest()
         ..email = email
         ..password = password
@@ -63,6 +63,7 @@ class AuthRepo extends BaseRepo {
       {@required String email}) async {
     final req = rpc.ForgotPasswordRequest()..email = email;
     try {
+      final client = await _authClient();
       return await client.forgotPassword(req);
     } catch (e) {
       throw e;
@@ -82,6 +83,7 @@ class AuthRepo extends BaseRepo {
       ..verifyToken = verificationToken;
 
     try {
+      final client = await _authClient();
       return await client.resetPassword(req);
     } catch (e) {
       print(e);
@@ -94,6 +96,7 @@ class AuthRepo extends BaseRepo {
     final req = rpc.RefreshAccessTokenRequest()..refreshToken = refreshToken;
 
     try {
+      final client = await _authClient();
       final resp = await client.refreshAccessToken(req);
       return resp;
     } catch (e) {
@@ -108,14 +111,15 @@ class AuthRepo extends BaseRepo {
       ..accountId = id
       ..verifyToken = verificationToken;
     try {
+      final client = await _authClient();
       await client.verifyAccount(req);
     } catch (e) {
       throw e;
     }
   }
 
-  static rpc.AuthServiceClient _authClient() {
-    return rpc.AuthServiceClient(BaseRepo.channel);
+  static Future<rpc.AuthServiceClient> _authClient() async {
+    return rpc.AuthServiceClient(await BaseRepo.grpcWebClientChannel());
   }
 }
 
@@ -148,7 +152,8 @@ Future<CallOptions> getCallOptions() async {
       try {
         final req = rpc.RefreshAccessTokenRequest()
           ..refreshToken = refreshToken;
-        final client = rpc.AuthServiceClient(BaseRepo.channel);
+        final client =
+            rpc.AuthServiceClient(await BaseRepo.grpcWebClientChannel());
         client.refreshAccessToken(req).then((resp) {
           if (resp.hasAccessToken()) {
             prefs.setString(_accessTokenKey, resp.accessToken);

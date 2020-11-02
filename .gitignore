@@ -1,6 +1,7 @@
 ## EDITORS
 .idea
 .vscode
+vendor
 
 ## Binaries
 bin-all
@@ -11,3 +12,4 @@ bin-all
 # JSONNET locks
 *.lock.json
 
+/sys-core/service/go/vendor/

@@ -22,7 +22,8 @@ class OrgProjRepo {
       ..isDescending = isDescending;
 
     try {
-      final resp = await orgProjectServiceClient()
+      final client = await orgProjectServiceClient();
+      final resp = await client
           .listOrg(req, options: await getCallOptions())
           .then((res) {
         return res;
@@ -46,7 +47,8 @@ class OrgProjRepo {
       ..isDescending = isDescending;
 
     try {
-      final resp = await orgProjectServiceClient()
+      final client = await orgProjectServiceClient();
+      final resp = await client
           .listProject(req, options: await getCallOptions())
           .then((res) {
         return res;
@@ -69,8 +71,9 @@ class OrgProjRepo {
       ..creatorId = creatorId;
 
     try {
-      final resp = await orgProjectServiceClient()
-          .newProject(req, options: await getCallOptions());
+      final client = await orgProjectServiceClient();
+      final resp =
+          await client.newProject(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
@@ -89,8 +92,8 @@ class OrgProjRepo {
       ..contact = contact;
 
     try {
-      final resp = await orgProjectServiceClient()
-          .newOrg(req, options: await getCallOptions());
+      final client = await orgProjectServiceClient();
+      final resp = await client.newOrg(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
@@ -101,8 +104,8 @@ class OrgProjRepo {
     final req = rpc.IdRequest()..id = id;
 
     try {
-      final resp = await orgProjectServiceClient()
-          .getOrg(req, options: await getCallOptions());
+      final client = await orgProjectServiceClient();
+      final resp = await client.getOrg(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
@@ -113,8 +116,9 @@ class OrgProjRepo {
     final req = rpc.IdRequest()..id = id;
 
     try {
-      final resp = await orgProjectServiceClient()
-          .getProject(req, options: await getCallOptions());
+      final client = await orgProjectServiceClient();
+      final resp =
+          await client.getProject(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
@@ -129,8 +133,9 @@ class OrgProjRepo {
       ..name = name;
 
     try {
-      final resp = await orgProjectServiceClient()
-          .updateProject(req, options: await getCallOptions());
+      final client = await orgProjectServiceClient();
+      final resp =
+          await client.updateProject(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
@@ -149,8 +154,8 @@ class OrgProjRepo {
       ..name = name;
 
     try {
-      final resp = await orgProjectServiceClient()
-          .updateOrg(req, options: await getCallOptions());
+      final client = await orgProjectServiceClient();
+      final resp = await client.updateOrg(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
@@ -161,8 +166,9 @@ class OrgProjRepo {
     final req = rpc.IdRequest()..id = id;
 
     try {
-      final resp = await orgProjectServiceClient()
-          .deleteProject(req, options: await getCallOptions());
+      final client = await orgProjectServiceClient();
+      final resp =
+          await client.deleteProject(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
@@ -173,15 +179,15 @@ class OrgProjRepo {
     final req = rpc.IdRequest()..id = id;
 
     try {
-      final resp = await orgProjectServiceClient()
-          .deleteOrg(req, options: await getCallOptions());
+      final client = await orgProjectServiceClient();
+      final resp = await client.deleteOrg(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
     }
   }
 
-  static rpc.OrgProjServiceClient orgProjectServiceClient() {
-    return rpc.OrgProjServiceClient(BaseRepo.channel);
+  static Future<rpc.OrgProjServiceClient> orgProjectServiceClient() async {
+    return rpc.OrgProjServiceClient(await BaseRepo.grpcWebClientChannel());
   }
 }
