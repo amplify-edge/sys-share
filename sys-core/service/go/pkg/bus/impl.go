@@ -2,6 +2,7 @@ package bus
 
 import (
 	"context"
+	"github.com/sirupsen/logrus"
 
 	"github.com/segmentio/encoding/json"
 
@@ -23,6 +24,7 @@ func (c *CoreBus) RegisterAction(name string, in ActionDispatcher) {
 }
 
 func (c *CoreBus) Broadcast(ctx context.Context, in *pkg.EventRequest) (*pkg.EventResponse, error) {
+	logrus.Warnf("%s is calling event for %s", in.Initiator, in.EventName)
 	if c.actions == nil {
 		return nil, Error{
 			Reason: errEmptyAction,
