@@ -10,9 +10,9 @@ class UserRepo {
     final req = rpc.GetAccountRequest()..id = id;
 
     try {
-      final resp = await accountClient()
-          .getAccount(req, options: await getCallOptions())
-          .then((res) {
+      final client = await accountClient();
+      final resp =
+          client.getAccount(req, options: await getCallOptions()).then((res) {
         return res;
       });
       return resp;
@@ -33,9 +33,9 @@ class UserRepo {
       ..perPageEntries = ppe;
 
     try {
-      final resp = await accountClient()
-          .listAccounts(req, options: await getCallOptions())
-          .then((res) {
+      final client = await accountClient();
+      final resp =
+          client.listAccounts(req, options: await getCallOptions()).then((res) {
         return res;
       });
       return resp;
@@ -58,8 +58,9 @@ class UserRepo {
       ..survey = rpc.UserDefinedFields.fromJson(userDefinedFields.toString());
 
     try {
-      final resp = await accountClient()
-          .updateAccount(req, options: await getCallOptions());
+      final client = await accountClient();
+      final resp =
+          await client.updateAccount(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
@@ -69,8 +70,9 @@ class UserRepo {
   static Future<rpc.Account> disableAccount({@required String id}) async {
     final req = rpc.DisableAccountRequest()..accountId = id;
     try {
-      final resp = await accountClient()
-          .disableAccount(req, options: await getCallOptions());
+      final client = await accountClient();
+      final resp =
+          await client.disableAccount(req, options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
@@ -87,15 +89,16 @@ class UserRepo {
       ..role = role;
 
     try {
-      final resp = await accountClient()
-          .assignAccountToRole(req, options: await getCallOptions());
+      final client = await accountClient();
+      final resp = await client.assignAccountToRole(req,
+          options: await getCallOptions());
       return resp;
     } catch (e) {
       throw e;
     }
   }
 
-  static rpc.AccountServiceClient accountClient() {
-    return rpc.AccountServiceClient(BaseRepo.channel);
+  static Future<rpc.AccountServiceClient> accountClient() async {
+    return rpc.AccountServiceClient(await BaseRepo.grpcWebClientChannel());
   }
 }

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/getcouragenow/sys-share.git",
+          "subdir": "sys-core/service/config/mixins"
+        }
+      },
+      "version": "master"
+    }
+  ],
+  "legacyImports": false
+}

@@ -17,7 +17,4 @@ func main() {
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatalf("command failed: %v", err)
 	}
-
-	// Extend it here for local thing.
-	// TODO @gutterbacon: do this once Config is here.
 }
