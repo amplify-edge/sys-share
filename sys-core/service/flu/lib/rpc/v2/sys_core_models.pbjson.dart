@@ -83,3 +83,47 @@ const EmailResponse$json = const {
   ],
 };
 
+const FileUploadRequest$json = const {
+  '1': 'FileUploadRequest',
+  '2': const [
+    const {'1': 'file_info', '3': 1, '4': 1, '5': 11, '6': '.v2.sys_core.services.FileInfo', '10': 'fileInfo'},
+    const {'1': 'chunk', '3': 2, '4': 1, '5': 12, '10': 'chunk'},
+  ],
+};
+
+const FileInfo$json = const {
+  '1': 'FileInfo',
+  '2': const [
+    const {'1': 'mime_type', '3': 1, '4': 1, '5': 9, '10': 'mimeType'},
+    const {'1': 'is_dir', '3': 2, '4': 1, '5': 8, '10': 'isDir'},
+    const {'1': 'sys_account_org_id', '3': 3, '4': 1, '5': 9, '10': 'sysAccountOrgId'},
+    const {'1': 'sys_account_project_id', '3': 4, '4': 1, '5': 9, '10': 'sysAccountProjectId'},
+    const {'1': 'sys_account_id', '3': 5, '4': 1, '5': 9, '10': 'sysAccountId'},
+  ],
+};
+
+const FileUploadResponse$json = const {
+  '1': 'FileUploadResponse',
+  '2': const [
+    const {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    const {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'error_msg', '3': 3, '4': 1, '5': 9, '10': 'errorMsg'},
+  ],
+};
+
+const FileDownloadRequest$json = const {
+  '1': 'FileDownloadRequest',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+  ],
+};
+
+const FileDownloadResponse$json = const {
+  '1': 'FileDownloadResponse',
+  '2': const [
+    const {'1': 'chunk', '3': 1, '4': 1, '5': 12, '10': 'chunk'},
+    const {'1': 'success', '3': 2, '4': 1, '5': 8, '10': 'success'},
+    const {'1': 'error_msg', '3': 3, '4': 1, '5': 9, '10': 'errorMsg'},
+  ],
+};
+

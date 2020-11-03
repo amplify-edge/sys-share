@@ -10,6 +10,7 @@ import (
 	cobra "github.com/spf13/cobra"
 	grpc "google.golang.org/grpc"
 	proto "google.golang.org/protobuf/proto"
+	io "io"
 )
 
 func DbAdminServiceClientCommand(options ...client.Option) *cobra.Command {
@@ -268,6 +269,136 @@ func _EmailServiceSendMailCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringSliceVar(&req.Bcc, cfg.FlagNamer("Bcc"), nil, "")
 	flag.BytesBase64SliceVar(cmd.PersistentFlags(), &req.Attachments, cfg.FlagNamer("Attachments"), "")
 	cmd.PersistentFlags().StringVar(&req.SenderName, cfg.FlagNamer("SenderName"), "", "")
+
+	return cmd
+}
+
+func FileServiceClientCommand(options ...client.Option) *cobra.Command {
+	cfg := client.NewConfig(options...)
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("FileService"),
+		Short: "FileService service client",
+		Long:  "",
+	}
+	cfg.BindFlags(cmd.PersistentFlags())
+	cmd.AddCommand(
+		_FileServiceUploadCommand(cfg),
+		_FileServiceDownloadCommand(cfg),
+	)
+	return cmd
+}
+
+func _FileServiceUploadCommand(cfg *client.Config) *cobra.Command {
+	req := &FileUploadRequest{
+		FileInfo: &FileInfo{},
+	}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("Upload"),
+		Short: "Upload RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService", "Upload"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewFileServiceClient(cc)
+				v := &FileUploadRequest{}
+
+				stm, err := cli.Upload(cmd.Context())
+				if err != nil {
+					return err
+				}
+				for {
+					if err := in(v); err != nil {
+						if err == io.EOF {
+							_ = stm.CloseSend()
+							break
+						}
+						return err
+					}
+					proto.Merge(v, req)
+					if err = stm.Send(v); err != nil {
+						return err
+					}
+				}
+
+				res, err := stm.CloseAndRecv()
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.FileInfo.MimeType, cfg.FlagNamer("FileInfo MimeType"), "", "")
+	cmd.PersistentFlags().BoolVar(&req.FileInfo.IsDir, cfg.FlagNamer("FileInfo IsDir"), false, "")
+	cmd.PersistentFlags().StringVar(&req.FileInfo.SysAccountOrgId, cfg.FlagNamer("FileInfo SysAccountOrgId"), "", "each file will be associated with the following key:\n note that each key will be unique anyway\n and that for v2 it's all in one giant \"bucket\" so....")
+	cmd.PersistentFlags().StringVar(&req.FileInfo.SysAccountProjectId, cfg.FlagNamer("FileInfo SysAccountProjectId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.FileInfo.SysAccountId, cfg.FlagNamer("FileInfo SysAccountId"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Chunk, cfg.FlagNamer("Chunk"), "")
+
+	return cmd
+}
+
+func _FileServiceDownloadCommand(cfg *client.Config) *cobra.Command {
+	req := &FileDownloadRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("Download"),
+		Short: "Download RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService", "Download"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewFileServiceClient(cc)
+				v := &FileDownloadRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				stm, err := cli.Download(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				for {
+					res, err := stm.Recv()
+					if err != nil {
+						if err == io.EOF {
+							break
+						}
+						return err
+					}
+					if err = out(res); err != nil {
+						return err
+					}
+				}
+				return nil
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 
 	return cmd
 }

@@ -347,3 +347,250 @@ class EmailResponse extends $pb.GeneratedMessage {
   void clearSuccessMessage() => clearField(3);
 }
 
+class FileUploadRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileUploadRequest', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..aOM<FileInfo>(1, 'fileInfo', subBuilder: FileInfo.create)
+    ..a<$core.List<$core.int>>(2, 'chunk', $pb.PbFieldType.OY)
+    ..hasRequiredFields = false
+  ;
+
+  FileUploadRequest._() : super();
+  factory FileUploadRequest() => create();
+  factory FileUploadRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FileUploadRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  FileUploadRequest clone() => FileUploadRequest()..mergeFromMessage(this);
+  FileUploadRequest copyWith(void Function(FileUploadRequest) updates) => super.copyWith((message) => updates(message as FileUploadRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FileUploadRequest create() => FileUploadRequest._();
+  FileUploadRequest createEmptyInstance() => create();
+  static $pb.PbList<FileUploadRequest> createRepeated() => $pb.PbList<FileUploadRequest>();
+  @$core.pragma('dart2js:noInline')
+  static FileUploadRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FileUploadRequest>(create);
+  static FileUploadRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  FileInfo get fileInfo => $_getN(0);
+  @$pb.TagNumber(1)
+  set fileInfo(FileInfo v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasFileInfo() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearFileInfo() => clearField(1);
+  @$pb.TagNumber(1)
+  FileInfo ensureFileInfo() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $core.List<$core.int> get chunk => $_getN(1);
+  @$pb.TagNumber(2)
+  set chunk($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasChunk() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearChunk() => clearField(2);
+}
+
+class FileInfo extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileInfo', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, 'mimeType')
+    ..aOB(2, 'isDir')
+    ..aOS(3, 'sysAccountOrgId')
+    ..aOS(4, 'sysAccountProjectId')
+    ..aOS(5, 'sysAccountId')
+    ..hasRequiredFields = false
+  ;
+
+  FileInfo._() : super();
+  factory FileInfo() => create();
+  factory FileInfo.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FileInfo.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  FileInfo clone() => FileInfo()..mergeFromMessage(this);
+  FileInfo copyWith(void Function(FileInfo) updates) => super.copyWith((message) => updates(message as FileInfo));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FileInfo create() => FileInfo._();
+  FileInfo createEmptyInstance() => create();
+  static $pb.PbList<FileInfo> createRepeated() => $pb.PbList<FileInfo>();
+  @$core.pragma('dart2js:noInline')
+  static FileInfo getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FileInfo>(create);
+  static FileInfo _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get mimeType => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set mimeType($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMimeType() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMimeType() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.bool get isDir => $_getBF(1);
+  @$pb.TagNumber(2)
+  set isDir($core.bool v) { $_setBool(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasIsDir() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearIsDir() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get sysAccountOrgId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set sysAccountOrgId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasSysAccountOrgId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearSysAccountOrgId() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get sysAccountProjectId => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set sysAccountProjectId($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasSysAccountProjectId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearSysAccountProjectId() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get sysAccountId => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set sysAccountId($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasSysAccountId() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearSysAccountId() => clearField(5);
+}
+
+class FileUploadResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileUploadResponse', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..aOB(1, 'success')
+    ..aOS(2, 'id')
+    ..aOS(3, 'errorMsg')
+    ..hasRequiredFields = false
+  ;
+
+  FileUploadResponse._() : super();
+  factory FileUploadResponse() => create();
+  factory FileUploadResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FileUploadResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  FileUploadResponse clone() => FileUploadResponse()..mergeFromMessage(this);
+  FileUploadResponse copyWith(void Function(FileUploadResponse) updates) => super.copyWith((message) => updates(message as FileUploadResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FileUploadResponse create() => FileUploadResponse._();
+  FileUploadResponse createEmptyInstance() => create();
+  static $pb.PbList<FileUploadResponse> createRepeated() => $pb.PbList<FileUploadResponse>();
+  @$core.pragma('dart2js:noInline')
+  static FileUploadResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FileUploadResponse>(create);
+  static FileUploadResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get id => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set id($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get errorMsg => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set errorMsg($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasErrorMsg() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearErrorMsg() => clearField(3);
+}
+
+class FileDownloadRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileDownloadRequest', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, 'id')
+    ..hasRequiredFields = false
+  ;
+
+  FileDownloadRequest._() : super();
+  factory FileDownloadRequest() => create();
+  factory FileDownloadRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FileDownloadRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  FileDownloadRequest clone() => FileDownloadRequest()..mergeFromMessage(this);
+  FileDownloadRequest copyWith(void Function(FileDownloadRequest) updates) => super.copyWith((message) => updates(message as FileDownloadRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FileDownloadRequest create() => FileDownloadRequest._();
+  FileDownloadRequest createEmptyInstance() => create();
+  static $pb.PbList<FileDownloadRequest> createRepeated() => $pb.PbList<FileDownloadRequest>();
+  @$core.pragma('dart2js:noInline')
+  static FileDownloadRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FileDownloadRequest>(create);
+  static FileDownloadRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+}
+
+class FileDownloadResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileDownloadResponse', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(1, 'chunk', $pb.PbFieldType.OY)
+    ..aOB(2, 'success')
+    ..aOS(3, 'errorMsg')
+    ..hasRequiredFields = false
+  ;
+
+  FileDownloadResponse._() : super();
+  factory FileDownloadResponse() => create();
+  factory FileDownloadResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory FileDownloadResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  FileDownloadResponse clone() => FileDownloadResponse()..mergeFromMessage(this);
+  FileDownloadResponse copyWith(void Function(FileDownloadResponse) updates) => super.copyWith((message) => updates(message as FileDownloadResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static FileDownloadResponse create() => FileDownloadResponse._();
+  FileDownloadResponse createEmptyInstance() => create();
+  static $pb.PbList<FileDownloadResponse> createRepeated() => $pb.PbList<FileDownloadResponse>();
+  @$core.pragma('dart2js:noInline')
+  static FileDownloadResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FileDownloadResponse>(create);
+  static FileDownloadResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<$core.int> get chunk => $_getN(0);
+  @$pb.TagNumber(1)
+  set chunk($core.List<$core.int> v) { $_setBytes(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasChunk() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearChunk() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.bool get success => $_getBF(1);
+  @$pb.TagNumber(2)
+  set success($core.bool v) { $_setBool(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasSuccess() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSuccess() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get errorMsg => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set errorMsg($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasErrorMsg() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearErrorMsg() => clearField(3);
+}
+

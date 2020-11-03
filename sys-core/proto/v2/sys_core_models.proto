@@ -50,3 +50,35 @@ message EmailResponse {
   string success_message = 3;
 }
 
+message FileUploadRequest {
+  FileInfo file_info = 1;
+  bytes chunk = 2;
+}
+
+message FileInfo {
+  string mime_type = 1;
+  bool is_dir = 2;
+  // each file will be associated with the following key:
+  // note that each key will be unique anyway
+  // and that for v2 it's all in one giant "bucket" so....
+  string sys_account_org_id = 3;
+  string sys_account_project_id = 4;
+  string sys_account_id = 5;
+}
+
+message FileUploadResponse {
+  bool success = 1;
+  string id = 2;
+  string error_msg = 3;
+}
+
+message FileDownloadRequest {
+  string id = 1;
+}
+
+message FileDownloadResponse {
+  bytes chunk = 1;
+  bool success = 2;
+  string error_msg = 3;
+}
+
