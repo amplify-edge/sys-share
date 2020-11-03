@@ -100,3 +100,62 @@ func EventResponseFromProto(in *dbrpc.EventResponse) *EventResponse {
 		Reply: in.GetReply(),
 	}
 }
+
+type EmailRequest struct {
+	Sender      string   `json:"sender,omitempty"`
+	Subject     string   `json:"subject,omitempty"`
+	Recipients  []string `json:"recipients,omitempty"`
+	Template    []byte   `json:"template,omitempty"`
+	Content     []byte   `json:"content,omitempty"`
+	Cc          []string `json:"cc,omitempty"`
+	Bcc         []string `json:"bcc,omitempty"`
+	Attachments [][]byte `json:"attachments,omitempty"`
+}
+
+func (e *EmailRequest) ToProto() *dbrpc.EmailRequest {
+	return &dbrpc.EmailRequest{
+		Sender:      e.Sender,
+		Subject:     e.Subject,
+		Recipients:  e.Recipients,
+		Template:    e.Template,
+		Content:     e.Content,
+		Cc:          e.Cc,
+		Bcc:         e.Bcc,
+		Attachments: e.Attachments,
+	}
+}
+
+func EmailRequestFromProto(in *dbrpc.EmailRequest) *EmailRequest {
+	return &EmailRequest{
+		Sender:      in.Sender,
+		Subject:     in.GetSubject(),
+		Recipients:  in.GetRecipients(),
+		Template:    in.GetTemplate(),
+		Content:     in.GetContent(),
+		Cc:          in.GetCc(),
+		Bcc:         in.GetBcc(),
+		Attachments: in.GetAttachments(),
+	}
+}
+
+type EmailResponse struct {
+	Success        bool   `json:"success,omitempty"`
+	ErrMessage     string `json:"errMessage,omitempty"`
+	SuccessMessage string `json:"successMessage,omitempty"`
+}
+
+func (e *EmailResponse) ToProto() *dbrpc.EmailResponse {
+	return &dbrpc.EmailResponse{
+		Success:        e.Success,
+		ErrMessage:     e.ErrMessage,
+		SuccessMessage: e.SuccessMessage,
+	}
+}
+
+func EmailResponseFromProto(e *dbrpc.EmailResponse) *EmailResponse {
+	return &EmailResponse{
+		Success:        e.Success,
+		ErrMessage:     e.ErrMessage,
+		SuccessMessage: e.SuccessMessage,
+	}
+}

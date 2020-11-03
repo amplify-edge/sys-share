@@ -208,3 +208,66 @@ func _BusServiceBroadcastCommand(cfg *client.Config) *cobra.Command {
 
 	return cmd
 }
+
+func EmailServiceClientCommand(options ...client.Option) *cobra.Command {
+	cfg := client.NewConfig(options...)
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("EmailService"),
+		Short: "EmailService service client",
+		Long:  "",
+	}
+	cfg.BindFlags(cmd.PersistentFlags())
+	cmd.AddCommand(
+		_EmailServiceSendMailCommand(cfg),
+	)
+	return cmd
+}
+
+func _EmailServiceSendMailCommand(cfg *client.Config) *cobra.Command {
+	req := &EmailRequest{}
+
+	cmd := &cobra.Command{
+		Use:   cfg.CommandNamer("SendMail"),
+		Short: "SendMail RPC client",
+		Long:  "",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "EmailService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "EmailService", "SendMail"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewEmailServiceClient(cc)
+				v := &EmailRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.SendMail(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Sender, cfg.FlagNamer("Sender"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Subject, cfg.FlagNamer("Subject"), "", "")
+	cmd.PersistentFlags().StringSliceVar(&req.Recipients, cfg.FlagNamer("Recipients"), nil, "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Template, cfg.FlagNamer("Template"), "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Content, cfg.FlagNamer("Content"), "")
+	cmd.PersistentFlags().StringSliceVar(&req.Cc, cfg.FlagNamer("Cc"), nil, "")
+	cmd.PersistentFlags().StringSliceVar(&req.Bcc, cfg.FlagNamer("Bcc"), nil, "")
+	flag.BytesBase64SliceVar(cmd.PersistentFlags(), &req.Attachments, cfg.FlagNamer("Attachments"), "")
+
+	return cmd
+}
