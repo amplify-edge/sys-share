@@ -10,6 +10,7 @@ require (
 	github.com/getcouragenow/protoc-gen-cobra v0.3.1-0.20201005114840-ccc8cd57bcdc
 	github.com/golang/protobuf v1.4.2
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
+	github.com/matcornic/hermes/v2 v2.1.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/segmentio/encoding v0.2.0
 	github.com/segmentio/ksuid v1.0.3
