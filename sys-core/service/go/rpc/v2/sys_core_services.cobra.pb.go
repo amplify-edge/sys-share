@@ -262,12 +262,12 @@ func _EmailServiceSendMailCommand(cfg *client.Config) *cobra.Command {
 
 	cmd.PersistentFlags().StringVar(&req.Sender, cfg.FlagNamer("Sender"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Subject, cfg.FlagNamer("Subject"), "", "")
-	cmd.PersistentFlags().StringSliceVar(&req.Recipients, cfg.FlagNamer("Recipients"), nil, "")
-	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Template, cfg.FlagNamer("Template"), "")
+	cmd.PersistentFlags().StringToStringVar(&req.Recipients, cfg.FlagNamer("Recipients"), nil, "")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Content, cfg.FlagNamer("Content"), "")
 	cmd.PersistentFlags().StringSliceVar(&req.Cc, cfg.FlagNamer("Cc"), nil, "")
 	cmd.PersistentFlags().StringSliceVar(&req.Bcc, cfg.FlagNamer("Bcc"), nil, "")
 	flag.BytesBase64SliceVar(cmd.PersistentFlags(), &req.Attachments, cfg.FlagNamer("Attachments"), "")
+	cmd.PersistentFlags().StringVar(&req.SenderName, cfg.FlagNamer("SenderName"), "", "")
 
 	return cmd
 }

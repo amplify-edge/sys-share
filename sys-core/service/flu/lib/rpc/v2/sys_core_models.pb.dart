@@ -223,12 +223,12 @@ class EmailRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('EmailRequest', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
     ..aOS(1, 'sender')
     ..aOS(2, 'subject')
-    ..pPS(3, 'recipients')
-    ..a<$core.List<$core.int>>(4, 'template', $pb.PbFieldType.OY)
-    ..a<$core.List<$core.int>>(5, 'content', $pb.PbFieldType.OY)
-    ..pPS(6, 'cc')
-    ..pPS(7, 'bcc')
-    ..p<$core.List<$core.int>>(8, 'attachments', $pb.PbFieldType.PY)
+    ..m<$core.String, $core.String>(3, 'recipients', entryClassName: 'EmailRequest.RecipientsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('v2.sys_core.services'))
+    ..a<$core.List<$core.int>>(4, 'content', $pb.PbFieldType.OY)
+    ..pPS(5, 'cc')
+    ..pPS(6, 'bcc')
+    ..p<$core.List<$core.int>>(7, 'attachments', $pb.PbFieldType.PY)
+    ..aOS(8, 'senderName')
     ..hasRequiredFields = false
   ;
 
@@ -266,34 +266,34 @@ class EmailRequest extends $pb.GeneratedMessage {
   void clearSubject() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.List<$core.String> get recipients => $_getList(2);
+  $core.Map<$core.String, $core.String> get recipients => $_getMap(2);
 
   @$pb.TagNumber(4)
-  $core.List<$core.int> get template => $_getN(3);
+  $core.List<$core.int> get content => $_getN(3);
   @$pb.TagNumber(4)
-  set template($core.List<$core.int> v) { $_setBytes(3, v); }
+  set content($core.List<$core.int> v) { $_setBytes(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasTemplate() => $_has(3);
+  $core.bool hasContent() => $_has(3);
   @$pb.TagNumber(4)
-  void clearTemplate() => clearField(4);
+  void clearContent() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.List<$core.int> get content => $_getN(4);
-  @$pb.TagNumber(5)
-  set content($core.List<$core.int> v) { $_setBytes(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasContent() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearContent() => clearField(5);
+  $core.List<$core.String> get cc => $_getList(4);
 
   @$pb.TagNumber(6)
-  $core.List<$core.String> get cc => $_getList(5);
+  $core.List<$core.String> get bcc => $_getList(5);
 
   @$pb.TagNumber(7)
-  $core.List<$core.String> get bcc => $_getList(6);
+  $core.List<$core.List<$core.int>> get attachments => $_getList(6);
 
   @$pb.TagNumber(8)
-  $core.List<$core.List<$core.int>> get attachments => $_getList(7);
+  $core.String get senderName => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set senderName($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasSenderName() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearSenderName() => clearField(8);
 }
 
 class EmailResponse extends $pb.GeneratedMessage {

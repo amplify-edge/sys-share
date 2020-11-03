@@ -36,12 +36,12 @@ message EventResponse {
 message EmailRequest {
   string sender = 1;
   string subject = 2;
-  repeated string recipients = 3;
-  bytes template = 4;
-  bytes content = 5;
-  repeated string cc = 6;
-  repeated string bcc = 7;
-  repeated bytes attachments = 8;
+  map<string, string> recipients = 3;
+  bytes content = 4;
+  repeated string cc = 5;
+  repeated string bcc = 6;
+  repeated bytes attachments = 7;
+  string sender_name = 8;
 }
 
 message EmailResponse {
