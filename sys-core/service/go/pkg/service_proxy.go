@@ -6,6 +6,18 @@ import (
 )
 
 // Server side
+type SysEmailProxyService struct {
+	SysMail *mailProxyService
+}
+
+func NewSysMailProxyService(e EmailService) *SysEmailProxyService {
+	return &SysEmailProxyService{SysMail: newMailProxyService(e)}
+}
+
+func (s *SysEmailProxyService) RegisterSvc(server *grpc.Server) {
+	s.SysMail.registerSvc(server)
+}
+
 type SysBusProxyService struct {
 	SysBus *busProxyService
 }
@@ -31,6 +43,14 @@ func (s *SysCoreProxyService) RegisterSvc(server *grpc.Server) {
 }
 
 // Client side
+type SysMailProxyServiceClient struct {
+	*emailClientProxy
+}
+
+func NewSysMailProxyServiceClient(cc grpc.ClientConnInterface) *SysMailProxyServiceClient {
+	return &SysMailProxyServiceClient{newEmailClientProxy(cc)}
+}
+
 type SysBusProxyServiceClient struct {
 	*busClientProxy
 }
@@ -70,4 +90,18 @@ func NewSysBusProxyClient() *SysBusProxyClient {
 
 func (sb *SysBusProxyClient) CobraCommand() *cobra.Command {
 	return sb.SysBusClient.cobraCommand()
+}
+
+type SysMailProxyClient struct {
+	SysMailProxyClient *mailClient
+}
+
+func NewSysMailProxyClient() *SysMailProxyClient {
+	return &SysMailProxyClient{
+		SysMailProxyClient: newMailClient(),
+	}
+}
+
+func (sm *SysMailProxyClient) CobraCommand() *cobra.Command {
+	return sm.SysMailProxyClient.cobraCommand()
 }

@@ -219,3 +219,131 @@ class EventResponse extends $pb.GeneratedMessage {
   void clearReply() => clearField(1);
 }
 
+class EmailRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EmailRequest', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, 'sender')
+    ..aOS(2, 'subject')
+    ..m<$core.String, $core.String>(3, 'recipients', entryClassName: 'EmailRequest.RecipientsEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('v2.sys_core.services'))
+    ..a<$core.List<$core.int>>(4, 'content', $pb.PbFieldType.OY)
+    ..pPS(5, 'cc')
+    ..pPS(6, 'bcc')
+    ..p<$core.List<$core.int>>(7, 'attachments', $pb.PbFieldType.PY)
+    ..aOS(8, 'senderName')
+    ..hasRequiredFields = false
+  ;
+
+  EmailRequest._() : super();
+  factory EmailRequest() => create();
+  factory EmailRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory EmailRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  EmailRequest clone() => EmailRequest()..mergeFromMessage(this);
+  EmailRequest copyWith(void Function(EmailRequest) updates) => super.copyWith((message) => updates(message as EmailRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static EmailRequest create() => EmailRequest._();
+  EmailRequest createEmptyInstance() => create();
+  static $pb.PbList<EmailRequest> createRepeated() => $pb.PbList<EmailRequest>();
+  @$core.pragma('dart2js:noInline')
+  static EmailRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<EmailRequest>(create);
+  static EmailRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get sender => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set sender($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSender() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSender() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get subject => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set subject($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasSubject() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSubject() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.Map<$core.String, $core.String> get recipients => $_getMap(2);
+
+  @$pb.TagNumber(4)
+  $core.List<$core.int> get content => $_getN(3);
+  @$pb.TagNumber(4)
+  set content($core.List<$core.int> v) { $_setBytes(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasContent() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearContent() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.List<$core.String> get cc => $_getList(4);
+
+  @$pb.TagNumber(6)
+  $core.List<$core.String> get bcc => $_getList(5);
+
+  @$pb.TagNumber(7)
+  $core.List<$core.List<$core.int>> get attachments => $_getList(6);
+
+  @$pb.TagNumber(8)
+  $core.String get senderName => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set senderName($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasSenderName() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearSenderName() => clearField(8);
+}
+
+class EmailResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('EmailResponse', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
+    ..aOB(1, 'success')
+    ..aOS(2, 'errMessage')
+    ..aOS(3, 'successMessage')
+    ..hasRequiredFields = false
+  ;
+
+  EmailResponse._() : super();
+  factory EmailResponse() => create();
+  factory EmailResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory EmailResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  EmailResponse clone() => EmailResponse()..mergeFromMessage(this);
+  EmailResponse copyWith(void Function(EmailResponse) updates) => super.copyWith((message) => updates(message as EmailResponse));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static EmailResponse create() => EmailResponse._();
+  EmailResponse createEmptyInstance() => create();
+  static $pb.PbList<EmailResponse> createRepeated() => $pb.PbList<EmailResponse>();
+  @$core.pragma('dart2js:noInline')
+  static EmailResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<EmailResponse>(create);
+  static EmailResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get errMessage => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set errMessage($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasErrMessage() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearErrMessage() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get successMessage => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set successMessage($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasSuccessMessage() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearSuccessMessage() => clearField(3);
+}
+

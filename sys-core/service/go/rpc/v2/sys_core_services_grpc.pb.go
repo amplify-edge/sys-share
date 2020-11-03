@@ -299,3 +299,101 @@ func NewBusServiceService(s interface{}) *BusServiceService {
 type UnstableBusServiceService interface {
 	Broadcast(context.Context, *EventRequest) (*EventResponse, error)
 }
+
+// EmailServiceClient is the client API for EmailService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type EmailServiceClient interface {
+	SendMail(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*EmailResponse, error)
+}
+
+type emailServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewEmailServiceClient(cc grpc.ClientConnInterface) EmailServiceClient {
+	return &emailServiceClient{cc}
+}
+
+var emailServiceSendMailStreamDesc = &grpc.StreamDesc{
+	StreamName: "SendMail",
+}
+
+func (c *emailServiceClient) SendMail(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*EmailResponse, error) {
+	out := new(EmailResponse)
+	err := c.cc.Invoke(ctx, "/v2.sys_core.services.EmailService/SendMail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// EmailServiceService is the service API for EmailService service.
+// Fields should be assigned to their respective handler implementations only before
+// RegisterEmailServiceService is called.  Any unassigned fields will result in the
+// handler for that method returning an Unimplemented error.
+type EmailServiceService struct {
+	SendMail func(context.Context, *EmailRequest) (*EmailResponse, error)
+}
+
+func (s *EmailServiceService) sendMail(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.SendMail == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method SendMail not implemented")
+	}
+	in := new(EmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.SendMail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_core.services.EmailService/SendMail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.SendMail(ctx, req.(*EmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// RegisterEmailServiceService registers a service implementation with a gRPC server.
+func RegisterEmailServiceService(s grpc.ServiceRegistrar, srv *EmailServiceService) {
+	sd := grpc.ServiceDesc{
+		ServiceName: "v2.sys_core.services.EmailService",
+		Methods: []grpc.MethodDesc{
+			{
+				MethodName: "SendMail",
+				Handler:    srv.sendMail,
+			},
+		},
+		Streams:  []grpc.StreamDesc{},
+		Metadata: "sys_core_services.proto",
+	}
+
+	s.RegisterService(&sd, nil)
+}
+
+// NewEmailServiceService creates a new EmailServiceService containing the
+// implemented methods of the EmailService service in s.  Any unimplemented
+// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
+// This includes situations where the method handler is misspelled or has the wrong
+// signature.  For this reason, this function should be used with great care and
+// is not recommended to be used by most users.
+func NewEmailServiceService(s interface{}) *EmailServiceService {
+	ns := &EmailServiceService{}
+	if h, ok := s.(interface {
+		SendMail(context.Context, *EmailRequest) (*EmailResponse, error)
+	}); ok {
+		ns.SendMail = h.SendMail
+	}
+	return ns
+}
+
+// UnstableEmailServiceService is the service API for EmailService service.
+// New methods may be added to this interface if they are added to the service
+// definition, which is not a backward-compatible change.  For this reason,
+// use of this type is not recommended.
+type UnstableEmailServiceService interface {
+	SendMail(context.Context, *EmailRequest) (*EmailResponse, error)
+}

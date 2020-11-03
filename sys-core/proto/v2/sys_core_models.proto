@@ -32,3 +32,21 @@ message EventResponse {
   // will return a json / msgpack encoded as string
   bytes reply = 1;
 }
+
+message EmailRequest {
+  string sender = 1;
+  string subject = 2;
+  map<string, string> recipients = 3;
+  bytes content = 4;
+  repeated string cc = 5;
+  repeated string bcc = 6;
+  repeated bytes attachments = 7;
+  string sender_name = 8;
+}
+
+message EmailResponse {
+  bool success = 1;
+  string err_message = 2;
+  string success_message = 3;
+}
+

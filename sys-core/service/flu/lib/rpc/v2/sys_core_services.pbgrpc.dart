@@ -144,3 +144,43 @@ abstract class BusServiceBase extends $grpc.Service {
   $async.Future<$1.EventResponse> broadcast(
       $grpc.ServiceCall call, $1.EventRequest request);
 }
+
+class EmailServiceClient extends $grpc.Client {
+  static final _$sendMail =
+      $grpc.ClientMethod<$1.EmailRequest, $1.EmailResponse>(
+          '/v2.sys_core.services.EmailService/SendMail',
+          ($1.EmailRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.EmailResponse.fromBuffer(value));
+
+  EmailServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
+      : super(channel, options: options);
+
+  $grpc.ResponseFuture<$1.EmailResponse> sendMail($1.EmailRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$sendMail, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+}
+
+abstract class EmailServiceBase extends $grpc.Service {
+  $core.String get $name => 'v2.sys_core.services.EmailService';
+
+  EmailServiceBase() {
+    $addMethod($grpc.ServiceMethod<$1.EmailRequest, $1.EmailResponse>(
+        'SendMail',
+        sendMail_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.EmailRequest.fromBuffer(value),
+        ($1.EmailResponse value) => value.writeToBuffer()));
+  }
+
+  $async.Future<$1.EmailResponse> sendMail_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.EmailRequest> request) async {
+    return sendMail(call, await request);
+  }
+
+  $async.Future<$1.EmailResponse> sendMail(
+      $grpc.ServiceCall call, $1.EmailRequest request);
+}

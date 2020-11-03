@@ -10,6 +10,18 @@ import (
 )
 
 // CLI
+type mailClient struct {
+	mailer *cobra.Command
+}
+
+func newMailClient() *mailClient {
+	return &mailClient{mailer: dbrpc.EmailServiceClientCommand()}
+}
+
+func (m *mailClient) cobraCommand() *cobra.Command {
+	return m.mailer
+}
+
 type busClient struct {
 	bus *cobra.Command
 }
@@ -53,6 +65,34 @@ func (s *sysCoreService) registerSvc(server *grpc.Server) {
 }
 
 // SERVICES
+type EmailService interface {
+	SendMail(context.Context, *EmailRequest) (*EmailResponse, error)
+}
+
+func sendMailProxy(e EmailService) func(context.Context, *dbrpc.EmailRequest) (*dbrpc.EmailResponse, error) {
+	return func(ctx context.Context, in *dbrpc.EmailRequest) (*dbrpc.EmailResponse, error) {
+		res, err := e.SendMail(ctx, EmailRequestFromProto(in))
+		if err != nil {
+			return nil, err
+		}
+		return res.ToProto(), nil
+	}
+}
+
+type mailProxyService struct {
+	svc *dbrpc.EmailServiceService
+}
+
+func newMailProxyService(e EmailService) *mailProxyService {
+	return &mailProxyService{svc: &dbrpc.EmailServiceService{
+		SendMail: sendMailProxy(e),
+	}}
+}
+
+func (e *mailProxyService) registerSvc(srv *grpc.Server) {
+	dbrpc.RegisterEmailServiceService(srv, e.svc)
+}
+
 type DbAdminService interface {
 	Backup(context.Context, *emptypb.Empty) (*BackupResult, error)
 	ListBackup(context.Context, *emptypb.Empty) (*ListBackupResult, error)
@@ -118,6 +158,26 @@ func broadcastProxy(b BusService) func(context.Context, *dbrpc.EventRequest) (*d
 }
 
 // CLIENT SIDE (LIBRARY)
+type EmailServiceClient interface {
+	SendMail(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*EmailResponse, error)
+}
+
+type emailClientProxy struct {
+	client dbrpc.EmailServiceClient
+}
+
+func newEmailClientProxy(cc grpc.ClientConnInterface) *emailClientProxy {
+	return &emailClientProxy{client: dbrpc.NewEmailServiceClient(cc)}
+}
+
+func (e *emailClientProxy) SendMail(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*EmailResponse, error) {
+	resp, err := e.client.SendMail(ctx, in.ToProto(), opts...)
+	if err != nil {
+		return nil, err
+	}
+	return EmailResponseFromProto(resp), nil
+}
+
 type BusServiceClient interface {
 	Broadcast(ctx context.Context, in *EventRequest, opts ...grpc.CallOption) (*EventResponse, error)
 }

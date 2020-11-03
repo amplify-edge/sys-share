@@ -50,3 +50,36 @@ const EventResponse$json = const {
   ],
 };
 
+const EmailRequest$json = const {
+  '1': 'EmailRequest',
+  '2': const [
+    const {'1': 'sender', '3': 1, '4': 1, '5': 9, '10': 'sender'},
+    const {'1': 'subject', '3': 2, '4': 1, '5': 9, '10': 'subject'},
+    const {'1': 'recipients', '3': 3, '4': 3, '5': 11, '6': '.v2.sys_core.services.EmailRequest.RecipientsEntry', '10': 'recipients'},
+    const {'1': 'content', '3': 4, '4': 1, '5': 12, '10': 'content'},
+    const {'1': 'cc', '3': 5, '4': 3, '5': 9, '10': 'cc'},
+    const {'1': 'bcc', '3': 6, '4': 3, '5': 9, '10': 'bcc'},
+    const {'1': 'attachments', '3': 7, '4': 3, '5': 12, '10': 'attachments'},
+    const {'1': 'sender_name', '3': 8, '4': 1, '5': 9, '10': 'senderName'},
+  ],
+  '3': const [EmailRequest_RecipientsEntry$json],
+};
+
+const EmailRequest_RecipientsEntry$json = const {
+  '1': 'RecipientsEntry',
+  '2': const [
+    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    const {'1': 'value', '3': 2, '4': 1, '5': 9, '10': 'value'},
+  ],
+  '7': const {'7': true},
+};
+
+const EmailResponse$json = const {
+  '1': 'EmailResponse',
+  '2': const [
+    const {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
+    const {'1': 'err_message', '3': 2, '4': 1, '5': 9, '10': 'errMessage'},
+    const {'1': 'success_message', '3': 3, '4': 1, '5': 9, '10': 'successMessage'},
+  ],
+};
+
