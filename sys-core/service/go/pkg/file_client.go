@@ -131,7 +131,7 @@ func uploadFileCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.SysAccountProjectId, "project-id", "", "project id")
 	cmd.PersistentFlags().StringVar(&req.SysAccountProjectId, "account-id", "", "account id")
 	cmd.PersistentFlags().StringVar(&fpath, "path", "", "path to file or dir")
-	return nil
+	return cmd
 }
 
 func downloadFileCommand(cfg *client.Config) *cobra.Command {
@@ -179,7 +179,7 @@ func downloadFileCommand(cfg *client.Config) *cobra.Command {
 	}
 	cmd.PersistentFlags().StringVar(&fpath, "dest", "", "destination path of downloaded file")
 	cmd.PersistentFlags().StringVar(&req, "id", "", "file id")
-	return nil
+	return cmd
 }
 
 // uploadFile will be used by both client and CLI
