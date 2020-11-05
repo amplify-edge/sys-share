@@ -17,6 +17,9 @@ import (
 	"strings"
 	"time"
 
+	client "github.com/getcouragenow/protoc-gen-cobra/client"
+	flag "github.com/getcouragenow/protoc-gen-cobra/flag"
+	iocodec "github.com/getcouragenow/protoc-gen-cobra/iocodec"
 	bar "github.com/schollz/progressbar/v2"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -54,13 +57,15 @@ func NewFileServiceClient(cc grpc.ClientConnInterface) *FileClient {
 	return &FileClient{svc: svc}
 }
 
-func (fc *FileClient) CobraCommand() *cobra.Command {
+func NewFileServiceClientCommand(options ...client.Option) *cobra.Command {
+	cfg := client.NewConfig(options...)
 	rootCmd := &cobra.Command{
-		Use:   "file-service <COMMANDS>",
+		Use:   cfg.CommandNamer("FileService"),
 		Short: "file-service <upload|download>",
 		Long:  "",
 	}
-	rootCmd.AddCommand(fc.uploadFileCommand(), fc.downloadFileCommand())
+	cfg.BindFlags(rootCmd.PersistentFlags())
+	rootCmd.AddCommand(uploadFileCommand(cfg), downloadFileCommand(cfg))
 	return rootCmd
 }
 
@@ -69,7 +74,7 @@ func (fc *FileClient) UploadFile(filepath string, r io.ReadCloser, fileInfo *dbr
 	return fc.uploadFile(filepath, r, fileInfo, false)
 }
 
-func (fc *FileClient) uploadFileCommand() *cobra.Command {
+func uploadFileCommand(cfg *client.Config) *cobra.Command {
 	var fpath string
 	req := &dbrpc.FileInfo{}
 	cmd := &cobra.Command{
@@ -77,38 +82,49 @@ func (fc *FileClient) uploadFileCommand() *cobra.Command {
 		Short: "Upload file or dir from path, directory uploaded will be saved in compressed format",
 		Long:  "Upload file or dir from path, directory uploaded will be saved in compressed format",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if fpath == "" {
-				return fmt.Errorf("path must be provided")
-			}
-			abspath, err := filepath.Abs(fpath)
-			if err != nil {
-				return err
-			}
-			isDir, err := config.IsDirectory(abspath)
-			if err != nil {
-				return err
-			}
-			fpath = abspath
-			if isDir {
-				buf := bytes.Buffer{}
-				if err = archive(abspath, &buf); err != nil {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService"); err != nil {
 					return err
 				}
-				saveName := fmt.Sprintf("%s%s", abspath, ".tar.gz")
-				if err = ioutil.WriteFile(saveName, buf.Bytes(), 0644); err != nil {
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService", "Upload"); err != nil {
 					return err
 				}
-				fpath = saveName
-				req.IsDir = true
 			}
-			res, err := fc.uploadFile(fpath, nil, req, true)
-			if err != nil {
-				return err
-			}
-			if _, err = fmt.Fprintln(os.Stdout, string(res)); err != nil {
-				return err
-			}
-			return nil
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				fc := NewFileServiceClient(cc)
+				if fpath == "" {
+					return fmt.Errorf("path must be provided")
+				}
+				abspath, err := filepath.Abs(fpath)
+				if err != nil {
+					return err
+				}
+				isDir, err := config.IsDirectory(abspath)
+				if err != nil {
+					return err
+				}
+				fpath = abspath
+				if isDir {
+					buf := bytes.Buffer{}
+					if err = archive(abspath, &buf); err != nil {
+						return err
+					}
+					saveName := fmt.Sprintf("%s%s", abspath, ".tar.gz")
+					if err = ioutil.WriteFile(saveName, buf.Bytes(), 0644); err != nil {
+						return err
+					}
+					fpath = saveName
+					req.IsDir = true
+				}
+				res, err := fc.uploadFile(fpath, nil, req, true)
+				if err != nil {
+					return err
+				}
+				if _, err = fmt.Fprintln(os.Stdout, string(res)); err != nil {
+					return err
+				}
+				return out(res)
+			})
 		},
 	}
 	cmd.PersistentFlags().StringVar(&req.SysAccountProjectId, "org-id", "", "organization id")
@@ -118,7 +134,7 @@ func (fc *FileClient) uploadFileCommand() *cobra.Command {
 	return nil
 }
 
-func (fc *FileClient) downloadFileCommand() *cobra.Command {
+func downloadFileCommand(cfg *client.Config) *cobra.Command {
 	var fpath string
 	var req string
 	cmd := &cobra.Command{
@@ -126,28 +142,39 @@ func (fc *FileClient) downloadFileCommand() *cobra.Command {
 		Short: "Download file or dir from path, directory uploaded will be extracted",
 		Long:  "Download file or dir from path, directory uploaded will be extracted",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if fpath == "" {
-				return fmt.Errorf("path must be provided")
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService", "Upload"); err != nil {
+					return err
+				}
 			}
-			abspath, err := filepath.Abs(fpath)
-			if err != nil {
-				return err
-			}
-			fileDir := filepath.Dir(abspath)
-			res, isDir, err := fc.downloadFile(req, true)
-			if err != nil {
-				return err
-			}
-			if isDir {
-				if err = unarchive(bytes.NewBuffer(res), filepath.Join(fileDir, "extracted")); err != nil {
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				fc := NewFileServiceClient(cc)
+				if fpath == "" {
+					return fmt.Errorf("path must be provided")
+				}
+				abspath, err := filepath.Abs(fpath)
+				if err != nil {
+					return err
+				}
+				fileDir := filepath.Dir(abspath)
+				res, isDir, err := fc.downloadFile(req, true)
+				if err != nil {
+					return err
+				}
+				if isDir {
+					if err = unarchive(bytes.NewBuffer(res), filepath.Join(fileDir, "extracted")); err != nil {
+						return err
+					}
+					return nil
+				}
+				if err = ioutil.WriteFile(abspath, res, 0644); err != nil {
 					return err
 				}
 				return nil
-			}
-			if err = ioutil.WriteFile(abspath, res, 0644); err != nil {
-				return err
-			}
-			return nil
+			})
 		},
 	}
 	cmd.PersistentFlags().StringVar(&fpath, "dest", "", "destination path of downloaded file")
