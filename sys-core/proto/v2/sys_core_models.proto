@@ -81,5 +81,6 @@ message FileDownloadResponse {
   bool success = 2;
   string error_msg = 3;
   int64 total_size = 4;
+  bool is_compressed = 5;
 }
 

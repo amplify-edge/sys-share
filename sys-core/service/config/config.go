@@ -124,3 +124,11 @@ func UnixToUtcTS(in int64) *timestamppb.Timestamp {
 	t := time.Unix(in, 0).UTC()
 	return timestamppb.New(t)
 }
+
+func IsDirectory(path string) (bool, error) {
+	fileInfo, err := os.Stat(path)
+	if err != nil{
+		return false, err
+	}
+	return fileInfo.IsDir(), err
+}

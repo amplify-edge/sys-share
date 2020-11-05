@@ -550,6 +550,7 @@ class FileDownloadResponse extends $pb.GeneratedMessage {
     ..aOB(2, 'success')
     ..aOS(3, 'errorMsg')
     ..aInt64(4, 'totalSize')
+    ..aOB(5, 'isCompressed')
     ..hasRequiredFields = false
   ;
 
@@ -603,5 +604,14 @@ class FileDownloadResponse extends $pb.GeneratedMessage {
   $core.bool hasTotalSize() => $_has(3);
   @$pb.TagNumber(4)
   void clearTotalSize() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.bool get isCompressed => $_getBF(4);
+  @$pb.TagNumber(5)
+  set isCompressed($core.bool v) { $_setBool(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasIsCompressed() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearIsCompressed() => clearField(5);
 }
 
