@@ -7,6 +7,7 @@
 
 import 'dart:core' as $core;
 
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class RestoreResult extends $pb.GeneratedMessage {
@@ -548,6 +549,8 @@ class FileDownloadResponse extends $pb.GeneratedMessage {
     ..a<$core.List<$core.int>>(1, 'chunk', $pb.PbFieldType.OY)
     ..aOB(2, 'success')
     ..aOS(3, 'errorMsg')
+    ..aInt64(4, 'totalSize')
+    ..aOB(5, 'isCompressed')
     ..hasRequiredFields = false
   ;
 
@@ -592,5 +595,23 @@ class FileDownloadResponse extends $pb.GeneratedMessage {
   $core.bool hasErrorMsg() => $_has(2);
   @$pb.TagNumber(3)
   void clearErrorMsg() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $fixnum.Int64 get totalSize => $_getI64(3);
+  @$pb.TagNumber(4)
+  set totalSize($fixnum.Int64 v) { $_setInt64(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasTotalSize() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearTotalSize() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.bool get isCompressed => $_getBF(4);
+  @$pb.TagNumber(5)
+  set isCompressed($core.bool v) { $_setBool(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasIsCompressed() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearIsCompressed() => clearField(5);
 }
 

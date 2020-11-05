@@ -12,6 +12,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/matcornic/hermes/v2 v2.1.0
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/schollz/progressbar/v2 v2.15.0
 	github.com/segmentio/encoding v0.2.0
 	github.com/segmentio/ksuid v1.0.3
 	github.com/sirupsen/logrus v1.7.0

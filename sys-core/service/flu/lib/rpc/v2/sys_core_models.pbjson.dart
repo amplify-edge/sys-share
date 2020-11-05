@@ -124,6 +124,8 @@ const FileDownloadResponse$json = const {
     const {'1': 'chunk', '3': 1, '4': 1, '5': 12, '10': 'chunk'},
     const {'1': 'success', '3': 2, '4': 1, '5': 8, '10': 'success'},
     const {'1': 'error_msg', '3': 3, '4': 1, '5': 9, '10': 'errorMsg'},
+    const {'1': 'total_size', '3': 4, '4': 1, '5': 3, '10': 'totalSize'},
+    const {'1': 'is_compressed', '3': 5, '4': 1, '5': 8, '10': 'isCompressed'},
   ],
 };
 

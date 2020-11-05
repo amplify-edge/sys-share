@@ -14,7 +14,8 @@ var rootCmd = &cobra.Command{
 func main() {
 	dbadm := corepkg.NewSysBusProxyClient()
 	mailcli := corepkg.NewSysMailProxyClient()
-	rootCmd.AddCommand(dbadm.CobraCommand(), mailcli.CobraCommand())
+	fileCli := corepkg.NewFileServiceClientCommand()
+	rootCmd.AddCommand(dbadm.CobraCommand(), mailcli.CobraCommand(), fileCli)
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatalf("command failed: %v", err)
 	}

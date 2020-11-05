@@ -80,5 +80,7 @@ message FileDownloadResponse {
   bytes chunk = 1;
   bool success = 2;
   string error_msg = 3;
+  int64 total_size = 4;
+  bool is_compressed = 5;
 }
 
