@@ -8,7 +8,6 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"github.com/getcouragenow/sys-share/sys-core/service/config"
 	"github.com/spf13/cobra"
 	"io"
 	"io/ioutil"
@@ -17,13 +16,15 @@ import (
 	"strings"
 	"time"
 
-	client "github.com/getcouragenow/protoc-gen-cobra/client"
-	flag "github.com/getcouragenow/protoc-gen-cobra/flag"
-	iocodec "github.com/getcouragenow/protoc-gen-cobra/iocodec"
+	"github.com/getcouragenow/protoc-gen-cobra/client"
+	"github.com/getcouragenow/protoc-gen-cobra/flag"
+	"github.com/getcouragenow/protoc-gen-cobra/iocodec"
 	bar "github.com/schollz/progressbar/v2"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
+
+	"github.com/getcouragenow/sys-share/sys-core/service/config"
 
 	dbrpc "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2"
 )
@@ -78,9 +79,9 @@ func uploadFileCommand(cfg *client.Config) *cobra.Command {
 	var fpath string
 	req := &dbrpc.FileInfo{}
 	cmd := &cobra.Command{
-		Use:   "Upload <OPTIONS only choose one for id> <PATH>",
-		Short: "Upload file or dir from path, directory uploaded will be saved in compressed format",
-		Long:  "Upload file or dir from path, directory uploaded will be saved in compressed format",
+		Use:   "upload <OPTIONS only choose one for id> <PATH>",
+		Short: "upload file or dir from path, directory uploaded will be saved in compressed format",
+		Long:  "upload file or dir from path, directory uploaded will be saved in compressed format",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService"); err != nil {
@@ -106,7 +107,7 @@ func uploadFileCommand(cfg *client.Config) *cobra.Command {
 				fpath = abspath
 				if isDir {
 					buf := bytes.Buffer{}
-					if err = archive(abspath, &buf); err != nil {
+					if err = archive(fpath, &buf); err != nil {
 						return err
 					}
 					saveName := fmt.Sprintf("%s%s", abspath, ".tar.gz")
@@ -123,7 +124,7 @@ func uploadFileCommand(cfg *client.Config) *cobra.Command {
 				if _, err = fmt.Fprintln(os.Stdout, string(res)); err != nil {
 					return err
 				}
-				return out(res)
+				return nil
 			})
 		},
 	}
@@ -138,9 +139,9 @@ func downloadFileCommand(cfg *client.Config) *cobra.Command {
 	var fpath string
 	var req string
 	cmd := &cobra.Command{
-		Use:   "Download <OPTIONS only choose one for id> <PATH>",
-		Short: "Download file or dir from path, directory uploaded will be extracted",
-		Long:  "Download file or dir from path, directory uploaded will be extracted",
+		Use:   "download <OPTIONS only choose one for id> <PATH>",
+		Short: "download file or dir from path, directory uploaded will be extracted",
+		Long:  "download file or dir from path, directory uploaded will be extracted",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService"); err != nil {
@@ -159,15 +160,26 @@ func downloadFileCommand(cfg *client.Config) *cobra.Command {
 				if err != nil {
 					return err
 				}
-				fileDir := filepath.Dir(abspath)
+				// fileDir := filepath.Dir(abspath)
 				res, isDir, err := fc.downloadFile(req, true)
 				if err != nil {
 					return err
 				}
 				if isDir {
-					if err = unarchive(bytes.NewBuffer(res), filepath.Join(fileDir, "extracted")); err != nil {
+					destpath := filepath.Join(abspath, "downloaded.tar.gz")
+					logrus.Warnf("Destination: %s", destpath)
+					file, err := os.OpenFile(destpath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+					if err != nil {
+						logrus.Warnf("Cannot open file tar gz : %v", err)
 						return err
 					}
+					if _, err = io.Copy(file, bytes.NewBuffer(res)); err != nil {
+						logrus.Warnf("Cannot copy to file : %v", err)
+						return err
+					}
+					// if err = unarchive(bytes.NewBuffer(res), abspath); err != nil {
+					// 	return err
+					// }
 					return nil
 				}
 				if err = ioutil.WriteFile(abspath, res, 0644); err != nil {
@@ -325,7 +337,15 @@ func (fc *FileClient) downloadFile(id string, withProgress bool) ([]byte, bool, 
 func archive(src string, buf io.Writer) error {
 	zr := gzip.NewWriter(buf)
 	tw := tar.NewWriter(zr)
-	fi, err := os.Stat(src)
+	cwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	relpath, err := filepath.Rel(cwd, src)
+	if err != nil {
+		return err
+	}
+	fi, err := os.Stat(relpath)
 	if err != nil {
 		return err
 	}
@@ -346,12 +366,19 @@ func archive(src string, buf io.Writer) error {
 			return err
 		}
 	} else if mode.IsDir() {
-		filepath.Walk(src, func(file string, fi os.FileInfo, err error) error {
-			header, err := tar.FileInfoHeader(fi, file)
+		if err = filepath.Walk(relpath, func(file string, fi os.FileInfo, err error) error {
+			header, err := tar.FileInfoHeader(fi, fi.Name())
 			if err != nil {
 				return err
 			}
-			header.Name = filepath.ToSlash(file)
+			relFilePath := file
+			if filepath.IsAbs(file) {
+				relFilePath, err = filepath.Rel(relpath, file)
+				if err != nil {
+					return err
+				}
+			}
+			header.Name = relFilePath
 			if err := tw.WriteHeader(header); err != nil {
 				return err
 			}
@@ -365,7 +392,9 @@ func archive(src string, buf io.Writer) error {
 				}
 			}
 			return nil
-		})
+		}); err != nil {
+			return err
+		}
 	} else {
 		return fmt.Errorf("error: file type not supported")
 	}
@@ -393,37 +422,47 @@ func unarchive(src io.Reader, dst string) error {
 	tr := tar.NewReader(zr)
 	// recursively unarchive each file / dir
 	for {
-		header, err := tr.Next()
+		var hdr *tar.Header
+		hdr, err = tr.Next()
 		if err == io.EOF {
 			break
 		}
 		if err != nil {
 			return err
 		}
-		target := header.Name
-		if !checkRelativePath(header.Name) {
-			return fmt.Errorf("invalid name error %q", target)
-		}
-		target = filepath.Join(dst, header.Name)
-
-		switch header.Typeflag {
-		// create directory with permission 755 (unix default)
-		case tar.TypeDir:
-			if _, err := os.Stat(target); err != nil {
-				if err := os.MkdirAll(target, 0755); err != nil {
-					return err
-				}
-			}
-		// create file with the same permission as it was pre archiving
-		case tar.TypeReg:
-			fileToWrite, err := os.OpenFile(target, os.O_CREATE|os.O_RDWR, os.FileMode(header.Mode))
+		finfo := hdr.FileInfo()
+		fileName := hdr.Name
+		if filepath.IsAbs(fileName) {
+			fmt.Printf("removing / prefix from %s\n", fileName)
+			fileName, err = filepath.Rel("/", fileName)
 			if err != nil {
 				return err
 			}
-			if _, err = io.Copy(fileToWrite, tr); err != nil {
+		}
+		target := filepath.Join(dst, fileName)
+
+		if finfo.Mode().IsDir() {
+			if err := os.MkdirAll(target, 0755); err != nil {
 				return err
 			}
-			fileToWrite.Close()
+			continue
+		}
+
+		// create new file with original file mode
+		file, err := os.OpenFile(target, os.O_RDWR|os.O_CREATE|os.O_TRUNC, finfo.Mode().Perm())
+		if err != nil {
+			return err
+		}
+		fmt.Printf("x %s\n", target)
+		n, cpErr := io.Copy(file, tr)
+		if closeErr := file.Close(); closeErr != nil { // close file immediately
+			return err
+		}
+		if cpErr != nil {
+			return cpErr
+		}
+		if n != finfo.Size() {
+			return fmt.Errorf("unexpected bytes written: wrote %d, want %d", n, finfo.Size())
 		}
 	}
 	return nil
