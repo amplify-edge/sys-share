@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/getcouragenow/sys-share.git",
+          "subdir": "sys-account/proto/v2"
+        }
+      },
+      "version": "master"
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/getcouragenow/mod.git",
+          "subdir": "mod-disco/proto/v2"
+        }
+      },
+      "version": "master"
+    }
+  ],
+  "legacyImports": false
+}
