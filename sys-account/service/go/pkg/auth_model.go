@@ -102,7 +102,26 @@ func VerifyAccountRequestFromProto(in *authRpc.VerifyAccountRequest) *VerifyAcco
 
 type LoginRequest struct {
 	Email    string `json:"email,omitempty" fake:"email"`
-	Password string `json:"password,omitempty"`
+	Password string `json:"password,omitempty" fake:"{sentence:8}"`
+}
+
+type FakeLoginRequests struct {
+	LoginRequests []LoginRequest `fakesize:"2"`
+}
+
+func NewFakeLoginRequest() *FakeLoginRequests {
+	gofakeit.Seed(0)
+	var frr FakeLoginRequests
+	var reqs []LoginRequest
+	gofakeit.Struct(&frr)
+	for _, rr := range frr.LoginRequests {
+		reqs = append(reqs, LoginRequest{
+			Email:    rr.Email,
+			Password: rr.Password,
+		})
+	}
+	frr.LoginRequests = reqs
+	return &frr
 }
 
 func (lr *LoginRequest) ToProto() *authRpc.LoginRequest {
