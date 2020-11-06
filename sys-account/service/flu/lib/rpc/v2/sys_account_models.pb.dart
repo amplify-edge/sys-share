@@ -659,11 +659,12 @@ class Project extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Project', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
     ..aOS(2, 'name')
-    ..aOS(3, 'logoUrl')
+    ..aOS(3, 'logoFilepath')
     ..aOM<$2.Timestamp>(4, 'createdAt', subBuilder: $2.Timestamp.create)
     ..aOS(5, 'creatorId')
     ..aOS(6, 'orgId')
     ..aOM<Org>(7, 'org', subBuilder: Org.create)
+    ..a<$core.List<$core.int>>(8, 'logo', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -701,13 +702,13 @@ class Project extends $pb.GeneratedMessage {
   void clearName() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get logoUrl => $_getSZ(2);
+  $core.String get logoFilepath => $_getSZ(2);
   @$pb.TagNumber(3)
-  set logoUrl($core.String v) { $_setString(2, v); }
+  set logoFilepath($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasLogoUrl() => $_has(2);
+  $core.bool hasLogoFilepath() => $_has(2);
   @$pb.TagNumber(3)
-  void clearLogoUrl() => clearField(3);
+  void clearLogoFilepath() => clearField(3);
 
   @$pb.TagNumber(4)
   $2.Timestamp get createdAt => $_getN(3);
@@ -748,14 +749,24 @@ class Project extends $pb.GeneratedMessage {
   void clearOrg() => clearField(7);
   @$pb.TagNumber(7)
   Org ensureOrg() => $_ensure(6);
+
+  @$pb.TagNumber(8)
+  $core.List<$core.int> get logo => $_getN(7);
+  @$pb.TagNumber(8)
+  set logo($core.List<$core.int> v) { $_setBytes(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasLogo() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearLogo() => clearField(8);
 }
 
 class ProjectRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ProjectRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'name')
-    ..aOS(2, 'logoUrl')
+    ..aOS(2, 'logoFilepath')
     ..aOS(3, 'creatorId')
     ..aOS(4, 'orgId')
+    ..aOS(5, 'orgName')
     ..hasRequiredFields = false
   ;
 
@@ -784,13 +795,13 @@ class ProjectRequest extends $pb.GeneratedMessage {
   void clearName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get logoUrl => $_getSZ(1);
+  $core.String get logoFilepath => $_getSZ(1);
   @$pb.TagNumber(2)
-  set logoUrl($core.String v) { $_setString(1, v); }
+  set logoFilepath($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasLogoUrl() => $_has(1);
+  $core.bool hasLogoFilepath() => $_has(1);
   @$pb.TagNumber(2)
-  void clearLogoUrl() => clearField(2);
+  void clearLogoFilepath() => clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get creatorId => $_getSZ(2);
@@ -809,13 +820,22 @@ class ProjectRequest extends $pb.GeneratedMessage {
   $core.bool hasOrgId() => $_has(3);
   @$pb.TagNumber(4)
   void clearOrgId() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get orgName => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set orgName($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasOrgName() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearOrgName() => clearField(5);
 }
 
 class ProjectUpdateRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ProjectUpdateRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
     ..aOS(2, 'name')
-    ..aOS(3, 'logoUrl')
+    ..aOS(3, 'logoFilepath')
     ..hasRequiredFields = false
   ;
 
@@ -853,24 +873,25 @@ class ProjectUpdateRequest extends $pb.GeneratedMessage {
   void clearName() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get logoUrl => $_getSZ(2);
+  $core.String get logoFilepath => $_getSZ(2);
   @$pb.TagNumber(3)
-  set logoUrl($core.String v) { $_setString(2, v); }
+  set logoFilepath($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasLogoUrl() => $_has(2);
+  $core.bool hasLogoFilepath() => $_has(2);
   @$pb.TagNumber(3)
-  void clearLogoUrl() => clearField(3);
+  void clearLogoFilepath() => clearField(3);
 }
 
 class Org extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Org', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
     ..aOS(2, 'name')
-    ..aOS(3, 'logoUrl')
+    ..aOS(3, 'logoFilepath')
     ..aOS(4, 'contact')
     ..aOM<$2.Timestamp>(5, 'createdAt', subBuilder: $2.Timestamp.create)
     ..aOS(6, 'creatorId')
     ..pc<Project>(7, 'projects', $pb.PbFieldType.PM, subBuilder: Project.create)
+    ..a<$core.List<$core.int>>(8, 'logo', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -908,13 +929,13 @@ class Org extends $pb.GeneratedMessage {
   void clearName() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get logoUrl => $_getSZ(2);
+  $core.String get logoFilepath => $_getSZ(2);
   @$pb.TagNumber(3)
-  set logoUrl($core.String v) { $_setString(2, v); }
+  set logoFilepath($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasLogoUrl() => $_has(2);
+  $core.bool hasLogoFilepath() => $_has(2);
   @$pb.TagNumber(3)
-  void clearLogoUrl() => clearField(3);
+  void clearLogoFilepath() => clearField(3);
 
   @$pb.TagNumber(4)
   $core.String get contact => $_getSZ(3);
@@ -947,12 +968,21 @@ class Org extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(7)
   $core.List<Project> get projects => $_getList(6);
+
+  @$pb.TagNumber(8)
+  $core.List<$core.int> get logo => $_getN(7);
+  @$pb.TagNumber(8)
+  set logo($core.List<$core.int> v) { $_setBytes(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasLogo() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearLogo() => clearField(8);
 }
 
 class OrgRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('OrgRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'name')
-    ..aOS(2, 'logoUrl')
+    ..aOS(2, 'logoFilepath')
     ..aOS(3, 'contact')
     ..aOS(4, 'creatorId')
     ..hasRequiredFields = false
@@ -983,13 +1013,13 @@ class OrgRequest extends $pb.GeneratedMessage {
   void clearName() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get logoUrl => $_getSZ(1);
+  $core.String get logoFilepath => $_getSZ(1);
   @$pb.TagNumber(2)
-  set logoUrl($core.String v) { $_setString(1, v); }
+  set logoFilepath($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasLogoUrl() => $_has(1);
+  $core.bool hasLogoFilepath() => $_has(1);
   @$pb.TagNumber(2)
-  void clearLogoUrl() => clearField(2);
+  void clearLogoFilepath() => clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get contact => $_getSZ(2);
@@ -1015,7 +1045,7 @@ class OrgUpdateRequest extends $pb.GeneratedMessage {
     ..aOS(1, 'id')
     ..aOS(2, 'name')
     ..aOS(3, 'contact')
-    ..aOS(4, 'logoUrl')
+    ..aOS(4, 'logoFilepath')
     ..hasRequiredFields = false
   ;
 
@@ -1062,18 +1092,19 @@ class OrgUpdateRequest extends $pb.GeneratedMessage {
   void clearContact() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get logoUrl => $_getSZ(3);
+  $core.String get logoFilepath => $_getSZ(3);
   @$pb.TagNumber(4)
-  set logoUrl($core.String v) { $_setString(3, v); }
+  set logoFilepath($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasLogoUrl() => $_has(3);
+  $core.bool hasLogoFilepath() => $_has(3);
   @$pb.TagNumber(4)
-  void clearLogoUrl() => clearField(4);
+  void clearLogoFilepath() => clearField(4);
 }
 
 class IdRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('IdRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
+    ..aOS(2, 'name')
     ..hasRequiredFields = false
   ;
 
@@ -1100,6 +1131,15 @@ class IdRequest extends $pb.GeneratedMessage {
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
   void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get name => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set name($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasName() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearName() => clearField(2);
 }
 
 class ListRequest extends $pb.GeneratedMessage {
@@ -1328,9 +1368,9 @@ class Account extends $pb.GeneratedMessage {
     ..aOM<$2.Timestamp>(6, 'updatedAt', subBuilder: $2.Timestamp.create)
     ..aOM<$2.Timestamp>(7, 'lastLogin', subBuilder: $2.Timestamp.create)
     ..aOB(8, 'disabled')
-    ..aOM<UserDefinedFields>(9, 'fields', subBuilder: UserDefinedFields.create)
-    ..aOM<UserDefinedFields>(10, 'survey', subBuilder: UserDefinedFields.create)
-    ..aOB(11, 'verified')
+    ..aOB(9, 'verified')
+    ..aOS(10, 'avatarFilepath')
+    ..a<$core.List<$core.int>>(11, 'avatar', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -1422,35 +1462,167 @@ class Account extends $pb.GeneratedMessage {
   void clearDisabled() => clearField(8);
 
   @$pb.TagNumber(9)
-  UserDefinedFields get fields => $_getN(8);
+  $core.bool get verified => $_getBF(8);
   @$pb.TagNumber(9)
-  set fields(UserDefinedFields v) { setField(9, v); }
+  set verified($core.bool v) { $_setBool(8, v); }
   @$pb.TagNumber(9)
-  $core.bool hasFields() => $_has(8);
+  $core.bool hasVerified() => $_has(8);
   @$pb.TagNumber(9)
-  void clearFields() => clearField(9);
-  @$pb.TagNumber(9)
-  UserDefinedFields ensureFields() => $_ensure(8);
+  void clearVerified() => clearField(9);
 
   @$pb.TagNumber(10)
-  UserDefinedFields get survey => $_getN(9);
+  $core.String get avatarFilepath => $_getSZ(9);
   @$pb.TagNumber(10)
-  set survey(UserDefinedFields v) { setField(10, v); }
+  set avatarFilepath($core.String v) { $_setString(9, v); }
   @$pb.TagNumber(10)
-  $core.bool hasSurvey() => $_has(9);
+  $core.bool hasAvatarFilepath() => $_has(9);
   @$pb.TagNumber(10)
-  void clearSurvey() => clearField(10);
-  @$pb.TagNumber(10)
-  UserDefinedFields ensureSurvey() => $_ensure(9);
+  void clearAvatarFilepath() => clearField(10);
 
   @$pb.TagNumber(11)
-  $core.bool get verified => $_getBF(10);
+  $core.List<$core.int> get avatar => $_getN(10);
   @$pb.TagNumber(11)
-  set verified($core.bool v) { $_setBool(10, v); }
+  set avatar($core.List<$core.int> v) { $_setBytes(10, v); }
   @$pb.TagNumber(11)
-  $core.bool hasVerified() => $_has(10);
+  $core.bool hasAvatar() => $_has(10);
   @$pb.TagNumber(11)
-  void clearVerified() => clearField(11);
+  void clearAvatar() => clearField(11);
+}
+
+class AccountNewRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AccountNewRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
+    ..aOS(1, 'email')
+    ..aOS(2, 'password')
+    ..pc<UserRoles>(3, 'roles', $pb.PbFieldType.PM, subBuilder: UserRoles.create)
+    ..aOS(4, 'avatarFilepath')
+    ..hasRequiredFields = false
+  ;
+
+  AccountNewRequest._() : super();
+  factory AccountNewRequest() => create();
+  factory AccountNewRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AccountNewRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AccountNewRequest clone() => AccountNewRequest()..mergeFromMessage(this);
+  AccountNewRequest copyWith(void Function(AccountNewRequest) updates) => super.copyWith((message) => updates(message as AccountNewRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AccountNewRequest create() => AccountNewRequest._();
+  AccountNewRequest createEmptyInstance() => create();
+  static $pb.PbList<AccountNewRequest> createRepeated() => $pb.PbList<AccountNewRequest>();
+  @$core.pragma('dart2js:noInline')
+  static AccountNewRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AccountNewRequest>(create);
+  static AccountNewRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get email => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set email($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEmail() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEmail() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get password => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set password($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPassword() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPassword() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.List<UserRoles> get roles => $_getList(2);
+
+  @$pb.TagNumber(4)
+  $core.String get avatarFilepath => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set avatarFilepath($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasAvatarFilepath() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearAvatarFilepath() => clearField(4);
+}
+
+class AccountUpdateRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AccountUpdateRequest', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
+    ..aOS(1, 'id')
+    ..aOS(2, 'email')
+    ..aOS(3, 'password')
+    ..aOB(4, 'disabled')
+    ..aOB(5, 'verified')
+    ..aOS(6, 'avatarFilepath')
+    ..hasRequiredFields = false
+  ;
+
+  AccountUpdateRequest._() : super();
+  factory AccountUpdateRequest() => create();
+  factory AccountUpdateRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AccountUpdateRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AccountUpdateRequest clone() => AccountUpdateRequest()..mergeFromMessage(this);
+  AccountUpdateRequest copyWith(void Function(AccountUpdateRequest) updates) => super.copyWith((message) => updates(message as AccountUpdateRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AccountUpdateRequest create() => AccountUpdateRequest._();
+  AccountUpdateRequest createEmptyInstance() => create();
+  static $pb.PbList<AccountUpdateRequest> createRepeated() => $pb.PbList<AccountUpdateRequest>();
+  @$core.pragma('dart2js:noInline')
+  static AccountUpdateRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AccountUpdateRequest>(create);
+  static AccountUpdateRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get email => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set email($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasEmail() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearEmail() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get password => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set password($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasPassword() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPassword() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.bool get disabled => $_getBF(3);
+  @$pb.TagNumber(4)
+  set disabled($core.bool v) { $_setBool(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasDisabled() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearDisabled() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.bool get verified => $_getBF(4);
+  @$pb.TagNumber(5)
+  set verified($core.bool v) { $_setBool(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasVerified() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearVerified() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get avatarFilepath => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set avatarFilepath($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasAvatarFilepath() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearAvatarFilepath() => clearField(6);
 }
 
 class GetAccountRequest extends $pb.GeneratedMessage {

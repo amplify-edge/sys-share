@@ -6,8 +6,11 @@ import 'package:meta/meta.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart';
 
 class UserRepo {
-  static Future<rpc.Account> getAccount({@required String id}) async {
-    final req = rpc.GetAccountRequest()..id = id;
+  static Future<rpc.Account> getAccount(
+      {@required String id, String email}) async {
+    final req = rpc.IdRequest()
+      ..id = id
+      ..name = email;
 
     try {
       final client = await accountClient();
@@ -44,18 +47,18 @@ class UserRepo {
     }
   }
 
-  static Future<rpc.Account> updateAccount(
-      {@required String id,
-      bool disabled = false,
-      bool verified,
-      Map<String, dynamic> userDefinedFields,
-      Map<String, dynamic> survey}) async {
-    final req = rpc.Account()
+  static Future<rpc.Account> updateAccount({
+    @required String id,
+    @required String email,
+    bool disabled = false,
+    bool verified,
+    String avatarFilepath,
+  }) async {
+    final req = rpc.AccountUpdateRequest()
       ..id = id
       ..disabled = disabled
       ..verified = verified
-      ..fields = rpc.UserDefinedFields.fromJson(userDefinedFields.toString())
-      ..survey = rpc.UserDefinedFields.fromJson(userDefinedFields.toString());
+      ..avatarFilepath = avatarFilepath;
 
     try {
       final client = await accountClient();

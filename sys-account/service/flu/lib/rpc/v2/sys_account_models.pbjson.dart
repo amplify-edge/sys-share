@@ -134,11 +134,12 @@ const Project$json = const {
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'logo_url', '3': 3, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'logo_filepath', '3': 3, '4': 1, '5': 9, '10': 'logoFilepath'},
     const {'1': 'created_at', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
     const {'1': 'creator_id', '3': 5, '4': 1, '5': 9, '10': 'creatorId'},
     const {'1': 'org_id', '3': 6, '4': 1, '5': 9, '10': 'orgId'},
     const {'1': 'org', '3': 7, '4': 1, '5': 11, '6': '.v2.sys_account.services.Org', '10': 'org'},
+    const {'1': 'logo', '3': 8, '4': 1, '5': 12, '10': 'logo'},
   ],
 };
 
@@ -146,9 +147,10 @@ const ProjectRequest$json = const {
   '1': 'ProjectRequest',
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'logo_url', '3': 2, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'logo_filepath', '3': 2, '4': 1, '5': 9, '10': 'logoFilepath'},
     const {'1': 'creator_id', '3': 3, '4': 1, '5': 9, '10': 'creatorId'},
     const {'1': 'org_id', '3': 4, '4': 1, '5': 9, '10': 'orgId'},
+    const {'1': 'org_name', '3': 5, '4': 1, '5': 9, '10': 'orgName'},
   ],
 };
 
@@ -157,7 +159,7 @@ const ProjectUpdateRequest$json = const {
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'logo_url', '3': 3, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'logo_filepath', '3': 3, '4': 1, '5': 9, '10': 'logoFilepath'},
   ],
 };
 
@@ -166,11 +168,12 @@ const Org$json = const {
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'logo_url', '3': 3, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'logo_filepath', '3': 3, '4': 1, '5': 9, '10': 'logoFilepath'},
     const {'1': 'contact', '3': 4, '4': 1, '5': 9, '10': 'contact'},
     const {'1': 'created_at', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
     const {'1': 'creator_id', '3': 6, '4': 1, '5': 9, '10': 'creatorId'},
     const {'1': 'projects', '3': 7, '4': 3, '5': 11, '6': '.v2.sys_account.services.Project', '10': 'projects'},
+    const {'1': 'logo', '3': 8, '4': 1, '5': 12, '10': 'logo'},
   ],
 };
 
@@ -178,7 +181,7 @@ const OrgRequest$json = const {
   '1': 'OrgRequest',
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'logo_url', '3': 2, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'logo_filepath', '3': 2, '4': 1, '5': 9, '10': 'logoFilepath'},
     const {'1': 'contact', '3': 3, '4': 1, '5': 9, '10': 'contact'},
     const {'1': 'creator_id', '3': 4, '4': 1, '5': 9, '10': 'creatorId'},
   ],
@@ -190,7 +193,7 @@ const OrgUpdateRequest$json = const {
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'contact', '3': 3, '4': 1, '5': 9, '10': 'contact'},
-    const {'1': 'logo_url', '3': 4, '4': 1, '5': 9, '10': 'logoUrl'},
+    const {'1': 'logo_filepath', '3': 4, '4': 1, '5': 9, '10': 'logoFilepath'},
   ],
 };
 
@@ -198,6 +201,7 @@ const IdRequest$json = const {
   '1': 'IdRequest',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
   ],
 };
 
@@ -251,9 +255,31 @@ const Account$json = const {
     const {'1': 'updated_at', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'updatedAt'},
     const {'1': 'last_login', '3': 7, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'lastLogin'},
     const {'1': 'disabled', '3': 8, '4': 1, '5': 8, '10': 'disabled'},
-    const {'1': 'fields', '3': 9, '4': 1, '5': 11, '6': '.v2.sys_account.services.UserDefinedFields', '10': 'fields'},
-    const {'1': 'survey', '3': 10, '4': 1, '5': 11, '6': '.v2.sys_account.services.UserDefinedFields', '10': 'survey'},
-    const {'1': 'verified', '3': 11, '4': 1, '5': 8, '10': 'verified'},
+    const {'1': 'verified', '3': 9, '4': 1, '5': 8, '10': 'verified'},
+    const {'1': 'avatar_filepath', '3': 10, '4': 1, '5': 9, '10': 'avatarFilepath'},
+    const {'1': 'avatar', '3': 11, '4': 1, '5': 12, '10': 'avatar'},
+  ],
+};
+
+const AccountNewRequest$json = const {
+  '1': 'AccountNewRequest',
+  '2': const [
+    const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'password', '3': 2, '4': 1, '5': 9, '10': 'password'},
+    const {'1': 'roles', '3': 3, '4': 3, '5': 11, '6': '.v2.sys_account.services.UserRoles', '10': 'roles'},
+    const {'1': 'avatar_filepath', '3': 4, '4': 1, '5': 9, '10': 'avatarFilepath'},
+  ],
+};
+
+const AccountUpdateRequest$json = const {
+  '1': 'AccountUpdateRequest',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'email', '3': 2, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'password', '3': 3, '4': 1, '5': 9, '10': 'password'},
+    const {'1': 'disabled', '3': 4, '4': 1, '5': 8, '10': 'disabled'},
+    const {'1': 'verified', '3': 5, '4': 1, '5': 8, '10': 'verified'},
+    const {'1': 'avatar_filepath', '3': 6, '4': 1, '5': 9, '10': 'avatarFilepath'},
   ],
 };
 

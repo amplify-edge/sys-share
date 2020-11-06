@@ -80,8 +80,8 @@ func uploadFileCommand(cfg *client.Config) *cobra.Command {
 	req := &dbrpc.FileInfo{}
 	cmd := &cobra.Command{
 		Use:   "upload <OPTIONS only choose one for id> <PATH>",
-		Short: "upload file or dir from path, directory uploaded will be saved in compressed format",
-		Long:  "upload file or dir from path, directory uploaded will be saved in compressed format",
+		Short: "upload file from path, directory uploaded will be saved in compressed format",
+		Long:  "upload file from path, directory uploaded will be saved in compressed format",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "FileService"); err != nil {
@@ -128,10 +128,8 @@ func uploadFileCommand(cfg *client.Config) *cobra.Command {
 			})
 		},
 	}
-	cmd.PersistentFlags().StringVar(&req.SysAccountProjectId, "org-id", "", "organization id")
-	cmd.PersistentFlags().StringVar(&req.SysAccountProjectId, "project-id", "", "project id")
-	cmd.PersistentFlags().StringVar(&req.SysAccountProjectId, "account-id", "", "account id")
-	cmd.PersistentFlags().StringVar(&fpath, "path", "", "path to file or dir")
+	cmd.PersistentFlags().StringVarP(&req.ResourceId, "resource-id", "r", "", "organization id")
+	cmd.PersistentFlags().StringVarP(&fpath, "path", "f", "", "path to file or dir")
 	return cmd
 }
 

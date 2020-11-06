@@ -67,21 +67,18 @@ func (sas *sysAccountService) registerSvc(server *grpc.Server) {
 // AccountService is the abstract contract needed to satisfy the
 // AccountServiceService defined in the protobuf v2.
 type AccountService interface {
-	NewAccount(context.Context, *Account) (*Account, error)
-	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
+	NewAccount(context.Context, *AccountNewRequest) (*Account, error)
+	GetAccount(context.Context, *IdRequest) (*Account, error)
 	ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
 	SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
-	UpdateAccount(context.Context, *Account) (*Account, error)
+	UpdateAccount(context.Context, *AccountUpdateRequest) (*Account, error)
 	DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
 }
 
-func newAccountProxy(as AccountService) func(context.Context, *rpc.Account) (*rpc.Account, error) {
-	return func(ctx context.Context, acc *rpc.Account) (*rpc.Account, error) {
-		pkgAccount, err := AccountFromProto(acc)
-		if err != nil {
-			return nil, err
-		}
+func newAccountProxy(as AccountService) func(context.Context, *rpc.AccountNewRequest) (*rpc.Account, error) {
+	return func(ctx context.Context, acc *rpc.AccountNewRequest) (*rpc.Account, error) {
+		pkgAccount := AccountNewRequestFromProto(acc)
 		account, err := as.NewAccount(ctx, pkgAccount)
 		if err != nil {
 			return nil, err
@@ -90,9 +87,9 @@ func newAccountProxy(as AccountService) func(context.Context, *rpc.Account) (*rp
 	}
 }
 
-func getAccountProxy(as AccountService) func(context.Context, *rpc.GetAccountRequest) (*rpc.Account, error) {
-	return func(ctx context.Context, acc *rpc.GetAccountRequest) (*rpc.Account, error) {
-		account, err := as.GetAccount(ctx, &GetAccountRequest{Id: acc.GetId()})
+func getAccountProxy(as AccountService) func(context.Context, *rpc.IdRequest) (*rpc.Account, error) {
+	return func(ctx context.Context, acc *rpc.IdRequest) (*rpc.Account, error) {
+		account, err := as.GetAccount(ctx, &IdRequest{Id: acc.GetId(), Name: acc.GetName()})
 		if err != nil {
 			return nil, err
 		}
@@ -151,12 +148,9 @@ func searchAccountsProxy(as AccountService) func(context.Context, *rpc.SearchAcc
 	}
 }
 
-func updateAccountProxy(as AccountService) func(context.Context, *rpc.Account) (*rpc.Account, error) {
-	return func(ctx context.Context, in *rpc.Account) (*rpc.Account, error) {
-		req, err := AccountFromProto(in)
-		if err != nil {
-			return nil, err
-		}
+func updateAccountProxy(as AccountService) func(context.Context, *rpc.AccountUpdateRequest) (*rpc.Account, error) {
+	return func(ctx context.Context, in *rpc.AccountUpdateRequest) (*rpc.Account, error) {
+		req := AccountUpdateRequestFromProto(in)
 		acc, err := as.UpdateAccount(ctx, req)
 		if err != nil {
 			return nil, err
@@ -298,12 +292,12 @@ func (au *authService) registerSvc(server *grpc.Server) {
 }
 
 type AccountServiceClient interface {
-	NewAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
-	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	NewAccount(ctx context.Context, in *AccountNewRequest, opts ...grpc.CallOption) (*Account, error)
+	GetAccount(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Account, error)
 	ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error)
 	SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error)
 	AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error)
-	UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
+	UpdateAccount(ctx context.Context, in *AccountUpdateRequest, opts ...grpc.CallOption) (*Account, error)
 	DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error)
 }
 
@@ -316,11 +310,8 @@ func newAccountSvcClientProxy(cc grpc.ClientConnInterface) *accountSvcClientProx
 	return &accountSvcClientProxy{svcClient: newClient}
 }
 
-func (as *accountSvcClientProxy) NewAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
-	acc, err := in.ToProto()
-	if err != nil {
-		return nil, err
-	}
+func (as *accountSvcClientProxy) NewAccount(ctx context.Context, in *AccountNewRequest, opts ...grpc.CallOption) (*Account, error) {
+	acc := in.ToProto()
 	resp, err := as.svcClient.NewAccount(ctx, acc, opts...)
 	if err != nil {
 		return nil, err
@@ -332,7 +323,7 @@ func (as *accountSvcClientProxy) NewAccount(ctx context.Context, in *Account, op
 	return account, nil
 }
 
-func (as *accountSvcClientProxy) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
+func (as *accountSvcClientProxy) GetAccount(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Account, error) {
 	req := in.ToProto()
 	resp, err := as.svcClient.GetAccount(ctx, req, opts...)
 	if err != nil {
@@ -390,11 +381,8 @@ func (as *accountSvcClientProxy) AssignAccountToRole(ctx context.Context, in *As
 	return account, nil
 }
 
-func (as *accountSvcClientProxy) UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
-	req, err := in.ToProto()
-	if err != nil {
-		return nil, err
-	}
+func (as *accountSvcClientProxy) UpdateAccount(ctx context.Context, in *AccountUpdateRequest, opts ...grpc.CallOption) (*Account, error) {
+	req := in.ToProto()
 	resp, err := as.svcClient.UpdateAccount(ctx, req, opts...)
 	if err != nil {
 		return nil, err

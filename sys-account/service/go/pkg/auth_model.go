@@ -12,7 +12,7 @@ import (
 type RegisterRequest struct {
 	Email           string `json:"email" fake:"{email}"`
 	Password        string `json:"password" fake:"{sentence:8}"`
-	PasswordConfirm string `json:"passwordConfirm" fake:"skip"`
+	PasswordConfirm string `json:"password_confirm" fake:"skip"`
 }
 
 type FakeRegisterRequests struct {
@@ -61,10 +61,10 @@ func (r *RegisterRequest) ToProto() *authRpc.RegisterRequest {
 
 type RegisterResponse struct {
 	Success     bool   `json:"success,omitempty"`
-	SuccessMsg  string `json:"successMsg,omitempty"`
-	ErrorReason string `json:"errorReason,omitempty"`
-	VerifyToken string `json:"verifyToken,omitempty"`
-	TempUserId  string `json:"tempUserId,omitempty"`
+	SuccessMsg  string `json:"success_msg,omitempty"`
+	ErrorReason string `json:"error_reason,omitempty"`
+	VerifyToken string `json:"verify_token,omitempty"`
+	TempUserId  string `json:"temp_user_id,omitempty"`
 }
 
 func RegisterResponseFromProto(in *authRpc.RegisterResponse) *RegisterResponse {
@@ -88,8 +88,8 @@ func (r *RegisterResponse) ToProto() *authRpc.RegisterResponse {
 }
 
 type VerifyAccountRequest struct {
-	VerifyToken string `json:"verifyToken,omitempty"`
-	AccountId   string `json:"accountId,omitempty"`
+	VerifyToken string `json:"verify_token,omitempty"`
+	AccountId   string `json:"account_id,omitempty"`
 }
 
 func (v *VerifyAccountRequest) ToProto() *authRpc.VerifyAccountRequest {
@@ -140,10 +140,10 @@ func LoginRequestFromProto(in *authRpc.LoginRequest) *LoginRequest {
 
 type LoginResponse struct {
 	Success      bool   `json:"success,omitempty"`
-	AccessToken  string `json:"accessToken,omitempty"`
-	RefreshToken string `json:"refreshToken,omitempty"`
-	ErrorReason  string `json:"errorReason,omitempty"`
-	LastLogin    int64  `json:"lastLogin,omitempty"`
+	AccessToken  string `json:"access_token,omitempty"`
+	RefreshToken string `json:"refresh_token,omitempty"`
+	ErrorReason  string `json:"error_reason,omitempty"`
+	LastLogin    int64  `json:"last_login,omitempty"`
 }
 
 func LoginResponseFromProto(in *authRpc.LoginResponse) *LoginResponse {
@@ -176,9 +176,9 @@ func (fpr *ForgotPasswordRequest) ToProto() *authRpc.ForgotPasswordRequest {
 
 type ForgotPasswordResponse struct {
 	Success                   bool   `json:"success,omitempty"`
-	SuccessMsg                string `json:"successMsg,omitempty"`
-	ErrorReason               string `json:"errorReason,omitempty"`
-	ForgotPasswordRequestedAt int64  `json:"forgotPasswordRequestedAt,omitempty"`
+	SuccessMsg                string `json:"success_msg,omitempty"`
+	ErrorReason               string `json:"error_reason,omitempty"`
+	ForgotPasswordRequestedAt int64  `json:"forgot_password_requested_at,omitempty"`
 }
 
 func ForgotPasswordResponseFromProto(in *authRpc.ForgotPasswordResponse) *ForgotPasswordResponse {
@@ -202,8 +202,8 @@ func (fpres *ForgotPasswordResponse) ToProto() *authRpc.ForgotPasswordResponse {
 type ResetPasswordRequest struct {
 	Email           string `json:"email,omitempty"`
 	Password        string `json:"password,omitempty"`
-	PasswordConfirm string `json:"passwordConfirm,omitempty"`
-	VerifyToken     string `json:"verifyToken,omitempty"`
+	PasswordConfirm string `json:"password_confirm,omitempty"`
+	VerifyToken     string `json:"verify_token,omitempty"`
 }
 
 func (rpr *ResetPasswordRequest) ToProto() *authRpc.ResetPasswordRequest {
@@ -217,9 +217,9 @@ func (rpr *ResetPasswordRequest) ToProto() *authRpc.ResetPasswordRequest {
 
 type ResetPasswordResponse struct {
 	Success                  bool   `json:"success,omitempty"`
-	SuccessMsg               string `json:"successMsg,omitempty"`
-	ErrorReason              string `json:"errorReason,omitempty"`
-	ResetPasswordRequestedAt int64  `json:"resetPasswordRequestedAt,omitempty"`
+	SuccessMsg               string `json:"success_msg,omitempty"`
+	ErrorReason              string `json:"error_reason,omitempty"`
+	ResetPasswordRequestedAt int64  `json:"reset_password_requested_at,omitempty"`
 }
 
 func ResetPasswordResponseFromProto(in *authRpc.ResetPasswordResponse) *ResetPasswordResponse {
@@ -241,7 +241,7 @@ func (rps *ResetPasswordResponse) ToProto() *authRpc.ResetPasswordResponse {
 }
 
 type RefreshAccessTokenRequest struct {
-	RefreshToken string `json:"refreshToken,omitempty"`
+	RefreshToken string `json:"refresh_token,omitempty"`
 }
 
 func (rtr *RefreshAccessTokenRequest) ToProto() *authRpc.RefreshAccessTokenRequest {
@@ -249,8 +249,8 @@ func (rtr *RefreshAccessTokenRequest) ToProto() *authRpc.RefreshAccessTokenReque
 }
 
 type RefreshAccessTokenResponse struct {
-	AccessToken string `json:"accessToken,omitempty"`
-	ErrorReason string `json:"errorReason,omitempty"`
+	AccessToken string `json:"access_token,omitempty"`
+	ErrorReason string `json:"error_reason,omitempty"`
 }
 
 func (ratr *RefreshAccessTokenResponse) ToProto() *authRpc.RefreshAccessTokenResponse {

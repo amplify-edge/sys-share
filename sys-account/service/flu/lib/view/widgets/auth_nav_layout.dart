@@ -51,8 +51,8 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
           for (var org in model.subscribedOrgs) ...[
             TabItem(
               icon: ClipOval(
-                child: Image.network(
-                  org.logoUrl,
+                child: Image.memory(
+                  org.logo,
                   width: 30,
                   height: 30,
                   fit: BoxFit.cover,

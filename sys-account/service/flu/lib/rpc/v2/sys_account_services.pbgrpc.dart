@@ -15,15 +15,15 @@ import 'google/protobuf/empty.pb.dart' as $1;
 export 'sys_account_services.pb.dart';
 
 class AccountServiceClient extends $grpc.Client {
-  static final _$newAccount = $grpc.ClientMethod<$0.Account, $0.Account>(
-      '/v2.sys_account.services.AccountService/NewAccount',
-      ($0.Account value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
-  static final _$getAccount =
-      $grpc.ClientMethod<$0.GetAccountRequest, $0.Account>(
-          '/v2.sys_account.services.AccountService/GetAccount',
-          ($0.GetAccountRequest value) => value.writeToBuffer(),
+  static final _$newAccount =
+      $grpc.ClientMethod<$0.AccountNewRequest, $0.Account>(
+          '/v2.sys_account.services.AccountService/NewAccount',
+          ($0.AccountNewRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
+  static final _$getAccount = $grpc.ClientMethod<$0.IdRequest, $0.Account>(
+      '/v2.sys_account.services.AccountService/GetAccount',
+      ($0.IdRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
   static final _$listAccounts =
       $grpc.ClientMethod<$0.ListAccountsRequest, $0.ListAccountsResponse>(
           '/v2.sys_account.services.AccountService/ListAccounts',
@@ -41,10 +41,11 @@ class AccountServiceClient extends $grpc.Client {
           '/v2.sys_account.services.AccountService/AssignAccountToRole',
           ($0.AssignAccountToRoleRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
-  static final _$updateAccount = $grpc.ClientMethod<$0.Account, $0.Account>(
-      '/v2.sys_account.services.AccountService/UpdateAccount',
-      ($0.Account value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
+  static final _$updateAccount =
+      $grpc.ClientMethod<$0.AccountUpdateRequest, $0.Account>(
+          '/v2.sys_account.services.AccountService/UpdateAccount',
+          ($0.AccountUpdateRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
   static final _$disableAccount =
       $grpc.ClientMethod<$0.DisableAccountRequest, $0.Account>(
           '/v2.sys_account.services.AccountService/DisableAccount',
@@ -54,7 +55,7 @@ class AccountServiceClient extends $grpc.Client {
   AccountServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  $grpc.ResponseFuture<$0.Account> newAccount($0.Account request,
+  $grpc.ResponseFuture<$0.Account> newAccount($0.AccountNewRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$newAccount, $async.Stream.fromIterable([request]),
@@ -62,7 +63,7 @@ class AccountServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$0.Account> getAccount($0.GetAccountRequest request,
+  $grpc.ResponseFuture<$0.Account> getAccount($0.IdRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$getAccount, $async.Stream.fromIterable([request]),
@@ -97,7 +98,8 @@ class AccountServiceClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$0.Account> updateAccount($0.Account request,
+  $grpc.ResponseFuture<$0.Account> updateAccount(
+      $0.AccountUpdateRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$updateAccount, $async.Stream.fromIterable([request]),
@@ -119,19 +121,19 @@ abstract class AccountServiceBase extends $grpc.Service {
   $core.String get $name => 'v2.sys_account.services.AccountService';
 
   AccountServiceBase() {
-    $addMethod($grpc.ServiceMethod<$0.Account, $0.Account>(
+    $addMethod($grpc.ServiceMethod<$0.AccountNewRequest, $0.Account>(
         'NewAccount',
         newAccount_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.Account.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.AccountNewRequest.fromBuffer(value),
         ($0.Account value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.GetAccountRequest, $0.Account>(
+    $addMethod($grpc.ServiceMethod<$0.IdRequest, $0.Account>(
         'GetAccount',
         getAccount_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.GetAccountRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.IdRequest.fromBuffer(value),
         ($0.Account value) => value.writeToBuffer()));
     $addMethod(
         $grpc.ServiceMethod<$0.ListAccountsRequest, $0.ListAccountsResponse>(
@@ -159,12 +161,13 @@ abstract class AccountServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.AssignAccountToRoleRequest.fromBuffer(value),
         ($0.Account value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.Account, $0.Account>(
+    $addMethod($grpc.ServiceMethod<$0.AccountUpdateRequest, $0.Account>(
         'UpdateAccount',
         updateAccount_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.Account.fromBuffer(value),
+        ($core.List<$core.int> value) =>
+            $0.AccountUpdateRequest.fromBuffer(value),
         ($0.Account value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.DisableAccountRequest, $0.Account>(
         'DisableAccount',
@@ -176,13 +179,13 @@ abstract class AccountServiceBase extends $grpc.Service {
         ($0.Account value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.Account> newAccount_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.Account> request) async {
+  $async.Future<$0.Account> newAccount_Pre($grpc.ServiceCall call,
+      $async.Future<$0.AccountNewRequest> request) async {
     return newAccount(call, await request);
   }
 
-  $async.Future<$0.Account> getAccount_Pre($grpc.ServiceCall call,
-      $async.Future<$0.GetAccountRequest> request) async {
+  $async.Future<$0.Account> getAccount_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.IdRequest> request) async {
     return getAccount(call, await request);
   }
 
@@ -203,8 +206,8 @@ abstract class AccountServiceBase extends $grpc.Service {
     return assignAccountToRole(call, await request);
   }
 
-  $async.Future<$0.Account> updateAccount_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.Account> request) async {
+  $async.Future<$0.Account> updateAccount_Pre($grpc.ServiceCall call,
+      $async.Future<$0.AccountUpdateRequest> request) async {
     return updateAccount(call, await request);
   }
 
@@ -214,9 +217,9 @@ abstract class AccountServiceBase extends $grpc.Service {
   }
 
   $async.Future<$0.Account> newAccount(
-      $grpc.ServiceCall call, $0.Account request);
+      $grpc.ServiceCall call, $0.AccountNewRequest request);
   $async.Future<$0.Account> getAccount(
-      $grpc.ServiceCall call, $0.GetAccountRequest request);
+      $grpc.ServiceCall call, $0.IdRequest request);
   $async.Future<$0.ListAccountsResponse> listAccounts(
       $grpc.ServiceCall call, $0.ListAccountsRequest request);
   $async.Future<$0.SearchAccountsResponse> searchAccounts(
@@ -224,7 +227,7 @@ abstract class AccountServiceBase extends $grpc.Service {
   $async.Future<$0.Account> assignAccountToRole(
       $grpc.ServiceCall call, $0.AssignAccountToRoleRequest request);
   $async.Future<$0.Account> updateAccount(
-      $grpc.ServiceCall call, $0.Account request);
+      $grpc.ServiceCall call, $0.AccountUpdateRequest request);
   $async.Future<$0.Account> disableAccount(
       $grpc.ServiceCall call, $0.DisableAccountRequest request);
 }

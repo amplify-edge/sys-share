@@ -61,13 +61,13 @@ class OrgProjRepo {
 
   static Future<rpc.Project> newProject(
       {@required String name,
-      String logoUrl,
+      String logoFilepath,
       String creatorId,
       @required orgId}) async {
     final req = rpc.ProjectRequest()
       ..orgId = orgId
       ..name = name
-      ..logoUrl = logoUrl
+      ..logoFilepath = logoFilepath
       ..creatorId = creatorId;
 
     try {
@@ -82,12 +82,12 @@ class OrgProjRepo {
 
   static Future<rpc.Org> newOrg(
       {@required String name,
-      String logoUrl,
+      String logoFilepath,
       String creatorId,
       String contact}) async {
     final req = rpc.OrgRequest()
       ..creatorId = creatorId
-      ..logoUrl = logoUrl
+      ..logoFilepath = logoFilepath
       ..name = name
       ..contact = contact;
 
@@ -126,10 +126,10 @@ class OrgProjRepo {
   }
 
   static Future<rpc.Project> updateProject(
-      {@required String id, String name, String logoUrl}) async {
+      {@required String id, String name, String logoFilepath}) async {
     final req = rpc.ProjectUpdateRequest()
       ..id = id
-      ..logoUrl = logoUrl
+      ..logoFilepath = logoFilepath
       ..name = name;
 
     try {
@@ -145,11 +145,11 @@ class OrgProjRepo {
   static Future<rpc.Org> updateOrg(
       {@required String id,
       String name,
-      String logoUrl,
+      String logoFilepath,
       String contact}) async {
     final req = rpc.OrgUpdateRequest()
       ..id = id
-      ..logoUrl = logoUrl
+      ..logoFilepath = logoFilepath
       ..contact = contact
       ..name = name;
 

@@ -93,40 +93,43 @@ enum Roles {
 message Project {
   string id = 1;
   string name = 2;
-  string logo_url = 3;
+  string logo_filepath = 3;
   google.protobuf.Timestamp created_at = 4;
   string creator_id = 5;
   string org_id = 6;
   Org org = 7;
+  bytes logo = 8;
 }
 
 message ProjectRequest {
   string name = 1;
-  string logo_url = 2;
+  string logo_filepath = 2;
   string creator_id = 3;
   string org_id = 4;
+  string org_name = 5;
 }
 
 message ProjectUpdateRequest {
   string id = 1;
   string name = 2;
-  string logo_url = 3;
+  string logo_filepath = 3;
 }
 
 // resource: Org
 message Org {
   string id = 1;
   string name = 2;
-  string logo_url = 3;
+  string logo_filepath = 3;
   string contact = 4;
   google.protobuf.Timestamp created_at = 5;
   string creator_id = 6;
   repeated Project projects = 7;
+  bytes logo = 8;
 }
 
 message OrgRequest {
   string name = 1;
-  string logo_url = 2;
+  string logo_filepath = 2;
   string contact = 3;
   string creator_id = 4;
 }
@@ -135,11 +138,12 @@ message OrgUpdateRequest {
   string id = 1;
   string name = 2;
   string contact = 3;
-  string logo_url = 4;
+  string logo_filepath = 4;
 }
 
 message IdRequest {
   string id = 1;
+  string name = 2;
 }
 
 message ListRequest {
@@ -191,9 +195,25 @@ message Account {
   google.protobuf.Timestamp updated_at = 6;
   google.protobuf.Timestamp last_login = 7;
   bool disabled = 8;
-  UserDefinedFields fields = 9;
-  UserDefinedFields survey = 10;
-  bool verified = 11;
+  bool verified = 9;
+  string avatar_filepath = 10;
+  bytes avatar = 11;
+}
+
+message AccountNewRequest {
+  string email = 1;
+  string password = 2;
+  repeated UserRoles roles = 3;
+  string avatar_filepath = 4;
+}
+
+message AccountUpdateRequest {
+  string id = 1;
+  string email = 2;
+  string password = 3;
+  bool disabled = 4;
+  bool verified = 5;
+  string avatar_filepath = 6;
 }
 
 message GetAccountRequest {

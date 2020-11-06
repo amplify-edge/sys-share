@@ -1,13 +1,14 @@
 package pkg
 
 import (
-	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 	"github.com/segmentio/encoding/json"
+
+	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 )
 
 type Permission struct {
 	Resource     string   `json:"resource"`
-	ResourceKind string   `json:"resourceKind"`
+	ResourceKind string   `json:"resource_kind"`
 	Activities   []string `json:"activities"`
 }
 
@@ -47,8 +48,8 @@ func RolesFromProto(r accountRpc.Roles) Roles {
 
 type UserRoles struct {
 	Role      Roles  `json:"role,omitempty"`
-	ProjectID string `json:"projectId,omitempty"`
-	OrgID     string `json:"orgId,omitempty"`
+	ProjectID string `json:"project_id,omitempty"`
+	OrgID     string `json:"org_id,omitempty"`
 	All       bool   `json:"all,omitempty"`
 }
 
@@ -94,17 +95,17 @@ func (udf *UserDefinedFields) ToProto() (*accountRpc.UserDefinedFields, error) {
 }
 
 type Account struct {
-	Id        string             `json:"id,omitempty"`
-	Email     string             `json:"email,omitempty"`
-	Password  string             `json:"password,omitempty"`
-	Role      []*UserRoles       `json:"roles,omitempty"`
-	CreatedAt int64              `json:"created_at,omitempty"`
-	UpdatedAt int64              `json:"updated_at,omitempty"`
-	LastLogin int64              `json:"last_login,omitempty"`
-	Disabled  bool               `json:"disabled,omitempty"`
-	Fields    *UserDefinedFields `json:"fields,omitempty"`
-	Survey    *UserDefinedFields `json:"survey,omitempty"`
-	Verified  bool               `json:"verified,omitempty"`
+	Id             string       `json:"id,omitempty"`
+	Email          string       `json:"email,omitempty"`
+	Password       string       `json:"password,omitempty"`
+	Role           []*UserRoles `json:"roles,omitempty"`
+	CreatedAt      int64        `json:"created_at,omitempty"`
+	UpdatedAt      int64        `json:"updated_at,omitempty"`
+	LastLogin      int64        `json:"last_login,omitempty"`
+	Disabled       bool         `json:"disabled,omitempty"`
+	Verified       bool         `json:"verified,omitempty"`
+	AvatarFilepath string       `json:"avatar_filepath,omitempty"`
+	Avatar         []byte       `json:"avatar,omitempty"`
 }
 
 func (acc *Account) GetId() string {
@@ -127,53 +128,111 @@ func (acc *Account) ToProto() (*accountRpc.Account, error) {
 			roles = append(roles, role)
 		}
 	}
-	surveyFields, err := acc.Survey.ToProto()
-	if err != nil {
-		return nil, err
-	}
-	fields, err := acc.Fields.ToProto()
-	if err != nil {
-		return nil, err
-	}
 	return &accountRpc.Account{
-		Id:        acc.Id,
-		Email:     acc.Email,
-		Password:  acc.Password,
-		Roles:     roles,
-		CreatedAt: unixToUtcTS(acc.CreatedAt),
-		UpdatedAt: unixToUtcTS(acc.UpdatedAt),
-		LastLogin: unixToUtcTS(acc.LastLogin),
-		Disabled:  acc.Disabled,
-		Fields:    fields,
-		Survey:    surveyFields,
-		Verified:  acc.Verified,
+		Id:             acc.Id,
+		Email:          acc.Email,
+		Password:       acc.Password,
+		Roles:          roles,
+		CreatedAt:      unixToUtcTS(acc.CreatedAt),
+		UpdatedAt:      unixToUtcTS(acc.UpdatedAt),
+		LastLogin:      unixToUtcTS(acc.LastLogin),
+		Disabled:       acc.Disabled,
+		Verified:       acc.Verified,
+		AvatarFilepath: acc.AvatarFilepath,
 	}, nil
 }
 
 func AccountFromProto(in *accountRpc.Account) (*Account, error) {
 	var roles []*UserRoles
-	if in.Roles !=  nil && len(in.Roles) > 0 {
+	if in.Roles != nil && len(in.Roles) > 0 {
 		for _, r := range in.Roles {
 			role := UserRolesFromProto(r)
 			roles = append(roles, role)
 		}
 	}
-	fields, err := UserDefinedFieldsFromProto(in.Fields)
-	if err != nil {
-		return nil, err
-	}
 	return &Account{
-		Id:        in.GetId(),
-		Email:     in.GetEmail(),
-		Password:  in.GetPassword(),
-		Role:      roles,
-		CreatedAt: tsToUnixUTC(in.GetCreatedAt()),
-		UpdatedAt: tsToUnixUTC(in.GetUpdatedAt()),
-		LastLogin: tsToUnixUTC(in.GetLastLogin()),
-		Disabled:  in.Disabled,
-		Fields:    fields,
-		Verified:  in.Verified,
+		Id:             in.GetId(),
+		Email:          in.GetEmail(),
+		Password:       in.GetPassword(),
+		Role:           roles,
+		CreatedAt:      tsToUnixUTC(in.GetCreatedAt()),
+		UpdatedAt:      tsToUnixUTC(in.GetUpdatedAt()),
+		LastLogin:      tsToUnixUTC(in.GetLastLogin()),
+		Disabled:       in.Disabled,
+		Verified:       in.Verified,
+		AvatarFilepath: in.GetAvatarFilepath(),
+		Avatar:         in.GetAvatar(),
 	}, nil
+}
+
+type AccountNewRequest struct {
+	Email          string       `json:"email,omitempty"`
+	Password       string       `json:"password,omitempty"`
+	Roles          []*UserRoles `json:"roles,omitempty"`
+	AvatarFilepath string       `json:"avatar_filepath,omitempty"`
+}
+
+func (a *AccountNewRequest) ToProto() *accountRpc.AccountNewRequest {
+	var roles []*accountRpc.UserRoles
+	if a.Roles != nil && len(a.Roles) > 0 {
+		for _, r := range a.Roles {
+			role := r.ToProto()
+			roles = append(roles, role)
+		}
+	}
+	return &accountRpc.AccountNewRequest{
+		Email:          a.Email,
+		Password:       a.Password,
+		Roles:          roles,
+		AvatarFilepath: a.AvatarFilepath,
+	}
+}
+
+func AccountNewRequestFromProto(in *accountRpc.AccountNewRequest) *AccountNewRequest {
+	var roles []*UserRoles
+	if in.Roles != nil && len(in.Roles) > 0 {
+		for _, r := range in.Roles {
+			role := UserRolesFromProto(r)
+			roles = append(roles, role)
+		}
+	}
+	return &AccountNewRequest{
+		Email:          in.GetEmail(),
+		Password:       in.GetPassword(),
+		Roles:          roles,
+		AvatarFilepath: in.GetAvatarFilepath(),
+	}
+}
+
+type AccountUpdateRequest struct {
+	Id             string `json:"id,omitempty"`
+	Email          string `json:"email,omitempty"`
+	Password       string `json:"password,omitempty"`
+	Disabled       bool   `json:"disabled,omitempty"`
+	Verified       bool   `json:"verified,omitempty"`
+	AvatarFilepath string `json:"avatar_filepath,omitempty"`
+}
+
+func (a *AccountUpdateRequest) ToProto() *accountRpc.AccountUpdateRequest {
+	return &accountRpc.AccountUpdateRequest{
+		Id:             a.Id,
+		Email:          a.Email,
+		Password:       a.Password,
+		Disabled:       a.Disabled,
+		Verified:       a.Verified,
+		AvatarFilepath: a.AvatarFilepath,
+	}
+}
+
+func AccountUpdateRequestFromProto(in *accountRpc.AccountUpdateRequest) *AccountUpdateRequest {
+	return &AccountUpdateRequest{
+		Id:             in.GetId(),
+		Email:          in.GetEmail(),
+		Password:       in.GetPassword(),
+		Disabled:       in.GetDisabled(),
+		Verified:       in.GetVerified(),
+		AvatarFilepath: in.GetAvatarFilepath(),
+	}
 }
 
 type GetAccountRequest struct {
@@ -185,10 +244,10 @@ func (gar *GetAccountRequest) ToProto() *accountRpc.GetAccountRequest {
 }
 
 type ListAccountsRequest struct {
-	PerPageEntries int64                  `json:"perPageEntries,omitempty"`
-	OrderBy        string                 `json:"orderBy,omitempty"`
-	CurrentPageId  string                 `json:"currentPageId,omitempty"`
-	IsDescending   bool                   `json:"isDescending,omitempty"`
+	PerPageEntries int64                  `json:"per_page_entries,omitempty"`
+	OrderBy        string                 `json:"order_by,omitempty"`
+	CurrentPageId  string                 `json:"current_page_id,omitempty"`
+	IsDescending   bool                   `json:"is_descending,omitempty"`
 	Filters        map[string]interface{} `json:"filters,omitempty"`
 }
 
@@ -229,7 +288,7 @@ func ListAccountsRequestFromProto(in *accountRpc.ListAccountsRequest) (*ListAcco
 
 type ListAccountsResponse struct {
 	Accounts   []*Account `json:"accounts,omitempty"`
-	NextPageId string     `json:"nextPageId,omitempty"`
+	NextPageId string     `json:"next_page_id,omitempty"`
 }
 
 func (lsp *ListAccountsResponse) ToProto() (*accountRpc.ListAccountsResponse, error) {
@@ -264,7 +323,7 @@ func ListAccountsResponseFromProto(resp *accountRpc.ListAccountsResponse) (*List
 
 type SearchAccountsRequest struct {
 	Query       map[string]interface{} `json:"query,omitempty"`
-	SearchParam *ListAccountsRequest   `json:"searchParam,omitempty"`
+	SearchParam *ListAccountsRequest   `json:"search_param,omitempty"`
 }
 
 func (sar *SearchAccountsRequest) ToProto() (*accountRpc.SearchAccountsRequest, error) {
@@ -284,7 +343,7 @@ func (sar *SearchAccountsRequest) ToProto() (*accountRpc.SearchAccountsRequest, 
 }
 
 type SearchAccountsResponse struct {
-	SearchResponse *ListAccountsResponse `json:"listAccountsResponse,omitempty"`
+	SearchResponse *ListAccountsResponse `json:"list_accounts_response,omitempty"`
 }
 
 func (sar *SearchAccountsResponse) ToProto() (*accountRpc.SearchAccountsResponse, error) {
@@ -304,8 +363,8 @@ func SearchAccountResponseFromProto(in *accountRpc.SearchAccountsResponse) (*Sea
 }
 
 type AssignAccountToRoleRequest struct {
-	AssigneeAccountId string    `json:"assigneeAccountId,omitempty"`
-	AssignedAccountId string    `json:"assignedAccountId,omitempty"`
+	AssigneeAccountId string    `json:"assignee_account_id,omitempty"`
+	AssignedAccountId string    `json:"assigned_account_id,omitempty"`
 	Role              UserRoles `json:"role,omitempty"`
 }
 
@@ -319,7 +378,7 @@ func (aatr *AssignAccountToRoleRequest) ToProto() *accountRpc.AssignAccountToRol
 }
 
 type DisableAccountRequest struct {
-	AccountId string `json:"accountId,omitempty"`
+	AccountId string `json:"account_id,omitempty"`
 }
 
 func (dar *DisableAccountRequest) ToProto() *accountRpc.DisableAccountRequest {

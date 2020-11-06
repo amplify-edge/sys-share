@@ -17,7 +17,7 @@ func RestoreResultFromProto(drr *dbrpc.RestoreResult) *RestoreResult {
 }
 
 type BackupResult struct {
-	BackupFile string `json:"backupFile"`
+	BackupFile string `json:"backup_file"`
 }
 
 func (br *BackupResult) ToProto() *dbrpc.BackupResult {
@@ -29,7 +29,7 @@ func BackupResultFromProto(in *dbrpc.BackupResult) *BackupResult {
 }
 
 type ListBackupResult struct {
-	BackupFiles []*BackupResult `json:"backupFiles"`
+	BackupFiles []*BackupResult `json:"backup_files"`
 }
 
 func (l *ListBackupResult) ToProto() *dbrpc.ListBackupResult {
@@ -49,7 +49,7 @@ func ListBackupFromProto(in *dbrpc.ListBackupResult) *ListBackupResult {
 }
 
 type RestoreRequest struct {
-	BackupFile string `json:"backupFile"`
+	BackupFile string `json:"backup_file"`
 }
 
 func (r *RestoreRequest) ToProto() *dbrpc.RestoreRequest {
@@ -61,10 +61,10 @@ func RestoreRequestFromProto(in *dbrpc.RestoreRequest) *RestoreRequest {
 }
 
 type EventRequest struct {
-	EventName   string `json:"eventName,omitempty"`
+	EventName   string `json:"event_name,omitempty"`
 	Initiator   string `json:"initiator,omitempty"`
-	UserId      string `json:"userId,omitempty"`
-	JsonPayload []byte `json:"jsonPayload,omitempty"`
+	UserId      string `json:"user_id,omitempty"`
+	JsonPayload []byte `json:"json_payload,omitempty"`
 }
 
 func (e *EventRequest) ToProto() *dbrpc.EventRequest {
@@ -103,7 +103,7 @@ func EventResponseFromProto(in *dbrpc.EventResponse) *EventResponse {
 
 type EmailRequest struct {
 	Sender      string            `json:"sender,omitempty"`
-	SenderName  string            `json:"senderName,omitempty"`
+	SenderName  string            `json:"sender_name,omitempty"`
 	Subject     string            `json:"subject,omitempty"`
 	Recipients  map[string]string `json:"recipients,omitempty"`
 	Content     []byte            `json:"content,omitempty"`
@@ -140,8 +140,8 @@ func EmailRequestFromProto(in *dbrpc.EmailRequest) *EmailRequest {
 
 type EmailResponse struct {
 	Success        bool   `json:"success,omitempty"`
-	ErrMessage     string `json:"errMessage,omitempty"`
-	SuccessMessage string `json:"successMessage,omitempty"`
+	ErrMessage     string `json:"err_message,omitempty"`
+	SuccessMessage string `json:"success_message,omitempty"`
 }
 
 func (e *EmailResponse) ToProto() *dbrpc.EmailResponse {
@@ -161,35 +161,29 @@ func EmailResponseFromProto(e *dbrpc.EmailResponse) *EmailResponse {
 }
 
 type FileInfo struct {
-	MimeType            string `json:"mimeType,omitempty"`
-	IsDir               bool   `json:"isDir,omitempty"`
-	SysAccountOrgId     string `json:"sysAccountOrgId,omitempty"`
-	SysAccountProjectId string `json:"sysAccountProjectId,omitempty"`
-	SysAccountId        string `json:"sysAccountId,omitempty"`
+	MimeType   string `json:"mime_type,omitempty"`
+	IsDir      bool   `json:"is_dir,omitempty"`
+	ResourceId string `json:"resource_id,omitempty"`
 }
 
 func (f *FileInfo) ToProto() *dbrpc.FileInfo {
 	return &dbrpc.FileInfo{
-		MimeType:            f.MimeType,
-		IsDir:               f.IsDir,
-		SysAccountOrgId:     f.SysAccountOrgId,
-		SysAccountProjectId: f.SysAccountProjectId,
-		SysAccountId:        f.SysAccountId,
+		MimeType:   f.MimeType,
+		IsDir:      f.IsDir,
+		ResourceId: f.ResourceId,
 	}
 }
 
 func FileInfoFromProto(in *dbrpc.FileInfo) *FileInfo {
 	return &FileInfo{
-		MimeType:            in.GetMimeType(),
-		IsDir:               in.GetIsDir(),
-		SysAccountOrgId:     in.GetSysAccountOrgId(),
-		SysAccountProjectId: in.GetSysAccountProjectId(),
-		SysAccountId:        in.GetSysAccountId(),
+		MimeType:   in.GetMimeType(),
+		IsDir:      in.GetIsDir(),
+		ResourceId: in.GetResourceId(),
 	}
 }
 
 type FileUploadRequest struct {
-	FileInfo FileInfo `json:"fileInfo,omitempty"`
+	FileInfo FileInfo `json:"file_info,omitempty"`
 	Chunk    []byte   `json:"chunk"`
 }
 
@@ -210,7 +204,7 @@ func FileUploadRequestFromProto(in *dbrpc.FileUploadRequest) *FileUploadRequest 
 type FileUploadResponse struct {
 	Success  bool   `json:"success,omitempty"`
 	Id       string `json:"id,omitempty"`
-	ErrorMsg string `json:"errorMsg,omitempty"`
+	ErrorMsg string `json:"error_msg,omitempty"`
 }
 
 func (f *FileUploadResponse) ToProto() *dbrpc.FileUploadResponse {

@@ -6,95 +6,99 @@ import (
 )
 
 type Project struct {
-	Id        string `json:"id,omitempty"`
-	Name      string `json:"name,omitempty"`
-	LogoUrl   string `json:"logoUrl,omitempty"`
-	CreatedAt int64  `json:"createdAt,omitempty"`
-	CreatorId string `json:"creatorId,omitempty"`
-	OrgId     string `json:"orgId,omitempty"`
-	Org       *Org   `json:"org,omitempty"`
+	Id           string `json:"id,omitempty"`
+	Name         string `json:"name,omitempty"`
+	LogoFilepath string `json:"logo_filepath,omitempty"`
+	CreatedAt    int64  `json:"created_at,omitempty"`
+	CreatorId    string `json:"creator_id,omitempty"`
+	OrgId        string `json:"org_id,omitempty"`
+	OrgName      string `json:"org_name,omitempty"`
+	Org          *Org   `json:"org,omitempty"`
 }
 
 func (p *Project) ToProto() *accountRpc.Project {
 	return &accountRpc.Project{
-		Id:        p.Id,
-		Name:      p.Name,
-		LogoUrl:   p.LogoUrl,
-		CreatedAt: unixToUtcTS(p.CreatedAt),
-		CreatorId: p.CreatorId,
-		OrgId:     p.OrgId,
-		Org:       p.Org.ToProto(),
+		Id:           p.Id,
+		Name:         p.Name,
+		LogoFilepath: p.LogoFilepath,
+		CreatedAt:    unixToUtcTS(p.CreatedAt),
+		CreatorId:    p.CreatorId,
+		OrgId:        p.OrgId,
+		Org:          p.Org.ToProto(),
 	}
 }
 
 func ProjectFromProto(in *accountRpc.Project) *Project {
 	return &Project{
-		Id:        in.GetId(),
-		Name:      in.GetName(),
-		LogoUrl:   in.GetLogoUrl(),
-		CreatedAt: tsToUnixUTC(in.GetCreatedAt()),
-		CreatorId: in.GetCreatorId(),
-		OrgId:     in.OrgId,
-		Org:       OrgFromProto(in.Org),
+		Id:           in.GetId(),
+		Name:         in.GetName(),
+		LogoFilepath: in.GetLogoFilepath(),
+		CreatedAt:    tsToUnixUTC(in.GetCreatedAt()),
+		CreatorId:    in.GetCreatorId(),
+		OrgId:        in.OrgId,
+		Org:          OrgFromProto(in.Org),
 	}
 }
 
 type ProjectRequest struct {
-	Name      string `json:"name,omitempty"`
-	LogoUrl   string `json:"logoUrl,omitempty"`
-	CreatedAt int64  `json:"createdAt,omitempty"`
-	CreatorId string `json:"creatorId,omitempty"`
-	OrgId     string `json:"orgId,omitempty"`
+	Name         string `json:"name,omitempty"`
+	LogoFilepath string `json:"logo_filepath,omitempty"`
+	CreatedAt    int64  `json:"created_at,omitempty"`
+	CreatorId    string `json:"creator_id,omitempty"`
+	OrgId        string `json:"org_id,omitempty"`
+	OrgName      string `json:"org_name,omitempty"`
 }
 
 func (p *ProjectRequest) ToProto() *accountRpc.ProjectRequest {
 	return &accountRpc.ProjectRequest{
-		Name:      p.Name,
-		LogoUrl:   p.LogoUrl,
-		CreatorId: p.CreatorId,
-		OrgId:     p.OrgId,
+		Name:         p.Name,
+		LogoFilepath: p.LogoFilepath,
+		CreatorId:    p.CreatorId,
+		OrgId:        p.OrgId,
+		OrgName:      p.OrgName,
 	}
 }
 
 func ProjectRequestFromProto(in *accountRpc.ProjectRequest) *ProjectRequest {
 	return &ProjectRequest{
-		Name:      in.GetName(),
-		LogoUrl:   in.GetLogoUrl(),
-		CreatorId: in.GetCreatorId(),
-		OrgId:     in.OrgId,
+		Name:         in.GetName(),
+		LogoFilepath: in.GetLogoFilepath(),
+		CreatorId:    in.GetCreatorId(),
+		OrgId:        in.GetOrgId(),
+		OrgName:      in.GetOrgName(),
 	}
 }
 
 type ProjectUpdateRequest struct {
-	Id      string `json:"id,omitempty"`
-	Name    string `json:"name,omitempty"`
-	LogoUrl string `json:"logoUrl,omitempty"`
+	Id           string `json:"id,omitempty"`
+	Name         string `json:"name,omitempty"`
+	LogoFilepath string `json:"logo_filepath,omitempty"`
 }
 
 func (p *ProjectUpdateRequest) ToProto() *accountRpc.ProjectUpdateRequest {
 	return &accountRpc.ProjectUpdateRequest{
-		Id:      p.Id,
-		Name:    p.Name,
-		LogoUrl: p.LogoUrl,
+		Id:           p.Id,
+		Name:         p.Name,
+		LogoFilepath: p.LogoFilepath,
 	}
 }
 
 func ProjectUpdateRequestFromProto(in *accountRpc.ProjectUpdateRequest) *ProjectUpdateRequest {
 	return &ProjectUpdateRequest{
-		Id:      in.GetId(),
-		Name:    in.GetName(),
-		LogoUrl: in.GetLogoUrl(),
+		Id:           in.GetId(),
+		Name:         in.GetName(),
+		LogoFilepath: in.GetLogoFilepath(),
 	}
 }
 
 type Org struct {
-	Id        string     `json:"id,omitempty"`
-	Name      string     `json:"name,omitempty"`
-	LogoUrl   string     `json:"logoUrl,omitempty"`
-	Contact   string     `json:"contact,omitempty"`
-	CreatedAt int64      `json:"createdAt,omitempty"`
-	CreatorId string     `json:"creatorId,omitempty"`
-	Projects  []*Project `json:"projects,omitempty"`
+	Id           string     `json:"id,omitempty"`
+	Name         string     `json:"name,omitempty"`
+	LogoFilepath string     `json:"logo_filepath,omitempty"`
+	Contact      string     `json:"contact,omitempty"`
+	CreatedAt    int64      `json:"createdAt,omitempty"`
+	CreatorId    string     `json:"creatorId,omitempty"`
+	Projects     []*Project `json:"projects,omitempty"`
 }
 
 func (o *Org) ToProto() *accountRpc.Org {
@@ -105,13 +109,13 @@ func (o *Org) ToProto() *accountRpc.Org {
 		}
 	}
 	return &accountRpc.Org{
-		Id:        o.Id,
-		Name:      o.Name,
-		LogoUrl:   o.LogoUrl,
-		Contact:   o.Contact,
-		CreatedAt: unixToUtcTS(o.CreatedAt),
-		CreatorId: o.CreatorId,
-		Projects:  projects,
+		Id:           o.Id,
+		Name:         o.Name,
+		LogoFilepath: o.LogoFilepath,
+		Contact:      o.Contact,
+		CreatedAt:    unixToUtcTS(o.CreatedAt),
+		CreatorId:    o.CreatorId,
+		Projects:     projects,
 	}
 }
 
@@ -123,71 +127,71 @@ func OrgFromProto(in *accountRpc.Org) *Org {
 		}
 	}
 	return &Org{
-		Id:        in.GetId(),
-		Name:      in.GetName(),
-		LogoUrl:   in.GetLogoUrl(),
-		Contact:   in.GetContact(),
-		CreatedAt: tsToUnixUTC(in.GetCreatedAt()),
-		CreatorId: in.GetCreatorId(),
-		Projects:  projects,
+		Id:           in.GetId(),
+		Name:         in.GetName(),
+		LogoFilepath: in.GetLogoFilepath(),
+		Contact:      in.GetContact(),
+		CreatedAt:    tsToUnixUTC(in.GetCreatedAt()),
+		CreatorId:    in.GetCreatorId(),
+		Projects:     projects,
 	}
 }
 
 type OrgRequest struct {
-	Name      string `json:"name,omitempty"`
-	LogoUrl   string `json:"logoUrl,omitempty"`
-	Contact   string `json:"contact,omitempty"`
-	CreatorId string `json:"creatorId,omitempty"`
+	Name         string `json:"name,omitempty"`
+	LogoFilepath string `json:"logoUrl,omitempty"`
+	Contact      string `json:"contact,omitempty"`
+	CreatorId    string `json:"creatorId,omitempty"`
 }
 
 func (o *OrgRequest) ToProto() *accountRpc.OrgRequest {
 	return &accountRpc.OrgRequest{
-		Name:      o.Name,
-		LogoUrl:   o.LogoUrl,
-		Contact:   o.Contact,
-		CreatorId: o.CreatorId,
+		Name:         o.Name,
+		LogoFilepath: o.LogoFilepath,
+		Contact:      o.Contact,
+		CreatorId:    o.CreatorId,
 	}
 }
 
 func OrgRequestFromProto(in *accountRpc.OrgRequest) *OrgRequest {
 	return &OrgRequest{
-		Name:      in.GetName(),
-		LogoUrl:   in.GetLogoUrl(),
-		Contact:   in.GetContact(),
-		CreatorId: in.GetCreatorId(),
+		Name:         in.GetName(),
+		LogoFilepath: in.GetLogoFilepath(),
+		Contact:      in.GetContact(),
+		CreatorId:    in.GetCreatorId(),
 	}
 }
 
 type OrgUpdateRequest struct {
-	Id      string `json:"id,omitempty"`
-	Name    string `json:"name,omitempty"`
-	LogoUrl string `json:"logoUrl,omitempty"`
-	Contact string `json:"contact,omitempty"`
+	Id           string `json:"id,omitempty"`
+	Name         string `json:"name,omitempty"`
+	LogoFilepath string `json:"logoUrl,omitempty"`
+	Contact      string `json:"contact,omitempty"`
 }
 
 func (o *OrgUpdateRequest) ToProto() *accountRpc.OrgUpdateRequest {
 	return &accountRpc.OrgUpdateRequest{
-		Id:      o.Id,
-		Name:    o.Name,
-		LogoUrl: o.LogoUrl,
-		Contact: o.Contact,
+		Id:           o.Id,
+		Name:         o.Name,
+		LogoFilepath: o.LogoFilepath,
+		Contact:      o.Contact,
 	}
 }
 
 func OrgUpdateRequestFromProto(in *accountRpc.OrgUpdateRequest) *OrgUpdateRequest {
 	return &OrgUpdateRequest{
-		Id:      in.GetId(),
-		Name:    in.GetName(),
-		LogoUrl: in.GetLogoUrl(),
-		Contact: in.GetContact(),
+		Id:           in.GetId(),
+		Name:         in.GetName(),
+		LogoFilepath: in.GetLogoFilepath(),
+		Contact:      in.GetContact(),
 	}
 }
 
 type ListRequest struct {
-	PerPageEntries int64                  `json:"perPageEntries,omitempty"`
-	OrderBy        string                 `json:"orderBy,omitempty"`
-	CurrentPageId  string                 `json:"currentPageId,omitempty"`
-	IsDescending   bool                   `json:"isDescending,omitempty"`
+	PerPageEntries int64                  `json:"per_page_entries,omitempty"`
+	OrderBy        string                 `json:"order_by,omitempty"`
+	CurrentPageId  string                 `json:"current_page_id,omitempty"`
+	IsDescending   bool                   `json:"is_descending,omitempty"`
 	Filters        map[string]interface{} `json:"filters,omitempty"`
 }
 
@@ -230,7 +234,7 @@ func ListRequestFromProto(in *accountRpc.ListRequest) (*ListRequest, error) {
 type ListResponse struct {
 	Projects   []*Project `json:"projects,omitempty"`
 	Orgs       []*Org     `json:"orgs,omitempty"`
-	NextPageId string     `json:"nextPageId,omitempty"`
+	NextPageId string     `json:"next_page_id,omitempty"`
 }
 
 func (l *ListResponse) ToProto() *accountRpc.ListResponse {
@@ -274,13 +278,14 @@ func ListResponseFromProto(in *accountRpc.ListResponse) *ListResponse {
 }
 
 type IdRequest struct {
-	Id string `json:"id,omitempty"`
+	Id   string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 func (i *IdRequest) ToProto() *accountRpc.IdRequest {
-	return &accountRpc.IdRequest{Id: i.Id}
+	return &accountRpc.IdRequest{Id: i.Id, Name: i.Name}
 }
 
 func IdRequestFromProto(in *accountRpc.IdRequest) *IdRequest {
-	return &IdRequest{Id: in.GetId()}
+	return &IdRequest{Id: in.GetId(), Name: in.GetName()}
 }
