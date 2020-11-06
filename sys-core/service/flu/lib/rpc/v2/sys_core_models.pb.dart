@@ -447,6 +447,7 @@ class FileUploadResponse extends $pb.GeneratedMessage {
     ..aOB(1, 'success')
     ..aOS(2, 'id')
     ..aOS(3, 'errorMsg')
+    ..aOS(4, 'resourceId')
     ..hasRequiredFields = false
   ;
 
@@ -491,6 +492,15 @@ class FileUploadResponse extends $pb.GeneratedMessage {
   $core.bool hasErrorMsg() => $_has(2);
   @$pb.TagNumber(3)
   void clearErrorMsg() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get resourceId => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set resourceId($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasResourceId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearResourceId() => clearField(4);
 }
 
 class FileDownloadRequest extends $pb.GeneratedMessage {

@@ -95,17 +95,17 @@ func (udf *UserDefinedFields) ToProto() (*accountRpc.UserDefinedFields, error) {
 }
 
 type Account struct {
-	Id             string       `json:"id,omitempty"`
-	Email          string       `json:"email,omitempty"`
-	Password       string       `json:"password,omitempty"`
-	Role           []*UserRoles `json:"roles,omitempty"`
-	CreatedAt      int64        `json:"created_at,omitempty"`
-	UpdatedAt      int64        `json:"updated_at,omitempty"`
-	LastLogin      int64        `json:"last_login,omitempty"`
-	Disabled       bool         `json:"disabled,omitempty"`
-	Verified       bool         `json:"verified,omitempty"`
-	AvatarFilepath string       `json:"avatar_filepath,omitempty"`
-	Avatar         []byte       `json:"avatar,omitempty"`
+	Id               string       `json:"id,omitempty"`
+	Email            string       `json:"email,omitempty"`
+	Password         string       `json:"password,omitempty"`
+	Role             []*UserRoles `json:"roles,omitempty"`
+	CreatedAt        int64        `json:"created_at,omitempty"`
+	UpdatedAt        int64        `json:"updated_at,omitempty"`
+	LastLogin        int64        `json:"last_login,omitempty"`
+	Disabled         bool         `json:"disabled,omitempty"`
+	Verified         bool         `json:"verified,omitempty"`
+	AvatarResourceId string       `json:"avatar_resource_id,omitempty"`
+	Avatar           []byte       `json:"avatar,omitempty"`
 }
 
 func (acc *Account) GetId() string {
@@ -129,16 +129,17 @@ func (acc *Account) ToProto() (*accountRpc.Account, error) {
 		}
 	}
 	return &accountRpc.Account{
-		Id:             acc.Id,
-		Email:          acc.Email,
-		Password:       acc.Password,
-		Roles:          roles,
-		CreatedAt:      unixToUtcTS(acc.CreatedAt),
-		UpdatedAt:      unixToUtcTS(acc.UpdatedAt),
-		LastLogin:      unixToUtcTS(acc.LastLogin),
-		Disabled:       acc.Disabled,
-		Verified:       acc.Verified,
-		AvatarFilepath: acc.AvatarFilepath,
+		Id:               acc.Id,
+		Email:            acc.Email,
+		Password:         acc.Password,
+		Roles:            roles,
+		CreatedAt:        unixToUtcTS(acc.CreatedAt),
+		UpdatedAt:        unixToUtcTS(acc.UpdatedAt),
+		LastLogin:        unixToUtcTS(acc.LastLogin),
+		Disabled:         acc.Disabled,
+		Verified:         acc.Verified,
+		Avatar:           acc.Avatar,
+		AvatarResourceId: acc.AvatarResourceId,
 	}, nil
 }
 
@@ -151,25 +152,26 @@ func AccountFromProto(in *accountRpc.Account) (*Account, error) {
 		}
 	}
 	return &Account{
-		Id:             in.GetId(),
-		Email:          in.GetEmail(),
-		Password:       in.GetPassword(),
-		Role:           roles,
-		CreatedAt:      tsToUnixUTC(in.GetCreatedAt()),
-		UpdatedAt:      tsToUnixUTC(in.GetUpdatedAt()),
-		LastLogin:      tsToUnixUTC(in.GetLastLogin()),
-		Disabled:       in.Disabled,
-		Verified:       in.Verified,
-		AvatarFilepath: in.GetAvatarFilepath(),
-		Avatar:         in.GetAvatar(),
+		Id:               in.GetId(),
+		Email:            in.GetEmail(),
+		Password:         in.GetPassword(),
+		Role:             roles,
+		CreatedAt:        tsToUnixUTC(in.GetCreatedAt()),
+		UpdatedAt:        tsToUnixUTC(in.GetUpdatedAt()),
+		LastLogin:        tsToUnixUTC(in.GetLastLogin()),
+		Disabled:         in.Disabled,
+		Verified:         in.Verified,
+		AvatarResourceId: in.GetAvatarResourceId(),
+		Avatar:           in.GetAvatar(),
 	}, nil
 }
 
 type AccountNewRequest struct {
-	Email          string       `json:"email,omitempty"`
-	Password       string       `json:"password,omitempty"`
-	Roles          []*UserRoles `json:"roles,omitempty"`
-	AvatarFilepath string       `json:"avatar_filepath,omitempty"`
+	Email             string       `json:"email,omitempty"`
+	Password          string       `json:"password,omitempty"`
+	Roles             []*UserRoles `json:"roles,omitempty"`
+	AvatarFilepath    string       `json:"avatar_filepath,omitempty"`
+	AvatarUploadBytes []byte       `json:"avatar_upload_bytes,omitempty"`
 }
 
 func (a *AccountNewRequest) ToProto() *accountRpc.AccountNewRequest {
@@ -181,10 +183,11 @@ func (a *AccountNewRequest) ToProto() *accountRpc.AccountNewRequest {
 		}
 	}
 	return &accountRpc.AccountNewRequest{
-		Email:          a.Email,
-		Password:       a.Password,
-		Roles:          roles,
-		AvatarFilepath: a.AvatarFilepath,
+		Email:             a.Email,
+		Password:          a.Password,
+		Roles:             roles,
+		AvatarFilepath:    a.AvatarFilepath,
+		AvatarUploadBytes: a.AvatarUploadBytes,
 	}
 }
 
@@ -197,41 +200,45 @@ func AccountNewRequestFromProto(in *accountRpc.AccountNewRequest) *AccountNewReq
 		}
 	}
 	return &AccountNewRequest{
-		Email:          in.GetEmail(),
-		Password:       in.GetPassword(),
-		Roles:          roles,
-		AvatarFilepath: in.GetAvatarFilepath(),
+		Email:             in.GetEmail(),
+		Password:          in.GetPassword(),
+		Roles:             roles,
+		AvatarFilepath:    in.GetAvatarFilepath(),
+		AvatarUploadBytes: in.GetAvatarUploadBytes(),
 	}
 }
 
 type AccountUpdateRequest struct {
-	Id             string `json:"id,omitempty"`
-	Email          string `json:"email,omitempty"`
-	Password       string `json:"password,omitempty"`
-	Disabled       bool   `json:"disabled,omitempty"`
-	Verified       bool   `json:"verified,omitempty"`
-	AvatarFilepath string `json:"avatar_filepath,omitempty"`
+	Id                string `json:"id,omitempty"`
+	Email             string `json:"email,omitempty"`
+	Password          string `json:"password,omitempty"`
+	Disabled          bool   `json:"disabled,omitempty"`
+	Verified          bool   `json:"verified,omitempty"`
+	AvatarFilepath    string `json:"avatar_filepath,omitempty"`
+	AvatarUploadBytes []byte `json:"avatar_upload_bytes,omitempty"`
 }
 
 func (a *AccountUpdateRequest) ToProto() *accountRpc.AccountUpdateRequest {
 	return &accountRpc.AccountUpdateRequest{
-		Id:             a.Id,
-		Email:          a.Email,
-		Password:       a.Password,
-		Disabled:       a.Disabled,
-		Verified:       a.Verified,
-		AvatarFilepath: a.AvatarFilepath,
+		Id:                a.Id,
+		Email:             a.Email,
+		Password:          a.Password,
+		Disabled:          a.Disabled,
+		Verified:          a.Verified,
+		AvatarFilepath:    a.AvatarFilepath,
+		AvatarUploadBytes: a.AvatarUploadBytes,
 	}
 }
 
 func AccountUpdateRequestFromProto(in *accountRpc.AccountUpdateRequest) *AccountUpdateRequest {
 	return &AccountUpdateRequest{
-		Id:             in.GetId(),
-		Email:          in.GetEmail(),
-		Password:       in.GetPassword(),
-		Disabled:       in.GetDisabled(),
-		Verified:       in.GetVerified(),
-		AvatarFilepath: in.GetAvatarFilepath(),
+		Id:                in.GetId(),
+		Email:             in.GetEmail(),
+		Password:          in.GetPassword(),
+		Disabled:          in.GetDisabled(),
+		Verified:          in.GetVerified(),
+		AvatarFilepath:    in.GetAvatarFilepath(),
+		AvatarUploadBytes: in.GetAvatarUploadBytes(),
 	}
 }
 

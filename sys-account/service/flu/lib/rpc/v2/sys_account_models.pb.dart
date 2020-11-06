@@ -659,7 +659,7 @@ class Project extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Project', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
     ..aOS(2, 'name')
-    ..aOS(3, 'logoFilepath')
+    ..aOS(3, 'logoResourceId')
     ..aOM<$2.Timestamp>(4, 'createdAt', subBuilder: $2.Timestamp.create)
     ..aOS(5, 'creatorId')
     ..aOS(6, 'orgId')
@@ -702,13 +702,13 @@ class Project extends $pb.GeneratedMessage {
   void clearName() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get logoFilepath => $_getSZ(2);
+  $core.String get logoResourceId => $_getSZ(2);
   @$pb.TagNumber(3)
-  set logoFilepath($core.String v) { $_setString(2, v); }
+  set logoResourceId($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasLogoFilepath() => $_has(2);
+  $core.bool hasLogoResourceId() => $_has(2);
   @$pb.TagNumber(3)
-  void clearLogoFilepath() => clearField(3);
+  void clearLogoResourceId() => clearField(3);
 
   @$pb.TagNumber(4)
   $2.Timestamp get createdAt => $_getN(3);
@@ -767,6 +767,7 @@ class ProjectRequest extends $pb.GeneratedMessage {
     ..aOS(3, 'creatorId')
     ..aOS(4, 'orgId')
     ..aOS(5, 'orgName')
+    ..a<$core.List<$core.int>>(6, 'logoUploadBytes', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -829,6 +830,15 @@ class ProjectRequest extends $pb.GeneratedMessage {
   $core.bool hasOrgName() => $_has(4);
   @$pb.TagNumber(5)
   void clearOrgName() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.List<$core.int> get logoUploadBytes => $_getN(5);
+  @$pb.TagNumber(6)
+  set logoUploadBytes($core.List<$core.int> v) { $_setBytes(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasLogoUploadBytes() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearLogoUploadBytes() => clearField(6);
 }
 
 class ProjectUpdateRequest extends $pb.GeneratedMessage {
@@ -836,6 +846,7 @@ class ProjectUpdateRequest extends $pb.GeneratedMessage {
     ..aOS(1, 'id')
     ..aOS(2, 'name')
     ..aOS(3, 'logoFilepath')
+    ..a<$core.List<$core.int>>(4, 'logoUploadBytes', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -880,13 +891,22 @@ class ProjectUpdateRequest extends $pb.GeneratedMessage {
   $core.bool hasLogoFilepath() => $_has(2);
   @$pb.TagNumber(3)
   void clearLogoFilepath() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.List<$core.int> get logoUploadBytes => $_getN(3);
+  @$pb.TagNumber(4)
+  set logoUploadBytes($core.List<$core.int> v) { $_setBytes(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasLogoUploadBytes() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearLogoUploadBytes() => clearField(4);
 }
 
 class Org extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Org', package: const $pb.PackageName('v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, 'id')
     ..aOS(2, 'name')
-    ..aOS(3, 'logoFilepath')
+    ..aOS(3, 'logoResourceId')
     ..aOS(4, 'contact')
     ..aOM<$2.Timestamp>(5, 'createdAt', subBuilder: $2.Timestamp.create)
     ..aOS(6, 'creatorId')
@@ -929,13 +949,13 @@ class Org extends $pb.GeneratedMessage {
   void clearName() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get logoFilepath => $_getSZ(2);
+  $core.String get logoResourceId => $_getSZ(2);
   @$pb.TagNumber(3)
-  set logoFilepath($core.String v) { $_setString(2, v); }
+  set logoResourceId($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasLogoFilepath() => $_has(2);
+  $core.bool hasLogoResourceId() => $_has(2);
   @$pb.TagNumber(3)
-  void clearLogoFilepath() => clearField(3);
+  void clearLogoResourceId() => clearField(3);
 
   @$pb.TagNumber(4)
   $core.String get contact => $_getSZ(3);
@@ -985,6 +1005,7 @@ class OrgRequest extends $pb.GeneratedMessage {
     ..aOS(2, 'logoFilepath')
     ..aOS(3, 'contact')
     ..aOS(4, 'creatorId')
+    ..a<$core.List<$core.int>>(5, 'logoUploadBytes', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -1038,6 +1059,15 @@ class OrgRequest extends $pb.GeneratedMessage {
   $core.bool hasCreatorId() => $_has(3);
   @$pb.TagNumber(4)
   void clearCreatorId() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.List<$core.int> get logoUploadBytes => $_getN(4);
+  @$pb.TagNumber(5)
+  set logoUploadBytes($core.List<$core.int> v) { $_setBytes(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasLogoUploadBytes() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearLogoUploadBytes() => clearField(5);
 }
 
 class OrgUpdateRequest extends $pb.GeneratedMessage {
@@ -1046,6 +1076,7 @@ class OrgUpdateRequest extends $pb.GeneratedMessage {
     ..aOS(2, 'name')
     ..aOS(3, 'contact')
     ..aOS(4, 'logoFilepath')
+    ..a<$core.List<$core.int>>(5, 'logoUploadBytes', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -1099,6 +1130,15 @@ class OrgUpdateRequest extends $pb.GeneratedMessage {
   $core.bool hasLogoFilepath() => $_has(3);
   @$pb.TagNumber(4)
   void clearLogoFilepath() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.List<$core.int> get logoUploadBytes => $_getN(4);
+  @$pb.TagNumber(5)
+  set logoUploadBytes($core.List<$core.int> v) { $_setBytes(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasLogoUploadBytes() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearLogoUploadBytes() => clearField(5);
 }
 
 class IdRequest extends $pb.GeneratedMessage {
@@ -1369,7 +1409,7 @@ class Account extends $pb.GeneratedMessage {
     ..aOM<$2.Timestamp>(7, 'lastLogin', subBuilder: $2.Timestamp.create)
     ..aOB(8, 'disabled')
     ..aOB(9, 'verified')
-    ..aOS(10, 'avatarFilepath')
+    ..aOS(10, 'avatarResourceId')
     ..a<$core.List<$core.int>>(11, 'avatar', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
@@ -1471,13 +1511,13 @@ class Account extends $pb.GeneratedMessage {
   void clearVerified() => clearField(9);
 
   @$pb.TagNumber(10)
-  $core.String get avatarFilepath => $_getSZ(9);
+  $core.String get avatarResourceId => $_getSZ(9);
   @$pb.TagNumber(10)
-  set avatarFilepath($core.String v) { $_setString(9, v); }
+  set avatarResourceId($core.String v) { $_setString(9, v); }
   @$pb.TagNumber(10)
-  $core.bool hasAvatarFilepath() => $_has(9);
+  $core.bool hasAvatarResourceId() => $_has(9);
   @$pb.TagNumber(10)
-  void clearAvatarFilepath() => clearField(10);
+  void clearAvatarResourceId() => clearField(10);
 
   @$pb.TagNumber(11)
   $core.List<$core.int> get avatar => $_getN(10);
@@ -1495,6 +1535,7 @@ class AccountNewRequest extends $pb.GeneratedMessage {
     ..aOS(2, 'password')
     ..pc<UserRoles>(3, 'roles', $pb.PbFieldType.PM, subBuilder: UserRoles.create)
     ..aOS(4, 'avatarFilepath')
+    ..a<$core.List<$core.int>>(5, 'avatarUploadBytes', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -1542,6 +1583,15 @@ class AccountNewRequest extends $pb.GeneratedMessage {
   $core.bool hasAvatarFilepath() => $_has(3);
   @$pb.TagNumber(4)
   void clearAvatarFilepath() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.List<$core.int> get avatarUploadBytes => $_getN(4);
+  @$pb.TagNumber(5)
+  set avatarUploadBytes($core.List<$core.int> v) { $_setBytes(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasAvatarUploadBytes() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearAvatarUploadBytes() => clearField(5);
 }
 
 class AccountUpdateRequest extends $pb.GeneratedMessage {
@@ -1552,6 +1602,7 @@ class AccountUpdateRequest extends $pb.GeneratedMessage {
     ..aOB(4, 'disabled')
     ..aOB(5, 'verified')
     ..aOS(6, 'avatarFilepath')
+    ..a<$core.List<$core.int>>(7, 'avatarUploadBytes', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -1623,6 +1674,15 @@ class AccountUpdateRequest extends $pb.GeneratedMessage {
   $core.bool hasAvatarFilepath() => $_has(5);
   @$pb.TagNumber(6)
   void clearAvatarFilepath() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.List<$core.int> get avatarUploadBytes => $_getN(6);
+  @$pb.TagNumber(7)
+  set avatarUploadBytes($core.List<$core.int> v) { $_setBytes(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasAvatarUploadBytes() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearAvatarUploadBytes() => clearField(7);
 }
 
 class GetAccountRequest extends $pb.GeneratedMessage {

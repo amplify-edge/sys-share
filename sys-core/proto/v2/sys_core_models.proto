@@ -65,6 +65,7 @@ message FileUploadResponse {
   bool success = 1;
   string id = 2;
   string error_msg = 3;
+  string resource_id = 4;
 }
 
 message FileDownloadRequest {

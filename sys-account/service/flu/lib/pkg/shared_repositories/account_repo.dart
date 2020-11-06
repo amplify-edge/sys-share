@@ -4,6 +4,7 @@ import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart
 import 'package:fixnum/fixnum.dart';
 import 'package:meta/meta.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart';
+import 'dart:io';
 
 class UserRepo {
   static Future<rpc.Account> getAccount(
@@ -52,13 +53,20 @@ class UserRepo {
     @required String email,
     bool disabled = false,
     bool verified,
-    String avatarFilepath,
+    File fileUpload,
   }) async {
     final req = rpc.AccountUpdateRequest()
       ..id = id
       ..disabled = disabled
-      ..verified = verified
-      ..avatarFilepath = avatarFilepath;
+      ..verified = verified;
+
+    if (fileUpload != null) {
+      final avatarFilepath = fileUpload.absolute.path;
+      final avatarFileBytes = fileUpload.readAsBytesSync();
+      req
+        ..avatarFilepath = avatarFilepath
+        ..avatarUploadBytes = avatarFileBytes;
+    }
 
     try {
       final client = await accountClient();

@@ -73,6 +73,7 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
 	cmd.PersistentFlags().StringVar(&req.AvatarFilepath, cfg.FlagNamer("AvatarFilepath"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.AvatarUploadBytes, cfg.FlagNamer("AvatarUploadBytes"), "")
 
 	return cmd
 }
@@ -307,6 +308,7 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().BoolVar(&req.Disabled, cfg.FlagNamer("Disabled"), false, "")
 	cmd.PersistentFlags().BoolVar(&req.Verified, cfg.FlagNamer("Verified"), false, "")
 	cmd.PersistentFlags().StringVar(&req.AvatarFilepath, cfg.FlagNamer("AvatarFilepath"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.AvatarUploadBytes, cfg.FlagNamer("AvatarUploadBytes"), "")
 
 	return cmd
 }
@@ -447,6 +449,7 @@ func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.OrgId, cfg.FlagNamer("OrgId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.OrgName, cfg.FlagNamer("OrgName"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "")
 
 	return cmd
 }
@@ -580,6 +583,7 @@ func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
 	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "")
 
 	return cmd
 }
@@ -668,6 +672,7 @@ func _OrgProjServiceNewOrgCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "")
 
 	return cmd
 }
@@ -802,6 +807,7 @@ func _OrgProjServiceUpdateOrgCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "")
 	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "")
 
 	return cmd
 }
