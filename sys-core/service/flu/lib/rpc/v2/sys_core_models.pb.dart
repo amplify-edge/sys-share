@@ -395,9 +395,7 @@ class FileInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('FileInfo', package: const $pb.PackageName('v2.sys_core.services'), createEmptyInstance: create)
     ..aOS(1, 'mimeType')
     ..aOB(2, 'isDir')
-    ..aOS(3, 'sysAccountOrgId')
-    ..aOS(4, 'sysAccountProjectId')
-    ..aOS(5, 'sysAccountId')
+    ..aOS(3, 'resourceId')
     ..hasRequiredFields = false
   ;
 
@@ -435,31 +433,13 @@ class FileInfo extends $pb.GeneratedMessage {
   void clearIsDir() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get sysAccountOrgId => $_getSZ(2);
+  $core.String get resourceId => $_getSZ(2);
   @$pb.TagNumber(3)
-  set sysAccountOrgId($core.String v) { $_setString(2, v); }
+  set resourceId($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasSysAccountOrgId() => $_has(2);
+  $core.bool hasResourceId() => $_has(2);
   @$pb.TagNumber(3)
-  void clearSysAccountOrgId() => clearField(3);
-
-  @$pb.TagNumber(4)
-  $core.String get sysAccountProjectId => $_getSZ(3);
-  @$pb.TagNumber(4)
-  set sysAccountProjectId($core.String v) { $_setString(3, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasSysAccountProjectId() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearSysAccountProjectId() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $core.String get sysAccountId => $_getSZ(4);
-  @$pb.TagNumber(5)
-  set sysAccountId($core.String v) { $_setString(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasSysAccountId() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearSysAccountId() => clearField(5);
+  void clearResourceId() => clearField(3);
 }
 
 class FileUploadResponse extends $pb.GeneratedMessage {
@@ -467,6 +447,7 @@ class FileUploadResponse extends $pb.GeneratedMessage {
     ..aOB(1, 'success')
     ..aOS(2, 'id')
     ..aOS(3, 'errorMsg')
+    ..aOS(4, 'resourceId')
     ..hasRequiredFields = false
   ;
 
@@ -511,6 +492,15 @@ class FileUploadResponse extends $pb.GeneratedMessage {
   $core.bool hasErrorMsg() => $_has(2);
   @$pb.TagNumber(3)
   void clearErrorMsg() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get resourceId => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set resourceId($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasResourceId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearResourceId() => clearField(4);
 }
 
 class FileDownloadRequest extends $pb.GeneratedMessage {

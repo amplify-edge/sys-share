@@ -20,4 +20,3 @@ service BusService {
 service EmailService {
   rpc SendMail(v2.sys_core.services.EmailRequest) returns (v2.sys_core.services.EmailResponse) {}
 }
-

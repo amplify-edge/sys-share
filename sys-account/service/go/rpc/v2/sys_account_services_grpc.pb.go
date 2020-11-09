@@ -18,12 +18,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountServiceClient interface {
-	NewAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
-	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	NewAccount(ctx context.Context, in *AccountNewRequest, opts ...grpc.CallOption) (*Account, error)
+	GetAccount(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Account, error)
 	ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error)
 	SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error)
 	AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error)
-	UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error)
+	UpdateAccount(ctx context.Context, in *AccountUpdateRequest, opts ...grpc.CallOption) (*Account, error)
 	DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error)
 }
 
@@ -39,7 +39,7 @@ var accountServiceNewAccountStreamDesc = &grpc.StreamDesc{
 	StreamName: "NewAccount",
 }
 
-func (c *accountServiceClient) NewAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
+func (c *accountServiceClient) NewAccount(ctx context.Context, in *AccountNewRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/NewAccount", in, out, opts...)
 	if err != nil {
@@ -52,7 +52,7 @@ var accountServiceGetAccountStreamDesc = &grpc.StreamDesc{
 	StreamName: "GetAccount",
 }
 
-func (c *accountServiceClient) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
+func (c *accountServiceClient) GetAccount(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/GetAccount", in, out, opts...)
 	if err != nil {
@@ -104,7 +104,7 @@ var accountServiceUpdateAccountStreamDesc = &grpc.StreamDesc{
 	StreamName: "UpdateAccount",
 }
 
-func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *Account, opts ...grpc.CallOption) (*Account, error) {
+func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *AccountUpdateRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/UpdateAccount", in, out, opts...)
 	if err != nil {
@@ -131,12 +131,12 @@ func (c *accountServiceClient) DisableAccount(ctx context.Context, in *DisableAc
 // RegisterAccountServiceService is called.  Any unassigned fields will result in the
 // handler for that method returning an Unimplemented error.
 type AccountServiceService struct {
-	NewAccount          func(context.Context, *Account) (*Account, error)
-	GetAccount          func(context.Context, *GetAccountRequest) (*Account, error)
+	NewAccount          func(context.Context, *AccountNewRequest) (*Account, error)
+	GetAccount          func(context.Context, *IdRequest) (*Account, error)
 	ListAccounts        func(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
 	SearchAccounts      func(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	AssignAccountToRole func(context.Context, *AssignAccountToRoleRequest) (*Account, error)
-	UpdateAccount       func(context.Context, *Account) (*Account, error)
+	UpdateAccount       func(context.Context, *AccountUpdateRequest) (*Account, error)
 	DisableAccount      func(context.Context, *DisableAccountRequest) (*Account, error)
 }
 
@@ -144,7 +144,7 @@ func (s *AccountServiceService) newAccount(_ interface{}, ctx context.Context, d
 	if s.NewAccount == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method NewAccount not implemented")
 	}
-	in := new(Account)
+	in := new(AccountNewRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ func (s *AccountServiceService) newAccount(_ interface{}, ctx context.Context, d
 		FullMethod: "/v2.sys_account.services.AccountService/NewAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.NewAccount(ctx, req.(*Account))
+		return s.NewAccount(ctx, req.(*AccountNewRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -164,7 +164,7 @@ func (s *AccountServiceService) getAccount(_ interface{}, ctx context.Context, d
 	if s.GetAccount == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 	}
-	in := new(GetAccountRequest)
+	in := new(IdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -176,7 +176,7 @@ func (s *AccountServiceService) getAccount(_ interface{}, ctx context.Context, d
 		FullMethod: "/v2.sys_account.services.AccountService/GetAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.GetAccount(ctx, req.(*GetAccountRequest))
+		return s.GetAccount(ctx, req.(*IdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -244,7 +244,7 @@ func (s *AccountServiceService) updateAccount(_ interface{}, ctx context.Context
 	if s.UpdateAccount == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method UpdateAccount not implemented")
 	}
-	in := new(Account)
+	in := new(AccountUpdateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -256,7 +256,7 @@ func (s *AccountServiceService) updateAccount(_ interface{}, ctx context.Context
 		FullMethod: "/v2.sys_account.services.AccountService/UpdateAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.UpdateAccount(ctx, req.(*Account))
+		return s.UpdateAccount(ctx, req.(*AccountUpdateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -331,12 +331,12 @@ func RegisterAccountServiceService(s grpc.ServiceRegistrar, srv *AccountServiceS
 func NewAccountServiceService(s interface{}) *AccountServiceService {
 	ns := &AccountServiceService{}
 	if h, ok := s.(interface {
-		NewAccount(context.Context, *Account) (*Account, error)
+		NewAccount(context.Context, *AccountNewRequest) (*Account, error)
 	}); ok {
 		ns.NewAccount = h.NewAccount
 	}
 	if h, ok := s.(interface {
-		GetAccount(context.Context, *GetAccountRequest) (*Account, error)
+		GetAccount(context.Context, *IdRequest) (*Account, error)
 	}); ok {
 		ns.GetAccount = h.GetAccount
 	}
@@ -356,7 +356,7 @@ func NewAccountServiceService(s interface{}) *AccountServiceService {
 		ns.AssignAccountToRole = h.AssignAccountToRole
 	}
 	if h, ok := s.(interface {
-		UpdateAccount(context.Context, *Account) (*Account, error)
+		UpdateAccount(context.Context, *AccountUpdateRequest) (*Account, error)
 	}); ok {
 		ns.UpdateAccount = h.UpdateAccount
 	}
@@ -373,12 +373,12 @@ func NewAccountServiceService(s interface{}) *AccountServiceService {
 // definition, which is not a backward-compatible change.  For this reason,
 // use of this type is not recommended.
 type UnstableAccountServiceService interface {
-	NewAccount(context.Context, *Account) (*Account, error)
-	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
+	NewAccount(context.Context, *AccountNewRequest) (*Account, error)
+	GetAccount(context.Context, *IdRequest) (*Account, error)
 	ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
 	SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
 	AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
-	UpdateAccount(context.Context, *Account) (*Account, error)
+	UpdateAccount(context.Context, *AccountUpdateRequest) (*Account, error)
 	DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
 }
 

@@ -58,18 +58,14 @@ message FileUploadRequest {
 message FileInfo {
   string mime_type = 1;
   bool is_dir = 2;
-  // each file will be associated with the following key:
-  // note that each key will be unique anyway
-  // and that for v2 it's all in one giant "bucket" so....
-  string sys_account_org_id = 3;
-  string sys_account_project_id = 4;
-  string sys_account_id = 5;
+  string resource_id = 3;
 }
 
 message FileUploadResponse {
   bool success = 1;
   string id = 2;
   string error_msg = 3;
+  string resource_id = 4;
 }
 
 message FileDownloadRequest {

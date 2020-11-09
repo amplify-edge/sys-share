@@ -96,9 +96,7 @@ const FileInfo$json = const {
   '2': const [
     const {'1': 'mime_type', '3': 1, '4': 1, '5': 9, '10': 'mimeType'},
     const {'1': 'is_dir', '3': 2, '4': 1, '5': 8, '10': 'isDir'},
-    const {'1': 'sys_account_org_id', '3': 3, '4': 1, '5': 9, '10': 'sysAccountOrgId'},
-    const {'1': 'sys_account_project_id', '3': 4, '4': 1, '5': 9, '10': 'sysAccountProjectId'},
-    const {'1': 'sys_account_id', '3': 5, '4': 1, '5': 9, '10': 'sysAccountId'},
+    const {'1': 'resource_id', '3': 3, '4': 1, '5': 9, '10': 'resourceId'},
   ],
 };
 
@@ -108,6 +106,7 @@ const FileUploadResponse$json = const {
     const {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
     const {'1': 'id', '3': 2, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'error_msg', '3': 3, '4': 1, '5': 9, '10': 'errorMsg'},
+    const {'1': 'resource_id', '3': 4, '4': 1, '5': 9, '10': 'resourceId'},
   ],
 };
 

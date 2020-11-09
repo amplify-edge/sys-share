@@ -4,6 +4,7 @@ import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart
     as rpc;
 import 'package:fixnum/fixnum.dart';
 import 'package:meta/meta.dart';
+import 'dart:io';
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart';
 
 class OrgProjRepo {
@@ -61,15 +62,19 @@ class OrgProjRepo {
 
   static Future<rpc.Project> newProject(
       {@required String name,
-      String logoUrl,
+      File logoUpload,
       String creatorId,
       @required orgId}) async {
     final req = rpc.ProjectRequest()
       ..orgId = orgId
       ..name = name
-      ..logoUrl = logoUrl
       ..creatorId = creatorId;
 
+    if (logoUpload != null) {
+      req
+        ..logoFilepath = logoUpload.absolute.path
+        ..logoUploadBytes = logoUpload.readAsBytesSync();
+    }
     try {
       final client = await orgProjectServiceClient();
       final resp =
@@ -82,14 +87,19 @@ class OrgProjRepo {
 
   static Future<rpc.Org> newOrg(
       {@required String name,
-      String logoUrl,
+      File logoUpload,
       String creatorId,
       String contact}) async {
     final req = rpc.OrgRequest()
       ..creatorId = creatorId
-      ..logoUrl = logoUrl
       ..name = name
       ..contact = contact;
+
+    if (logoUpload != null) {
+      req
+        ..logoUploadBytes = logoUpload.readAsBytesSync()
+        ..logoFilepath = logoUpload.absolute.path;
+    }
 
     try {
       final client = await orgProjectServiceClient();
@@ -126,12 +136,16 @@ class OrgProjRepo {
   }
 
   static Future<rpc.Project> updateProject(
-      {@required String id, String name, String logoUrl}) async {
+      {@required String id, String name, File logoUpload}) async {
     final req = rpc.ProjectUpdateRequest()
       ..id = id
-      ..logoUrl = logoUrl
       ..name = name;
 
+    if (logoUpload != null) {
+      req
+        ..logoUploadBytes = logoUpload.readAsBytesSync()
+        ..logoFilepath = logoUpload.absolute.path;
+    }
     try {
       final client = await orgProjectServiceClient();
       final resp =
@@ -145,13 +159,18 @@ class OrgProjRepo {
   static Future<rpc.Org> updateOrg(
       {@required String id,
       String name,
-      String logoUrl,
+      File logoUpload,
       String contact}) async {
     final req = rpc.OrgUpdateRequest()
       ..id = id
-      ..logoUrl = logoUrl
       ..contact = contact
       ..name = name;
+
+    if (logoUpload != null) {
+      req
+        ..logoUploadBytes = logoUpload.readAsBytesSync()
+        ..logoFilepath = logoUpload.absolute.path;
+    }
 
     try {
       final client = await orgProjectServiceClient();

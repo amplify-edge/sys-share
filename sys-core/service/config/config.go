@@ -132,3 +132,7 @@ func IsDirectory(path string) (bool, error) {
 	}
 	return fileInfo.IsDir(), err
 }
+
+func CurrentTimestamp() int64 {
+	return time.Now().UTC().Unix()
+}

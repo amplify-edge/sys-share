@@ -60,6 +60,10 @@ this-gen: this-gen-delete
 #   $(MAKE) flu-gen-all
 #	$(MAKE) flu-gen-lang
 
+this-gen-dep:
+	GO111MODULE=on go get github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
+	go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
+
 this-config-gen: this-config-dep
 	@echo Generating Config
 	@mkdir -p service/flu/lib/assets
