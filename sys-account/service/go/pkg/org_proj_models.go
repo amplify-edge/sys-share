@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 	"github.com/segmentio/encoding/json"
 
 	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
@@ -234,7 +235,7 @@ func ListRequestFromProto(in *accountRpc.ListRequest) (*ListRequest, error) {
 	pkgFilter := map[string]interface{}{}
 	var err error
 	if in.Filters != nil {
-		err = json.Unmarshal(in.Filters, &pkgFilter)
+		err = sharedConfig.UnmarshalJson(in.Filters, &pkgFilter)
 		if err != nil {
 			return nil, err
 		}

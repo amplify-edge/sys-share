@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 	"github.com/segmentio/encoding/json"
 
 	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
@@ -79,7 +80,7 @@ type UserDefinedFields struct {
 func UserDefinedFieldsFromProto(in *accountRpc.UserDefinedFields) (*UserDefinedFields, error) {
 	fields := map[string]interface{}{}
 	if in != nil && in.Fields != nil {
-		if err := json.Unmarshal(in.Fields, &fields); err != nil {
+		if err := sharedConfig.UnmarshalJson(in.Fields, &fields); err != nil {
 			return nil, err
 		}
 	}
@@ -279,7 +280,7 @@ func (lar *ListAccountsRequest) ToProto() (*accountRpc.ListAccountsRequest, erro
 func ListAccountsRequestFromProto(in *accountRpc.ListAccountsRequest) (*ListAccountsRequest, error) {
 	pkgFilter := map[string]interface{}{}
 	if in.Filters != nil {
-		err := json.Unmarshal(in.Filters, &pkgFilter)
+		err := sharedConfig.UnmarshalJson(in.Filters, &pkgFilter)
 		if err != nil {
 			return nil, err
 		}

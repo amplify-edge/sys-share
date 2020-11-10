@@ -3,12 +3,12 @@ package pkg
 import (
 	"context"
 	"github.com/golang/protobuf/ptypes/empty"
-	"github.com/segmentio/encoding/json"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	rpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
+	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 )
 
 // SysAccountClient is just a stub
@@ -129,7 +129,7 @@ func searchAccountsProxy(as AccountService) func(context.Context, *rpc.SearchAcc
 	return func(ctx context.Context, sar *rpc.SearchAccountsRequest) (*rpc.SearchAccountsResponse, error) {
 		queryFields := map[string]interface{}{}
 		if sar.Query != nil {
-			if err := json.Unmarshal(sar.Query, &queryFields); err != nil {
+			if err := sharedConfig.UnmarshalJson(sar.Query, &queryFields); err != nil {
 				return nil, err
 			}
 		}

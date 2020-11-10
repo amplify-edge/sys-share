@@ -18,7 +18,7 @@ EXAMPLE_EMAIL = superadmin@getcouragenow.org
 EXAMPLE_PASSWORD = superadmin
 EXAMPLE_SERVER_ADDRESS = 127.0.0.1:8888
 
-this-all: this-print this-build this-print-end
+this-all: this-print this-config this-build this-print-end
 
 ## Print all settings
 this-print: ## print
@@ -63,6 +63,9 @@ this-gen: this-gen-delete
 this-gen-dep:
 	GO111MODULE=on go get github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 	go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
+
+this-config:
+	this-config-gen
 
 this-config-gen: this-config-dep
 	@echo Generating Config

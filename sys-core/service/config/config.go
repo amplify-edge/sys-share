@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
+	"github.com/segmentio/encoding/json"
 	"github.com/segmentio/ksuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"io/ioutil"
@@ -127,7 +128,7 @@ func UnixToUtcTS(in int64) *timestamppb.Timestamp {
 
 func IsDirectory(path string) (bool, error) {
 	fileInfo, err := os.Stat(path)
-	if err != nil{
+	if err != nil {
 		return false, err
 	}
 	return fileInfo.IsDir(), err
@@ -135,4 +136,12 @@ func IsDirectory(path string) (bool, error) {
 
 func CurrentTimestamp() int64 {
 	return time.Now().UTC().Unix()
+}
+
+func MarshalPretty(any interface{}) ([]byte, error) {
+	return json.MarshalIndent(&any, "", "  ")
+}
+
+func UnmarshalJson(data []byte, any interface{}) error {
+	return json.Unmarshal(data, any)
 }

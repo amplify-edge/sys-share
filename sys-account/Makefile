@@ -18,7 +18,7 @@ EXAMPLE_EMAIL = superadmin@getcouragenow.org
 EXAMPLE_PASSWORD = superadmin
 EXAMPLE_SERVER_ADDRESS = 127.0.0.1:8888
 
-this-all: this-print this-build this-print-end
+this-all: this-print this-config this-build this-print-end
 	
 ## Print all settings
 this-print: ## print
@@ -46,6 +46,9 @@ this-build: this-build-delete
 	go build -v -o bin-all/cli/go/ ./example/cli/go/main.go
 	@echo 'Building Flutter binary'
 	$(MAKE) flu-web-build
+
+this-config:
+	@echo Generating config
 
 this-build-delete:
 	@echo 'Removing built go and flutter binaries'
