@@ -136,7 +136,7 @@ func IsDirectory(path string) (bool, error) {
 }
 
 func CurrentTimestamp() int64 {
-	return time.Now().UTC().Unix()
+	return time.Now().UTC().UnixNano()
 }
 
 func MarshalPretty(any interface{}) ([]byte, error) {

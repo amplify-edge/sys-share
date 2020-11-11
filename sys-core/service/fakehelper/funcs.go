@@ -4,10 +4,25 @@ import (
 	"fmt"
 	"github.com/brianvoe/gofakeit/v5"
 	"io/ioutil"
+	"math/rand"
 	"path/filepath"
+	"time"
 
 	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 )
+
+var popularYts = []string{
+	"https://www.youtube.com/watch?v=MkNeIUgNPQ8",
+	"https://www.youtube.com/watch?v=Ssvu2yncgWU",
+	"https://www.youtube.com/watch?v=tDexBj46oNI",
+	"https://www.youtube.com/watch?v=PQC7VaL7xlc",
+	"https://www.youtube.com/watch?v=DHNZeIy4kjs",
+	"https://www.youtube.com/watch?v=J5JZNdb50B8",
+	"https://www.youtube.com/watch?v=x1T6QFpd0J4",
+	"https://www.youtube.com/watch?v=NstTz8iyl-c",
+	"https://www.youtube.com/watch?v=r6En29azNBA",
+	"https://www.youtube.com/watch?v=hY4yspCQRaM",
+}
 
 type RefCount struct {
 	Sequence      int
@@ -99,6 +114,43 @@ func FakeMailSequence(callFunc func(prefix, referral string, isRef, isUniqueRef 
 				return nil, err
 			}
 			return callFunc(prefix, referral, isRef, isUniqueRef)
+		},
+	}
+}
+
+func FakeRandomTs() (string, gofakeit.Info) {
+	return "randomts", gofakeit.Info{
+		Category:    "randomts",
+		Description: "generate random protobuf timestamp",
+		Example:     "randomts",
+		Output:      "int64",
+		Params:      []gofakeit.Param{},
+		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
+			min := time.Date(2021, 1, 0, 0, 0, 0, 0, time.UTC).Unix()
+			max := time.Date(2025, 1, 0, 0, 0, 0, 0, time.UTC).Unix()
+			delta := max - min
+
+			sec := rand.Int63n(delta) + min
+			randDate := time.Unix(sec, 0).UnixNano()
+			return randDate, nil
+		},
+	}
+}
+
+// FakeYtUrls generates a random slice of royalty free youtube music video url
+// Thanks to Audio Library Plus Channel (https://www.youtube.com/channel/UCht8qITGkBvXKsR1Byln-wA)
+// TODO: fetch the channel and append it here instead of hardcoding it.
+func FakeYtUrls() (string, gofakeit.Info) {
+	return "randomyt", gofakeit.Info{
+		Category:    "randomyt",
+		Description: "generate a slice of random youtube urls",
+		Example:     "randomyt",
+		Output:      "string",
+		Params: []gofakeit.Param{},
+		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
+			ytCount := len(popularYts)
+			randomPicks := rand.Intn(ytCount)
+			return popularYts[randomPicks], nil
 		},
 	}
 }
