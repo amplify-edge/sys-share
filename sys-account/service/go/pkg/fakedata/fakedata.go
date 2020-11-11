@@ -6,7 +6,6 @@ import (
 	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 	"github.com/getcouragenow/sys-share/sys-core/service/fakehelper"
-	"io/ioutil"
 	"math/rand"
 )
 
@@ -44,7 +43,11 @@ func (b *BootstrapSysAccount) MarshalPretty() ([]byte, error) {
 	return sharedConfig.MarshalPretty(b)
 }
 
-func BootstrapFakeData(domain string) (*fakehelper.RefCount, *fakehelper.RefCount, *fakehelper.RefCount, []byte, error) {
+func (b *BootstrapSysAccount) MarshalYAML() ([]byte, error) {
+	return sharedConfig.MarshalYAML(b)
+}
+
+func BootstrapFakeData(domain string) (*fakehelper.RefCount, *fakehelper.RefCount, *fakehelper.RefCount, *BootstrapSysAccount, error) {
 	// internal counter
 	accRefCount, orgRefCount, projectRefCount := fakehelper.NewRefCount(), fakehelper.NewRefCount(), fakehelper.NewRefCount()
 	// seeder
@@ -128,20 +131,16 @@ func BootstrapFakeData(domain string) (*fakehelper.RefCount, *fakehelper.RefCoun
 		SuperUsers: bsu,
 		Orgs:       bso,
 	}
-	mp, err := bmd.MarshalPretty()
+	// mp, err := bmd.MarshalPretty()
 	accRc := accRefCount.ResetLastReference()
 	orgRc := orgRefCount.ResetLastReference()
 	projRc := projectRefCount.ResetLastReference()
-	return accRc, orgRc, projRc, mp, err
+	return accRc, orgRc, projRc, bmd, nil
 }
 
-func BootstrapSysAccountFromFilepath(path string) (*BootstrapSysAccount, error) {
+func BootstrapFromFilepath(path string) (*BootstrapSysAccount, error) {
 	var bsAccount BootstrapSysAccount
-	f, err := ioutil.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-	if err = sharedConfig.UnmarshalJson(f, &bsAccount); err != nil {
+	if err := fakehelper.UnmarshalFromFilepath(path, &bsAccount); err != nil {
 		return nil, err
 	}
 	return &bsAccount, nil

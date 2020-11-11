@@ -1,7 +1,11 @@
 package fakehelper
 
 import (
+	"fmt"
 	"github.com/brianvoe/gofakeit/v5"
+	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
+	"io/ioutil"
+	"path/filepath"
 )
 
 type RefCount struct {
@@ -97,3 +101,25 @@ func FakeMailSequence(callFunc func(prefix, referral string, isRef, isUniqueRef 
 		},
 	}
 }
+
+func UnmarshalFromFilepath(path string, any interface{}) error {
+	f, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	ext := filepath.Ext(path)
+	switch ext {
+	case ".json":
+		if err = sharedConfig.UnmarshalJson(f, any); err != nil {
+			return err
+		}
+	case ".yml", ".yaml":
+		if err = sharedConfig.UnmarshalYAML(f, any); err != nil {
+			return err
+		}
+	default:
+		return fmt.Errorf("invalid format specified, cannot load bootstrap")
+	}
+	return nil
+}
+
