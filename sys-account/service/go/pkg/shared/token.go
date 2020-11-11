@@ -6,9 +6,10 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
+
 	"github.com/getcouragenow/sys-share/sys-account/service/go/pkg"
 	"github.com/getcouragenow/sys-share/sys-core/service/config"
-	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
 )
 
 var (
@@ -90,8 +91,8 @@ func (tc *TokenConfig) NewTokenPairs(claimant Claimant) (*TokenPairDetails, erro
 		return nil, err
 	}
 	tpd.RefreshToken = refreshToken
-	tpd.ATExpiry = time.Now().Unix() + tc.AccessExpiration.Milliseconds()
-	tpd.RTExpiry = time.Now().Unix() + tc.RefreshExpiration.Milliseconds()
+	tpd.ATExpiry = config.CurrentTimestamp() + tc.AccessExpiration.Nanoseconds()
+	tpd.RTExpiry = config.CurrentTimestamp() + tc.RefreshExpiration.Nanoseconds()
 	tpd.ATId = config.NewID()
 	tpd.RTId = config.NewID()
 
@@ -106,7 +107,7 @@ func NewTokenClaims(exp time.Duration, c Claimant) *TokenClaims {
 		Role:      role,
 		UserEmail: c.GetEmail(),
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(exp).Unix(),
+			ExpiresAt: time.Now().Add(exp).UnixNano(),
 		},
 	}
 	return &claims

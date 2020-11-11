@@ -13,3 +13,5 @@ bin-all
 *.lock.json
 
 /sys-core/service/go/vendor/
+/sys-account/service/go/pkg/fakedata/bs-sys-account.json
+/sys-account/service/go/pkg/fakedata/bs-sys-account.yml

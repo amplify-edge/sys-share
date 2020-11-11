@@ -77,11 +77,5 @@ var SysShareProxyClientConfig = &sysAccountProxyClientConfig{}
 
 // Easy access to create CLI
 func (s *SysAccountProxyClient) CobraCommand() *cobra.Command {
-
-	rootCmd := &cobra.Command{
-		Use:   "sys-share proxy client",
-		Short: "sys-share proxy client cli",
-	}
-	rootCmd.AddCommand(s.SysAccountClient.cobraCommand())
-	return rootCmd
+	return s.SysAccountClient.cobraCommand()
 }

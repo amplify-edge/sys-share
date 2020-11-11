@@ -17,7 +17,9 @@ message RegisterRequest {
 }
 
 message LoginRequest {
+  // @inject_tag: fake:"{mailseq:ops,false,none,false}" yaml:"email"
   string email = 1;
+  // @inject_tag: fake:"{password:true,true,true,false,false,16}" yaml:"password"
   string password = 2;
 }
 
@@ -102,11 +104,17 @@ message Project {
 }
 
 message ProjectRequest {
+  // @inject_tag: fake:"{nameseq:sys_account_project,false,none,false,false}" yaml:"name,omitempty"
   string name = 1;
+  // @inject_tag: fake:"{randomstring:[./testdata/logo.png]}" yaml:"logo_filepath,omitempty"
   string logo_filepath = 2;
+  // @inject_tag: fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}" yaml:"creator_id,omitempty"
   string creator_id = 3;
+  // @inject_tag: fake:"skip" yaml:"org_id,omitempty"
   string org_id = 4;
+  // @inject_tag: fake:"{nameseq:sys_account_org,true,sys_account_org,false,false}" yaml:"org_name,omitempty"
   string org_name = 5;
+  // @inject_tag: fake:"skip" yaml:"logo_upload_bytes,omitempty"
   bytes logo_upload_bytes = 6;
 }
 
@@ -130,10 +138,15 @@ message Org {
 }
 
 message OrgRequest {
+  // @inject_tag: fake:"{nameseq:sys_account_org,false,none,false,false}" yaml:"name,omitempty"
   string name = 1;
+  // @inject_tag: fake:"{randomstring:[./testdata/logo.png]}" yaml:"logo_filepath,omitempty"
   string logo_filepath = 2;
+  // @inject_tag: fake:"{email}" yaml:"contact,omitempty"
   string contact = 3;
+  // @inject_tag: fake:"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}" yaml:"creator_id,omitempty"
   string creator_id = 4;
+  // @inject_tag: fake:"skip" yaml:"logo_upload_bytes,omitempty"
   bytes logo_upload_bytes = 5;
 }
 

@@ -5,15 +5,17 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"github.com/segmentio/ksuid"
-	"google.golang.org/protobuf/types/known/timestamppb"
 	"io/ioutil"
 	"math/big"
 	"os"
 	"time"
 
 	"github.com/caddyserver/certmagic"
+	"github.com/segmentio/encoding/json"
+	"github.com/segmentio/ksuid"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/protobuf/types/known/timestamppb"
+	"gopkg.in/yaml.v2"
 )
 
 // TODO @gutterbacon: use this as abstraction for per module configs.
@@ -127,12 +129,28 @@ func UnixToUtcTS(in int64) *timestamppb.Timestamp {
 
 func IsDirectory(path string) (bool, error) {
 	fileInfo, err := os.Stat(path)
-	if err != nil{
+	if err != nil {
 		return false, err
 	}
 	return fileInfo.IsDir(), err
 }
 
 func CurrentTimestamp() int64 {
-	return time.Now().UTC().Unix()
+	return time.Now().UTC().UnixNano()
+}
+
+func MarshalPretty(any interface{}) ([]byte, error) {
+	return json.MarshalIndent(&any, "", "  ")
+}
+
+func MarshalYAML(any interface{}) ([]byte, error) {
+	return yaml.Marshal(&any)
+}
+
+func UnmarshalJson(data []byte, any interface{}) error {
+	return json.Unmarshal(data, any)
+}
+
+func UnmarshalYAML(data []byte, any interface{}) error {
+	return yaml.UnmarshalStrict(data, any)
 }
