@@ -444,11 +444,11 @@ func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "@inject_tag: fake:\"{nameseq:sys_account_project,false,none,false}\"")
+	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "@inject_tag: fake:\"{nameseq:sys_account_project,false,none,false,false}\"")
 	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "@inject_tag: fake:\"{randomstring:[$HOME/logo.png]}\"")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "@inject_tag: fake:\"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}\"")
 	cmd.PersistentFlags().StringVar(&req.OrgId, cfg.FlagNamer("OrgId"), "", "@inject_tag: fake:\"skip\"")
-	cmd.PersistentFlags().StringVar(&req.OrgName, cfg.FlagNamer("OrgName"), "", "@inject_tag: fake:\"{nameseq:sys_account_org,true,sys_account_org,false}\"")
+	cmd.PersistentFlags().StringVar(&req.OrgName, cfg.FlagNamer("OrgName"), "", "@inject_tag: fake:\"{nameseq:sys_account_org,true,sys_account_org,false,false}\"")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "@inject_tag: fake:\"skip\"")
 
 	return cmd
@@ -668,7 +668,7 @@ func _OrgProjServiceNewOrgCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "@inject_tag: fake:\"{nameseq:sys_account_org,false,none,false}\"")
+	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "@inject_tag: fake:\"{nameseq:sys_account_org,false,none,false,false}\"")
 	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "@inject_tag: fake:\"{randomstring:[$HOME/logo.png]}\"")
 	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "@inject_tag: fake:\"{email}\"")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "@inject_tag: fake:\"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}\"")
@@ -955,7 +955,7 @@ func _AuthServiceLoginCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "@inject_tag: fake:\"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}\"")
+	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "@inject_tag: fake:\"{mailseq:ops,false,none,false}\"")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "@inject_tag: fake:\"{password:true,true,true,false,false,16}\"")
 
 	return cmd

@@ -17,7 +17,7 @@ message RegisterRequest {
 }
 
 message LoginRequest {
-  // @inject_tag: fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}"
+  // @inject_tag: fake:"{mailseq:ops,false,none,false}"
   string email = 1;
   // @inject_tag: fake:"{password:true,true,true,false,false,16}"
   string password = 2;
@@ -104,7 +104,7 @@ message Project {
 }
 
 message ProjectRequest {
-  // @inject_tag: fake:"{nameseq:sys_account_project,false,none,false}"
+  // @inject_tag: fake:"{nameseq:sys_account_project,false,none,false,false}"
   string name = 1;
   // @inject_tag: fake:"{randomstring:[$HOME/logo.png]}"
   string logo_filepath = 2;
@@ -112,7 +112,7 @@ message ProjectRequest {
   string creator_id = 3;
   // @inject_tag: fake:"skip"
   string org_id = 4;
-  // @inject_tag: fake:"{nameseq:sys_account_org,true,sys_account_org,false}"
+  // @inject_tag: fake:"{nameseq:sys_account_org,true,sys_account_org,false,false}"
   string org_name = 5;
   // @inject_tag: fake:"skip"
   bytes logo_upload_bytes = 6;
@@ -138,7 +138,7 @@ message Org {
 }
 
 message OrgRequest {
-  // @inject_tag: fake:"{nameseq:sys_account_org,false,none,false}"
+  // @inject_tag: fake:"{nameseq:sys_account_org,false,none,false,false}"
   string name = 1;
   // @inject_tag: fake:"{randomstring:[$HOME/logo.png]}"
   string logo_filepath = 2;

@@ -10,7 +10,7 @@ import (
 )
 
 func TestBootstrapFakeData(t *testing.T) {
-	b, err := fakedata.BootstrapFakeData()
+	_, _, _, b, err := fakedata.BootstrapFakeData("getcouragenow.org")
 	require.NoError(t, err)
 	t.Log(string(b))
 
