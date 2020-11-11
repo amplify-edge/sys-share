@@ -3,9 +3,10 @@ package fakehelper
 import (
 	"fmt"
 	"github.com/brianvoe/gofakeit/v5"
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 	"io/ioutil"
 	"path/filepath"
+
+	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 )
 
 type RefCount struct {
@@ -122,4 +123,3 @@ func UnmarshalFromFilepath(path string, any interface{}) error {
 	}
 	return nil
 }
-
