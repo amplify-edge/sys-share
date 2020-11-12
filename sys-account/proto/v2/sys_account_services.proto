@@ -34,7 +34,8 @@ service OrgProjService {
 
 service AuthService {
   rpc Register(v2.sys_account.services.RegisterRequest) returns (v2.sys_account.services.RegisterResponse) {};
-  rpc Login(v2.sys_account.services.LoginRequest) returns (v2.sys_account.services.LoginResponse) {};
+  // hide
+  rpc Login(v2.sys_account.services.LoginRequest) returns (v2.sys_account.services.LoginResponse) {}; // hide
   // ForgotPassword, then ResetPassword if succeed
   rpc ForgotPassword(v2.sys_account.services.ForgotPasswordRequest) returns (v2.sys_account.services.ForgotPasswordResponse) {};
   rpc ResetPassword(v2.sys_account.services.ResetPasswordRequest) returns (v2.sys_account.services.ResetPasswordResponse) {};

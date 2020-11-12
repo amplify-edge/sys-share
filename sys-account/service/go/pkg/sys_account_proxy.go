@@ -1,16 +1,12 @@
 package pkg
 
 import (
-	"bytes"
 	"context"
 	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
-	"github.com/getcouragenow/sys-share/sys-core/service/clihelper"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
-	"io/ioutil"
-	"text/template"
 
 	rpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
@@ -21,6 +17,7 @@ type sysAccountClient struct {
 	auth       *cobra.Command
 	account    *cobra.Command
 	orgProject *cobra.Command
+	extra      *cobra.Command
 }
 
 func newSysAccountClient(options ...cliClient.Option) *sysAccountClient {
@@ -28,6 +25,7 @@ func newSysAccountClient(options ...cliClient.Option) *sysAccountClient {
 		auth:       rpc.AuthServiceClientCommand(options...),
 		account:    rpc.AccountServiceClientCommand(options...),
 		orgProject: rpc.OrgProjServiceClientCommand(options...),
+		extra:      AuthServiceSigninCommand(options...),
 	}
 }
 
@@ -36,6 +34,7 @@ func (sac *sysAccountClient) cobraCommand() *cobra.Command {
 		Use:   "sys-account client",
 		Short: "sys-account client cli",
 	}
+	sac.auth.AddCommand(sac.extra)
 	rootCmd.AddCommand(sac.auth, sac.account, sac.orgProject)
 	return rootCmd
 }
@@ -202,33 +201,7 @@ func authLoginProxy(as AuthService) func(context.Context, *rpc.LoginRequest) (*r
 		if err != nil {
 			return nil, err
 		}
-		type AuthCred struct {
-			AccessKey  string
-			RefreshKey string
-			Access     string
-			Refresh    string
-		}
-		authCred := AuthCred{
-			AccessKey:  clihelper.DefaultAccessKeyEnv,
-			RefreshKey: clihelper.DefaultRefreshKeyEnv,
-			Access:     resp.AccessToken,
-			Refresh:    resp.RefreshToken,
-		}
-		envTpl := `
-			{{ .AccessKey }} = {{ .Access }}
-			{{ .RefreshKey }} = {{ .Refresh }}
-		`
-		t, err := template.New("env").Parse(envTpl)
-		if err != nil {
-			return nil, err
-		}
-		b := bytes.Buffer{}
-		if err = t.Execute(&b, authCred); err != nil {
-			return nil, err
-		}
-		if err = ioutil.WriteFile(".env", b.Bytes(), 0644); err != nil {
-			return nil, err
-		}
+
 		return resp.ToProto(), nil
 	}
 }
@@ -471,6 +444,7 @@ func (as *authSvcClientProxy) Login(ctx context.Context, in *LoginRequest, opts 
 	if err != nil {
 		return nil, err
 	}
+
 	return LoginResponseFromProto(resp), nil
 }
 

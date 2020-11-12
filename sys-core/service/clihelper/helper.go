@@ -3,6 +3,7 @@ package clihelper
 import (
 	"context"
 	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
+	"github.com/getcouragenow/protoc-gen-cobra/iocodec"
 	"github.com/getcouragenow/protoc-gen-cobra/naming"
 	"github.com/joho/godotenv"
 	"github.com/spf13/pflag"
@@ -20,22 +21,24 @@ const (
 type CLIOptions struct {
 	ServerAddress  cliClient.Option
 	Output         cliClient.Option
+	PrettyEncoder  cliClient.Option
 	CAConfig       cliClient.Option
-	PreDialer      cliClient.Option
+	PreDialer      cliClient.PreDialer
 	AuthFlagBinder cliClient.FlagBinder
 }
 
 func CLIWrapper(rootCaPath, hostAddr, envPath string) *CLIOptions {
 	var caCfg cliClient.Option
 	srvCfg := cliClient.WithServerAddr(hostAddr)
-	jsonCfg := cliClient.WithResponseFormat("json")
+	encoder := iocodec.JSONEncoderMaker(true)
+	jsonCfg := cliClient.WithOutputEncoder("json", encoder)
 	if rootCaPath != "" {
 		caCfg = cliClient.WithTLSCACertFile(rootCaPath)
 	}
 	flagBinder := func(fs *pflag.FlagSet, namer naming.Namer) {
 		fs.StringVarP(&MainProxyCLIConfig.AccessKey, namer("JWT Access Token"), "j", MainProxyCLIConfig.AccessKey, "JWT Access Token")
 	}
-	preDialer := cliClient.WithPreDialer(func(_ context.Context, opts *[]grpc.DialOption) error {
+	preDialer := func(_ context.Context, opts *[]grpc.DialOption) error {
 		cfg := MainProxyCLIConfig
 		tkn := &oauth2.Token{
 			TokenType: "Bearer",
@@ -47,12 +50,13 @@ func CLIWrapper(rootCaPath, hostAddr, envPath string) *CLIOptions {
 		} else if cfg.AccessKey == "" {
 			_ = godotenv.Load(envPath)
 			if os.Getenv(DefaultAccessKeyEnv) != "" {
+				tkn.AccessToken = os.Getenv(DefaultAccessKeyEnv)
 				cred := oauth.NewOauthAccess(tkn)
 				*opts = append(*opts, grpc.WithPerRPCCredentials(cred))
 			}
 		}
 		return nil
-	})
+	}
 	return &CLIOptions{
 		ServerAddress:  srvCfg,
 		Output:         jsonCfg,
@@ -64,16 +68,17 @@ func CLIWrapper(rootCaPath, hostAddr, envPath string) *CLIOptions {
 
 func (c *CLIOptions) RegisterAuthDialer() {
 	cliClient.RegisterFlagBinder(c.AuthFlagBinder)
+	cliClient.RegisterPreDialer(c.PreDialer)
 }
 
 func (c *CLIOptions) GetAllOptions() []cliClient.Option {
 	if c.CAConfig != nil {
 		return []cliClient.Option{
-			c.CAConfig, c.Output, c.PreDialer, c.ServerAddress,
+			c.CAConfig, c.Output, c.ServerAddress,
 		}
 	}
 	return []cliClient.Option{
-		c.Output, c.PreDialer, c.ServerAddress,
+		c.Output, c.ServerAddress,
 	}
 }
 
