@@ -1,11 +1,16 @@
 package pkg
 
 import (
+	"bytes"
 	"context"
+	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
+	"github.com/getcouragenow/sys-share/sys-core/service/clihelper"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
+	"io/ioutil"
+	"text/template"
 
 	rpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
@@ -18,12 +23,11 @@ type sysAccountClient struct {
 	orgProject *cobra.Command
 }
 
-func newSysAccountClient() *sysAccountClient {
-
+func newSysAccountClient(options ...cliClient.Option) *sysAccountClient {
 	return &sysAccountClient{
-		auth:       rpc.AuthServiceClientCommand(),
-		account:    rpc.AccountServiceClientCommand(),
-		orgProject: rpc.OrgProjServiceClientCommand(),
+		auth:       rpc.AuthServiceClientCommand(options...),
+		account:    rpc.AccountServiceClientCommand(options...),
+		orgProject: rpc.OrgProjServiceClientCommand(options...),
 	}
 }
 
@@ -196,6 +200,33 @@ func authLoginProxy(as AuthService) func(context.Context, *rpc.LoginRequest) (*r
 	return func(ctx context.Context, in *rpc.LoginRequest) (*rpc.LoginResponse, error) {
 		resp, err := as.Login(ctx, LoginRequestFromProto(in))
 		if err != nil {
+			return nil, err
+		}
+		type AuthCred struct {
+			AccessKey  string
+			RefreshKey string
+			Access     string
+			Refresh    string
+		}
+		authCred := AuthCred{
+			AccessKey:  clihelper.DefaultAccessKeyEnv,
+			RefreshKey: clihelper.DefaultRefreshKeyEnv,
+			Access:     resp.AccessToken,
+			Refresh:    resp.RefreshToken,
+		}
+		envTpl := `
+			{{ .AccessKey }} = {{ .Access }}
+			{{ .RefreshKey }} = {{ .Refresh }}
+		`
+		t, err := template.New("env").Parse(envTpl)
+		if err != nil {
+			return nil, err
+		}
+		b := bytes.Buffer{}
+		if err = t.Execute(&b, authCred); err != nil {
+			return nil, err
+		}
+		if err = ioutil.WriteFile(".env", b.Bytes(), 0644); err != nil {
 			return nil, err
 		}
 		return resp.ToProto(), nil

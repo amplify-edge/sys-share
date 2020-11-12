@@ -1,14 +1,9 @@
 package pkg
 
 import (
-	"context"
 	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
-	"github.com/getcouragenow/protoc-gen-cobra/naming"
 	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
-	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/oauth"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -48,22 +43,22 @@ type SysAccountProxyClient struct {
 	SysAccountClient *sysAccountClient
 }
 
-func NewSysShareProxyClient() *SysAccountProxyClient {
-	cliClient.RegisterFlagBinder(func(fs *pflag.FlagSet, namer naming.Namer) {
-		fs.StringVar(&SysShareProxyClientConfig.AccessKey, namer("JWT Access Token"), SysShareProxyClientConfig.AccessKey, "JWT Access Token")
-	})
-	cliClient.RegisterPreDialer(func(_ context.Context, opts *[]grpc.DialOption) error {
-		cfg := SysShareProxyClientConfig
-		if cfg.AccessKey != "" {
-			cred := oauth.NewOauthAccess(&oauth2.Token{
-				AccessToken: cfg.AccessKey,
-				TokenType:   "Bearer",
-			})
-			*opts = append(*opts, grpc.WithPerRPCCredentials(cred))
-		}
-		return nil
-	})
-	sysAccountProxyClient := newSysAccountClient()
+func NewSysShareProxyClient(options ...cliClient.Option) *SysAccountProxyClient {
+	// cliClient.RegisterFlagBinder(func(fs *pflag.FlagSet, namer naming.Namer) {
+	// 	fs.StringVar(&SysShareProxyClientConfig.AccessKey, namer("JWT Access Token"), SysShareProxyClientConfig.AccessKey, "JWT Access Token")
+	// })
+	// cliClient.RegisterPreDialer(func(_ context.Context, opts *[]grpc.DialOption) error {
+	// 	cfg := SysShareProxyClientConfig
+	// 	if cfg.AccessKey != "" {
+	// 		cred := oauth.NewOauthAccess(&oauth2.Token{
+	// 			AccessToken: cfg.AccessKey,
+	// 			TokenType:   "Bearer",
+	// 		})
+	// 		*opts = append(*opts, grpc.WithPerRPCCredentials(cred))
+	// 	}
+	// 	return nil
+	// })
+	sysAccountProxyClient := newSysAccountClient(options...)
 	return &SysAccountProxyClient{
 		SysAccountClient: sysAccountProxyClient,
 	}
@@ -73,9 +68,9 @@ type sysAccountProxyClientConfig struct {
 	AccessKey string
 }
 
-var SysShareProxyClientConfig = &sysAccountProxyClientConfig{}
-
-// Easy access to create CLI
+// var SysShareProxyClientConfig = &sysAccountProxyClientConfig{}
+//
+// // Easy access to create CLI
 func (s *SysAccountProxyClient) CobraCommand() *cobra.Command {
 	return s.SysAccountClient.cobraCommand()
 }
