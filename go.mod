@@ -7,6 +7,7 @@ require (
 	github.com/brianvoe/gofakeit/v5 v5.9.3
 	github.com/caddyserver/certmagic v0.12.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/disintegration/imaging v1.6.2
 	github.com/getcouragenow/protoc-gen-cobra v0.3.1-0.20201005114840-ccc8cd57bcdc
 	github.com/golang/protobuf v1.4.2
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
