@@ -7,11 +7,12 @@ import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.
 import 'dart:io';
 
 class UserRepo {
-  static Future<rpc.Account> getAccount(
-      {@required String id, String email}) async {
-    final req = rpc.IdRequest()
-      ..id = id
-      ..name = email;
+  static Future<rpc.Account> getAccount({String id, String email}) async {
+    final req = rpc.IdRequest()..id = id;
+
+    if (email != null && email.isNotEmpty) {
+      req..name = email;
+    }
 
     try {
       final client = await accountClient();

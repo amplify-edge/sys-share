@@ -16,7 +16,6 @@ class AuthRepo extends BaseRepo {
     try {
       final client = await _authClient();
       final resp = await client.login(req).then((res) {
-        print(res);
         return res;
       });
       await updateTokens(
@@ -211,7 +210,7 @@ Future<void> updateTokens({
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final payload = _parseJwtPayLoad(accessToken);
   final accountId = payload["userId"];
-  print(accountId);
+  print("USER ACCOUNT ID " + accountId);
   await prefs.setString(_accessTokenKey, accessToken);
   await prefs.setString(_refreshTokenKey, refreshToken);
   await prefs.setString(_accountIdKey, accountId);

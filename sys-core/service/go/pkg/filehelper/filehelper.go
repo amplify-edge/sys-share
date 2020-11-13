@@ -3,13 +3,21 @@ package filehelper
 import (
 	"bytes"
 	"fmt"
-	"io"
+	"image"
+	"image/png"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
 
+	"github.com/disintegration/imaging"
+
 	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 	dbrpc "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2"
+)
+
+const (
+	defaultJpgQuality = 80
 )
 
 // ReadFileFromPath takes a filepath as an input
@@ -36,20 +44,21 @@ func ReadFileFromPath(fpath string) (*dbrpc.FileInfo, []byte, error) {
 		return nil, nil, err
 	}
 	finfo := sharedReadFrom(abspath, buffer)
-	buf := bytes.Buffer{}
-	if _, err = io.Copy(&buf, file); err != nil {
+
+	b, err := imgEncode(fpath, nil)
+	if err != nil {
 		return nil, nil, err
 	}
-	return finfo, buf.Bytes(), nil
+	return finfo, b, nil
 }
 
 func ReadFileFromBytes(fpath string, content []byte) (*dbrpc.FileInfo, []byte, error) {
 	finfo := sharedReadFrom(fpath, content)
-	buf := bytes.Buffer{}
-	if _, err := io.Copy(&buf, bytes.NewBuffer(content)); err != nil {
+	buf, err := imgEncode(fpath, content)
+	if err != nil {
 		return nil, nil, err
 	}
-	return finfo, buf.Bytes(), nil
+	return finfo, buf, nil
 }
 
 func sharedReadFrom(fpath string, content []byte) *dbrpc.FileInfo {
@@ -64,4 +73,48 @@ func sharedReadFrom(fpath string, content []byte) *dbrpc.FileInfo {
 
 func getFileResourceId(fpath string) string {
 	return fmt.Sprintf("%s_%d", fpath, sharedConfig.CurrentTimestamp())
+}
+
+func imgEncode(fpath string, content []byte) ([]byte, error) {
+	ext := filepath.Ext(fpath)
+	b := bytes.Buffer{}
+	var img image.Image
+	var fmtExt imaging.Format
+	var f []byte
+	var err error
+	if ext[1:] == "png" || ext[1:] == "jpg" || ext[1:] == "jpeg" {
+		fmtExt, err = imaging.FormatFromExtension(ext)
+		if fpath != "" && content == nil {
+			img, err = imaging.Open(fpath)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			buf := bytes.NewBuffer(content)
+			img, err = imaging.Decode(buf)
+			if err != nil {
+				return nil, err
+			}
+		}
+	} else {
+		f, err = ioutil.ReadFile(fpath)
+		if err != nil {
+			return nil, err
+		}
+		b.Write(f)
+	}
+	if fmtExt.String() != "" {
+		switch fmtExt {
+		case imaging.JPEG:
+			err = imaging.Encode(&b, img, fmtExt, imaging.JPEGQuality(defaultJpgQuality))
+		case imaging.PNG:
+			err = imaging.Encode(&b, img, fmtExt, imaging.PNGCompressionLevel(png.BestSpeed))
+		default:
+			err = fmt.Errorf("invalid image format, only supports jp(e)g and png currently, got: %s", fmtExt.String())
+		}
+		if err != nil {
+			return nil, err
+		}
+	}
+	return b.Bytes(), nil
 }

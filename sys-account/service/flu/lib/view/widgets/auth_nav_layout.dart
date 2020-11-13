@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/auth_nav_view_model.dart';
 import 'nav_rail.dart';
@@ -28,9 +30,7 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
       onModelReady: (AuthNavViewModel model) async {
         await model.isUserLoggedIn();
         if (model.isLoggedIn) {
-          print("USER IS LOGGED IN");
           await model.getSubscribedOrgs();
-          print("ALL ORGS FROM AUTHNAV: " + model.subscribedOrgs.toString());
         }
       },
       builder: (context, model, child) => AccountNavRail(
@@ -52,13 +52,13 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
             TabItem(
               icon: ClipOval(
                 child: Image.memory(
-                  org.logo,
-                  width: 30,
-                  height: 30,
+                  Uint8List.fromList(org.logo),
+                  width: 40,
+                  height: 40,
                   fit: BoxFit.cover,
                 ),
               ),
-              title: Text(org.name),
+              title: Text(org.name, style: TextStyle(fontSize: 12)),
               onTap: () {
                 print(org.id);
               },

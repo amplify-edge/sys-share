@@ -90,6 +90,8 @@ class AuthNavViewModel extends BaseModel {
 
   Future<void> _fetchAccountId() async {
     if (_accountId.isEmpty) {
+      final accountId = await getAccountId();
+      _setAccountId(accountId);
       await _fetchCurrentAccount();
       if (_currentAccount.id.isNotEmpty) {
         print("CURRENT USER ID: " + _currentAccount.id);
@@ -151,6 +153,7 @@ class AuthNavViewModel extends BaseModel {
       perPageEntries: perPageEntries,
       filters: filterBytes,
     ).then((resp) {
+      print("ORG's LOGO: " + resp.orgs[0].logo.toString());
       setCurrentPageId(int.parse(resp.nextPageId));
       _setSubscribedOrgs(resp.orgs);
     }).catchError((e) {
@@ -169,6 +172,7 @@ class AuthNavViewModel extends BaseModel {
       List<rpc.Org> _orgs = List<rpc.Org>();
       orgIds.map((_id) async {
         await orgRepo.OrgProjRepo.getOrg(id: _id).then((_org) {
+          print("ORG LOGO: " + _org.logo.toString());
           _orgs.add(_org);
         }).catchError((e) {
           setErrMsg(e.toString());
