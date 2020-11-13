@@ -16,9 +16,10 @@ import (
 func AccountServiceClientCommand(options ...client.Option) *cobra.Command {
 	cfg := client.NewConfig(options...)
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("AccountService"),
-		Short: "AccountService service client",
-		Long:  "",
+		Use:    cfg.CommandNamer("AccountService"),
+		Short:  "AccountService service client",
+		Long:   "",
+		Hidden: false,
 	}
 	cfg.BindFlags(cmd.PersistentFlags())
 	cmd.AddCommand(
@@ -37,9 +38,10 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &AccountNewRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("NewAccount"),
-		Short: "NewAccount RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("NewAccount"),
+		Short:  "NewAccount RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AccountService"); err != nil {
@@ -82,9 +84,10 @@ func _AccountServiceGetAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &IdRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("GetAccount"),
-		Short: "GetAccount RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("GetAccount"),
+		Short:  "GetAccount RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AccountService"); err != nil {
@@ -125,9 +128,10 @@ func _AccountServiceListAccountsCommand(cfg *client.Config) *cobra.Command {
 	req := &ListAccountsRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("ListAccounts"),
-		Short: "ListAccounts RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("ListAccounts"),
+		Short:  "ListAccounts RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AccountService"); err != nil {
@@ -173,9 +177,10 @@ func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
 	}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("SearchAccounts"),
-		Short: "SearchAccounts RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("SearchAccounts"),
+		Short:  "SearchAccounts RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AccountService"); err != nil {
@@ -222,9 +227,10 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 	}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("AssignAccountToRole"),
-		Short: "AssignAccountToRole RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("AssignAccountToRole"),
+		Short:  "AssignAccountToRole RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AccountService"); err != nil {
@@ -269,9 +275,10 @@ func _AccountServiceUpdateAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &AccountUpdateRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("UpdateAccount"),
-		Short: "UpdateAccount RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("UpdateAccount"),
+		Short:  "UpdateAccount RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AccountService"); err != nil {
@@ -317,9 +324,10 @@ func _AccountServiceDisableAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &DisableAccountRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("DisableAccount"),
-		Short: "DisableAccount RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("DisableAccount"),
+		Short:  "DisableAccount RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AccountService"); err != nil {
@@ -387,9 +395,10 @@ func parseRoles(s string) (Roles, error) {
 func OrgProjServiceClientCommand(options ...client.Option) *cobra.Command {
 	cfg := client.NewConfig(options...)
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("OrgProjService"),
-		Short: "OrgProjService service client",
-		Long:  "",
+		Use:    cfg.CommandNamer("OrgProjService"),
+		Short:  "OrgProjService service client",
+		Long:   "",
+		Hidden: false,
 	}
 	cfg.BindFlags(cmd.PersistentFlags())
 	cmd.AddCommand(
@@ -411,9 +420,10 @@ func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
 	req := &ProjectRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("NewProject"),
-		Short: "NewProject RPC client",
-		Long:  "Projects",
+		Use:    cfg.CommandNamer("NewProject"),
+		Short:  "NewProject RPC client",
+		Long:   "Projects",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -458,9 +468,10 @@ func _OrgProjServiceGetProjectCommand(cfg *client.Config) *cobra.Command {
 	req := &IdRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("GetProject"),
-		Short: "GetProject RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("GetProject"),
+		Short:  "GetProject RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -501,9 +512,10 @@ func _OrgProjServiceListProjectCommand(cfg *client.Config) *cobra.Command {
 	req := &ListRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("ListProject"),
-		Short: "ListProject RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("ListProject"),
+		Short:  "ListProject RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -547,9 +559,10 @@ func _OrgProjServiceUpdateProjectCommand(cfg *client.Config) *cobra.Command {
 	req := &ProjectUpdateRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("UpdateProject"),
-		Short: "UpdateProject RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("UpdateProject"),
+		Short:  "UpdateProject RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -592,9 +605,10 @@ func _OrgProjServiceDeleteProjectCommand(cfg *client.Config) *cobra.Command {
 	req := &IdRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("DeleteProject"),
-		Short: "DeleteProject RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("DeleteProject"),
+		Short:  "DeleteProject RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -635,9 +649,10 @@ func _OrgProjServiceNewOrgCommand(cfg *client.Config) *cobra.Command {
 	req := &OrgRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("NewOrg"),
-		Short: "NewOrg RPC client",
-		Long:  "Orgs",
+		Use:    cfg.CommandNamer("NewOrg"),
+		Short:  "NewOrg RPC client",
+		Long:   "Orgs",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -681,9 +696,10 @@ func _OrgProjServiceGetOrgCommand(cfg *client.Config) *cobra.Command {
 	req := &IdRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("GetOrg"),
-		Short: "GetOrg RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("GetOrg"),
+		Short:  "GetOrg RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -724,9 +740,10 @@ func _OrgProjServiceListOrgCommand(cfg *client.Config) *cobra.Command {
 	req := &ListRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("ListOrg"),
-		Short: "ListOrg RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("ListOrg"),
+		Short:  "ListOrg RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -770,9 +787,10 @@ func _OrgProjServiceUpdateOrgCommand(cfg *client.Config) *cobra.Command {
 	req := &OrgUpdateRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("UpdateOrg"),
-		Short: "UpdateOrg RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("UpdateOrg"),
+		Short:  "UpdateOrg RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -816,9 +834,10 @@ func _OrgProjServiceDeleteOrgCommand(cfg *client.Config) *cobra.Command {
 	req := &IdRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("DeleteOrg"),
-		Short: "DeleteOrg RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("DeleteOrg"),
+		Short:  "DeleteOrg RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
@@ -858,9 +877,10 @@ func _OrgProjServiceDeleteOrgCommand(cfg *client.Config) *cobra.Command {
 func AuthServiceClientCommand(options ...client.Option) *cobra.Command {
 	cfg := client.NewConfig(options...)
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("AuthService"),
-		Short: "AuthService service client",
-		Long:  "",
+		Use:    cfg.CommandNamer("AuthService"),
+		Short:  "AuthService service client",
+		Long:   "",
+		Hidden: false,
 	}
 	cfg.BindFlags(cmd.PersistentFlags())
 	cmd.AddCommand(
@@ -878,9 +898,10 @@ func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
 	req := &RegisterRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("Register"),
-		Short: "Register RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("Register"),
+		Short:  "Register RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
@@ -922,9 +943,10 @@ func _AuthServiceLoginCommand(cfg *client.Config) *cobra.Command {
 	req := &LoginRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("Login"),
-		Short: "Login RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("Login"),
+		Short:  "Login RPC client",
+		Long:   "hide",
+		Hidden: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
@@ -965,9 +987,10 @@ func _AuthServiceForgotPasswordCommand(cfg *client.Config) *cobra.Command {
 	req := &ForgotPasswordRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("ForgotPassword"),
-		Short: "ForgotPassword RPC client",
-		Long:  "ForgotPassword, then ResetPassword if succeed",
+		Use:    cfg.CommandNamer("ForgotPassword"),
+		Short:  "ForgotPassword RPC client",
+		Long:   "ForgotPassword, then ResetPassword if succeed",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
@@ -1007,9 +1030,10 @@ func _AuthServiceResetPasswordCommand(cfg *client.Config) *cobra.Command {
 	req := &ResetPasswordRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("ResetPassword"),
-		Short: "ResetPassword RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("ResetPassword"),
+		Short:  "ResetPassword RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
@@ -1052,9 +1076,10 @@ func _AuthServiceRefreshAccessTokenCommand(cfg *client.Config) *cobra.Command {
 	req := &RefreshAccessTokenRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("RefreshAccessToken"),
-		Short: "RefreshAccessToken RPC client",
-		Long:  "Refresh Access Token endpoint",
+		Use:    cfg.CommandNamer("RefreshAccessToken"),
+		Short:  "RefreshAccessToken RPC client",
+		Long:   "Refresh Access Token endpoint",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {
@@ -1094,9 +1119,10 @@ func _AuthServiceVerifyAccountCommand(cfg *client.Config) *cobra.Command {
 	req := &VerifyAccountRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("VerifyAccount"),
-		Short: "VerifyAccount RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("VerifyAccount"),
+		Short:  "VerifyAccount RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AuthService"); err != nil {

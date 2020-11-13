@@ -72,7 +72,7 @@ this-config-gen: this-config-dep
 	@mkdir -p service/flu/lib/assets
 	jsonnet -S service/go/flutter_base_repo.jsonnet \
 		-V SYS_CORE_HOST="127.0.0.1" \
-		-V SYS_CORE_PORT="8888" \
+		-V SYS_CORE_PORT="9074" \
 		> ./service/flu/lib/assets/hostconfig.json
 
 this-config-clean:

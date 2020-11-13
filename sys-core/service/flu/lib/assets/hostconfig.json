@@ -10,7 +10,7 @@
         "it",
         "ur"
     ],
-    "port": "8888",
+    "port": "9074",
     "url": "maintemplate.ci.getcouragenow.org",
     "url_native": "grpc.maintemplate.ci.getcouragenow.org"
 }

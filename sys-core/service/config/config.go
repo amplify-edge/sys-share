@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"math/big"
 	"os"
+	"sort"
 	"time"
 
 	"github.com/caddyserver/certmagic"
@@ -153,4 +154,15 @@ func UnmarshalJson(data []byte, any interface{}) error {
 
 func UnmarshalYAML(data []byte, any interface{}) error {
 	return yaml.UnmarshalStrict(data, any)
+}
+
+func ListFiles(dirpath string) ([]os.FileInfo, error) {
+	files, err := ioutil.ReadDir(dirpath)
+	if err != nil {
+		return nil, err
+	}
+	sort.SliceStable(files, func(i, j int) bool {
+		return files[i].Name() < files[j].Name()
+	})
+	return files, nil
 }

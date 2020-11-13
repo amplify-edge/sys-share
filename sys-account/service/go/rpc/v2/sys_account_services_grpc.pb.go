@@ -896,6 +896,7 @@ type UnstableOrgProjServiceService interface {
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
+	// hide
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	// ForgotPassword, then ResetPassword if succeed
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error)
@@ -997,7 +998,8 @@ func (c *authServiceClient) VerifyAccount(ctx context.Context, in *VerifyAccount
 // handler for that method returning an Unimplemented error.
 type AuthServiceService struct {
 	Register func(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	Login    func(context.Context, *LoginRequest) (*LoginResponse, error)
+	// hide
+	Login func(context.Context, *LoginRequest) (*LoginResponse, error)
 	// ForgotPassword, then ResetPassword if succeed
 	ForgotPassword func(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error)
 	ResetPassword  func(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
@@ -1211,6 +1213,7 @@ func NewAuthServiceService(s interface{}) *AuthServiceService {
 // use of this type is not recommended.
 type UnstableAuthServiceService interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
+	// hide
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	// ForgotPassword, then ResetPassword if succeed
 	ForgotPassword(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error)

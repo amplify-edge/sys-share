@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"context"
+	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -14,8 +15,8 @@ type mailClient struct {
 	mailer *cobra.Command
 }
 
-func newMailClient() *mailClient {
-	return &mailClient{mailer: dbrpc.EmailServiceClientCommand()}
+func newMailClient(options ...cliClient.Option) *mailClient {
+	return &mailClient{mailer: dbrpc.EmailServiceClientCommand(options...)}
 }
 
 func (m *mailClient) cobraCommand() *cobra.Command {
@@ -26,8 +27,8 @@ type busClient struct {
 	bus *cobra.Command
 }
 
-func newBusClient() *busClient {
-	return &busClient{bus: dbrpc.BusServiceClientCommand()}
+func newBusClient(options ...cliClient.Option) *busClient {
+	return &busClient{bus: dbrpc.BusServiceClientCommand(options...)}
 }
 
 func (b *busClient) cobraCommand() *cobra.Command {
@@ -38,8 +39,8 @@ type sysCoreClient struct {
 	dbadmin *cobra.Command
 }
 
-func newSysCoreClient() *sysCoreClient {
-	return &sysCoreClient{dbadmin: dbrpc.DbAdminServiceClientCommand()}
+func newSysCoreClient(options ...cliClient.Option) *sysCoreClient {
+	return &sysCoreClient{dbadmin: dbrpc.DbAdminServiceClientCommand(options...)}
 }
 
 func (s *sysCoreClient) cobraCommand() *cobra.Command {

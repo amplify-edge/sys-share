@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 )
@@ -72,8 +73,8 @@ type SysCoreProxyClient struct {
 	SysCoreClient *sysCoreClient
 }
 
-func NewSysCoreProxyClient() *SysCoreProxyClient {
-	return &SysCoreProxyClient{SysCoreClient: newSysCoreClient()}
+func NewSysCoreProxyClient(options ...cliClient.Option) *SysCoreProxyClient {
+	return &SysCoreProxyClient{SysCoreClient: newSysCoreClient(options...)}
 }
 
 func (s *SysCoreProxyClient) CobraCommand() *cobra.Command {
@@ -84,8 +85,8 @@ type SysBusProxyClient struct {
 	SysBusClient *busClient
 }
 
-func NewSysBusProxyClient() *SysBusProxyClient {
-	return &SysBusProxyClient{SysBusClient: newBusClient()}
+func NewSysBusProxyClient(options ...cliClient.Option) *SysBusProxyClient {
+	return &SysBusProxyClient{SysBusClient: newBusClient(options...)}
 }
 
 func (sb *SysBusProxyClient) CobraCommand() *cobra.Command {
@@ -96,9 +97,9 @@ type SysMailProxyClient struct {
 	SysMailProxyClient *mailClient
 }
 
-func NewSysMailProxyClient() *SysMailProxyClient {
+func NewSysMailProxyClient(options ...cliClient.Option) *SysMailProxyClient {
 	return &SysMailProxyClient{
-		SysMailProxyClient: newMailClient(),
+		SysMailProxyClient: newMailClient(options...),
 	}
 }
 

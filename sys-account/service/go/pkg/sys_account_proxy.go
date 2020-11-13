@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"context"
+	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
@@ -16,14 +17,15 @@ type sysAccountClient struct {
 	auth       *cobra.Command
 	account    *cobra.Command
 	orgProject *cobra.Command
+	extra      *cobra.Command
 }
 
-func newSysAccountClient() *sysAccountClient {
-
+func newSysAccountClient(options ...cliClient.Option) *sysAccountClient {
 	return &sysAccountClient{
-		auth:       rpc.AuthServiceClientCommand(),
-		account:    rpc.AccountServiceClientCommand(),
-		orgProject: rpc.OrgProjServiceClientCommand(),
+		auth:       rpc.AuthServiceClientCommand(options...),
+		account:    rpc.AccountServiceClientCommand(options...),
+		orgProject: rpc.OrgProjServiceClientCommand(options...),
+		extra:      AuthServiceSigninCommand(options...),
 	}
 }
 
@@ -32,6 +34,7 @@ func (sac *sysAccountClient) cobraCommand() *cobra.Command {
 		Use:   "sys-account client",
 		Short: "sys-account client cli",
 	}
+	sac.auth.AddCommand(sac.extra)
 	rootCmd.AddCommand(sac.auth, sac.account, sac.orgProject)
 	return rootCmd
 }
@@ -198,6 +201,7 @@ func authLoginProxy(as AuthService) func(context.Context, *rpc.LoginRequest) (*r
 		if err != nil {
 			return nil, err
 		}
+
 		return resp.ToProto(), nil
 	}
 }
@@ -440,6 +444,7 @@ func (as *authSvcClientProxy) Login(ctx context.Context, in *LoginRequest, opts 
 	if err != nil {
 		return nil, err
 	}
+
 	return LoginResponseFromProto(resp), nil
 }
 
