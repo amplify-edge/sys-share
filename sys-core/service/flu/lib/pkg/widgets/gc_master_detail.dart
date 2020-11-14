@@ -1,13 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/sys_core.dart';
 
-class GetCourageMasterDetail<T> extends StatelessWidget {
+class GetCourageMasterDetail<T extends GeneratedMessage>
+    extends StatelessWidget {
   /// [routeWithIdPlaceholder] is the actual route where the
   /// master-detail-view is located at e.g. /myneeds/orgs/:id
   final String routeWithIdPlaceholder;
 
   /// [id] is the id parsed from the route, can be null
-  final int id;
+  final String id;
 
   /// [detailsBuilder] is used to build the details view
   ///[context] is the BuildContext
@@ -16,7 +20,8 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
   ///on mobile. With this flag we can disable the back button on master
   ///detail view, cause the master will have the back button.
   ///BUT on fullscreen it should show the back button of the details view.
-  final Widget Function(BuildContext context, int detailsId, bool isFullScreen) detailsBuilder;
+  final Widget Function(
+      BuildContext context, String detailsId, bool isFullScreen) detailsBuilder;
 
   ///[items] is the list of items which are displayed on the master view
   final List<T> items;
@@ -25,7 +30,7 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
   final String Function(T item) labelBuilder;
 
   ///[imageBuilder] returns the url of the icon for the current item
-  final String Function(T item) imageBuilder;
+  final List<int> Function(T item) imageBuilder;
 
   /// [noItemsSelected] is the place holder widget for the details view if
   /// nothing was selected
@@ -56,13 +61,13 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
       this.enableSearchBar = false,
       this.noItemsSelected,
       this.disableBackButtonOnNoItemSelected = true,
-      this.id = -1})
+      this.id = ''})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     bool isMobilePhone = !isTablet(context);
-    bool isItemSelected = id >= 0;
+    bool isItemSelected = id.isNotEmpty;
     bool showMaster = isMobilePhone && !isItemSelected || !isMobilePhone;
     bool showDetails = isMobilePhone && isItemSelected || !isMobilePhone;
 
@@ -84,13 +89,16 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
                     )
                   : Expanded(
                       flex: 3,
-                      child:
-                          Column(
-                            children: <Widget>[
-                              AppBar(leading: Container(),),
-                              Expanded(child: noItemsSelected?? Center(child: Text("No items selected."))),
-                            ],
-                          ))
+                      child: Column(
+                        children: <Widget>[
+                          AppBar(
+                            leading: Container(),
+                          ),
+                          Expanded(
+                              child: noItemsSelected ??
+                                  Center(child: Text("No items selected."))),
+                        ],
+                      ))
           ],
         ),
       ),
@@ -109,7 +117,8 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
               children: <Widget>[
                 AppBar(
                   //disable back button if no item is selected...
-                  automaticallyImplyLeading: !(disableBackButtonOnNoItemSelected && id == -1),
+                  automaticallyImplyLeading:
+                      !(disableBackButtonOnNoItemSelected && id.isEmpty),
                   title: masterAppBarTitle ?? Container(),
                 ),
                 if (enableSearchBar)
@@ -121,7 +130,7 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: TextField(
                           decoration: InputDecoration.collapsed(
-                              hintText: 'Search Campaigns'),
+                              hintText: 'Search Organization'),
                         ),
                       ),
                     ),
@@ -149,8 +158,8 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
                             SizedBox(width: 16),
                             CircleAvatar(
                               radius: 20,
-                              backgroundImage: NetworkImage(
-                                imageBuilder(item),
+                              backgroundImage: MemoryImage(
+                                Uint8List.fromList(imageBuilder(item)),
                               ),
                             ),
                           ],
@@ -162,7 +171,10 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
                                 .textTheme
                                 .subtitle1
                                 .merge(TextStyle(
-                                  color: items.indexOf(item) != id
+                                  color: items[items.indexOf(item)]
+                                              .getField(1)
+                                              .toString() !=
+                                          id
                                       ? Theme.of(context)
                                           .textTheme
                                           .subtitle1
@@ -175,7 +187,9 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _pushDetailsRoute(items.indexOf(item), context);
+                      _pushDetailsRoute(
+                          items[items.indexOf(item)].getField(1).toString(),
+                          context);
                     },
                   ),
                 if (items.isEmpty)
@@ -190,7 +204,7 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
     );
   }
 
-  _pushDetailsRoute(int newId, BuildContext context) {
+  _pushDetailsRoute(String newId, BuildContext context) {
     print(
         "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${routeWithIdPlaceholder}");
     bool withTransition = !isTablet(context);
@@ -208,9 +222,8 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
       masterAppBarTitle: masterAppBarTitle,
       disableBackButtonOnNoItemSelected: disableBackButtonOnNoItemSelected,
       noItemsAvailable: noItemsAvailable,
-      imageBuilder: imageBuilder
+      imageBuilder: imageBuilder,
     );
-
     /*
       We are not using flutter Modular for pushing the route here
       since we need dynamic transitions. For the >tablet view
