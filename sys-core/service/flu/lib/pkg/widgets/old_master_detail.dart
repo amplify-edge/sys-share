@@ -1,17 +1,15 @@
-import 'dart:typed_data';
-
+// DEPRECATED! This file is only here because some modules are still dependent on it.
+// We will remove this and move to data driven gc_master_detail (NewGetCourageMasterDetail) once mod-disco is done.
 import 'package:flutter/material.dart';
-import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/sys_core.dart';
 
-class NewGetCourageMasterDetail<T extends GeneratedMessage>
-    extends StatelessWidget {
+class GetCourageMasterDetail<T> extends StatelessWidget {
   /// [routeWithIdPlaceholder] is the actual route where the
   /// master-detail-view is located at e.g. /myneeds/orgs/:id
   final String routeWithIdPlaceholder;
 
   /// [id] is the id parsed from the route, can be null
-  final String id;
+  final int id;
 
   /// [detailsBuilder] is used to build the details view
   ///[context] is the BuildContext
@@ -20,8 +18,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
   ///on mobile. With this flag we can disable the back button on master
   ///detail view, cause the master will have the back button.
   ///BUT on fullscreen it should show the back button of the details view.
-  final Widget Function(
-      BuildContext context, String detailsId, bool isFullScreen) detailsBuilder;
+  final Widget Function(BuildContext context, int detailsId, bool isFullScreen) detailsBuilder;
 
   ///[items] is the list of items which are displayed on the master view
   final List<T> items;
@@ -30,7 +27,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
   final String Function(T item) labelBuilder;
 
   ///[imageBuilder] returns the url of the icon for the current item
-  final List<int> Function(T item) imageBuilder;
+  final String Function(T item) imageBuilder;
 
   /// [noItemsSelected] is the place holder widget for the details view if
   /// nothing was selected
@@ -49,25 +46,25 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
   ///back button of the masters app bar will be disabled
   final bool disableBackButtonOnNoItemSelected;
 
-  const NewGetCourageMasterDetail(
+  const GetCourageMasterDetail(
       {Key key,
-      @required this.detailsBuilder,
-      @required this.routeWithIdPlaceholder,
-      @required this.items,
-      @required this.labelBuilder,
-      this.noItemsAvailable,
-      this.imageBuilder,
-      this.masterAppBarTitle,
-      this.enableSearchBar = false,
-      this.noItemsSelected,
-      this.disableBackButtonOnNoItemSelected = true,
-      this.id = ''})
+        @required this.detailsBuilder,
+        @required this.routeWithIdPlaceholder,
+        @required this.items,
+        @required this.labelBuilder,
+        this.noItemsAvailable,
+        this.imageBuilder,
+        this.masterAppBarTitle,
+        this.enableSearchBar = false,
+        this.noItemsSelected,
+        this.disableBackButtonOnNoItemSelected = true,
+        this.id = -1})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     bool isMobilePhone = !isTablet(context);
-    bool isItemSelected = id.isNotEmpty;
+    bool isItemSelected = id >= 0;
     bool showMaster = isMobilePhone && !isItemSelected || !isMobilePhone;
     bool showDetails = isMobilePhone && isItemSelected || !isMobilePhone;
 
@@ -78,27 +75,24 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
             if (showMaster)
               (isMobilePhone) // take the whole width
                   ? Expanded(
-                      child: _getMasterView(context),
-                    )
+                child: _getMasterView(context),
+              )
                   : _getMasterView(context),
             if (showDetails)
               (isItemSelected)
                   ? Expanded(
-                      flex: 3,
-                      child: detailsBuilder(context, id, !showMaster),
-                    )
+                flex: 3,
+                child: detailsBuilder(context, id, !showMaster),
+              )
                   : Expanded(
-                      flex: 3,
-                      child: Column(
-                        children: <Widget>[
-                          AppBar(
-                            leading: Container(),
-                          ),
-                          Expanded(
-                              child: noItemsSelected ??
-                                  Center(child: Text("No items selected."))),
-                        ],
-                      ))
+                  flex: 3,
+                  child:
+                  Column(
+                    children: <Widget>[
+                      AppBar(leading: Container(),),
+                      Expanded(child: noItemsSelected?? Center(child: Text("No items selected."))),
+                    ],
+                  ))
           ],
         ),
       ),
@@ -117,8 +111,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
               children: <Widget>[
                 AppBar(
                   //disable back button if no item is selected...
-                  automaticallyImplyLeading:
-                      !(disableBackButtonOnNoItemSelected && id.isEmpty),
+                  automaticallyImplyLeading: !(disableBackButtonOnNoItemSelected && id == -1),
                   title: masterAppBarTitle ?? Container(),
                 ),
                 if (enableSearchBar)
@@ -130,7 +123,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: TextField(
                           decoration: InputDecoration.collapsed(
-                              hintText: 'Search Organization'),
+                              hintText: 'Search Campaigns'),
                         ),
                       ),
                     ),
@@ -158,8 +151,8 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
                             SizedBox(width: 16),
                             CircleAvatar(
                               radius: 20,
-                              backgroundImage: MemoryImage(
-                                Uint8List.fromList(imageBuilder(item)),
+                              backgroundImage: NetworkImage(
+                                imageBuilder(item),
                               ),
                             ),
                           ],
@@ -171,25 +164,20 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
                                 .textTheme
                                 .subtitle1
                                 .merge(TextStyle(
-                                  color: items[items.indexOf(item)]
-                                              .getField(1)
-                                              .toString() !=
-                                          id
-                                      ? Theme.of(context)
-                                          .textTheme
-                                          .subtitle1
-                                          .color
-                                      : Theme.of(context).accentColor,
-                                )),
+                              color: items.indexOf(item) != id
+                                  ? Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .color
+                                  : Theme.of(context).accentColor,
+                            )),
                           ),
                           SizedBox(width: 50),
                         ],
                       ),
                     ),
                     onTap: () {
-                      _pushDetailsRoute(
-                          items[items.indexOf(item)].getField(1).toString(),
-                          context);
+                      _pushDetailsRoute(items.indexOf(item), context);
                     },
                   ),
                 if (items.isEmpty)
@@ -204,26 +192,27 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
     );
   }
 
-  _pushDetailsRoute(String newId, BuildContext context) {
+  _pushDetailsRoute(int newId, BuildContext context) {
     print(
         "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${routeWithIdPlaceholder}");
     bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: routeWithIdPlaceholder.replaceAll(":id", "$newId"),
     );
-    var newMasterDetailView = NewGetCourageMasterDetail(
-      items: items,
-      labelBuilder: labelBuilder,
-      noItemsSelected: noItemsSelected,
-      detailsBuilder: detailsBuilder,
-      id: newId,
-      routeWithIdPlaceholder: routeWithIdPlaceholder,
-      enableSearchBar: enableSearchBar,
-      masterAppBarTitle: masterAppBarTitle,
-      disableBackButtonOnNoItemSelected: disableBackButtonOnNoItemSelected,
-      noItemsAvailable: noItemsAvailable,
-      imageBuilder: imageBuilder,
+    var newMasterDetailView = GetCourageMasterDetail(
+        items: items,
+        labelBuilder: labelBuilder,
+        noItemsSelected: noItemsSelected,
+        detailsBuilder: detailsBuilder,
+        id: newId,
+        routeWithIdPlaceholder: routeWithIdPlaceholder,
+        enableSearchBar: enableSearchBar,
+        masterAppBarTitle: masterAppBarTitle,
+        disableBackButtonOnNoItemSelected: disableBackButtonOnNoItemSelected,
+        noItemsAvailable: noItemsAvailable,
+        imageBuilder: imageBuilder
     );
+
     /*
       We are not using flutter Modular for pushing the route here
       since we need dynamic transitions. For the >tablet view
@@ -235,14 +224,14 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
     Navigator.of(context).push(
       (withTransition)
           ? MaterialPageRoute(
-              builder: (context) {
-                return newMasterDetailView;
-              },
-              settings: routeSettings)
+          builder: (context) {
+            return newMasterDetailView;
+          },
+          settings: routeSettings)
           : PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  newMasterDetailView,
-              settings: routeSettings),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+          newMasterDetailView,
+          settings: routeSettings),
     );
   }
 }
