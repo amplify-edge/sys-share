@@ -149,48 +149,53 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
                     ),
                   ),*/
                 for (var item in items)
-                  InkWell(
-                    child: Container(
-                      height: 56,
-                      child: Row(
-                        children: <Widget>[
-                          if (imageBuilder != null) ...[
+                  ExpansionTile(
+                    title: InkWell(
+                      child: Container(
+                        height: 56,
+                        child: Row(
+                          children: <Widget>[
+                            if (imageBuilder != null) ...[
+                              SizedBox(width: 16),
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundImage: MemoryImage(
+                                  Uint8List.fromList(imageBuilder(item)),
+                                ),
+                              ),
+                            ],
                             SizedBox(width: 16),
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundImage: MemoryImage(
-                                Uint8List.fromList(imageBuilder(item)),
+                            //logic taken from ListTile
+                            Expanded(
+                              child: Text(
+                                labelBuilder(item),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .merge(TextStyle(
+                                      color: items[items.indexOf(item)]
+                                                  .getField(1)
+                                                  .toString() !=
+                                              id
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .subtitle1
+                                              .color
+                                          : Theme.of(context).accentColor,
+                                    )),
                               ),
                             ),
+                            SizedBox(width: 30),
                           ],
-                          SizedBox(width: 16),
-                          //logic taken from ListTile
-                          Text(
-                            labelBuilder(item),
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .merge(TextStyle(
-                                  color: items[items.indexOf(item)]
-                                              .getField(1)
-                                              .toString() !=
-                                          id
-                                      ? Theme.of(context)
-                                          .textTheme
-                                          .subtitle1
-                                          .color
-                                      : Theme.of(context).accentColor,
-                                )),
-                          ),
-                          SizedBox(width: 50),
-                        ],
+                        ),
                       ),
+                      onTap: () {
+                        _pushDetailsRoute(
+                            items[items.indexOf(item)].getField(1).toString(),
+                            context);
+                      },
                     ),
-                    onTap: () {
-                      _pushDetailsRoute(
-                          items[items.indexOf(item)].getField(1).toString(),
-                          context);
-                    },
                   ),
                 if (items.isEmpty)
                   (noItemsAvailable == null)
