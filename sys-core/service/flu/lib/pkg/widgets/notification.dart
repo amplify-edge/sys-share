@@ -14,11 +14,19 @@ void notify({
       return Flash(
         controller: controller,
         style: flashStyle,
-        boxShadows: kElevationToShadow[4],
+        boxShadows: [BoxShadow(blurRadius: 4)],
+        barrierBlur: 3.0,
+        barrierColor: Colors.black38,
+        barrierDismissible: true,
         horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+        position: FlashPosition.top,
         child: FlashBar(
           leftBarIndicatorColor: error ? Colors.red[500] : Colors.green[500],
           message: Text(message),
+          primaryAction: IconButton(
+            icon: Icon(Icons.close_rounded),
+            onPressed: () => controller.dismiss(),
+          ),
         ),
       );
     },
