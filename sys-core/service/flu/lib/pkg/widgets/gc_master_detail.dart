@@ -49,6 +49,8 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
   ///back button of the masters app bar will be disabled
   final bool disableBackButtonOnNoItemSelected;
 
+  final List<Widget> Function(T item) childrenBuilder;
+
   const NewGetCourageMasterDetail(
       {Key key,
       @required this.detailsBuilder,
@@ -61,6 +63,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
       this.enableSearchBar = false,
       this.noItemsSelected,
       this.disableBackButtonOnNoItemSelected = true,
+      this.childrenBuilder,
       this.id = ''})
       : super(key: key);
 
@@ -135,19 +138,6 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
                       ),
                     ),
                   ),
-                /*const SliverPadding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    sliver: SliverFloatingBar(
-                      elevation: 1.0,
-                      floating: true,
-                      pinned: true,
-                      automaticallyImplyLeading: false,
-                      title: TextField(
-                        decoration:
-                            InputDecoration.collapsed(hintText: 'Search Campaigns'),
-                      ),
-                    ),
-                  ),*/
                 for (var item in items)
                   ExpansionTile(
                     title: InkWell(
@@ -196,6 +186,9 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
                             context);
                       },
                     ),
+                    children: this.childrenBuilder != null
+                        ? this.childrenBuilder(item)
+                        : [],
                   ),
                 if (items.isEmpty)
                   (noItemsAvailable == null)
@@ -210,8 +203,8 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
   }
 
   _pushDetailsRoute(String newId, BuildContext context) {
-    print(
-        "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${routeWithIdPlaceholder}");
+    // print(
+    //     "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${routeWithIdPlaceholder}");
     bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: routeWithIdPlaceholder.replaceAll(":id", "$newId"),
