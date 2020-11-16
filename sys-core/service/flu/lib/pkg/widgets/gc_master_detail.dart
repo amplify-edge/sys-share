@@ -152,58 +152,53 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
                       ),
                     ),
                   ),
-                NotificationListener(
-                  child: ListView.builder(
-                    itemBuilder: (BuildContext context, int idx) {
-                      return InkWell(
-                        child: Container(
-                          height: 56,
-                          child: Row(
-                            children: <Widget>[
-                              if (widget.imageBuilder != null) ...[
-                                SizedBox(width: 16),
-                                CircleAvatar(
-                                  radius: 20,
-                                  backgroundImage: MemoryImage(
-                                    Uint8List.fromList(
-                                        widget.imageBuilder(widget.items[idx])),
-                                  ),
-                                ),
-                              ],
-                              SizedBox(width: 16),
-                              //logic taken from ListTile
-                              Expanded(
-                                child: Text(
-                                  widget.labelBuilder(widget.items[idx]),
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle1
-                                      .merge(TextStyle(
-                                        color: widget.items[idx]
-                                                    .getField(1)
-                                                    .toString() !=
-                                                widget.id
-                                            ? Theme.of(context)
-                                                .textTheme
-                                                .subtitle1
-                                                .color
-                                            : Theme.of(context).accentColor,
-                                      )),
-                                ),
-                              ),
-                              SizedBox(width: 30),
-                            ],
+                for (var item in widget.items)
+                InkWell(
+                  child: Container(
+                    height: 56,
+                    child: Row(
+                      children: <Widget>[
+                        if (widget.imageBuilder != null) ...[
+                          SizedBox(width: 16),
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundImage: MemoryImage(
+                              Uint8List.fromList(
+                                  widget.imageBuilder(item)),
+                            ),
+                          ),
+                        ],
+                        SizedBox(width: 16),
+                        //logic taken from ListTile
+                        Expanded(
+                          child: Text(
+                            widget.labelBuilder(item),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .merge(TextStyle(
+                              color: widget.items[widget.items.indexOf(item)]
+                                  .getField(1)
+                                  .toString() !=
+                                  widget.id
+                                  ? Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .color
+                                  : Theme.of(context).accentColor,
+                            )),
                           ),
                         ),
-                        onTap: () {
-                          _pushDetailsRoute(
-                              widget.items[idx].getField(1).toString(),
-                              context);
-                        },
-                      );
-                    },
+                        SizedBox(width: 30),
+                      ],
+                    ),
                   ),
+                  onTap: () {
+                    _pushDetailsRoute(
+                        widget.items[widget.items.indexOf(item)].getField(1).toString(),
+                        context);
+                  },
                 ),
                 if (widget.items.isEmpty)
                   (widget.noItemsAvailable == null)
