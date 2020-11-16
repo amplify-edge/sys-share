@@ -5,7 +5,7 @@ import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/sys_core.dart';
 
 class NewGetCourageMasterDetail<T extends GeneratedMessage>
-    extends StatelessWidget {
+    extends StatefulWidget {
   /// [routeWithIdPlaceholder] is the actual route where the
   /// master-detail-view is located at e.g. /myneeds/orgs/:id
   final String routeWithIdPlaceholder;
@@ -42,8 +42,11 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
   /// [masterAppBarTitle] is used to customize the master app bar title
   final Widget masterAppBarTitle;
 
-  /// warning just for showcase right now, now real search implementation here
+  /// warning just for showcase right now, not real search implementation here
   final bool enableSearchBar;
+
+  /// searchbar functionality here
+  final List<T> Function(String) searchFunction;
 
   ///[disableBackButtonOnNoItemSelected] if its true and id == -1 the
   ///back button of the masters app bar will be disabled
@@ -64,13 +67,21 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
       this.noItemsSelected,
       this.disableBackButtonOnNoItemSelected = true,
       this.childrenBuilder,
+      this.searchFunction,
       this.id = ''})
       : super(key: key);
 
   @override
+  _NewGetCourageMasterDetailState<T> createState() =>
+      _NewGetCourageMasterDetailState<T>();
+}
+
+class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
+    extends State<NewGetCourageMasterDetail<T>> {
+  @override
   Widget build(BuildContext context) {
     bool isMobilePhone = !isTablet(context);
-    bool isItemSelected = id.isNotEmpty;
+    bool isItemSelected = widget.id.isNotEmpty;
     bool showMaster = isMobilePhone && !isItemSelected || !isMobilePhone;
     bool showDetails = isMobilePhone && isItemSelected || !isMobilePhone;
 
@@ -88,7 +99,8 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
               (isItemSelected)
                   ? Expanded(
                       flex: 3,
-                      child: detailsBuilder(context, id, !showMaster),
+                      child: widget.detailsBuilder(
+                          context, widget.id, !showMaster),
                     )
                   : Expanded(
                       flex: 3,
@@ -98,7 +110,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
                             leading: Container(),
                           ),
                           Expanded(
-                              child: noItemsSelected ??
+                              child: widget.noItemsSelected ??
                                   Center(child: Text("No items selected."))),
                         ],
                       ))
@@ -121,10 +133,11 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
                 AppBar(
                   //disable back button if no item is selected...
                   automaticallyImplyLeading:
-                      !(disableBackButtonOnNoItemSelected && id.isEmpty),
-                  title: masterAppBarTitle ?? Container(),
+                      !(widget.disableBackButtonOnNoItemSelected &&
+                          widget.id.isEmpty),
+                  title: widget.masterAppBarTitle ?? Container(),
                 ),
-                if (enableSearchBar)
+                if (widget.enableSearchBar)
                   SizedBox(
                     width: 200,
                     child: Padding(
@@ -133,67 +146,69 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: TextField(
                           decoration: InputDecoration.collapsed(
-                              hintText: 'Search Organization'),
+                              hintText: 'Search Project / Campaign'),
+                          onChanged: this.widget.searchFunction,
                         ),
                       ),
                     ),
                   ),
-                for (var item in items)
-                  ExpansionTile(
-                    title: InkWell(
-                      child: Container(
-                        height: 56,
-                        child: Row(
-                          children: <Widget>[
-                            if (imageBuilder != null) ...[
+                NotificationListener(
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext context, int idx) {
+                      return InkWell(
+                        child: Container(
+                          height: 56,
+                          child: Row(
+                            children: <Widget>[
+                              if (widget.imageBuilder != null) ...[
+                                SizedBox(width: 16),
+                                CircleAvatar(
+                                  radius: 20,
+                                  backgroundImage: MemoryImage(
+                                    Uint8List.fromList(
+                                        widget.imageBuilder(widget.items[idx])),
+                                  ),
+                                ),
+                              ],
                               SizedBox(width: 16),
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundImage: MemoryImage(
-                                  Uint8List.fromList(imageBuilder(item)),
+                              //logic taken from ListTile
+                              Expanded(
+                                child: Text(
+                                  widget.labelBuilder(widget.items[idx]),
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .merge(TextStyle(
+                                        color: widget.items[idx]
+                                                    .getField(1)
+                                                    .toString() !=
+                                                widget.id
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .subtitle1
+                                                .color
+                                            : Theme.of(context).accentColor,
+                                      )),
                                 ),
                               ),
+                              SizedBox(width: 30),
                             ],
-                            SizedBox(width: 16),
-                            //logic taken from ListTile
-                            Expanded(
-                              child: Text(
-                                labelBuilder(item),
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    .merge(TextStyle(
-                                      color: items[items.indexOf(item)]
-                                                  .getField(1)
-                                                  .toString() !=
-                                              id
-                                          ? Theme.of(context)
-                                              .textTheme
-                                              .subtitle1
-                                              .color
-                                          : Theme.of(context).accentColor,
-                                    )),
-                              ),
-                            ),
-                            SizedBox(width: 30),
-                          ],
+                          ),
                         ),
-                      ),
-                      onTap: () {
-                        _pushDetailsRoute(
-                            items[items.indexOf(item)].getField(1).toString(),
-                            context);
-                      },
-                    ),
-                    children: this.childrenBuilder != null
-                        ? this.childrenBuilder(item)
-                        : [],
+                        onTap: () {
+                          _pushDetailsRoute(
+                              widget.items[idx].getField(1).toString(),
+                              context);
+                        },
+                      );
+                    },
                   ),
-                if (items.isEmpty)
-                  (noItemsAvailable == null)
+                ),
+                if (widget.items.isEmpty)
+                  (widget.noItemsAvailable == null)
                       ? Center(child: Text("No items available."))
-                      : noItemsAvailable
+                      : widget.noItemsAvailable
               ],
             ),
           ),
@@ -207,20 +222,21 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
     //     "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${routeWithIdPlaceholder}");
     bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
-      name: routeWithIdPlaceholder.replaceAll(":id", "$newId"),
+      name: widget.routeWithIdPlaceholder.replaceAll(":id", "$newId"),
     );
     var newMasterDetailView = NewGetCourageMasterDetail(
-      items: items,
-      labelBuilder: labelBuilder,
-      noItemsSelected: noItemsSelected,
-      detailsBuilder: detailsBuilder,
+      items: widget.items,
+      labelBuilder: widget.labelBuilder,
+      noItemsSelected: widget.noItemsSelected,
+      detailsBuilder: widget.detailsBuilder,
       id: newId,
-      routeWithIdPlaceholder: routeWithIdPlaceholder,
-      enableSearchBar: enableSearchBar,
-      masterAppBarTitle: masterAppBarTitle,
-      disableBackButtonOnNoItemSelected: disableBackButtonOnNoItemSelected,
-      noItemsAvailable: noItemsAvailable,
-      imageBuilder: imageBuilder,
+      routeWithIdPlaceholder: widget.routeWithIdPlaceholder,
+      enableSearchBar: widget.enableSearchBar,
+      masterAppBarTitle: widget.masterAppBarTitle,
+      disableBackButtonOnNoItemSelected:
+          widget.disableBackButtonOnNoItemSelected,
+      noItemsAvailable: widget.noItemsAvailable,
+      imageBuilder: widget.imageBuilder,
     );
     /*
       We are not using flutter Modular for pushing the route here
