@@ -2,12 +2,18 @@ package fakehelper
 
 import (
 	"fmt"
-	"github.com/brianvoe/gofakeit/v5"
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
+	"image/color"
+	"image/png"
 	"io/ioutil"
 	"math/rand"
+	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/brianvoe/gofakeit/v5"
+	"github.com/issue9/identicon"
+
+	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 )
 
 var popularYts = []string{
@@ -156,36 +162,50 @@ func FakeYtUrls() (string, gofakeit.Info) {
 
 // FakeAvatarGen generates and writes random user / project / org letter avatar
 // Outputs the filepath to the generated image
-// func FakeAvatarGen() (string, gofakeit.Info) {
-// 	return "avatargen", gofakeit.Info{
-// 		Category: "avatargen",
-// 		Description: "generate random user / project / org avatar",
-// 		Example: "avatargen:<SEPARATOR i.e. @ or _>,<OUTPUT_DIR>",
-// 		Output: "string",
-// 		Params: []gofakeit.Param{
-// 			{Field: "separator", Type: "string", Description: "separator (i.e. email is @), others are _"},
-// 			{Field: "outputdir", Type: "string", Description: "output directory for the generated avatars"},
-// 		},
-// 		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
-// 			sep, err := info.GetString(m, "separator")
-// 			if err != nil {
-// 				return nil, err
-// 			}
-// 			outDir, err := info.GetString(m, "outputdir")
-// 			if err != nil {
-// 				return nil, err
-// 			}
-// 			if ex, _ := sharedConfig.PathExists(outDir); !ex {
-// 				_ = os.MkdirAll(outDir, 0755)
-// 			}
-// 			switch sep {
-// 			case "@": // user's avatar
-// 				email := utf8.DecodeRuneInString()
-// 			}
-//
-// 		},
-// 	}
-// }
+func FakeAvatarGen() (string, gofakeit.Info) {
+	return "avatargen", gofakeit.Info{
+		Category:    "avatargen",
+		Description: "generate random user / project / org avatar",
+		Example:     "avatargen:<OUTPUT_DIR>",
+		Output:      "string",
+		Params: []gofakeit.Param{
+			{Field: "outputdir", Type: "string", Description: "output directory for the generated avatars"},
+			{Field: "size", Type: "int", Description: "generated avatar size", Default: "128"},
+		},
+		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
+			outDir, err := info.GetString(m, "outputdir")
+			if err != nil {
+				return nil, err
+			}
+			size, err := info.GetInt(m, "size")
+			if err != nil {
+				return nil, err
+			}
+			return GenFakeLogo(outDir, size)
+		},
+	}
+}
+
+func GenFakeLogo(outDir string, size int) (string, error) {
+	if ex, _ := sharedConfig.PathExists(outDir); !ex {
+		_ = os.MkdirAll(outDir, 0755)
+	}
+	imgId := sharedConfig.NewID()
+	img, err := identicon.Make(size, randRGB(100), randRGB(255), []byte(imgId))
+	if err != nil {
+		return "", err
+	}
+	filename := filepath.Join(outDir, fmt.Sprintf("%s.png", imgId))
+	file, err := os.Create(filename)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+	if err = png.Encode(file, img); err != nil {
+		return "", err
+	}
+	return filename, nil
+}
 
 func UnmarshalFromFilepath(path string, any interface{}) error {
 	f, err := ioutil.ReadFile(path)
@@ -206,4 +226,13 @@ func UnmarshalFromFilepath(path string, any interface{}) error {
 		return fmt.Errorf("invalid format specified, cannot load bootstrap")
 	}
 	return nil
+}
+
+// getRandomColorInRgb Returns a random RGBColor
+func randRGB(colorRange int) color.RGBA {
+	rand.Seed(sharedConfig.CurrentTimestamp())
+	red := uint8(rand.Intn(colorRange))
+	green := uint8(rand.Intn(colorRange))
+	blue := uint8(rand.Intn(colorRange))
+	return color.RGBA{R: red, G: green, B: blue}
 }
