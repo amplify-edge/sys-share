@@ -106,7 +106,7 @@ message Project {
 message ProjectRequest {
   // @inject_tag: fake:"{nameseq:sys_account_project,false,none,false,false}" yaml:"name,omitempty"
   string name = 1;
-  // @inject_tag: fake:"{avatargen:./testdata/generated,100}" yaml:"logo_filepath,omitempty"
+  // @inject_tag: fake:"{avatargen:./testdata/generated,128}" yaml:"logo_filepath,omitempty"
   string logo_filepath = 2;
   // @inject_tag: fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}" yaml:"creator_id,omitempty"
   string creator_id = 3;
@@ -140,7 +140,7 @@ message Org {
 message OrgRequest {
   // @inject_tag: fake:"{nameseq:sys_account_org,false,none,false,false}" yaml:"name,omitempty"
   string name = 1;
-  // @inject_tag: fake:"{avatargen:./testdata/generated,100}" yaml:"logo_filepath,omitempty"
+  // @inject_tag: fake:"{avatargen:./testdata/generated,128}" yaml:"logo_filepath,omitempty"
   string logo_filepath = 2;
   // @inject_tag: fake:"{email}" yaml:"contact,omitempty"
   string contact = 3;

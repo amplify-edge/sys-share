@@ -982,8 +982,8 @@ type ProjectRequest struct {
 
 	// @inject_tag: fake:"{nameseq:sys_account_project,false,none,false,false}" yaml:"name,omitempty"
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" fake:"{nameseq:sys_account_project,false,none,false,false}" yaml:"name,omitempty"`
-	// @inject_tag: fake:"{avatargen:./testdata,100}" yaml:"logo_filepath,omitempty"
-	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"{avatargen:./testdata,100}" yaml:"logo_filepath,omitempty"`
+	// @inject_tag: fake:"{avatargen:./testdata/generated,128}" yaml:"logo_filepath,omitempty"
+	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"{avatargen:./testdata/generated,128}" yaml:"logo_filepath,omitempty"`
 	// @inject_tag: fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}" yaml:"creator_id,omitempty"
 	CreatorId string `protobuf:"bytes,3,opt,name=creator_id,json=creatorId,proto3" json:"creator_id,omitempty" fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}" yaml:"creator_id,omitempty"`
 	// @inject_tag: fake:"skip" yaml:"org_id,omitempty"
@@ -1250,8 +1250,8 @@ type OrgRequest struct {
 
 	// @inject_tag: fake:"{nameseq:sys_account_org,false,none,false,false}" yaml:"name,omitempty"
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" fake:"{nameseq:sys_account_org,false,none,false,false}" yaml:"name,omitempty"`
-	// @inject_tag: fake:"{avatargen:./testdata,100}" yaml:"logo_filepath,omitempty"
-	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"{avatargen:./testdata,100}" yaml:"logo_filepath,omitempty"`
+	// @inject_tag: fake:"{avatargen:./testdata/generated,128}" yaml:"logo_filepath,omitempty"
+	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"{avatargen:./testdata/generated,128}" yaml:"logo_filepath,omitempty"`
 	// @inject_tag: fake:"{email}" yaml:"contact,omitempty"
 	Contact string `protobuf:"bytes,3,opt,name=contact,proto3" json:"contact,omitempty" fake:"{email}" yaml:"contact,omitempty"`
 	// @inject_tag: fake:"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}" yaml:"creator_id,omitempty"
