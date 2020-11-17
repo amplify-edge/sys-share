@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:sys_core/sys_core.dart';
 import 'package:sys_share_sys_account_service/rpc/v2/google/protobuf/empty.pb.dart';
 import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart'
@@ -35,17 +37,25 @@ class OrgProjRepo {
     }
   }
 
-  static Future<rpc.ListResponse> listUserProjects(
-      {String currentPageId = '0',
-      String orderBy,
-      int perPageEntries = 10,
-      bool isDescending = false}) async {
+  static Future<rpc.ListResponse> listUserProjects({
+    String currentPageId = '0',
+    String orderBy,
+    int perPageEntries = 10,
+    bool isDescending = false,
+    Map<String, dynamic> filters,
+  }) async {
     final ppe = Int64(perPageEntries);
     final req = rpc.ListRequest()
       ..perPageEntries = ppe
       ..currentPageId = currentPageId
       ..orderBy = orderBy
       ..isDescending = isDescending;
+
+    if (filters != null) {
+      final jstring = jsonEncode(filters);
+      final jbytes = utf8.encode(jstring);
+      req..filters = jbytes;
+    }
 
     try {
       final client = await orgProjectServiceClient();

@@ -46,7 +46,10 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
   final bool enableSearchBar;
 
   /// searchbar functionality here
-  final List<T> Function(String) searchFunction;
+  final Future<void> Function(String) searchFunction;
+
+  // reset searchbar function
+  final Future<void> Function() resetSearchFunction;
 
   ///[disableBackButtonOnNoItemSelected] if its true and id == -1 the
   ///back button of the masters app bar will be disabled
@@ -77,6 +80,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
       this.isLoadingMoreItems = false,
       this.fetchNextItems,
       this.hasMoreItems = false,
+      this.resetSearchFunction,
       this.id = ''})
       : super(key: key);
 
@@ -88,6 +92,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
 class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
     extends State<NewGetCourageMasterDetail<T>> {
   ScrollController _scrollController;
+  TextEditingController _searchTextCtrl;
 
   _scrollListener() async {
     if (_scrollController.offset >=
@@ -102,8 +107,16 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
   @override
   void initState() {
     _scrollController = ScrollController();
+    _searchTextCtrl = TextEditingController();
     _scrollController.addListener(_scrollListener);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _searchTextCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -174,9 +187,16 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: TextField(
+                          controller: _searchTextCtrl,
                           decoration: InputDecoration.collapsed(
                               hintText: 'Search Project / Campaign'),
-                          onChanged: this.widget.searchFunction,
+                          onChanged: (text) async {
+                            if (text.isNotEmpty && text.length > 2) {
+                              await widget.searchFunction(text);
+                            } else if (text.isEmpty) {
+                              await widget.resetSearchFunction();
+                            }
+                          },
                         ),
                       ),
                     ),
