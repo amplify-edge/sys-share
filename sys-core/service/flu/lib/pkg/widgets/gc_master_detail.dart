@@ -52,6 +52,12 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
   ///back button of the masters app bar will be disabled
   final bool disableBackButtonOnNoItemSelected;
 
+  final bool hasMoreItems;
+
+  final bool isLoadingMoreItems;
+
+  final Future<void> Function() fetchNextItems;
+
   final List<Widget> Function(T item) childrenBuilder;
 
   const NewGetCourageMasterDetail(
@@ -68,6 +74,9 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
       this.disableBackButtonOnNoItemSelected = true,
       this.childrenBuilder,
       this.searchFunction,
+      this.isLoadingMoreItems = false,
+      this.fetchNextItems,
+      this.hasMoreItems = false,
       this.id = ''})
       : super(key: key);
 
@@ -78,6 +87,25 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
 
 class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
     extends State<NewGetCourageMasterDetail<T>> {
+  ScrollController _scrollController;
+
+  _scrollListener() async {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      if (widget.fetchNextItems != null) {
+        await widget.fetchNextItems();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isMobilePhone = !isTablet(context);
@@ -125,6 +153,7 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
       child: Container(
         height: double.infinity,
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: IntrinsicWidth(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -152,55 +181,62 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
                       ),
                     ),
                   ),
-                for (var item in widget.items)
-                InkWell(
-                  child: Container(
-                    height: 56,
-                    child: Row(
-                      children: <Widget>[
-                        if (widget.imageBuilder != null) ...[
-                          SizedBox(width: 16),
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundImage: MemoryImage(
-                              Uint8List.fromList(
-                                  widget.imageBuilder(item)),
+                if (widget.items != null)
+                  for (var item in widget.items)
+                    InkWell(
+                      child: Container(
+                        height: 56,
+                        child: Row(
+                          children: <Widget>[
+                            if (widget.imageBuilder != null) ...[
+                              SizedBox(width: 16),
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundImage: MemoryImage(
+                                  Uint8List.fromList(widget.imageBuilder(item)),
+                                ),
+                              ),
+                            ],
+                            SizedBox(width: 16),
+                            //logic taken from ListTile
+                            Expanded(
+                              child: Text(
+                                widget.labelBuilder(item),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .merge(TextStyle(
+                                      color: widget.items[widget.items
+                                                      .indexOf(item)]
+                                                  .getField(1)
+                                                  .toString() !=
+                                              widget.id
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .subtitle1
+                                              .color
+                                          : Theme.of(context).accentColor,
+                                    )),
+                              ),
                             ),
-                          ),
-                        ],
-                        SizedBox(width: 16),
-                        //logic taken from ListTile
-                        Expanded(
-                          child: Text(
-                            widget.labelBuilder(item),
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .merge(TextStyle(
-                              color: widget.items[widget.items.indexOf(item)]
-                                  .getField(1)
-                                  .toString() !=
-                                  widget.id
-                                  ? Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  .color
-                                  : Theme.of(context).accentColor,
-                            )),
-                          ),
+                            SizedBox(width: 30),
+                          ],
                         ),
-                        SizedBox(width: 30),
-                      ],
+                      ),
+                      onTap: () {
+                        _pushDetailsRoute(
+                            widget.items[widget.items.indexOf(item)]
+                                .getField(1)
+                                .toString(),
+                            context);
+                      },
                     ),
+                if (widget.hasMoreItems || widget.isLoadingMoreItems)
+                  Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  onTap: () {
-                    _pushDetailsRoute(
-                        widget.items[widget.items.indexOf(item)].getField(1).toString(),
-                        context);
-                  },
-                ),
-                if (widget.items.isEmpty)
+                if (widget.items != null && widget.items.isEmpty)
                   (widget.noItemsAvailable == null)
                       ? Center(child: Text("No items available."))
                       : widget.noItemsAvailable

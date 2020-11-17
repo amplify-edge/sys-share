@@ -3,12 +3,11 @@ package fakehelper
 import (
 	"fmt"
 	"github.com/brianvoe/gofakeit/v5"
+	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 	"io/ioutil"
 	"math/rand"
 	"path/filepath"
 	"time"
-
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 )
 
 var popularYts = []string{
@@ -146,7 +145,7 @@ func FakeYtUrls() (string, gofakeit.Info) {
 		Description: "generate a slice of random youtube urls",
 		Example:     "randomyt",
 		Output:      "string",
-		Params: []gofakeit.Param{},
+		Params:      []gofakeit.Param{},
 		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
 			ytCount := len(popularYts)
 			randomPicks := rand.Intn(ytCount)
@@ -154,6 +153,39 @@ func FakeYtUrls() (string, gofakeit.Info) {
 		},
 	}
 }
+
+// FakeAvatarGen generates and writes random user / project / org letter avatar
+// Outputs the filepath to the generated image
+// func FakeAvatarGen() (string, gofakeit.Info) {
+// 	return "avatargen", gofakeit.Info{
+// 		Category: "avatargen",
+// 		Description: "generate random user / project / org avatar",
+// 		Example: "avatargen:<SEPARATOR i.e. @ or _>,<OUTPUT_DIR>",
+// 		Output: "string",
+// 		Params: []gofakeit.Param{
+// 			{Field: "separator", Type: "string", Description: "separator (i.e. email is @), others are _"},
+// 			{Field: "outputdir", Type: "string", Description: "output directory for the generated avatars"},
+// 		},
+// 		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
+// 			sep, err := info.GetString(m, "separator")
+// 			if err != nil {
+// 				return nil, err
+// 			}
+// 			outDir, err := info.GetString(m, "outputdir")
+// 			if err != nil {
+// 				return nil, err
+// 			}
+// 			if ex, _ := sharedConfig.PathExists(outDir); !ex {
+// 				_ = os.MkdirAll(outDir, 0755)
+// 			}
+// 			switch sep {
+// 			case "@": // user's avatar
+// 				email := utf8.DecodeRuneInString()
+// 			}
+//
+// 		},
+// 	}
+// }
 
 func UnmarshalFromFilepath(path string, any interface{}) error {
 	f, err := ioutil.ReadFile(path)
