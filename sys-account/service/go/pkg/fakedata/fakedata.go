@@ -14,11 +14,11 @@ type bootstrapSuperUser struct {
 }
 
 type bootstrapOrgs struct {
-	Orgs []*accountRpc.OrgRequest `fakesize:"10" json:"new_orgs" yaml:"new_orgs"`
+	Orgs []*accountRpc.OrgRequest `fakesize:"50" json:"new_orgs" yaml:"new_orgs"`
 }
 
 type bootstrapProjects struct {
-	Projects []*accountRpc.ProjectRequest `fakesize:"20" json:"new_projects" yaml:"new_projects"`
+	Projects []*accountRpc.ProjectRequest `fakesize:"200" json:"new_projects" yaml:"new_projects"`
 }
 
 type BootstrapSysAccount struct {
@@ -53,6 +53,7 @@ func BootstrapFakeData(domain string) (*fakehelper.RefCount, *fakehelper.RefCoun
 	// seeder
 	gofakeit.Seed(sharedConfig.CurrentTimestamp())
 	// generate fake sequence
+	gofakeit.AddFuncLookup(fakehelper.FakeAvatarGen())
 	gofakeit.AddFuncLookup(fakehelper.FakeNameSequence(
 		func(prefix, referral string, isRef, isUniqueRef, reset bool) (interface{}, error) {
 			var rc, referralRc *fakehelper.RefCount

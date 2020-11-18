@@ -1,13 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/sys_core.dart';
 
-class GetCourageMasterDetail<T> extends StatelessWidget {
+class NewGetCourageMasterDetail<T extends GeneratedMessage>
+    extends StatefulWidget {
   /// [routeWithIdPlaceholder] is the actual route where the
   /// master-detail-view is located at e.g. /myneeds/orgs/:id
   final String routeWithIdPlaceholder;
 
   /// [id] is the id parsed from the route, can be null
-  final int id;
+  final String id;
 
   /// [detailsBuilder] is used to build the details view
   ///[context] is the BuildContext
@@ -16,7 +20,8 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
   ///on mobile. With this flag we can disable the back button on master
   ///detail view, cause the master will have the back button.
   ///BUT on fullscreen it should show the back button of the details view.
-  final Widget Function(BuildContext context, int detailsId, bool isFullScreen) detailsBuilder;
+  final Widget Function(
+      BuildContext context, String detailsId, bool isFullScreen) detailsBuilder;
 
   ///[items] is the list of items which are displayed on the master view
   final List<T> items;
@@ -25,7 +30,7 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
   final String Function(T item) labelBuilder;
 
   ///[imageBuilder] returns the url of the icon for the current item
-  final String Function(T item) imageBuilder;
+  final List<int> Function(T item) imageBuilder;
 
   /// [noItemsSelected] is the place holder widget for the details view if
   /// nothing was selected
@@ -37,14 +42,28 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
   /// [masterAppBarTitle] is used to customize the master app bar title
   final Widget masterAppBarTitle;
 
-  /// warning just for showcase right now, now real search implementation here
+  /// warning just for showcase right now, not real search implementation here
   final bool enableSearchBar;
+
+  /// searchbar functionality here
+  final Future<void> Function(String) searchFunction;
+
+  // reset searchbar function
+  final Future<void> Function() resetSearchFunction;
 
   ///[disableBackButtonOnNoItemSelected] if its true and id == -1 the
   ///back button of the masters app bar will be disabled
   final bool disableBackButtonOnNoItemSelected;
 
-  const GetCourageMasterDetail(
+  final bool hasMoreItems;
+
+  final bool isLoadingMoreItems;
+
+  final Future<void> Function() fetchNextItems;
+
+  final List<Widget> Function(T item) childrenBuilder;
+
+  const NewGetCourageMasterDetail(
       {Key key,
       @required this.detailsBuilder,
       @required this.routeWithIdPlaceholder,
@@ -56,13 +75,54 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
       this.enableSearchBar = false,
       this.noItemsSelected,
       this.disableBackButtonOnNoItemSelected = true,
-      this.id = -1})
+      this.childrenBuilder,
+      this.searchFunction,
+      this.isLoadingMoreItems = false,
+      this.fetchNextItems,
+      this.hasMoreItems = false,
+      this.resetSearchFunction,
+      this.id = ''})
       : super(key: key);
+
+  @override
+  _NewGetCourageMasterDetailState<T> createState() =>
+      _NewGetCourageMasterDetailState<T>();
+}
+
+class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
+    extends State<NewGetCourageMasterDetail<T>> {
+  ScrollController _scrollController;
+  TextEditingController _searchTextCtrl;
+
+  _scrollListener() async {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      if (widget.fetchNextItems != null) {
+        await widget.fetchNextItems();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _searchTextCtrl = TextEditingController();
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _searchTextCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     bool isMobilePhone = !isTablet(context);
-    bool isItemSelected = id >= 0;
+    bool isItemSelected = widget.id.isNotEmpty;
     bool showMaster = isMobilePhone && !isItemSelected || !isMobilePhone;
     bool showDetails = isMobilePhone && isItemSelected || !isMobilePhone;
 
@@ -80,17 +140,21 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
               (isItemSelected)
                   ? Expanded(
                       flex: 3,
-                      child: detailsBuilder(context, id, !showMaster),
+                      child: widget.detailsBuilder(
+                          context, widget.id, !showMaster),
                     )
                   : Expanded(
                       flex: 3,
-                      child:
-                          Column(
-                            children: <Widget>[
-                              AppBar(leading: Container(),),
-                              Expanded(child: noItemsSelected?? Center(child: Text("No items selected."))),
-                            ],
-                          ))
+                      child: Column(
+                        children: <Widget>[
+                          AppBar(
+                            leading: Container(),
+                          ),
+                          Expanded(
+                              child: widget.noItemsSelected ??
+                                  Center(child: Text("No items selected."))),
+                        ],
+                      ))
           ],
         ),
       ),
@@ -102,6 +166,7 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
       child: Container(
         height: double.infinity,
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: IntrinsicWidth(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -109,10 +174,12 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
               children: <Widget>[
                 AppBar(
                   //disable back button if no item is selected...
-                  automaticallyImplyLeading: !(disableBackButtonOnNoItemSelected && id == -1),
-                  title: masterAppBarTitle ?? Container(),
+                  automaticallyImplyLeading:
+                      !(widget.disableBackButtonOnNoItemSelected &&
+                          widget.id.isEmpty),
+                  title: widget.masterAppBarTitle ?? Container(),
                 ),
-                if (enableSearchBar)
+                if (widget.enableSearchBar)
                   SizedBox(
                     width: 200,
                     child: Padding(
@@ -120,68 +187,79 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: TextField(
+                          controller: _searchTextCtrl,
                           decoration: InputDecoration.collapsed(
-                              hintText: 'Search Campaigns'),
+                              hintText: 'Search Project / Campaign'),
+                          onChanged: (text) async {
+                            if (text.isNotEmpty && text.length > 2) {
+                              await widget.searchFunction(text);
+                            } else if (text.isEmpty) {
+                              await widget.resetSearchFunction();
+                            }
+                          },
                         ),
                       ),
                     ),
                   ),
-                /*const SliverPadding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    sliver: SliverFloatingBar(
-                      elevation: 1.0,
-                      floating: true,
-                      pinned: true,
-                      automaticallyImplyLeading: false,
-                      title: TextField(
-                        decoration:
-                            InputDecoration.collapsed(hintText: 'Search Campaigns'),
-                      ),
-                    ),
-                  ),*/
-                for (var item in items)
-                  InkWell(
-                    child: Container(
-                      height: 56,
-                      child: Row(
-                        children: <Widget>[
-                          if (imageBuilder != null) ...[
+                if (widget.items != null)
+                  for (var item in widget.items)
+                    InkWell(
+                      child: Container(
+                        height: 56,
+                        child: Row(
+                          children: <Widget>[
+                            if (widget.imageBuilder != null) ...[
+                              SizedBox(width: 16),
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundImage: MemoryImage(
+                                  Uint8List.fromList(widget.imageBuilder(item)),
+                                ),
+                              ),
+                            ],
                             SizedBox(width: 16),
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundImage: NetworkImage(
-                                imageBuilder(item),
+                            //logic taken from ListTile
+                            Expanded(
+                              child: Text(
+                                widget.labelBuilder(item),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .merge(TextStyle(
+                                      color: widget.items[widget.items
+                                                      .indexOf(item)]
+                                                  .getField(1)
+                                                  .toString() !=
+                                              widget.id
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .subtitle1
+                                              .color
+                                          : Theme.of(context).accentColor,
+                                    )),
                               ),
                             ),
+                            SizedBox(width: 30),
                           ],
-                          SizedBox(width: 16),
-                          //logic taken from ListTile
-                          Text(
-                            labelBuilder(item),
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .merge(TextStyle(
-                                  color: items.indexOf(item) != id
-                                      ? Theme.of(context)
-                                          .textTheme
-                                          .subtitle1
-                                          .color
-                                      : Theme.of(context).accentColor,
-                                )),
-                          ),
-                          SizedBox(width: 50),
-                        ],
+                        ),
                       ),
+                      onTap: () {
+                        _pushDetailsRoute(
+                            widget.items[widget.items.indexOf(item)]
+                                .getField(1)
+                                .toString(),
+                            context);
+                      },
                     ),
-                    onTap: () {
-                      _pushDetailsRoute(items.indexOf(item), context);
-                    },
+                if (widget.hasMoreItems || widget.isLoadingMoreItems)
+                  Center(
+                    child: CircularProgressIndicator(),
                   ),
-                if (items.isEmpty)
-                  (noItemsAvailable == null)
+                if (widget.items != null && widget.items.isEmpty)
+                  (widget.noItemsAvailable == null)
                       ? Center(child: Text("No items available."))
-                      : noItemsAvailable
+                      : widget.noItemsAvailable
               ],
             ),
           ),
@@ -190,27 +268,27 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
     );
   }
 
-  _pushDetailsRoute(int newId, BuildContext context) {
-    print(
-        "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${routeWithIdPlaceholder}");
+  _pushDetailsRoute(String newId, BuildContext context) {
+    // print(
+    //     "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${routeWithIdPlaceholder}");
     bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
-      name: routeWithIdPlaceholder.replaceAll(":id", "$newId"),
+      name: widget.routeWithIdPlaceholder.replaceAll(":id", "$newId"),
     );
-    var newMasterDetailView = GetCourageMasterDetail(
-      items: items,
-      labelBuilder: labelBuilder,
-      noItemsSelected: noItemsSelected,
-      detailsBuilder: detailsBuilder,
+    var newMasterDetailView = NewGetCourageMasterDetail(
+      items: widget.items,
+      labelBuilder: widget.labelBuilder,
+      noItemsSelected: widget.noItemsSelected,
+      detailsBuilder: widget.detailsBuilder,
       id: newId,
-      routeWithIdPlaceholder: routeWithIdPlaceholder,
-      enableSearchBar: enableSearchBar,
-      masterAppBarTitle: masterAppBarTitle,
-      disableBackButtonOnNoItemSelected: disableBackButtonOnNoItemSelected,
-      noItemsAvailable: noItemsAvailable,
-      imageBuilder: imageBuilder
+      routeWithIdPlaceholder: widget.routeWithIdPlaceholder,
+      enableSearchBar: widget.enableSearchBar,
+      masterAppBarTitle: widget.masterAppBarTitle,
+      disableBackButtonOnNoItemSelected:
+          widget.disableBackButtonOnNoItemSelected,
+      noItemsAvailable: widget.noItemsAvailable,
+      imageBuilder: widget.imageBuilder,
     );
-
     /*
       We are not using flutter Modular for pushing the route here
       since we need dynamic transitions. For the >tablet view
