@@ -11,7 +11,7 @@ import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.
 
 class OrgProjRepo {
   static Future<rpc.ListResponse> listUserOrgs(
-      {String currentPageId = '0',
+      {Int64 currentPageId = Int64.ZERO,
       String orderBy,
       int perPageEntries = 10,
       @required List<int> filters,
@@ -19,7 +19,7 @@ class OrgProjRepo {
     final ppe = Int64(perPageEntries);
     final req = rpc.ListRequest()
       ..perPageEntries = ppe
-      ..currentPageId = currentPageId
+      ..currentPageId = currentPageId.toString()
       ..orderBy = orderBy
       ..filters = filters
       ..isDescending = isDescending;
@@ -38,16 +38,16 @@ class OrgProjRepo {
   }
 
   static Future<rpc.ListResponse> listUserProjects({
-    String currentPageId = '0',
     String orderBy,
     int perPageEntries = 10,
     bool isDescending = false,
+    Int64 currentPageId = Int64.ZERO,
     Map<String, dynamic> filters,
   }) async {
     final ppe = Int64(perPageEntries);
     final req = rpc.ListRequest()
       ..perPageEntries = ppe
-      ..currentPageId = currentPageId
+      ..currentPageId = currentPageId.toString()
       ..orderBy = orderBy
       ..isDescending = isDescending;
 
