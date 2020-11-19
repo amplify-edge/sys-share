@@ -1,3 +1,4 @@
+import 'package:fixnum/fixnum.dart';
 import 'package:sys_share_sys_account_service/pkg/pkg.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart'
     as authRepo;
@@ -19,7 +20,7 @@ class AuthNavViewModel extends BaseModel {
   bool _isDescending = false;
   bool _isSuperuser = false;
   bool _isAdmin = false;
-  int _currentPageId = 0;
+  Int64 _currentPageId = Int64.ZERO;
   Map<int, rpc.UserRoles> _mapRoles = Map<int, rpc.UserRoles>();
   Map<String, dynamic> _filters = Map<String, dynamic>();
   List<rpc.Org> _subscribedOrgs = List<rpc.Org>();
@@ -58,7 +59,7 @@ class AuthNavViewModel extends BaseModel {
     notifyListeners();
   }
 
-  void setCurrentPageId(int value) {
+  void setCurrentPageId(Int64 value) {
     _currentPageId = value;
     notifyListeners();
   }
@@ -130,7 +131,7 @@ class AuthNavViewModel extends BaseModel {
   void _reset() {
     _isLoggedIn = false;
     notifyListeners();
-    setCurrentPageId(0);
+    setCurrentPageId(Int64.ZERO);
     _setAccountId('');
     _setSuperUser(false);
     _setAdmin(false);
@@ -147,14 +148,13 @@ class AuthNavViewModel extends BaseModel {
       Map<String, dynamic> filter, int perPageEntries) async {
     final filterBytes = Utf8Codec().encode(filter.toString());
     await orgRepo.OrgProjRepo.listUserOrgs(
-      currentPageId: _currentPageId.toString(),
+      currentPageId: _currentPageId,
       orderBy: _orderBy,
       isDescending: _isDescending,
       perPageEntries: perPageEntries,
       filters: filterBytes,
     ).then((resp) {
-      print("ORG's LOGO: " + resp.orgs[0].logo.toString());
-      setCurrentPageId(int.parse(resp.nextPageId));
+      setCurrentPageId(Int64.parseInt(resp.nextPageId));
       _setSubscribedOrgs(resp.orgs);
     }).catchError((e) {
       setErrMsg(e.toString());
