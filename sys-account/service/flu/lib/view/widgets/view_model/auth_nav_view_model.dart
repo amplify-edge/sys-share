@@ -146,13 +146,12 @@ class AuthNavViewModel extends BaseModel {
 
   Future<void> _fetchOrgs(
       Map<String, dynamic> filter, int perPageEntries) async {
-    final filterBytes = Utf8Codec().encode(filter.toString());
     await orgRepo.OrgProjRepo.listUserOrgs(
       currentPageId: _currentPageId,
       orderBy: _orderBy,
       isDescending: _isDescending,
       perPageEntries: perPageEntries,
-      filters: filterBytes,
+      filters: filter,
     ).then((resp) {
       setCurrentPageId(Int64.parseInt(resp.nextPageId));
       _setSubscribedOrgs(resp.orgs);

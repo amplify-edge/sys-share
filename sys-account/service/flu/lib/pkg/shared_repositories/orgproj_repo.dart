@@ -14,15 +14,20 @@ class OrgProjRepo {
       {Int64 currentPageId = Int64.ZERO,
       String orderBy,
       int perPageEntries = 10,
-      @required List<int> filters,
+      Map<String, dynamic> filters,
       bool isDescending = false}) async {
     final ppe = Int64(perPageEntries);
     final req = rpc.ListRequest()
       ..perPageEntries = ppe
       ..currentPageId = currentPageId.toString()
       ..orderBy = orderBy
-      ..filters = filters
       ..isDescending = isDescending;
+
+    if (filters != null) {
+      final jstring = jsonEncode(filters);
+      final jbytes = utf8.encode(jstring);
+      req..filters = jbytes;
+    }
 
     try {
       final client = await orgProjectServiceClient();
