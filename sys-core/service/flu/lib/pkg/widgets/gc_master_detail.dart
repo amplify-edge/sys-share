@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/sys_core.dart';
 
-class NewGetCourageMasterDetail<T extends GeneratedMessage>
-    extends StatefulWidget {
+class NewGetCourageMasterDetail<T extends GeneratedMessage,
+    U extends GeneratedMessage> extends StatefulWidget {
   /// [routeWithIdPlaceholder] is the actual route where the
   /// master-detail-view is located at e.g. /myneeds/orgs/:id
   final String routeWithIdPlaceholder;
@@ -61,7 +61,9 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
 
   final Future<void> Function() fetchNextItems;
 
-  final List<Widget> Function(T item) childrenBuilder;
+  final List<U> Function(T item) itemChildren;
+
+  final List<Widget> Function(U itemChild, String id) childBuilder;
 
   const NewGetCourageMasterDetail(
       {Key key,
@@ -75,7 +77,8 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
       this.enableSearchBar = false,
       this.noItemsSelected,
       this.disableBackButtonOnNoItemSelected = true,
-      this.childrenBuilder,
+      @required this.itemChildren,
+      @required this.childBuilder,
       this.searchFunction,
       this.isLoadingMoreItems = false,
       this.fetchNextItems,
@@ -85,12 +88,12 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage>
       : super(key: key);
 
   @override
-  _NewGetCourageMasterDetailState<T> createState() =>
-      _NewGetCourageMasterDetailState<T>();
+  _NewGetCourageMasterDetailState<T, U> createState() =>
+      _NewGetCourageMasterDetailState<T, U>();
 }
 
-class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
-    extends State<NewGetCourageMasterDetail<T>> {
+class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
+    U extends GeneratedMessage> extends State<NewGetCourageMasterDetail<T, U>> {
   ScrollController _scrollController;
   TextEditingController _searchTextCtrl;
 
@@ -204,8 +207,7 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
                 if (widget.items != null)
                   for (var item in widget.items)
                     ExpansionTile(
-                      title: InkWell(
-                        child: Container(
+                        title: Container(
                           height: 56,
                           child: Row(
                             children: <Widget>[
@@ -214,7 +216,8 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
                                 CircleAvatar(
                                   radius: 20,
                                   backgroundImage: MemoryImage(
-                                    Uint8List.fromList(widget.imageBuilder(item)),
+                                    Uint8List.fromList(
+                                        widget.imageBuilder(item)),
                                   ),
                                 ),
                               ],
@@ -245,16 +248,28 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
                             ],
                           ),
                         ),
-                        onTap: () {
-                          _pushDetailsRoute(
-                              widget.items[widget.items.indexOf(item)]
-                                  .getField(1)
-                                  .toString(),
-                              context);
-                        },
-                      ),
-                      children: widget.childrenBuilder(item),
-                    ),
+                        children: [
+                          for (var itemChild in widget.itemChildren(item))
+                            InkWell(
+                              child: Container(
+                                height: 56,
+                                child: Row(
+                                  children:
+                                      widget.childBuilder(itemChild, widget.id),
+                                ),
+                              ),
+                              onTap: () {
+                                _pushDetailsRoute(
+                                    widget
+                                        .itemChildren(item)[widget
+                                            .itemChildren(item)
+                                            .indexOf(itemChild)]
+                                        .getField(1)
+                                        .toString(),
+                                    context);
+                              },
+                            )
+                        ]),
                 if (widget.hasMoreItems || widget.isLoadingMoreItems)
                   Center(
                     child: CircularProgressIndicator(),
@@ -271,9 +286,9 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
     );
   }
 
-  _pushDetailsRoute(String newId, BuildContext context) {
-    // print(
-    //     "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${routeWithIdPlaceholder}");
+  _pushDetailsRoute<T, U>(String newId, BuildContext context) {
+    print(
+        "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${widget.routeWithIdPlaceholder}");
     bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: widget.routeWithIdPlaceholder.replaceAll(":id", "$newId"),
@@ -291,6 +306,8 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
           widget.disableBackButtonOnNoItemSelected,
       noItemsAvailable: widget.noItemsAvailable,
       imageBuilder: widget.imageBuilder,
+      itemChildren: widget.itemChildren,
+      childBuilder: widget.childBuilder,
     );
     /*
       We are not using flutter Modular for pushing the route here
