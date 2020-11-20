@@ -203,54 +203,57 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage>
                   ),
                 if (widget.items != null)
                   for (var item in widget.items)
-                    InkWell(
-                      child: Container(
-                        height: 56,
-                        child: Row(
-                          children: <Widget>[
-                            if (widget.imageBuilder != null) ...[
+                    ExpansionTile(
+                      title: InkWell(
+                        child: Container(
+                          height: 56,
+                          child: Row(
+                            children: <Widget>[
+                              if (widget.imageBuilder != null) ...[
+                                SizedBox(width: 16),
+                                CircleAvatar(
+                                  radius: 20,
+                                  backgroundImage: MemoryImage(
+                                    Uint8List.fromList(widget.imageBuilder(item)),
+                                  ),
+                                ),
+                              ],
                               SizedBox(width: 16),
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundImage: MemoryImage(
-                                  Uint8List.fromList(widget.imageBuilder(item)),
+                              //logic taken from ListTile
+                              Expanded(
+                                child: Text(
+                                  widget.labelBuilder(item),
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .merge(TextStyle(
+                                        color: widget.items[widget.items
+                                                        .indexOf(item)]
+                                                    .getField(1)
+                                                    .toString() !=
+                                                widget.id
+                                            ? Theme.of(context)
+                                                .textTheme
+                                                .subtitle1
+                                                .color
+                                            : Theme.of(context).accentColor,
+                                      )),
                                 ),
                               ),
+                              SizedBox(width: 30),
                             ],
-                            SizedBox(width: 16),
-                            //logic taken from ListTile
-                            Expanded(
-                              child: Text(
-                                widget.labelBuilder(item),
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    .merge(TextStyle(
-                                      color: widget.items[widget.items
-                                                      .indexOf(item)]
-                                                  .getField(1)
-                                                  .toString() !=
-                                              widget.id
-                                          ? Theme.of(context)
-                                              .textTheme
-                                              .subtitle1
-                                              .color
-                                          : Theme.of(context).accentColor,
-                                    )),
-                              ),
-                            ),
-                            SizedBox(width: 30),
-                          ],
+                          ),
                         ),
+                        onTap: () {
+                          _pushDetailsRoute(
+                              widget.items[widget.items.indexOf(item)]
+                                  .getField(1)
+                                  .toString(),
+                              context);
+                        },
                       ),
-                      onTap: () {
-                        _pushDetailsRoute(
-                            widget.items[widget.items.indexOf(item)]
-                                .getField(1)
-                                .toString(),
-                            context);
-                      },
+                      children: widget.childrenBuilder(item),
                     ),
                 if (widget.hasMoreItems || widget.isLoadingMoreItems)
                   Center(
