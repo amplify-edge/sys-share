@@ -34,7 +34,7 @@ class AccountNavRail extends StatelessWidget {
       this.tabletBreakpoint = 768.0,
       this.desktopBreakpoint = 1400,
       this.minHeight = 400.0,
-      this.drawerWidth = 100.0,
+      this.drawerWidth = 400.0,
       this.actions,
       this.bottomNavigationBarType,
       this.bottomNavigationBarSelectedColor,
@@ -154,12 +154,14 @@ class AccountNavRail extends StatelessWidget {
                                 ),
                                 child: tab.icon),
                             DefaultTextStyle(
-                                style: TextStyle(
-                                  color: (currentIndex == tabs.indexOf(tab))
-                                      ? bottomNavigationBarSelectedColor
-                                      : bottomNavigationBarUnselectedColor,
-                                ),
-                                child: tab.title)
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: (currentIndex == tabs.indexOf(tab))
+                                    ? bottomNavigationBarSelectedColor
+                                    : bottomNavigationBarUnselectedColor,
+                              ),
+                              child: tab.title,
+                            ),
                           ],
                         ),
                       ),
@@ -189,38 +191,61 @@ class AccountNavRail extends StatelessWidget {
               for (var tab in tabs) ...[
                 InkWell(
                   child: Container(
-                    height: 50,
+                    height: 56,
                     child: Row(
                       children: [
                         SizedBox(width: 16),
-                        Column(
-                          //selected: currentIndex == tabs.indexOf(tab),
-                          children: <Widget>[
-                            //logic taken from ListTile
-                            IconTheme.merge(
-                                data: IconThemeData(
-                                    color: (currentIndex != tabs.indexOf(tab)
-                                        ? Theme.of(context).disabledColor
-                                        : Theme.of(context).accentColor)),
-                                child: tab?.icon),
-                            SizedBox(width: 16),
-                            //logic taken from ListTile
-                            DefaultTextStyle(
-                              child: tab?.title,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2
-                                  .merge(
-                                    TextStyle(
-                                      color: (currentIndex != tabs.indexOf(tab)
-                                          ? Theme.of(context).disabledColor
-                                          : Theme.of(context).accentColor),
-                                    ),
-                                  ),
+                        //logic taken from ListTile
+                        IconTheme.merge(
+                            data: IconThemeData(
+                                color: (currentIndex != tabs.indexOf(tab)
+                                    ? Theme.of(context).disabledColor
+                                    : Theme.of(context).accentColor)),
+                            child: tab?.icon),
+                        SizedBox(width: 16),
+                        //logic taken from ListTile
+                        DefaultTextStyle(
+                          child: tab?.title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              .merge(
+                            TextStyle(
+                              color: (currentIndex != tabs.indexOf(tab)
+                                  ? Theme.of(context).disabledColor
+                                  : Theme.of(context).accentColor),
                             ),
-                            SizedBox(width: 70),
-                          ],
+                          ),
                         ),
+                        SizedBox(width: 40),
+                        // Column(
+                        //   //selected: currentIndex == tabs.indexOf(tab),
+                        //   children: <Widget>[
+                        //     //logic taken from ListTile
+                        //     IconTheme.merge(
+                        //         data: IconThemeData(
+                        //             color: (currentIndex != tabs.indexOf(tab)
+                        //                 ? Theme.of(context).disabledColor
+                        //                 : Theme.of(context).accentColor)),
+                        //         child: tab?.icon),
+                        //     SizedBox(width: 16),
+                        //     //logic taken from ListTile
+                        //     DefaultTextStyle(
+                        //       child: tab?.title,
+                        //       style: Theme.of(context)
+                        //           .textTheme
+                        //           .bodyText2
+                        //           .merge(
+                        //             TextStyle(
+                        //               color: (currentIndex != tabs.indexOf(tab)
+                        //                   ? Theme.of(context).disabledColor
+                        //                   : Theme.of(context).accentColor),
+                        //             ),
+                        //           ),
+                        //     ),
+                        //     SizedBox(width: 40),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),

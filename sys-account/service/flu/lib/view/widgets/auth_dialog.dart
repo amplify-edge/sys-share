@@ -8,8 +8,10 @@ import 'package:meta/meta.dart';
 
 class AuthDialog extends StatefulWidget {
   final Function _callback;
+  final GlobalKey<NavigatorState> navigatorKey;
 
-  const AuthDialog({Key key, @required Function callback})
+  const AuthDialog(
+      {Key key, @required Function callback, @required this.navigatorKey})
       : _callback = callback,
         super(key: key);
 
@@ -22,6 +24,8 @@ class AuthDialogState extends State<AuthDialog> {
   final _passwordCtrl = TextEditingController();
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
+
+  GlobalKey<NavigatorState> get navigatorKey => widget.navigatorKey;
 
   @override
   void dispose() {
@@ -199,16 +203,19 @@ class AuthDialogState extends State<AuthDialog> {
                                   ? model.isLoginParamValid
                                       ? () async {
                                           await model.login().then((_) {
-                                            Navigator.pop(context);
+                                            Navigator.pop(
+                                                navigatorKey.currentContext);
                                             if (model.errMsg.isNotEmpty) {
                                               notify(
-                                                context: context,
+                                                context:
+                                                    navigatorKey.currentContext,
                                                 message: model.errMsg,
                                                 error: true,
                                               );
                                             } else {
                                               notify(
-                                                context: context,
+                                                context:
+                                                    navigatorKey.currentContext,
                                                 message: model.successMsg,
                                                 error: false,
                                               );
@@ -221,20 +228,24 @@ class AuthDialogState extends State<AuthDialog> {
                                       ? () async {
                                           await model.register().then(
                                             (_) {
-                                              Navigator.pop(context);
+                                              Navigator.pop(
+                                                  navigatorKey.currentContext);
                                               if (model.errMsg.isNotEmpty) {
                                                 notify(
-                                                    context: context,
+                                                    context: navigatorKey
+                                                        .currentContext,
                                                     message: model.errMsg,
                                                     error: true);
                                               } else {
                                                 notify(
-                                                    context: context,
+                                                    context: navigatorKey
+                                                        .currentContext,
                                                     message: model.successMsg,
                                                     error: false);
                                                 showDialog(
                                                   barrierDismissible: false,
-                                                  context: context,
+                                                  context: navigatorKey
+                                                      .currentContext,
                                                   builder: (context) =>
                                                       VerifyDialog(),
                                                 );
@@ -306,10 +317,10 @@ class AuthDialogState extends State<AuthDialog> {
                             width: double.maxFinite,
                             child: TextButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.pop(navigatorKey.currentContext);
                                 showDialog(
                                   barrierDismissible: false,
-                                  context: context,
+                                  context: navigatorKey.currentContext,
                                   builder: (context) => ForgotPasswordDialog(),
                                 );
                               },
