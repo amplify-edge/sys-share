@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const _tabletSpacingVertical = 15.0;
+const _tabletSpacingVertical = 12.0;
 const _tabletSpacingHorizontial = 10.0;
 
 class AccountNavRail extends StatelessWidget {
@@ -90,30 +90,39 @@ class AccountNavRail extends StatelessWidget {
           return Scaffold(
             body: Row(
               children: [
-                Column(
-                  children: [
-                    if (this.floatingActionButton != null) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: _tabletSpacingVertical,
-                          horizontal: _tabletSpacingHorizontial,
+                SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      if (this.floatingActionButton != null) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: _tabletSpacingVertical,
+                            horizontal: _tabletSpacingHorizontial,
+                          ),
+                          child: floatingActionButton,
+                        )
+                      ],
+
+                      for (var tab in this.tabs) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: _tabletSpacingVertical,
+                            horizontal: _tabletSpacingHorizontial,
+                          ),
+                          child: Container(
+                            height: 95,
+                            child: _buildTab(
+                              selected:
+                                  (currentIndex == this.tabs.indexOf(tab)),
+                              context: context,
+                              item: tab,
+                            ),
+                          ),
                         ),
-                        child: floatingActionButton,
-                      )
+                      ]
                     ],
-                    for (var tab in this.tabs) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: _tabletSpacingVertical,
-                          horizontal: _tabletSpacingHorizontial,
-                        ),
-                        child: _buildTab(
-                            selected: (currentIndex == this.tabs.indexOf(tab)),
-                            context: context,
-                            item: tab),
-                      ),
-                    ]
-                  ],
+                  ),
                 ),
                 Expanded(
                   child: body,
@@ -206,46 +215,15 @@ class AccountNavRail extends StatelessWidget {
                         //logic taken from ListTile
                         DefaultTextStyle(
                           child: tab?.title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .merge(
-                            TextStyle(
-                              color: (currentIndex != tabs.indexOf(tab)
-                                  ? Theme.of(context).disabledColor
-                                  : Theme.of(context).accentColor),
-                            ),
-                          ),
+                          style: Theme.of(context).textTheme.bodyText2.merge(
+                                TextStyle(
+                                  color: (currentIndex != tabs.indexOf(tab)
+                                      ? Theme.of(context).disabledColor
+                                      : Theme.of(context).accentColor),
+                                ),
+                              ),
                         ),
                         SizedBox(width: 40),
-                        // Column(
-                        //   //selected: currentIndex == tabs.indexOf(tab),
-                        //   children: <Widget>[
-                        //     //logic taken from ListTile
-                        //     IconTheme.merge(
-                        //         data: IconThemeData(
-                        //             color: (currentIndex != tabs.indexOf(tab)
-                        //                 ? Theme.of(context).disabledColor
-                        //                 : Theme.of(context).accentColor)),
-                        //         child: tab?.icon),
-                        //     SizedBox(width: 16),
-                        //     //logic taken from ListTile
-                        //     DefaultTextStyle(
-                        //       child: tab?.title,
-                        //       style: Theme.of(context)
-                        //           .textTheme
-                        //           .bodyText2
-                        //           .merge(
-                        //             TextStyle(
-                        //               color: (currentIndex != tabs.indexOf(tab)
-                        //                   ? Theme.of(context).disabledColor
-                        //                   : Theme.of(context).accentColor),
-                        //             ),
-                        //           ),
-                        //     ),
-                        //     SizedBox(width: 40),
-                        //   ],
-                        // ),
                       ],
                     ),
                   ),
@@ -318,8 +296,10 @@ class AccountNavRail extends StatelessWidget {
           _icon,
           Container(height: 4.0),
           DefaultTextStyle(
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(color: _color),
             child: item?.title,
+            maxLines: 3,
           ),
         ],
       ),
