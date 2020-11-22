@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:protobuf/protobuf.dart';
+import 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 import 'package:sys_core/sys_core.dart';
 
 class NewGetCourageMasterDetail<T extends GeneratedMessage,
@@ -209,7 +210,8 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
                         child: TextField(
                           controller: _searchTextCtrl,
                           decoration: InputDecoration.collapsed(
-                              hintText: 'Search Project / Campaign'),
+                            hintText: sysCoreTranslate('search'),
+                          ),
                           onChanged: (text) async {
                             if (text.isNotEmpty && text.length > 2) {
                               await widget.searchFunction(text);
@@ -306,7 +308,7 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
                   ),
                 if (widget.items != null && widget.items.isEmpty)
                   (widget.noItemsAvailable == null)
-                      ? Center(child: Text("No items available."))
+                      ? Center(child: Text(sysCoreTranslate('noItemsAvailable')))
                       : widget.noItemsAvailable
               ],
             ),
@@ -318,8 +320,6 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
 
   _pushDetailsRoute<T, U>(
       String newChildId, String newParentId, BuildContext context) {
-    print(
-        "_pushDetailsRoute newId: $newChildId, routeWithIdPlaceholder: ${widget.routeWithIdPlaceholder}");
     bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: widget.routeWithIdPlaceholder

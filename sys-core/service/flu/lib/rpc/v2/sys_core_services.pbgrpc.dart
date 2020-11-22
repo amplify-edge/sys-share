@@ -29,29 +29,24 @@ class DbAdminServiceClient extends $grpc.Client {
           ($1.RestoreRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.RestoreResult.fromBuffer(value));
 
-  DbAdminServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
-      : super(channel, options: options);
+  DbAdminServiceClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions options,
+      $core.Iterable<$grpc.ClientInterceptor> interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
   $grpc.ResponseFuture<$1.BackupResult> backup($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$backup, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$backup, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.ListBackupResult> listBackup($0.Empty request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(
-        _$listBackup, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$listBackup, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.RestoreResult> restore($1.RestoreRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$restore, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$restore, request, options: options);
   }
 }
 
@@ -112,14 +107,14 @@ class BusServiceClient extends $grpc.Client {
           ($1.EventRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.EventResponse.fromBuffer(value));
 
-  BusServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
-      : super(channel, options: options);
+  BusServiceClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions options,
+      $core.Iterable<$grpc.ClientInterceptor> interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
   $grpc.ResponseFuture<$1.EventResponse> broadcast($1.EventRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$broadcast, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$broadcast, request, options: options);
   }
 }
 
@@ -152,14 +147,14 @@ class EmailServiceClient extends $grpc.Client {
           ($1.EmailRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $1.EmailResponse.fromBuffer(value));
 
-  EmailServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
-      : super(channel, options: options);
+  EmailServiceClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions options,
+      $core.Iterable<$grpc.ClientInterceptor> interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
   $grpc.ResponseFuture<$1.EmailResponse> sendMail($1.EmailRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$sendMail, $async.Stream.fromIterable([request]),
-        options: options);
-    return $grpc.ResponseFuture(call);
+    return $createUnaryCall(_$sendMail, request, options: options);
   }
 }
 

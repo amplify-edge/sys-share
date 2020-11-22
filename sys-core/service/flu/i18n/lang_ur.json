@@ -1,0 +1,15 @@
+{
+  "@@last_modified": "2020-11-23T02:48:05.382208",
+  "search": "تلاش کریں",
+  "@search": {
+    "description": "search",
+    "placeholders": {},
+    "type": "text"
+  },
+  "noItemsAvailable": "کوئی اشیا دستیاب نہیں",
+  "@noItemsAvailable": {
+    "description": "noItemsAvailable",
+    "placeholders": {},
+    "type": "text"
+  }
+}
