@@ -1,14 +1,26 @@
 {
-  "@@last_modified": "2020-11-23T00:11:09.226182",
+  "@@last_modified": "2020-11-23T02:10:50.690499",
   "email": "Email",
   "@email": {
     "description": "Email",
     "placeholders": {},
     "type": "text"
   },
+  "emailHint": "Deine E-Mail",
+  "@emailHint": {
+    "description": "Your Email",
+    "placeholders": {},
+    "type": "text"
+  },
   "password": "Passwort",
   "@password": {
     "description": "Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "passwordHint": "Ihr Passwort",
+  "@passwordHint": {
+    "description": "Your Password",
     "placeholders": {},
     "type": "text"
   },
@@ -48,6 +60,12 @@
     "placeholders": {},
     "type": "text"
   },
+  "signOut": "Ausloggen",
+  "@signOut": {
+    "description": "Sign Out",
+    "placeholders": {},
+    "type": "text"
+  },
   "forgotPassword": "Passwort vergessen",
   "@forgotPassword": {
     "description": "Forgot Password",
@@ -57,6 +75,24 @@
   "resetPassword": "Passwort zurücksetzen",
   "@resetPassword": {
     "description": "Reset Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidEmail": "Ungültige E-Mail",
+  "@invalidEmail": {
+    "description": "Invalid Email",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidPassword": "Ungültiges Passwort",
+  "@invalidPassword": {
+    "description": "Invalid Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidVerificationToken": "Ungültiges Bestätigungstoken",
+  "@invalidVerificationToken": {
+    "description": "Invalid Verification Token",
     "placeholders": {},
     "type": "text"
   }

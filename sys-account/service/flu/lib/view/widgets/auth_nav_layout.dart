@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:flutter/material.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/auth_nav_view_model.dart';
 import 'nav_rail.dart';
 import 'package:sys_core/sys_core.dart';
@@ -59,12 +60,14 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
           tabs: [
             model.isLoggedIn
                 ? TabItem(
-                    title: Text('Sign Out'),
+                    title: Text(SysAccountLocalizations.of(context)
+                        .translate('signOut')),
                     icon: Icon(Icons.logout),
                     onTap: () async => await model.logOut(),
                   )
                 : TabItem(
-                    title: Text('Sign In'),
+                    title: Text(SysAccountLocalizations.of(context)
+                        .translate('signIn')),
                     icon: Icon(Icons.login),
                     onTap: () => showDialog(
                       context: navigatorKey.currentContext,

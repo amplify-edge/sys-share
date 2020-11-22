@@ -4,9 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:sys_core/sys_core.dart';
 import './translations.dart';
+
+String sysAccountTranslate(String key) {
+  return SysAccountLocalizationsDelegate.instance.translate(key);
+}
 
 class SysAccountLocalizations extends Translations {
   final Locale locale;
@@ -16,7 +19,7 @@ class SysAccountLocalizations extends Translations {
 
   Future<bool> load() async {
     String jsonString = await rootBundle
-        .loadString('packages/mod_disco/i18n/lang_${locale.languageCode}.json');
+        .loadString('packages/sys_share_sys_account_service/i18n/lang_${locale.languageCode}.json');
 
     Map<String, dynamic> jsonMap = Map.from(json.decode(jsonString))
       ..removeWhere((key, value) => key[0] == '@');
@@ -40,9 +43,10 @@ class SysAccountLocalizations extends Translations {
 
 class SysAccountLocalizationsDelegate
     extends LocalizationsDelegate<SysAccountLocalizations> {
-  final Locale overriddenLocale;
+  // final Locale overriddenLocale;
+  static SysAccountLocalizations instance;
 
-  SysAccountLocalizationsDelegate(this.overriddenLocale);
+  const SysAccountLocalizationsDelegate();
 
   @override
   bool shouldReload(SysAccountLocalizationsDelegate old) => true;
@@ -57,6 +61,7 @@ class SysAccountLocalizationsDelegate
   Future<SysAccountLocalizations> load(Locale locale) async {
     SysAccountLocalizations localizations = new SysAccountLocalizations(locale);
     await localizations.load();
+    instance = localizations;
     return localizations;
   }
 }

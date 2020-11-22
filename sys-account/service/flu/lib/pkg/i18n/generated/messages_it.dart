@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "byProceeding" : MessageLookupByLibrary.simpleMessage("Procedendo, accetti i nostri Termini di utilizzo e confermi di aver letto la nostra Informativa sulla privacy."),
     "email" : MessageLookupByLibrary.simpleMessage("E-mail"),
     "forgotPassword" : MessageLookupByLibrary.simpleMessage("Ha dimenticato la password"),
+    "invalidPassword" : MessageLookupByLibrary.simpleMessage("Password non valida"),
     "password" : MessageLookupByLibrary.simpleMessage("Parola d\'ordine"),
     "resetPassword" : MessageLookupByLibrary.simpleMessage("Resetta la password"),
     "signIn" : MessageLookupByLibrary.simpleMessage("Registrati"),

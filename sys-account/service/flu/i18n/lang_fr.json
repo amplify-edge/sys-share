@@ -1,14 +1,26 @@
 {
-  "@@last_modified": "2020-11-23T00:11:09.226182",
+  "@@last_modified": "2020-11-23T02:10:50.690499",
   "email": "Email",
   "@email": {
     "description": "Email",
     "placeholders": {},
     "type": "text"
   },
+  "emailHint": "Votre email",
+  "@emailHint": {
+    "description": "Your Email",
+    "placeholders": {},
+    "type": "text"
+  },
   "password": "Mot de passe",
   "@password": {
     "description": "Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "passwordHint": "Votre mot de passe",
+  "@passwordHint": {
+    "description": "Your Password",
     "placeholders": {},
     "type": "text"
   },
@@ -48,6 +60,12 @@
     "placeholders": {},
     "type": "text"
   },
+  "signOut": "Déconnexion",
+  "@signOut": {
+    "description": "Sign Out",
+    "placeholders": {},
+    "type": "text"
+  },
   "forgotPassword": "Mot de passe oublié",
   "@forgotPassword": {
     "description": "Forgot Password",
@@ -57,6 +75,24 @@
   "resetPassword": "réinitialiser le mot de passe",
   "@resetPassword": {
     "description": "Reset Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidEmail": "Email invalide",
+  "@invalidEmail": {
+    "description": "Invalid Email",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidPassword": "Mot de passe incorrect",
+  "@invalidPassword": {
+    "description": "Invalid Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidVerificationToken": "Jeton de vérification non valide",
+  "@invalidVerificationToken": {
+    "description": "Invalid Verification Token",
     "placeholders": {},
     "type": "text"
   }

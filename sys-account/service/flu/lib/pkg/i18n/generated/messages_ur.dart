@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "byProceeding" : MessageLookupByLibrary.simpleMessage("آگے بڑھنے سے ، آپ ہماری استعمال کی شرائط سے اتفاق کرتے ہیں اور تصدیق کرتے ہیں کہ آپ نے ہماری پرائیویسی پالیسی پڑھی ہے۔"),
     "email" : MessageLookupByLibrary.simpleMessage("ای میل"),
     "forgotPassword" : MessageLookupByLibrary.simpleMessage("پاسورڈ بھول گے"),
+    "invalidPassword" : MessageLookupByLibrary.simpleMessage("غلط پاسورڈ"),
     "password" : MessageLookupByLibrary.simpleMessage("پاس ورڈ"),
     "resetPassword" : MessageLookupByLibrary.simpleMessage("پاس ورڈ ری سیٹ"),
     "signIn" : MessageLookupByLibrary.simpleMessage("سائن ان"),

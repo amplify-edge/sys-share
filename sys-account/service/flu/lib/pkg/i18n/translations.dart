@@ -17,7 +17,7 @@ class Translations {
   String emailHint() {
     return Intl.message(
       'Your email',
-      name: 'yourEmail',
+      name: 'emailHint',
       desc: 'Your Email',
       locale: locale.toString(),
     );
@@ -35,7 +35,7 @@ class Translations {
   String passwordHint() {
     return Intl.message(
       'Your password',
-      name: 'yourPassword',
+      name: 'passwordHint',
       desc: 'Your Password',
       locale: locale.toString(),
     );
@@ -95,6 +95,15 @@ class Translations {
     );
   }
 
+  String signOut() {
+    return Intl.message(
+      'Sign Out',
+      name: 'signOut',
+      desc: 'Sign Out',
+      locale: locale.toString(),
+    );
+  }
+
   String forgotPassword() {
     return Intl.message(
       'Forgot Password',
@@ -109,6 +118,33 @@ class Translations {
       'Reset Password',
       name: 'resetPassword',
       desc: 'Reset Password',
+      locale: locale.toString(),
+    );
+  }
+
+  String invalidEmail() {
+    return Intl.message(
+      'Invalid Email',
+      name: 'invalidEmail',
+      desc: 'Invalid Email',
+      locale: locale.toString(),
+    );
+  }
+
+  String invalidPassword() {
+    return Intl.message(
+      'Invalid Password',
+      name: 'invalidPassword',
+      desc: 'Invalid Password',
+      locale: locale.toString(),
+    );
+  }
+
+  String invalidVerificationToken() {
+    return Intl.message(
+      'Invalid Verification Token',
+      name: 'invalidVerificationToken',
+      desc: 'Invalid Verification Token',
       locale: locale.toString(),
     );
   }

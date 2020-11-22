@@ -44,8 +44,6 @@ class AuthDialogState extends State<AuthDialog> {
       onModelReady: (AccountViewModel model) {
         _emailCtrl.text = model.getEmail;
         _passwordCtrl.text = model.getPassword;
-        final emailString =  SysAccountLocalizations.of(context).translate('email');
-        print("EMAIL TRANSLATION: $emailString");
       },
       builder: (context, model, child) => Dialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
