@@ -1,26 +1,8 @@
 {
-  "@@last_modified": "2020-09-16T17:40:14.764196",
-  "signUpForAccount": "Sign up for your account",
-  "@signUpForAccount": {
-    "description": "Sign up for your account",
-    "placeholders": {},
-    "type": "text"
-  },
-  "emailAddress": "Email Address Addressory",
-  "@emailAddress": {
-    "description": "Email Address",
-    "placeholders": {},
-    "type": "text"
-  },
-  "needProtonMail": "Need a protonmail ?",
-  "@needProtonMail": {
-    "description": "Need a protonmail ?",
-    "placeholders": {},
-    "type": "text"
-  },
-  "explainWhy": "Explain why?",
-  "@explainWhy": {
-    "description": "Explain why?",
+  "@@last_modified": "2020-11-23T00:11:09.226182",
+  "email": "Email",
+  "@email": {
+    "description": "Email",
     "placeholders": {},
     "type": "text"
   },
@@ -30,57 +12,27 @@
     "placeholders": {},
     "type": "text"
   },
-  "passwordStrength": "Your password should be a minimum of 8 of characters and use at least three of the four available character types: lowercase letters, uppercase letters, numbers, and symbols.",
-  "@passwordStrength": {
-    "description": "Your password should be a minimum of 8 of characters and use at least three of the four available character types: lowercase letters, uppercase letters, numbers, and symbols.",
+  "verificationToken": "Verification Token",
+  "@verificationToken": {
+    "description": "Verification Token",
     "placeholders": {},
     "type": "text"
   },
-  "passwordAgain": "Password Again",
-  "@passwordAgain": {
-    "description": "Password Again",
+  "verifyAccount": "Verify Account",
+  "@verifyAccount": {
+    "description": "Verifiy Account",
     "placeholders": {},
     "type": "text"
   },
-  "meetOthersSharedInterest": "Meet others with shared interests?",
-  "@meetOthersSharedInterest": {
-    "description": "Meet others with shared interests?",
+  "submitNewPassword": "Submit New Password",
+  "@submitNewPassword": {
+    "description": "Submit New Password",
     "placeholders": {},
     "type": "text"
   },
-  "yes": "Yes",
-  "@yes": {
-    "description": "Yes",
-    "placeholders": {},
-    "type": "text"
-  },
-  "no": "No",
-  "@no": {
-    "description": "No",
-    "placeholders": {},
-    "type": "text"
-  },
-  "civilDisobedienceTraining": "I have civil disobedience training",
-  "@civilDisobedienceTraining": {
-    "description": "I have civil disobedience training",
-    "placeholders": {},
-    "type": "text"
-  },
-  "setupNotificationChannel": "Setup notification channel",
-  "@setupNotificationChannel": {
-    "description": "Setup notification channel",
-    "placeholders": {},
-    "type": "text"
-  },
-  "email": "Email",
-  "@email": {
-    "description": "Email",
-    "placeholders": {},
-    "type": "text"
-  },
-  "appMessaging": "App Messaging",
-  "@appMessaging": {
-    "description": "App Messaging",
+  "byProceeding": "By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.",
+  "@byProceeding": {
+    "description": "By Proceeding",
     "placeholders": {},
     "type": "text"
   },
@@ -90,21 +42,21 @@
     "placeholders": {},
     "type": "text"
   },
-  "privacyPolicy": "Privacy Policy",
-  "@privacyPolicy": {
-    "description": "Privacy Policy",
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Sign In",
     "placeholders": {},
     "type": "text"
   },
-  "whyProtonMail": "Why ProtonMail ?",
-  "@whyProtonMail": {
-    "description": "Why ProtonMail ?",
+  "forgotPassword": "Forgot Password",
+  "@forgotPassword": {
+    "description": "Forgot Password",
     "placeholders": {},
     "type": "text"
   },
-  "protonMailExplanation": "ProtonMail to ProtonMail emails are considered to be secure by Information Security professionals. They’re both free to use on Android and Apple smart phones and Windows and Mac computers.",
-  "@protonMailExplanation": {
-    "description": "ProtonMail to ProtonMail emails are considered to be secure by Information Security professionals. They’re both free to use on Android and Apple smart phones and Windows and Mac computers.",
+  "resetPassword": "Reset Password",
+  "@resetPassword": {
+    "description": "Reset Password",
     "placeholders": {},
     "type": "text"
   }

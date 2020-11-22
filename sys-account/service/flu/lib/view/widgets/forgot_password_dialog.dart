@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/reset_password_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/forgot_password_view_model.dart';
 
@@ -57,7 +58,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      'Email',
+                      SysAccountLocalizations.of(context).translate('email'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -95,7 +96,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                               .dialogBackgroundColor
                               .withOpacity(0.8),
                         ),
-                        hintText: "Email",
+                        hintText: SysAccountLocalizations.of(context).translate('email'),
                         fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
@@ -165,7 +166,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                                           ),
                                         ),
                                       )
-                                    : Text('Reset Password!'),
+                                    : Text(SysAccountLocalizations.of(context).translate('resetPassword')),
                               ),
                             ),
                           ),
@@ -176,7 +177,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.',
+                      SysAccountLocalizations.of(context).translate('byProceeding'),
                       maxLines: 2,
                       style: TextStyle(
                         color: Theme.of(context)

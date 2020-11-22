@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/sys_core.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/forgot_password_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/verify_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/account_view_model.dart';
@@ -72,7 +73,7 @@ class AuthDialogState extends State<AuthDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      'Email',
+                      SysAccountLocalizations.of(context).translate('email'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -111,7 +112,8 @@ class AuthDialogState extends State<AuthDialog> {
                         hintStyle: new TextStyle(
                           color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: "Email",
+                        hintText: SysAccountLocalizations.of(context)
+                            .translate('emailHint'),
                         fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
@@ -127,7 +129,7 @@ class AuthDialogState extends State<AuthDialog> {
                       bottom: 8,
                     ),
                     child: Text(
-                      'Password',
+                      SysAccountLocalizations.of(context).translate('password'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -166,7 +168,8 @@ class AuthDialogState extends State<AuthDialog> {
                         hintStyle: new TextStyle(
                           color: Colors.blueGrey[300],
                         ),
-                        hintText: "Password",
+                        hintText: SysAccountLocalizations.of(context)
+                            .translate('passwordHint'),
                         fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validatePasswordText(),
                         errorStyle: TextStyle(
@@ -279,7 +282,13 @@ class AuthDialogState extends State<AuthDialog> {
                                         ),
                                       )
                                     : Text(
-                                        model.isLogin ? 'Log in' : 'Register',
+                                        model.isLogin
+                                            ? SysAccountLocalizations.of(
+                                                    context)
+                                                .translate('signIn')
+                                            : SysAccountLocalizations.of(
+                                                    context)
+                                                .translate('signUp'),
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.white,
@@ -306,7 +315,11 @@ class AuthDialogState extends State<AuthDialog> {
                             child: TextButton(
                               onPressed: () => model.setIsLogin(!model.isLogin),
                               child: Text(
-                                model.isLogin ? "Sign Up!" : "Sign In",
+                                model.isLogin
+                                    ? SysAccountLocalizations.of(context)
+                                        .translate('signUp')
+                                    : SysAccountLocalizations.of(context)
+                                        .translate('signIn'),
                                 style: TextStyle(
                                   color: Colors.blue[500],
                                   fontWeight: FontWeight.bold,
@@ -329,7 +342,8 @@ class AuthDialogState extends State<AuthDialog> {
                                 );
                               },
                               child: Text(
-                                'Forgot Password?',
+                                SysAccountLocalizations.of(context)
+                                    .translate('forgotPassword'),
                                 style: TextStyle(
                                   color: Colors.blue[500],
                                   fontWeight: FontWeight.bold,
@@ -344,7 +358,7 @@ class AuthDialogState extends State<AuthDialog> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.',
+                      SysAccountLocalizations.of(context).translate('byProceeding'),
                       maxLines: 2,
                       style: TextStyle(
                         color: Theme.of(context)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/reset_password_view_model.dart';
 
 class ResetPasswordDialog extends StatefulWidget {
@@ -66,7 +67,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      'Email',
+                      SysAccountLocalizations.of(context).translate('email'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -105,7 +106,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         hintStyle: new TextStyle(
                           color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: "Email",
+                        hintText: SysAccountLocalizations.of(context).translate('emailHint'),
                         fillColor: Colors.white,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
@@ -121,7 +122,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                       bottom: 8,
                     ),
                     child: Text(
-                      'Password',
+                      SysAccountLocalizations.of(context).translate('password'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -161,7 +162,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         hintStyle: new TextStyle(
                           color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: "Password",
+                        hintText: SysAccountLocalizations.of(context).translate('passwordHint'),
                         fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validatePasswordText(),
                         errorStyle: TextStyle(
@@ -189,7 +190,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                       bottom: 8,
                     ),
                     child: Text(
-                      'Verification Token',
+                      SysAccountLocalizations.of(context).translate('verificationToken'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -231,7 +232,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         hintStyle: new TextStyle(
                           color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: "Verification Token",
+                        hintText: SysAccountLocalizations.of(context).translate('verificationToken'),
                         fillColor: Colors.white,
                         errorText: model.validateVerificationTokenText(),
                         errorStyle: TextStyle(
@@ -295,7 +296,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                                         ),
                                       )
                                     : Text(
-                                        'Submit New Password',
+                                        SysAccountLocalizations.of(context).translate('submitNewPassword'),
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.white,
