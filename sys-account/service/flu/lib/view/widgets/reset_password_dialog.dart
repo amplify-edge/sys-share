@@ -39,7 +39,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
         _verificationCtrl.text = model.getVerificationTokenText;
       },
       builder: (context, model, child) => Dialog(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -48,7 +48,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               width: 400,
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
                   Center(
@@ -89,18 +89,21 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         _emailFocusNode.unfocus();
                         FocusScope.of(context).requestFocus(_passwordFocusNode);
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context).textTheme.subtitle2.color,
                         ),
                         hintText: "Email",
                         fillColor: Colors.white,
@@ -148,16 +151,18 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context).textTheme.subtitle2.color,
                         ),
                         hintText: "Password",
-                        fillColor: Colors.white,
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validatePasswordText(),
                         errorStyle: TextStyle(
                           fontSize: 12,
@@ -210,18 +215,21 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         FocusScope.of(context)
                             .requestFocus(_verificationFocusNode);
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context).textTheme.subtitle2.color,
                         ),
                         hintText: "Verification Token",
                         fillColor: Colors.white,

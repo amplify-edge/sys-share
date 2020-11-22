@@ -45,7 +45,7 @@ class AuthDialogState extends State<AuthDialog> {
         _passwordCtrl.text = model.getPassword;
       },
       builder: (context, model, child) => Dialog(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -54,7 +54,7 @@ class AuthDialogState extends State<AuthDialog> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               width: 400,
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
                   Center(
@@ -95,21 +95,24 @@ class AuthDialogState extends State<AuthDialog> {
                         _emailFocusNode.unfocus();
                         FocusScope.of(context).requestFocus(_passwordFocusNode);
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context).textTheme.subtitle2.color,
                         ),
                         hintText: "Email",
-                        fillColor: Colors.white,
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
                           fontSize: 12,
@@ -149,12 +152,13 @@ class AuthDialogState extends State<AuthDialog> {
                         _passwordFocusNode.unfocus();
                         FocusScope.of(context).requestFocus(_passwordFocusNode);
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context).scaffoldBackgroundColor,
                             width: 3,
                           ),
                         ),
@@ -163,7 +167,7 @@ class AuthDialogState extends State<AuthDialog> {
                           color: Colors.blueGrey[300],
                         ),
                         hintText: "Password",
-                        fillColor: Colors.white,
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validatePasswordText(),
                         errorStyle: TextStyle(
                           fontSize: 12,

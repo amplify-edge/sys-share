@@ -30,7 +30,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
         _emailCtrl.text = model.getEmail;
       },
       builder: (context, model, child) => Dialog(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -39,7 +39,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               width: 400,
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
                   Center(
@@ -79,7 +79,8 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                       onSubmitted: (v) {
                         _emailFocusNode.unfocus();
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -90,10 +91,12 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context)
+                              .dialogBackgroundColor
+                              .withOpacity(0.8),
                         ),
                         hintText: "Email",
-                        fillColor: Colors.white,
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
                           fontSize: 12,

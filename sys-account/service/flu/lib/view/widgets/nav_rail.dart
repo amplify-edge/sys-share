@@ -57,6 +57,7 @@ class AccountNavRail extends StatelessWidget {
           return Material(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _buildDrawer(context, true),
                 Expanded(
@@ -89,6 +90,7 @@ class AccountNavRail extends StatelessWidget {
             dimens.maxHeight > this.minHeight) {
           return Scaffold(
             body: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SingleChildScrollView(
                   scrollDirection: Axis.vertical,
@@ -103,7 +105,6 @@ class AccountNavRail extends StatelessWidget {
                           child: floatingActionButton,
                         )
                       ],
-
                       for (var tab in this.tabs) ...[
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -189,55 +190,57 @@ class AccountNavRail extends StatelessWidget {
     // got the specs from here: https://material.io/components/lists#specs
     return Material(
       child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            if (drawerHeader != null) ...[drawerHeader],
-            if (drawerHeaderBuilder != null) ...[
-              drawerHeaderBuilder(context),
-            ],
-            if (showTabs) ...[
-              for (var tab in tabs) ...[
-                InkWell(
-                  child: Container(
-                    height: 56,
-                    child: Row(
-                      children: [
-                        SizedBox(width: 16),
-                        //logic taken from ListTile
-                        IconTheme.merge(
-                            data: IconThemeData(
-                                color: (currentIndex != tabs.indexOf(tab)
-                                    ? Theme.of(context).disabledColor
-                                    : Theme.of(context).accentColor)),
-                            child: tab?.icon),
-                        SizedBox(width: 16),
-                        //logic taken from ListTile
-                        DefaultTextStyle(
-                          child: tab?.title,
-                          style: Theme.of(context).textTheme.bodyText2.merge(
-                                TextStyle(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              if (drawerHeader != null) ...[drawerHeader],
+              if (drawerHeaderBuilder != null) ...[
+                drawerHeaderBuilder(context),
+              ],
+              if (showTabs) ...[
+                for (var tab in tabs) ...[
+                  InkWell(
+                    child: Container(
+                      height: 56,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 16),
+                          //logic taken from ListTile
+                          IconTheme.merge(
+                              data: IconThemeData(
                                   color: (currentIndex != tabs.indexOf(tab)
                                       ? Theme.of(context).disabledColor
-                                      : Theme.of(context).accentColor),
+                                      : Theme.of(context).accentColor)),
+                              child: tab?.icon),
+                          SizedBox(width: 16),
+                          //logic taken from ListTile
+                          DefaultTextStyle(
+                            child: tab?.title,
+                            style: Theme.of(context).textTheme.bodyText2.merge(
+                                  TextStyle(
+                                    color: (currentIndex != tabs.indexOf(tab)
+                                        ? Theme.of(context).disabledColor
+                                        : Theme.of(context).accentColor),
+                                  ),
                                 ),
-                              ),
-                        ),
-                        SizedBox(width: 40),
-                      ],
+                          ),
+                          SizedBox(width: 40),
+                        ],
+                      ),
                     ),
+                    onTap: () {
+                      onPressed(tabs.indexOf(tab));
+                      tab.onTap();
+                    },
                   ),
-                  onTap: () {
-                    onPressed(tabs.indexOf(tab));
-                    tab.onTap();
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ]
+                  SizedBox(
+                    height: 20,
+                  ),
+                ]
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
