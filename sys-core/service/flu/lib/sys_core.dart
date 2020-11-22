@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 export 'package:sys_core/device_utils.dart';
 export 'package:sys_core/pkg/i18n/languages.dart';
+export 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 export 'package:sys_core/pkg/widgets/gc_master_detail.dart';
 export 'package:sys_core/pkg/widgets/old_master_detail.dart';
 export 'package:sys_core/pkg/widgets/notification.dart';
