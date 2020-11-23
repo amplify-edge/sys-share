@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/verify_view_model.dart';
 
 class VerifyDialog extends StatefulWidget {
@@ -29,7 +30,7 @@ class VerifyDialogState extends State<VerifyDialog> {
         _verifyTokenCtrl.text = model.getVerifyToken;
       },
       builder: (context, model, child) => Dialog(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -38,7 +39,7 @@ class VerifyDialogState extends State<VerifyDialog> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               width: 400,
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
                   Center(
@@ -56,7 +57,7 @@ class VerifyDialogState extends State<VerifyDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      'Verify Account',
+                      SysAccountLocalizations.of(context).translate('verifyAccount'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -78,20 +79,23 @@ class VerifyDialogState extends State<VerifyDialog> {
                       onSubmitted: (v) {
                         _verifyTokenFocusNode.unfocus();
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: "Verification Token",
+                        hintText: SysAccountLocalizations.of(context).translate('verificationToken'),
                         fillColor: Colors.white,
                         errorText: model.validateVerificationToken(),
                         errorStyle: TextStyle(
@@ -172,7 +176,7 @@ class VerifyDialogState extends State<VerifyDialog> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.',
+                      SysAccountLocalizations.of(context).translate('byProceeding'),
                       maxLines: 2,
                       style: TextStyle(
                         color: Theme.of(context)

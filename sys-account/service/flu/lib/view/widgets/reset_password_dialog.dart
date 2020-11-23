@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/reset_password_view_model.dart';
 
 class ResetPasswordDialog extends StatefulWidget {
@@ -39,7 +40,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
         _verificationCtrl.text = model.getVerificationTokenText;
       },
       builder: (context, model, child) => Dialog(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -48,7 +49,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               width: 400,
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
                   Center(
@@ -66,7 +67,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      'Email',
+                      SysAccountLocalizations.of(context).translate('email'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -89,20 +90,23 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         _emailFocusNode.unfocus();
                         FocusScope.of(context).requestFocus(_passwordFocusNode);
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: "Email",
+                        hintText: SysAccountLocalizations.of(context).translate('emailHint'),
                         fillColor: Colors.white,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
@@ -118,7 +122,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                       bottom: 8,
                     ),
                     child: Text(
-                      'Password',
+                      SysAccountLocalizations.of(context).translate('password'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -148,16 +152,18 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: "Password",
-                        fillColor: Colors.white,
+                        hintText: SysAccountLocalizations.of(context).translate('passwordHint'),
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validatePasswordText(),
                         errorStyle: TextStyle(
                           fontSize: 12,
@@ -184,7 +190,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                       bottom: 8,
                     ),
                     child: Text(
-                      'Verification Token',
+                      SysAccountLocalizations.of(context).translate('verificationToken'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -210,20 +216,23 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         FocusScope.of(context)
                             .requestFocus(_verificationFocusNode);
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: "Verification Token",
+                        hintText: SysAccountLocalizations.of(context).translate('verificationToken'),
                         fillColor: Colors.white,
                         errorText: model.validateVerificationTokenText(),
                         errorStyle: TextStyle(
@@ -287,7 +296,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                                         ),
                                       )
                                     : Text(
-                                        'Submit New Password',
+                                        SysAccountLocalizations.of(context).translate('submitNewPassword'),
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.white,

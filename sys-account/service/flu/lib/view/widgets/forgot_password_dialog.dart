@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/reset_password_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/forgot_password_view_model.dart';
 
@@ -30,7 +31,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
         _emailCtrl.text = model.getEmail;
       },
       builder: (context, model, child) => Dialog(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -39,7 +40,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               width: 400,
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
                   Center(
@@ -57,7 +58,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      'Email',
+                      SysAccountLocalizations.of(context).translate('email'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -79,7 +80,8 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                       onSubmitted: (v) {
                         _emailFocusNode.unfocus();
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -90,10 +92,12 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context)
+                              .dialogBackgroundColor
+                              .withOpacity(0.8),
                         ),
-                        hintText: "Email",
-                        fillColor: Colors.white,
+                        hintText: SysAccountLocalizations.of(context).translate('email'),
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
                           fontSize: 12,
@@ -162,7 +166,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                                           ),
                                         ),
                                       )
-                                    : Text('Reset Password!'),
+                                    : Text(SysAccountLocalizations.of(context).translate('resetPassword')),
                               ),
                             ),
                           ),
@@ -173,7 +177,7 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.',
+                      SysAccountLocalizations.of(context).translate('byProceeding'),
                       maxLines: 2,
                       style: TextStyle(
                         color: Theme.of(context)

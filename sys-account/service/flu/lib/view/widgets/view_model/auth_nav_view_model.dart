@@ -95,7 +95,6 @@ class AuthNavViewModel extends BaseModel {
       _setAccountId(accountId);
       await _fetchCurrentAccount();
       if (_currentAccount.id.isNotEmpty) {
-        print("CURRENT USER ID: " + _currentAccount.id);
         _setAccountId(_currentAccount.id);
       }
     }
@@ -171,14 +170,12 @@ class AuthNavViewModel extends BaseModel {
       List<rpc.Org> _orgs = List<rpc.Org>();
       orgIds.map((_id) async {
         await orgRepo.OrgProjRepo.getOrg(id: _id).then((_org) {
-          print("ORG LOGO: " + _org.logo.toString());
           _orgs.add(_org);
         }).catchError((e) {
           setErrMsg(e.toString());
         });
       });
     } else {
-      print("FETCHING ALL ORGS");
       await _fetchOrgs(Map<String, dynamic>(), perPageEntries);
     }
   }

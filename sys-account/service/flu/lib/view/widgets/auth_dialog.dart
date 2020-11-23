@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/sys_core.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/forgot_password_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/verify_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/account_view_model.dart';
@@ -8,8 +9,10 @@ import 'package:meta/meta.dart';
 
 class AuthDialog extends StatefulWidget {
   final Function _callback;
+  final GlobalKey<NavigatorState> navigatorKey;
 
-  const AuthDialog({Key key, @required Function callback})
+  const AuthDialog(
+      {Key key, @required Function callback, @required this.navigatorKey})
       : _callback = callback,
         super(key: key);
 
@@ -22,6 +25,8 @@ class AuthDialogState extends State<AuthDialog> {
   final _passwordCtrl = TextEditingController();
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
+
+  GlobalKey<NavigatorState> get navigatorKey => widget.navigatorKey;
 
   @override
   void dispose() {
@@ -41,7 +46,7 @@ class AuthDialogState extends State<AuthDialog> {
         _passwordCtrl.text = model.getPassword;
       },
       builder: (context, model, child) => Dialog(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -50,7 +55,7 @@ class AuthDialogState extends State<AuthDialog> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               width: 400,
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
                   Center(
@@ -68,7 +73,7 @@ class AuthDialogState extends State<AuthDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      'Email',
+                      SysAccountLocalizations.of(context).translate('email'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -91,21 +96,25 @@ class AuthDialogState extends State<AuthDialog> {
                         _emailFocusNode.unfocus();
                         FocusScope.of(context).requestFocus(_passwordFocusNode);
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Colors.blueGrey[300],
+                          color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: "Email",
-                        fillColor: Colors.white,
+                        hintText: SysAccountLocalizations.of(context)
+                            .translate('emailHint'),
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
                           fontSize: 12,
@@ -120,7 +129,7 @@ class AuthDialogState extends State<AuthDialog> {
                       bottom: 8,
                     ),
                     child: Text(
-                      'Password',
+                      SysAccountLocalizations.of(context).translate('password'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -145,12 +154,13 @@ class AuthDialogState extends State<AuthDialog> {
                         _passwordFocusNode.unfocus();
                         FocusScope.of(context).requestFocus(_passwordFocusNode);
                       },
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context).scaffoldBackgroundColor,
                             width: 3,
                           ),
                         ),
@@ -158,8 +168,9 @@ class AuthDialogState extends State<AuthDialog> {
                         hintStyle: new TextStyle(
                           color: Colors.blueGrey[300],
                         ),
-                        hintText: "Password",
-                        fillColor: Colors.white,
+                        hintText: SysAccountLocalizations.of(context)
+                            .translate('passwordHint'),
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validatePasswordText(),
                         errorStyle: TextStyle(
                           fontSize: 12,
@@ -199,16 +210,19 @@ class AuthDialogState extends State<AuthDialog> {
                                   ? model.isLoginParamValid
                                       ? () async {
                                           await model.login().then((_) {
-                                            Navigator.pop(context);
+                                            Navigator.pop(
+                                                navigatorKey.currentContext);
                                             if (model.errMsg.isNotEmpty) {
                                               notify(
-                                                context: context,
+                                                context:
+                                                    navigatorKey.currentContext,
                                                 message: model.errMsg,
                                                 error: true,
                                               );
                                             } else {
                                               notify(
-                                                context: context,
+                                                context:
+                                                    navigatorKey.currentContext,
                                                 message: model.successMsg,
                                                 error: false,
                                               );
@@ -221,20 +235,24 @@ class AuthDialogState extends State<AuthDialog> {
                                       ? () async {
                                           await model.register().then(
                                             (_) {
-                                              Navigator.pop(context);
+                                              Navigator.pop(
+                                                  navigatorKey.currentContext);
                                               if (model.errMsg.isNotEmpty) {
                                                 notify(
-                                                    context: context,
+                                                    context: navigatorKey
+                                                        .currentContext,
                                                     message: model.errMsg,
                                                     error: true);
                                               } else {
                                                 notify(
-                                                    context: context,
+                                                    context: navigatorKey
+                                                        .currentContext,
                                                     message: model.successMsg,
                                                     error: false);
                                                 showDialog(
                                                   barrierDismissible: false,
-                                                  context: context,
+                                                  context: navigatorKey
+                                                      .currentContext,
                                                   builder: (context) =>
                                                       VerifyDialog(),
                                                 );
@@ -264,7 +282,13 @@ class AuthDialogState extends State<AuthDialog> {
                                         ),
                                       )
                                     : Text(
-                                        model.isLogin ? 'Log in' : 'Register',
+                                        model.isLogin
+                                            ? SysAccountLocalizations.of(
+                                                    context)
+                                                .translate('signIn')
+                                            : SysAccountLocalizations.of(
+                                                    context)
+                                                .translate('signUp'),
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.white,
@@ -291,7 +315,11 @@ class AuthDialogState extends State<AuthDialog> {
                             child: TextButton(
                               onPressed: () => model.setIsLogin(!model.isLogin),
                               child: Text(
-                                model.isLogin ? "Sign Up!" : "Sign In",
+                                model.isLogin
+                                    ? SysAccountLocalizations.of(context)
+                                        .translate('signUp')
+                                    : SysAccountLocalizations.of(context)
+                                        .translate('signIn'),
                                 style: TextStyle(
                                   color: Colors.blue[500],
                                   fontWeight: FontWeight.bold,
@@ -306,15 +334,16 @@ class AuthDialogState extends State<AuthDialog> {
                             width: double.maxFinite,
                             child: TextButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.pop(navigatorKey.currentContext);
                                 showDialog(
                                   barrierDismissible: false,
-                                  context: context,
+                                  context: navigatorKey.currentContext,
                                   builder: (context) => ForgotPasswordDialog(),
                                 );
                               },
                               child: Text(
-                                'Forgot Password?',
+                                SysAccountLocalizations.of(context)
+                                    .translate('forgotPassword'),
                                 style: TextStyle(
                                   color: Colors.blue[500],
                                   fontWeight: FontWeight.bold,
@@ -329,7 +358,7 @@ class AuthDialogState extends State<AuthDialog> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.',
+                      SysAccountLocalizations.of(context).translate('byProceeding'),
                       maxLines: 2,
                       style: TextStyle(
                         color: Theme.of(context)

@@ -1,26 +1,14 @@
 {
-  "@@last_modified": "2020-09-16T17:40:14.764196",
-  "signUpForAccount": "اپنے اکاؤنٹ کے لئے سائن اپ کریں",
-  "@signUpForAccount": {
-    "description": "Sign up for your account",
+  "@@last_modified": "2020-11-23T02:10:50.690499",
+  "email": "ای میل",
+  "@email": {
+    "description": "Email",
     "placeholders": {},
     "type": "text"
   },
-  "emailAddress": "ای میل ایڈریس ایڈریس",
-  "@emailAddress": {
-    "description": "Email Address",
-    "placeholders": {},
-    "type": "text"
-  },
-  "needProtonMail": "ایک پروٹون میل کی ضرورت ہے؟",
-  "@needProtonMail": {
-    "description": "Need a protonmail ?",
-    "placeholders": {},
-    "type": "text"
-  },
-  "explainWhy": "وضاحت کریں کیوں؟",
-  "@explainWhy": {
-    "description": "Explain why?",
+  "emailHint": "آپ کا ای میل",
+  "@emailHint": {
+    "description": "Your Email",
     "placeholders": {},
     "type": "text"
   },
@@ -30,57 +18,33 @@
     "placeholders": {},
     "type": "text"
   },
-  "passwordStrength": "آپ کا پاس ورڈ کم از کم 8 حروف کا ہونا چاہئے اور دستیاب چار قسموں میں سے کم از کم تین استعمال کرنا چاہئے: چھوٹے حرف ، بڑے حرف ، اعداد اور علامت۔",
-  "@passwordStrength": {
-    "description": "Your password should be a minimum of 8 of characters and use at least three of the four available character types: lowercase letters, uppercase letters, numbers, and symbols.",
+  "passwordHint": "آپ کا پاس ورڈ",
+  "@passwordHint": {
+    "description": "Your Password",
     "placeholders": {},
     "type": "text"
   },
-  "passwordAgain": "پاس ورڈ دوبارہ",
-  "@passwordAgain": {
-    "description": "Password Again",
+  "verificationToken": "توثیق ٹوکن",
+  "@verificationToken": {
+    "description": "Verification Token",
     "placeholders": {},
     "type": "text"
   },
-  "meetOthersSharedInterest": "مشترکہ مفادات کے ساتھ دوسروں سے ملیں؟",
-  "@meetOthersSharedInterest": {
-    "description": "Meet others with shared interests?",
+  "verifyAccount": "اکاؤنٹ کی تصدیق کریں",
+  "@verifyAccount": {
+    "description": "Verifiy Account",
     "placeholders": {},
     "type": "text"
   },
-  "yes": "جی ہاں",
-  "@yes": {
-    "description": "Yes",
+  "submitNewPassword": "نیا پاس ورڈ جمع کروائیں",
+  "@submitNewPassword": {
+    "description": "Submit New Password",
     "placeholders": {},
     "type": "text"
   },
-  "no": "نہیں",
-  "@no": {
-    "description": "No",
-    "placeholders": {},
-    "type": "text"
-  },
-  "civilDisobedienceTraining": "میری سول نافرمانی کی تربیت ہے",
-  "@civilDisobedienceTraining": {
-    "description": "I have civil disobedience training",
-    "placeholders": {},
-    "type": "text"
-  },
-  "setupNotificationChannel": "نوٹیفکیشن چینل سیٹ اپ کریں",
-  "@setupNotificationChannel": {
-    "description": "Setup notification channel",
-    "placeholders": {},
-    "type": "text"
-  },
-  "email": "ای میل",
-  "@email": {
-    "description": "Email",
-    "placeholders": {},
-    "type": "text"
-  },
-  "appMessaging": "ایپ پیغام رسانی",
-  "@appMessaging": {
-    "description": "App Messaging",
+  "byProceeding": "آگے بڑھنے سے ، آپ ہماری استعمال کی شرائط سے اتفاق کرتے ہیں اور تصدیق کرتے ہیں کہ آپ نے ہماری پرائیویسی پالیسی پڑھی ہے۔",
+  "@byProceeding": {
+    "description": "By Proceeding",
     "placeholders": {},
     "type": "text"
   },
@@ -90,21 +54,45 @@
     "placeholders": {},
     "type": "text"
   },
-  "privacyPolicy": "رازداری کی پالیسی",
-  "@privacyPolicy": {
-    "description": "Privacy Policy",
+  "signIn": "سائن ان",
+  "@signIn": {
+    "description": "Sign In",
     "placeholders": {},
     "type": "text"
   },
-  "whyProtonMail": "پروٹون میل کیوں؟",
-  "@whyProtonMail": {
-    "description": "Why ProtonMail ?",
+  "signOut": "باہر جائیں",
+  "@signOut": {
+    "description": "Sign Out",
     "placeholders": {},
     "type": "text"
   },
-  "protonMailExplanation": "پروٹون میل سے لے کر پروٹون میل ای میلوں کو انفارمیشن سیکیورٹی کے پیشہ ور افراد کے ذریعہ محفوظ سمجھا جاتا ہے۔ وہ لوڈ ، اتارنا Android اور ایپل سمارٹ فونز اور ونڈوز اور میک کمپیوٹرز پر مفت استعمال کر سکتے ہیں۔",
-  "@protonMailExplanation": {
-    "description": "ProtonMail to ProtonMail emails are considered to be secure by Information Security professionals. They’re both free to use on Android and Apple smart phones and Windows and Mac computers.",
+  "forgotPassword": "پاسورڈ بھول گے",
+  "@forgotPassword": {
+    "description": "Forgot Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "resetPassword": "پاس ورڈ ری سیٹ",
+  "@resetPassword": {
+    "description": "Reset Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidEmail": "غلط ای میل",
+  "@invalidEmail": {
+    "description": "Invalid Email",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidPassword": "غلط پاسورڈ",
+  "@invalidPassword": {
+    "description": "Invalid Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidVerificationToken": "غلط توثیق ٹوکن",
+  "@invalidVerificationToken": {
+    "description": "Invalid Verification Token",
     "placeholders": {},
     "type": "text"
   }

@@ -27,22 +27,23 @@ class FileServiceClient extends $grpc.Client {
           ($core.List<$core.int> value) =>
               $1.FileDownloadResponse.fromBuffer(value));
 
-  FileServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
-      : super(channel, options: options);
+  FileServiceClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions options,
+      $core.Iterable<$grpc.ClientInterceptor> interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
   $grpc.ResponseFuture<$1.FileUploadResponse> upload(
       $async.Stream<$1.FileUploadRequest> request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$upload, request, options: options);
-    return $grpc.ResponseFuture(call);
+    return $createStreamingCall(_$upload, request, options: options).single;
   }
 
   $grpc.ResponseStream<$1.FileDownloadResponse> download(
       $1.FileDownloadRequest request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$download, $async.Stream.fromIterable([request]),
+    return $createStreamingCall(
+        _$download, $async.Stream.fromIterable([request]),
         options: options);
-    return $grpc.ResponseStream(call);
   }
 }
 

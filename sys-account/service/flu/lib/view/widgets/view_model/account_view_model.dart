@@ -129,14 +129,14 @@ class AccountViewModel extends BaseModel {
 
   String validateEmailText() {
     if (!_validateEmail()) {
-      return 'Invalid email';
+      return sysAccountTranslate('invalidEmail');
     }
     return null;
   }
 
   String validatePasswordText() {
     if (!_validatePassword()) {
-      return 'Invalid password length';
+      return sysAccountTranslate('invalidPassword');
     }
     return null;
   }

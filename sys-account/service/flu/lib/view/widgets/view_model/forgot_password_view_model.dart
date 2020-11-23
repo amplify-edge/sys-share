@@ -64,7 +64,7 @@ class ForgotPasswordViewModel extends BaseModel {
 
   String validateEmailText() {
     if (!_validateEmail()) {
-      return 'Invalid email';
+      return sysAccountTranslate('invalidEmail');
     }
     return null;
   }

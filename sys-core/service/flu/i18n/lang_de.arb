@@ -1,0 +1,15 @@
+{
+  "@@last_modified": "2020-11-23T03:02:08.510997",
+  "search": "Suche",
+  "@search": {
+    "description": "search",
+    "placeholders": {},
+    "type": "text"
+  },
+  "noItemsAvailable": "Keine Artikel verfügbar",
+  "@noItemsAvailable": {
+    "description": "noItemsAvailable",
+    "placeholders": {},
+    "type": "text"
+  }
+}

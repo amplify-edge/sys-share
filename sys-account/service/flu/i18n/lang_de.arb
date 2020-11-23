@@ -1,26 +1,14 @@
 {
-  "@@last_modified": "2020-09-16T17:40:14.764196",
-  "signUpForAccount": "Melden Sie sich für Ihr Konto an",
-  "@signUpForAccount": {
-    "description": "Sign up for your account",
+  "@@last_modified": "2020-11-23T02:10:50.690499",
+  "email": "Email",
+  "@email": {
+    "description": "Email",
     "placeholders": {},
     "type": "text"
   },
-  "emailAddress": "E-Mail-Adresse Adressat",
-  "@emailAddress": {
-    "description": "Email Address",
-    "placeholders": {},
-    "type": "text"
-  },
-  "needProtonMail": "Benötigen Sie eine Protonmail?",
-  "@needProtonMail": {
-    "description": "Need a protonmail ?",
-    "placeholders": {},
-    "type": "text"
-  },
-  "explainWhy": "Erkläre warum?",
-  "@explainWhy": {
-    "description": "Explain why?",
+  "emailHint": "Deine E-Mail",
+  "@emailHint": {
+    "description": "Your Email",
     "placeholders": {},
     "type": "text"
   },
@@ -30,57 +18,33 @@
     "placeholders": {},
     "type": "text"
   },
-  "passwordStrength": "Ihr Passwort sollte aus mindestens 8 Zeichen bestehen und mindestens drei der vier verfügbaren Zeichentypen verwenden: Kleinbuchstaben, Großbuchstaben, Zahlen und Symbole.",
-  "@passwordStrength": {
-    "description": "Your password should be a minimum of 8 of characters and use at least three of the four available character types: lowercase letters, uppercase letters, numbers, and symbols.",
+  "passwordHint": "Ihr Passwort",
+  "@passwordHint": {
+    "description": "Your Password",
     "placeholders": {},
     "type": "text"
   },
-  "passwordAgain": "Passwort erneut",
-  "@passwordAgain": {
-    "description": "Password Again",
+  "verificationToken": "Bestätigungstoken",
+  "@verificationToken": {
+    "description": "Verification Token",
     "placeholders": {},
     "type": "text"
   },
-  "meetOthersSharedInterest": "Andere mit gemeinsamen Interessen treffen?",
-  "@meetOthersSharedInterest": {
-    "description": "Meet others with shared interests?",
+  "verifyAccount": "Konto überprüfen",
+  "@verifyAccount": {
+    "description": "Verifiy Account",
     "placeholders": {},
     "type": "text"
   },
-  "yes": "Ja",
-  "@yes": {
-    "description": "Yes",
+  "submitNewPassword": "Neues Passwort senden",
+  "@submitNewPassword": {
+    "description": "Submit New Password",
     "placeholders": {},
     "type": "text"
   },
-  "no": "Nein",
-  "@no": {
-    "description": "No",
-    "placeholders": {},
-    "type": "text"
-  },
-  "civilDisobedienceTraining": "Ich habe ziviles Ungehorsamstraining",
-  "@civilDisobedienceTraining": {
-    "description": "I have civil disobedience training",
-    "placeholders": {},
-    "type": "text"
-  },
-  "setupNotificationChannel": "Benachrichtigungskanal einrichten",
-  "@setupNotificationChannel": {
-    "description": "Setup notification channel",
-    "placeholders": {},
-    "type": "text"
-  },
-  "email": "Email",
-  "@email": {
-    "description": "Email",
-    "placeholders": {},
-    "type": "text"
-  },
-  "appMessaging": "App Messaging",
-  "@appMessaging": {
-    "description": "App Messaging",
+  "byProceeding": "Indem Sie fortfahren, stimmen Sie unseren Nutzungsbedingungen zu und bestätigen, dass Sie unsere Datenschutzrichtlinie gelesen haben.",
+  "@byProceeding": {
+    "description": "By Proceeding",
     "placeholders": {},
     "type": "text"
   },
@@ -90,21 +54,45 @@
     "placeholders": {},
     "type": "text"
   },
-  "privacyPolicy": "Datenschutz-Bestimmungen",
-  "@privacyPolicy": {
-    "description": "Privacy Policy",
+  "signIn": "Einloggen",
+  "@signIn": {
+    "description": "Sign In",
     "placeholders": {},
     "type": "text"
   },
-  "whyProtonMail": "Warum ProtonMail?",
-  "@whyProtonMail": {
-    "description": "Why ProtonMail ?",
+  "signOut": "Ausloggen",
+  "@signOut": {
+    "description": "Sign Out",
     "placeholders": {},
     "type": "text"
   },
-  "protonMailExplanation": "E-Mails von ProtonMail an ProtonMail werden von Fachleuten für Informationssicherheit als sicher angesehen. Sie können beide kostenlos auf Android- und Apple-Smartphones sowie auf Windows- und Mac-Computern verwendet werden.",
-  "@protonMailExplanation": {
-    "description": "ProtonMail to ProtonMail emails are considered to be secure by Information Security professionals. They’re both free to use on Android and Apple smart phones and Windows and Mac computers.",
+  "forgotPassword": "Passwort vergessen",
+  "@forgotPassword": {
+    "description": "Forgot Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "resetPassword": "Passwort zurücksetzen",
+  "@resetPassword": {
+    "description": "Reset Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidEmail": "Ungültige E-Mail",
+  "@invalidEmail": {
+    "description": "Invalid Email",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidPassword": "Ungültiges Passwort",
+  "@invalidPassword": {
+    "description": "Invalid Password",
+    "placeholders": {},
+    "type": "text"
+  },
+  "invalidVerificationToken": "Ungültiges Bestätigungstoken",
+  "@invalidVerificationToken": {
+    "description": "Invalid Verification Token",
     "placeholders": {},
     "type": "text"
   }
