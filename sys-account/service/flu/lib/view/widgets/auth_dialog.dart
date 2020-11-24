@@ -259,7 +259,9 @@ class AuthDialogState extends State<AuthDialog> {
                                                   context: navigatorKey
                                                       .currentContext,
                                                   builder: (context) =>
-                                                      VerifyDialog(),
+                                                      VerifyDialog(
+                                                    callback: widget._callback,
+                                                  ),
                                                 );
                                               }
                                             },

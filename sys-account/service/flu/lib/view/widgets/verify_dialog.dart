@@ -5,7 +5,9 @@ import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.
 import 'package:sys_share_sys_account_service/view/widgets/view_model/verify_view_model.dart';
 
 class VerifyDialog extends StatefulWidget {
-  const VerifyDialog({Key key}) : super(key: key);
+  final Function callback;
+
+  const VerifyDialog({Key key, this.callback}) : super(key: key);
 
   @override
   VerifyDialogState createState() => VerifyDialogState();
@@ -57,7 +59,8 @@ class VerifyDialogState extends State<VerifyDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      SysAccountLocalizations.of(context).translate('verifyAccount'),
+                      SysAccountLocalizations.of(context)
+                          .translate('verifyAccount'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -95,7 +98,8 @@ class VerifyDialogState extends State<VerifyDialog> {
                         hintStyle: new TextStyle(
                           color: Theme.of(context).textTheme.subtitle2.color,
                         ),
-                        hintText: SysAccountLocalizations.of(context).translate('verificationToken'),
+                        hintText: SysAccountLocalizations.of(context)
+                            .translate('verificationToken'),
                         fillColor: Colors.white,
                         errorText: model.validateVerificationToken(),
                         errorStyle: TextStyle(
@@ -129,6 +133,7 @@ class VerifyDialogState extends State<VerifyDialog> {
                                               context: context,
                                               message: model.successMsg,
                                               error: false);
+                                          // widget.callback();
                                         } else {
                                           notify(
                                               context: context,
@@ -176,7 +181,8 @@ class VerifyDialogState extends State<VerifyDialog> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      SysAccountLocalizations.of(context).translate('byProceeding'),
+                      SysAccountLocalizations.of(context)
+                          .translate('byProceeding'),
                       maxLines: 2,
                       style: TextStyle(
                         color: Theme.of(context)
