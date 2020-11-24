@@ -194,7 +194,7 @@ class GetCourageMasterDetail<T> extends StatelessWidget {
 
   _pushDetailsRoute(int newId, BuildContext context) {
     print(
-        "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: ${routeWithIdPlaceholder}");
+        "_pushDetailsRoute newId: $newId, routeWithIdPlaceholder: $routeWithIdPlaceholder");
     bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: routeWithIdPlaceholder.replaceAll(":id", "$newId"),
