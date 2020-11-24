@@ -8,7 +8,6 @@ import 'package:sys_share_sys_account_service/pkg/shared_repositories/orgproj_re
     as orgRepo;
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart'
     as rpc;
-import 'dart:convert';
 
 class AuthNavViewModel extends BaseModel {
   // fields

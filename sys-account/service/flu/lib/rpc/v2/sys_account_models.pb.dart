@@ -60,6 +60,7 @@ class RegisterRequest extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'email')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'passwordConfirm')
+    ..aOM<UserRoles>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userRole', subBuilder: UserRoles.create)
     ..hasRequiredFields = false
   ;
 
@@ -112,6 +113,17 @@ class RegisterRequest extends $pb.GeneratedMessage {
   $core.bool hasPasswordConfirm() => $_has(2);
   @$pb.TagNumber(3)
   void clearPasswordConfirm() => clearField(3);
+
+  @$pb.TagNumber(4)
+  UserRoles get userRole => $_getN(3);
+  @$pb.TagNumber(4)
+  set userRole(UserRoles v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasUserRole() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearUserRole() => clearField(4);
+  @$pb.TagNumber(4)
+  UserRoles ensureUserRole() => $_ensure(3);
 }
 
 class LoginRequest extends $pb.GeneratedMessage {

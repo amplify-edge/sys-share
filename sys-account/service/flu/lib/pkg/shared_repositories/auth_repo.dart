@@ -1,4 +1,5 @@
 import 'package:sys_core/pkg/shared_repositories/base_repo.dart';
+import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart';
 import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart'
     as rpc;
 import 'package:grpc/grpc_web.dart';
@@ -29,10 +30,12 @@ class AuthRepo extends BaseRepo {
     }
   }
 
-  static Future<rpc.RegisterResponse> registerAccount(
-      {@required String email,
-      @required String password,
-      @required String passwordConfirm}) async {
+  static Future<rpc.RegisterResponse> registerAccount({
+    @required String email,
+    @required String password,
+    @required String passwordConfirm,
+    UserRoles initialRole,
+  }) async {
     if (password != passwordConfirm) {
       rpc.RegisterResponse resp = rpc.RegisterResponse.getDefault()
         ..success = false
@@ -47,6 +50,9 @@ class AuthRepo extends BaseRepo {
         ..email = email
         ..password = password
         ..passwordConfirm = passwordConfirm;
+      if (initialRole != null) {
+        request..userRole = initialRole;
+      }
       final resp = await client.register(request);
       if (resp.hasVerifyToken()) {
         print(resp.verifyToken);

@@ -895,7 +895,9 @@ func AuthServiceClientCommand(options ...client.Option) *cobra.Command {
 }
 
 func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
-	req := &RegisterRequest{}
+	req := &RegisterRequest{
+		UserRole: &UserRoles{},
+	}
 
 	cmd := &cobra.Command{
 		Use:    cfg.CommandNamer("Register"),
@@ -935,6 +937,10 @@ func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
 	cmd.PersistentFlags().StringVar(&req.PasswordConfirm, cfg.FlagNamer("PasswordConfirm"), "", "")
+	_RolesVar(cmd.PersistentFlags(), &req.UserRole.Role, cfg.FlagNamer("UserRole Role"), "")
+	cmd.PersistentFlags().StringVar(&req.UserRole.ProjectId, cfg.FlagNamer("UserRole ProjectId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.UserRole.OrgId, cfg.FlagNamer("UserRole OrgId"), "", "")
+	cmd.PersistentFlags().BoolVar(&req.UserRole.All, cfg.FlagNamer("UserRole All"), false, "")
 
 	return cmd
 }
@@ -1158,3 +1164,4 @@ func _AuthServiceVerifyAccountCommand(cfg *client.Config) *cobra.Command {
 
 	return cmd
 }
+

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/sys_core.dart';
 import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
+import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart';
 import 'package:sys_share_sys_account_service/view/widgets/forgot_password_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/verify_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/account_view_model.dart';
@@ -10,9 +11,13 @@ import 'package:meta/meta.dart';
 class AuthDialog extends StatefulWidget {
   final Function _callback;
   final GlobalKey<NavigatorState> navigatorKey;
+  final UserRoles userRole;
 
   const AuthDialog(
-      {Key key, @required Function callback, @required this.navigatorKey})
+      {Key key,
+      @required Function callback,
+      @required this.navigatorKey,
+      this.userRole})
       : _callback = callback,
         super(key: key);
 
@@ -40,7 +45,7 @@ class AuthDialogState extends State<AuthDialog> {
   @override
   Widget build(BuildContext buildContext) {
     return ViewModelBuilder<AccountViewModel>.reactive(
-      viewModelBuilder: () => AccountViewModel(),
+      viewModelBuilder: () => AccountViewModel(role: widget.userRole),
       onModelReady: (AccountViewModel model) {
         _emailCtrl.text = model.getEmail;
         _passwordCtrl.text = model.getPassword;
@@ -358,7 +363,8 @@ class AuthDialogState extends State<AuthDialog> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      SysAccountLocalizations.of(context).translate('byProceeding'),
+                      SysAccountLocalizations.of(context)
+                          .translate('byProceeding'),
                       maxLines: 2,
                       style: TextStyle(
                         color: Theme.of(context)

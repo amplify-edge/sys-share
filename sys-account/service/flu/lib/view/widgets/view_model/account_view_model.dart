@@ -1,6 +1,7 @@
 import 'package:sys_share_sys_account_service/pkg/pkg.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart'
     as authRepo;
+import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart';
 
 class AccountViewModel extends BaseModel {
   bool _hasResponse = false;
@@ -14,19 +15,39 @@ class AccountViewModel extends BaseModel {
   String _accessToken = '';
   String _errMessage = '';
   String _successMsg = '';
+  UserRoles _initialRole = UserRoles();
+
+  AccountViewModel({UserRoles role}) {
+    if (role != null) {
+      _initialRole = role;
+      notifyListeners();
+    }
+  }
 
   bool get hasResponse => _hasResponse;
+
   bool get isEmailEnabled => _isEmailEnabled;
+
   bool get isPasswordEnabled => _isPasswordEnabled;
+
   bool get isPasswordObscured => _isPasswordObscured;
+
   bool get isLogin => _isLogin;
+
   bool get isLoginParamValid => _validateEmail() && _validatePassword();
+
   bool get isRegisterParamValid => _validateEmail() && _validatePassword();
+
   String get getEmail => _userEmail;
+
   String get getPassword => _userPassword;
+
   String get accessToken => _accessToken;
+
   String get refreshToken => _refreshToken;
+
   String get successMsg => _successMsg;
+
   String get errMsg => _errMessage;
 
   void setIsLogin(bool value) {
@@ -111,10 +132,11 @@ class AccountViewModel extends BaseModel {
   Future<void> register() async {
     _loadingProcess(true);
     await authRepo.AuthRepo.registerAccount(
-            email: _userEmail,
-            password: _userPassword,
-            passwordConfirm: _userPassword)
-        .then((resp) {
+      email: _userEmail,
+      password: _userPassword,
+      passwordConfirm: _userPassword,
+      initialRole: _initialRole,
+    ).then((resp) {
       if (resp.success) {
         _setSuccessMsg(resp.successMsg);
       } else if (resp.errorReason.hasReason()) {
