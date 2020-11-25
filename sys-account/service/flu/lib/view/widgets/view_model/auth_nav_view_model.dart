@@ -166,10 +166,10 @@ class AuthNavViewModel extends BaseModel {
     await verifyAdmin();
     if (!_isSuperuser) {
       final orgIds = authRepo.getSubscribedOrgs(_currentAccount);
-      List<rpc.Org> _orgs = List<rpc.Org>();
-      orgIds.map((_id) async {
+      orgIds.forEach((_id) async {
         await orgRepo.OrgProjRepo.getOrg(id: _id).then((_org) {
-          _orgs.add(_org);
+          _subscribedOrgs.add(_org);
+          notifyListeners();
         }).catchError((e) {
           setErrMsg(e.toString());
         });
