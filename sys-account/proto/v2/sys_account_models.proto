@@ -14,6 +14,7 @@ message RegisterRequest {
   string email = 1;
   string password = 2;
   string password_confirm = 3;
+  UserRoles user_role = 4;
 }
 
 message LoginRequest {

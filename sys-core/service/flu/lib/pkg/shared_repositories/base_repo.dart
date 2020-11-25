@@ -1,7 +1,6 @@
 import 'dart:convert' show json;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:grpc/grpc_web.dart';
-import 'package:grpc/grpc.dart';
 import 'package:sys_core/pkg/config/host_config.dart';
 
 class BaseRepo {

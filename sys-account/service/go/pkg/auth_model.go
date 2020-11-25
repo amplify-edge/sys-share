@@ -10,9 +10,10 @@ import (
 )
 
 type RegisterRequest struct {
-	Email           string `json:"email" fake:"{email}"`
-	Password        string `json:"password" fake:"{sentence:8}"`
-	PasswordConfirm string `json:"password_confirm" fake:"skip"`
+	Email           string     `json:"email" fake:"{email}"`
+	Password        string     `json:"password" fake:"{sentence:8}"`
+	PasswordConfirm string     `json:"password_confirm" fake:"skip"`
+	UserRoles       *UserRoles `json:"user_roles" fake:"skip"`
 }
 
 type FakeRegisterRequests struct {
@@ -44,18 +45,22 @@ func (frr *FakeRegisterRequests) ToJSON(filedest string) error {
 }
 
 func RegisterRequestFromProto(in *authRpc.RegisterRequest) *RegisterRequest {
+	role := UserRolesFromProto(in.GetUserRole())
 	return &RegisterRequest{
 		Email:           in.GetEmail(),
 		Password:        in.GetPassword(),
 		PasswordConfirm: in.GetPasswordConfirm(),
+		UserRoles:       role,
 	}
 }
 
 func (r *RegisterRequest) ToProto() *authRpc.RegisterRequest {
+	role := r.UserRoles.ToProto()
 	return &authRpc.RegisterRequest{
 		Email:           r.Email,
 		Password:        r.Password,
 		PasswordConfirm: r.PasswordConfirm,
+		UserRole:        role,
 	}
 }
 
