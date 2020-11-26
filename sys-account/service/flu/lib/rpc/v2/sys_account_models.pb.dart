@@ -1361,6 +1361,7 @@ class ListRequest extends $pb.GeneratedMessage {
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'currentPageId')
     ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isDescending')
     ..a<$core.List<$core.int>>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'filters', $pb.PbFieldType.OY)
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountId')
     ..hasRequiredFields = false
   ;
 
@@ -1431,6 +1432,15 @@ class ListRequest extends $pb.GeneratedMessage {
   $core.bool hasFilters() => $_has(4);
   @$pb.TagNumber(5)
   void clearFilters() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get accountId => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set accountId($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasAccountId() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearAccountId() => clearField(6);
 }
 
 class ListResponse extends $pb.GeneratedMessage {

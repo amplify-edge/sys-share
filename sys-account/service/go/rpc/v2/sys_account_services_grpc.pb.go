@@ -396,6 +396,7 @@ type OrgProjServiceClient interface {
 	NewOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error)
 	GetOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Org, error)
 	ListOrg(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
+	ListNonSubscribedOrgs(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	UpdateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error)
 	DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
@@ -512,6 +513,19 @@ func (c *orgProjServiceClient) ListOrg(ctx context.Context, in *ListRequest, opt
 	return out, nil
 }
 
+var orgProjServiceListNonSubscribedOrgsStreamDesc = &grpc.StreamDesc{
+	StreamName: "ListNonSubscribedOrgs",
+}
+
+func (c *orgProjServiceClient) ListNonSubscribedOrgs(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
+	out := new(ListResponse)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/ListNonSubscribedOrgs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 var orgProjServiceUpdateOrgStreamDesc = &grpc.StreamDesc{
 	StreamName: "UpdateOrg",
 }
@@ -550,11 +564,12 @@ type OrgProjServiceService struct {
 	UpdateProject func(context.Context, *ProjectUpdateRequest) (*Project, error)
 	DeleteProject func(context.Context, *IdRequest) (*empty.Empty, error)
 	// Orgs
-	NewOrg    func(context.Context, *OrgRequest) (*Org, error)
-	GetOrg    func(context.Context, *IdRequest) (*Org, error)
-	ListOrg   func(context.Context, *ListRequest) (*ListResponse, error)
-	UpdateOrg func(context.Context, *OrgUpdateRequest) (*Org, error)
-	DeleteOrg func(context.Context, *IdRequest) (*empty.Empty, error)
+	NewOrg                func(context.Context, *OrgRequest) (*Org, error)
+	GetOrg                func(context.Context, *IdRequest) (*Org, error)
+	ListOrg               func(context.Context, *ListRequest) (*ListResponse, error)
+	ListNonSubscribedOrgs func(context.Context, *ListRequest) (*ListResponse, error)
+	UpdateOrg             func(context.Context, *OrgUpdateRequest) (*Org, error)
+	DeleteOrg             func(context.Context, *IdRequest) (*empty.Empty, error)
 }
 
 func (s *OrgProjServiceService) newProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -717,6 +732,26 @@ func (s *OrgProjServiceService) listOrg(_ interface{}, ctx context.Context, dec 
 	}
 	return interceptor(ctx, in, info, handler)
 }
+func (s *OrgProjServiceService) listNonSubscribedOrgs(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.ListNonSubscribedOrgs == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method ListNonSubscribedOrgs not implemented")
+	}
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.ListNonSubscribedOrgs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.OrgProjService/ListNonSubscribedOrgs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.ListNonSubscribedOrgs(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
 func (s *OrgProjServiceService) updateOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	if s.UpdateOrg == nil {
 		return nil, status.Errorf(codes.Unimplemented, "method UpdateOrg not implemented")
@@ -796,6 +831,10 @@ func RegisterOrgProjServiceService(s grpc.ServiceRegistrar, srv *OrgProjServiceS
 				Handler:    srv.listOrg,
 			},
 			{
+				MethodName: "ListNonSubscribedOrgs",
+				Handler:    srv.listNonSubscribedOrgs,
+			},
+			{
 				MethodName: "UpdateOrg",
 				Handler:    srv.updateOrg,
 			},
@@ -860,6 +899,11 @@ func NewOrgProjServiceService(s interface{}) *OrgProjServiceService {
 		ns.ListOrg = h.ListOrg
 	}
 	if h, ok := s.(interface {
+		ListNonSubscribedOrgs(context.Context, *ListRequest) (*ListResponse, error)
+	}); ok {
+		ns.ListNonSubscribedOrgs = h.ListNonSubscribedOrgs
+	}
+	if h, ok := s.(interface {
 		UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
 	}); ok {
 		ns.UpdateOrg = h.UpdateOrg
@@ -887,6 +931,7 @@ type UnstableOrgProjServiceService interface {
 	NewOrg(context.Context, *OrgRequest) (*Org, error)
 	GetOrg(context.Context, *IdRequest) (*Org, error)
 	ListOrg(context.Context, *ListRequest) (*ListResponse, error)
+	ListNonSubscribedOrgs(context.Context, *ListRequest) (*ListResponse, error)
 	UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
 	DeleteOrg(context.Context, *IdRequest) (*empty.Empty, error)
 }
