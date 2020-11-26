@@ -7,6 +7,7 @@ import (
 	flag "github.com/getcouragenow/protoc-gen-cobra/flag"
 	iocodec "github.com/getcouragenow/protoc-gen-cobra/iocodec"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	cobra "github.com/spf13/cobra"
 	grpc "google.golang.org/grpc"
 	proto "google.golang.org/protobuf/proto"
@@ -276,6 +277,135 @@ func _EmailServiceSendMailCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringSliceVar(&req.Bcc, cfg.FlagNamer("Bcc"), nil, "")
 	flag.BytesBase64SliceVar(cmd.PersistentFlags(), &req.Attachments, cfg.FlagNamer("Attachments"), "")
 	cmd.PersistentFlags().StringVar(&req.SenderName, cfg.FlagNamer("SenderName"), "", "")
+
+	return cmd
+}
+
+func AnalyticsServiceClientCommand(options ...client.Option) *cobra.Command {
+	cfg := client.NewConfig(options...)
+	cmd := &cobra.Command{
+		Use:    cfg.CommandNamer("AnalyticsService"),
+		Short:  "AnalyticsService service client",
+		Long:   "",
+		Hidden: false,
+	}
+	cfg.BindFlags(cmd.PersistentFlags())
+	cmd.AddCommand(
+		_AnalyticsServiceSendAnalyticsEventCommand(cfg),
+		_AnalyticsServiceDownloadAnalyticsCommand(cfg),
+	)
+	return cmd
+}
+
+func _AnalyticsServiceSendAnalyticsEventCommand(cfg *client.Config) *cobra.Command {
+	req := &ModEvent{
+		Meta: &Meta{
+			Datetime: &timestamp.Timestamp{},
+			Geo:      &GeoLoc{},
+		},
+	}
+
+	cmd := &cobra.Command{
+		Use:    cfg.CommandNamer("SendAnalyticsEvent"),
+		Short:  "SendAnalyticsEvent RPC client",
+		Long:   "",
+		Hidden: false,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AnalyticsService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AnalyticsService", "SendAnalyticsEvent"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewAnalyticsServiceClient(cc)
+				v := &ModEvent{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.SendAnalyticsEvent(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Meta.Actor, cfg.FlagNamer("Meta Actor"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Meta.UserId, cfg.FlagNamer("Meta UserId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Meta.UserName, cfg.FlagNamer("Meta UserName"), "", "")
+	cmd.PersistentFlags().Int64Var(&req.Meta.Datetime.Seconds, cfg.FlagNamer("Meta Datetime Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
+	cmd.PersistentFlags().Int32Var(&req.Meta.Datetime.Nanos, cfg.FlagNamer("Meta Datetime Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	cmd.PersistentFlags().Float32Var(&req.Meta.Geo.Longitude, cfg.FlagNamer("Meta Geo Longitude"), 0, "")
+	cmd.PersistentFlags().Float32Var(&req.Meta.Geo.Latitude, cfg.FlagNamer("Meta Geo Latitude"), 0, "")
+	cmd.PersistentFlags().StringVar(&req.Meta.OrgId, cfg.FlagNamer("Meta OrgId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Meta.OrgName, cfg.FlagNamer("Meta OrgName"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Meta.ProjectId, cfg.FlagNamer("Meta ProjectId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Meta.ProjectName, cfg.FlagNamer("Meta ProjectName"), "", "")
+	cmd.PersistentFlags().StringVar(&req.EventType, cfg.FlagNamer("EventType"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Payload, cfg.FlagNamer("Payload"), "")
+	cmd.PersistentFlags().StringVar(&req.PayloadEncoding, cfg.FlagNamer("PayloadEncoding"), "", "string / json / proto / msgpack / whichever")
+
+	return cmd
+}
+
+func _AnalyticsServiceDownloadAnalyticsCommand(cfg *client.Config) *cobra.Command {
+	req := &DownloadAnalyticsRequest{
+		DatetimeStart: &timestamp.Timestamp{},
+		DatetimeEnd:   &timestamp.Timestamp{},
+	}
+
+	cmd := &cobra.Command{
+		Use:    cfg.CommandNamer("DownloadAnalytics"),
+		Short:  "DownloadAnalytics RPC client",
+		Long:   "",
+		Hidden: false,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AnalyticsService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AnalyticsService", "DownloadAnalytics"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewAnalyticsServiceClient(cc)
+				v := &DownloadAnalyticsRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.DownloadAnalytics(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filter, cfg.FlagNamer("Filter"), "")
+	cmd.PersistentFlags().Int64Var(&req.DatetimeStart.Seconds, cfg.FlagNamer("DatetimeStart Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
+	cmd.PersistentFlags().Int32Var(&req.DatetimeStart.Nanos, cfg.FlagNamer("DatetimeStart Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	cmd.PersistentFlags().Int64Var(&req.DatetimeEnd.Seconds, cfg.FlagNamer("DatetimeEnd Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
+	cmd.PersistentFlags().Int32Var(&req.DatetimeEnd.Nanos, cfg.FlagNamer("DatetimeEnd Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
 
 	return cmd
 }
