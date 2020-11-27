@@ -211,6 +211,7 @@ type ListRequest struct {
 	CurrentPageId  string                 `json:"current_page_id,omitempty"`
 	IsDescending   bool                   `json:"is_descending,omitempty"`
 	Filters        map[string]interface{} `json:"filters,omitempty"`
+	AccountId      string                 `json:"account_id,omitempty"`
 }
 
 func (l *ListRequest) ToProto() (*accountRpc.ListRequest, error) {

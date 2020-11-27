@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
 import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
@@ -133,7 +134,8 @@ class VerifyDialogState extends State<VerifyDialog> {
                                               context: context,
                                               message: model.successMsg,
                                               error: false);
-                                          // widget.callback();
+                                          widget.callback();
+                                          Modular.to.pushNamed('/');
                                         } else {
                                           notify(
                                               context: context,

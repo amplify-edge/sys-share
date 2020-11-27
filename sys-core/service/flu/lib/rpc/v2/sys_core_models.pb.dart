@@ -10,6 +10,12 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'google/protobuf/timestamp.pb.dart' as $2;
+
+import 'sys_core_models.pbenum.dart';
+
+export 'sys_core_models.pbenum.dart';
+
 class RestoreResult extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RestoreResult', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'result')
@@ -707,5 +713,538 @@ class FileDownloadResponse extends $pb.GeneratedMessage {
   $core.bool hasIsCompressed() => $_has(4);
   @$pb.TagNumber(5)
   void clearIsCompressed() => clearField(5);
+}
+
+class GeoLoc extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'GeoLoc', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..a<$core.double>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'longitude', $pb.PbFieldType.OF)
+    ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'latitude', $pb.PbFieldType.OF)
+    ..hasRequiredFields = false
+  ;
+
+  GeoLoc._() : super();
+  factory GeoLoc() => create();
+  factory GeoLoc.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GeoLoc.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GeoLoc clone() => GeoLoc()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GeoLoc copyWith(void Function(GeoLoc) updates) => super.copyWith((message) => updates(message as GeoLoc)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static GeoLoc create() => GeoLoc._();
+  GeoLoc createEmptyInstance() => create();
+  static $pb.PbList<GeoLoc> createRepeated() => $pb.PbList<GeoLoc>();
+  @$core.pragma('dart2js:noInline')
+  static GeoLoc getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GeoLoc>(create);
+  static GeoLoc _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.double get longitude => $_getN(0);
+  @$pb.TagNumber(1)
+  set longitude($core.double v) { $_setFloat(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasLongitude() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearLongitude() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.double get latitude => $_getN(1);
+  @$pb.TagNumber(2)
+  set latitude($core.double v) { $_setFloat(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasLatitude() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearLatitude() => clearField(2);
+}
+
+class Meta extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Meta', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'actor')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userId')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userName')
+    ..aOM<$2.Timestamp>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'datetime', subBuilder: $2.Timestamp.create)
+    ..aOM<GeoLoc>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'geo', subBuilder: GeoLoc.create)
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'orgId')
+    ..aOS(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'orgName')
+    ..aOS(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'projectId')
+    ..aOS(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'projectName')
+    ..hasRequiredFields = false
+  ;
+
+  Meta._() : super();
+  factory Meta() => create();
+  factory Meta.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Meta.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Meta clone() => Meta()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Meta copyWith(void Function(Meta) updates) => super.copyWith((message) => updates(message as Meta)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static Meta create() => Meta._();
+  Meta createEmptyInstance() => create();
+  static $pb.PbList<Meta> createRepeated() => $pb.PbList<Meta>();
+  @$core.pragma('dart2js:noInline')
+  static Meta getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Meta>(create);
+  static Meta _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get actor => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set actor($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasActor() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearActor() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get userId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set userId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasUserId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearUserId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get userName => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set userName($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasUserName() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearUserName() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $2.Timestamp get datetime => $_getN(3);
+  @$pb.TagNumber(4)
+  set datetime($2.Timestamp v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasDatetime() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearDatetime() => clearField(4);
+  @$pb.TagNumber(4)
+  $2.Timestamp ensureDatetime() => $_ensure(3);
+
+  @$pb.TagNumber(5)
+  GeoLoc get geo => $_getN(4);
+  @$pb.TagNumber(5)
+  set geo(GeoLoc v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasGeo() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearGeo() => clearField(5);
+  @$pb.TagNumber(5)
+  GeoLoc ensureGeo() => $_ensure(4);
+
+  @$pb.TagNumber(6)
+  $core.String get orgId => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set orgId($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasOrgId() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearOrgId() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get orgName => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set orgName($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasOrgName() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearOrgName() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get projectId => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set projectId($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasProjectId() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearProjectId() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get projectName => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set projectName($core.String v) { $_setString(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasProjectName() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearProjectName() => clearField(9);
+}
+
+class ModEvent extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ModEvent', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..aOM<Meta>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'meta', subBuilder: Meta.create)
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'eventType')
+    ..a<$core.List<$core.int>>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'payload', $pb.PbFieldType.OY)
+    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'payloadEncoding')
+    ..hasRequiredFields = false
+  ;
+
+  ModEvent._() : super();
+  factory ModEvent() => create();
+  factory ModEvent.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ModEvent.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ModEvent clone() => ModEvent()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ModEvent copyWith(void Function(ModEvent) updates) => super.copyWith((message) => updates(message as ModEvent)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ModEvent create() => ModEvent._();
+  ModEvent createEmptyInstance() => create();
+  static $pb.PbList<ModEvent> createRepeated() => $pb.PbList<ModEvent>();
+  @$core.pragma('dart2js:noInline')
+  static ModEvent getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ModEvent>(create);
+  static ModEvent _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  Meta get meta => $_getN(1);
+  @$pb.TagNumber(2)
+  set meta(Meta v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasMeta() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearMeta() => clearField(2);
+  @$pb.TagNumber(2)
+  Meta ensureMeta() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  $core.String get eventType => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set eventType($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasEventType() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearEventType() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.List<$core.int> get payload => $_getN(3);
+  @$pb.TagNumber(4)
+  set payload($core.List<$core.int> v) { $_setBytes(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasPayload() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearPayload() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get payloadEncoding => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set payloadEncoding($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasPayloadEncoding() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearPayloadEncoding() => clearField(5);
+}
+
+class AggMeta extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AggMeta', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..e<TimeSegment>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'timeSegment', $pb.PbFieldType.OE, defaultOrMaker: TimeSegment.INVALID, valueOf: TimeSegment.valueOf, enumValues: TimeSegment.values)
+    ..aOM<$2.Timestamp>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'datetimeStart', subBuilder: $2.Timestamp.create)
+    ..aOM<$2.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'datetimeEnd', subBuilder: $2.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  AggMeta._() : super();
+  factory AggMeta() => create();
+  factory AggMeta.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AggMeta.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AggMeta clone() => AggMeta()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AggMeta copyWith(void Function(AggMeta) updates) => super.copyWith((message) => updates(message as AggMeta)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AggMeta create() => AggMeta._();
+  AggMeta createEmptyInstance() => create();
+  static $pb.PbList<AggMeta> createRepeated() => $pb.PbList<AggMeta>();
+  @$core.pragma('dart2js:noInline')
+  static AggMeta getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AggMeta>(create);
+  static AggMeta _defaultInstance;
+
+  @$pb.TagNumber(1)
+  TimeSegment get timeSegment => $_getN(0);
+  @$pb.TagNumber(1)
+  set timeSegment(TimeSegment v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasTimeSegment() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTimeSegment() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $2.Timestamp get datetimeStart => $_getN(1);
+  @$pb.TagNumber(2)
+  set datetimeStart($2.Timestamp v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDatetimeStart() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDatetimeStart() => clearField(2);
+  @$pb.TagNumber(2)
+  $2.Timestamp ensureDatetimeStart() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  $2.Timestamp get datetimeEnd => $_getN(2);
+  @$pb.TagNumber(3)
+  set datetimeEnd($2.Timestamp v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasDatetimeEnd() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearDatetimeEnd() => clearField(3);
+  @$pb.TagNumber(3)
+  $2.Timestamp ensureDatetimeEnd() => $_ensure(2);
+}
+
+class AggModEvent extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'AggModEvent', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..aOM<AggMeta>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'aggMeta', subBuilder: AggMeta.create)
+    ..pc<Meta>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'eventMetas', $pb.PbFieldType.PM, subBuilder: Meta.create)
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'eventType')
+    ..a<$core.List<$core.int>>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'payload', $pb.PbFieldType.OY)
+    ..aInt64(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'count')
+    ..hasRequiredFields = false
+  ;
+
+  AggModEvent._() : super();
+  factory AggModEvent() => create();
+  factory AggModEvent.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AggModEvent.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AggModEvent clone() => AggModEvent()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AggModEvent copyWith(void Function(AggModEvent) updates) => super.copyWith((message) => updates(message as AggModEvent)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AggModEvent create() => AggModEvent._();
+  AggModEvent createEmptyInstance() => create();
+  static $pb.PbList<AggModEvent> createRepeated() => $pb.PbList<AggModEvent>();
+  @$core.pragma('dart2js:noInline')
+  static AggModEvent getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AggModEvent>(create);
+  static AggModEvent _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  AggMeta get aggMeta => $_getN(1);
+  @$pb.TagNumber(2)
+  set aggMeta(AggMeta v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAggMeta() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAggMeta() => clearField(2);
+  @$pb.TagNumber(2)
+  AggMeta ensureAggMeta() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  $core.List<Meta> get eventMetas => $_getList(2);
+
+  @$pb.TagNumber(4)
+  $core.String get eventType => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set eventType($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasEventType() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearEventType() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.List<$core.int> get payload => $_getN(4);
+  @$pb.TagNumber(5)
+  set payload($core.List<$core.int> v) { $_setBytes(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasPayload() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearPayload() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $fixnum.Int64 get count => $_getI64(5);
+  @$pb.TagNumber(6)
+  set count($fixnum.Int64 v) { $_setInt64(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasCount() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearCount() => clearField(6);
+}
+
+class DownloadAnalyticsRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'DownloadAnalyticsRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..a<$core.List<$core.int>>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'filter', $pb.PbFieldType.OY)
+    ..aOM<$2.Timestamp>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'datetimeStart', subBuilder: $2.Timestamp.create)
+    ..aOM<$2.Timestamp>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'datetimeEnd', subBuilder: $2.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  DownloadAnalyticsRequest._() : super();
+  factory DownloadAnalyticsRequest() => create();
+  factory DownloadAnalyticsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DownloadAnalyticsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  DownloadAnalyticsRequest clone() => DownloadAnalyticsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  DownloadAnalyticsRequest copyWith(void Function(DownloadAnalyticsRequest) updates) => super.copyWith((message) => updates(message as DownloadAnalyticsRequest)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static DownloadAnalyticsRequest create() => DownloadAnalyticsRequest._();
+  DownloadAnalyticsRequest createEmptyInstance() => create();
+  static $pb.PbList<DownloadAnalyticsRequest> createRepeated() => $pb.PbList<DownloadAnalyticsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static DownloadAnalyticsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DownloadAnalyticsRequest>(create);
+  static DownloadAnalyticsRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.List<$core.int> get filter => $_getN(1);
+  @$pb.TagNumber(2)
+  set filter($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasFilter() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearFilter() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $2.Timestamp get datetimeStart => $_getN(2);
+  @$pb.TagNumber(3)
+  set datetimeStart($2.Timestamp v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasDatetimeStart() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearDatetimeStart() => clearField(3);
+  @$pb.TagNumber(3)
+  $2.Timestamp ensureDatetimeStart() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  $2.Timestamp get datetimeEnd => $_getN(3);
+  @$pb.TagNumber(4)
+  set datetimeEnd($2.Timestamp v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasDatetimeEnd() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearDatetimeEnd() => clearField(4);
+  @$pb.TagNumber(4)
+  $2.Timestamp ensureDatetimeEnd() => $_ensure(3);
+}
+
+class DownloadAnalyticsResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'DownloadAnalyticsResponse', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'analyticsBytes', $pb.PbFieldType.OY)
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'analyticsUrl')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'analyticsFile')
+    ..hasRequiredFields = false
+  ;
+
+  DownloadAnalyticsResponse._() : super();
+  factory DownloadAnalyticsResponse() => create();
+  factory DownloadAnalyticsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DownloadAnalyticsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  DownloadAnalyticsResponse clone() => DownloadAnalyticsResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  DownloadAnalyticsResponse copyWith(void Function(DownloadAnalyticsResponse) updates) => super.copyWith((message) => updates(message as DownloadAnalyticsResponse)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static DownloadAnalyticsResponse create() => DownloadAnalyticsResponse._();
+  DownloadAnalyticsResponse createEmptyInstance() => create();
+  static $pb.PbList<DownloadAnalyticsResponse> createRepeated() => $pb.PbList<DownloadAnalyticsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static DownloadAnalyticsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DownloadAnalyticsResponse>(create);
+  static DownloadAnalyticsResponse _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<$core.int> get analyticsBytes => $_getN(0);
+  @$pb.TagNumber(1)
+  set analyticsBytes($core.List<$core.int> v) { $_setBytes(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasAnalyticsBytes() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearAnalyticsBytes() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get analyticsUrl => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set analyticsUrl($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAnalyticsUrl() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAnalyticsUrl() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get analyticsFile => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set analyticsFile($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAnalyticsFile() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAnalyticsFile() => clearField(3);
 }
 

@@ -343,6 +343,8 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
       imageBuilder: widget.imageBuilder,
       itemChildren: widget.itemChildren,
       childBuilder: widget.childBuilder,
+      searchFunction: widget.searchFunction,
+      resetSearchFunction: widget.resetSearchFunction,
     );
     /*
       We are not using flutter Modular for pushing the route here

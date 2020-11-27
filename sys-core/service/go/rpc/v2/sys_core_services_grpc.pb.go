@@ -397,3 +397,146 @@ func NewEmailServiceService(s interface{}) *EmailServiceService {
 type UnstableEmailServiceService interface {
 	SendMail(context.Context, *EmailRequest) (*EmailResponse, error)
 }
+
+// AnalyticsServiceClient is the client API for AnalyticsService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type AnalyticsServiceClient interface {
+	SendAnalyticsEvent(ctx context.Context, in *ModEvent, opts ...grpc.CallOption) (*empty.Empty, error)
+	DownloadAnalytics(ctx context.Context, in *DownloadAnalyticsRequest, opts ...grpc.CallOption) (*DownloadAnalyticsResponse, error)
+}
+
+type analyticsServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewAnalyticsServiceClient(cc grpc.ClientConnInterface) AnalyticsServiceClient {
+	return &analyticsServiceClient{cc}
+}
+
+var analyticsServiceSendAnalyticsEventStreamDesc = &grpc.StreamDesc{
+	StreamName: "SendAnalyticsEvent",
+}
+
+func (c *analyticsServiceClient) SendAnalyticsEvent(ctx context.Context, in *ModEvent, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/v2.sys_core.services.AnalyticsService/SendAnalyticsEvent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+var analyticsServiceDownloadAnalyticsStreamDesc = &grpc.StreamDesc{
+	StreamName: "DownloadAnalytics",
+}
+
+func (c *analyticsServiceClient) DownloadAnalytics(ctx context.Context, in *DownloadAnalyticsRequest, opts ...grpc.CallOption) (*DownloadAnalyticsResponse, error) {
+	out := new(DownloadAnalyticsResponse)
+	err := c.cc.Invoke(ctx, "/v2.sys_core.services.AnalyticsService/DownloadAnalytics", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// AnalyticsServiceService is the service API for AnalyticsService service.
+// Fields should be assigned to their respective handler implementations only before
+// RegisterAnalyticsServiceService is called.  Any unassigned fields will result in the
+// handler for that method returning an Unimplemented error.
+type AnalyticsServiceService struct {
+	SendAnalyticsEvent func(context.Context, *ModEvent) (*empty.Empty, error)
+	DownloadAnalytics  func(context.Context, *DownloadAnalyticsRequest) (*DownloadAnalyticsResponse, error)
+}
+
+func (s *AnalyticsServiceService) sendAnalyticsEvent(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.SendAnalyticsEvent == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method SendAnalyticsEvent not implemented")
+	}
+	in := new(ModEvent)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.SendAnalyticsEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_core.services.AnalyticsService/SendAnalyticsEvent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.SendAnalyticsEvent(ctx, req.(*ModEvent))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+func (s *AnalyticsServiceService) downloadAnalytics(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.DownloadAnalytics == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method DownloadAnalytics not implemented")
+	}
+	in := new(DownloadAnalyticsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.DownloadAnalytics(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_core.services.AnalyticsService/DownloadAnalytics",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.DownloadAnalytics(ctx, req.(*DownloadAnalyticsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// RegisterAnalyticsServiceService registers a service implementation with a gRPC server.
+func RegisterAnalyticsServiceService(s grpc.ServiceRegistrar, srv *AnalyticsServiceService) {
+	sd := grpc.ServiceDesc{
+		ServiceName: "v2.sys_core.services.AnalyticsService",
+		Methods: []grpc.MethodDesc{
+			{
+				MethodName: "SendAnalyticsEvent",
+				Handler:    srv.sendAnalyticsEvent,
+			},
+			{
+				MethodName: "DownloadAnalytics",
+				Handler:    srv.downloadAnalytics,
+			},
+		},
+		Streams:  []grpc.StreamDesc{},
+		Metadata: "sys_core_services.proto",
+	}
+
+	s.RegisterService(&sd, nil)
+}
+
+// NewAnalyticsServiceService creates a new AnalyticsServiceService containing the
+// implemented methods of the AnalyticsService service in s.  Any unimplemented
+// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
+// This includes situations where the method handler is misspelled or has the wrong
+// signature.  For this reason, this function should be used with great care and
+// is not recommended to be used by most users.
+func NewAnalyticsServiceService(s interface{}) *AnalyticsServiceService {
+	ns := &AnalyticsServiceService{}
+	if h, ok := s.(interface {
+		SendAnalyticsEvent(context.Context, *ModEvent) (*empty.Empty, error)
+	}); ok {
+		ns.SendAnalyticsEvent = h.SendAnalyticsEvent
+	}
+	if h, ok := s.(interface {
+		DownloadAnalytics(context.Context, *DownloadAnalyticsRequest) (*DownloadAnalyticsResponse, error)
+	}); ok {
+		ns.DownloadAnalytics = h.DownloadAnalytics
+	}
+	return ns
+}
+
+// UnstableAnalyticsServiceService is the service API for AnalyticsService service.
+// New methods may be added to this interface if they are added to the service
+// definition, which is not a backward-compatible change.  For this reason,
+// use of this type is not recommended.
+type UnstableAnalyticsServiceService interface {
+	SendAnalyticsEvent(context.Context, *ModEvent) (*empty.Empty, error)
+	DownloadAnalytics(context.Context, *DownloadAnalyticsRequest) (*DownloadAnalyticsResponse, error)
+}

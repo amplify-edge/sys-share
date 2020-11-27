@@ -20,3 +20,8 @@ service BusService {
 service EmailService {
   rpc SendMail(v2.sys_core.services.EmailRequest) returns (v2.sys_core.services.EmailResponse) {}
 }
+
+service AnalyticsService {
+  rpc SendAnalyticsEvent(v2.sys_core.services.ModEvent) returns (google.protobuf.Empty) {};
+  rpc DownloadAnalytics(v2.sys_core.services.DownloadAnalyticsRequest) returns (v2.sys_core.services.DownloadAnalyticsResponse) {};
+}

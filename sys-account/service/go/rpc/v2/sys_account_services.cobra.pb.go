@@ -410,6 +410,7 @@ func OrgProjServiceClientCommand(options ...client.Option) *cobra.Command {
 		_OrgProjServiceNewOrgCommand(cfg),
 		_OrgProjServiceGetOrgCommand(cfg),
 		_OrgProjServiceListOrgCommand(cfg),
+		_OrgProjServiceListNonSubscribedOrgsCommand(cfg),
 		_OrgProjServiceUpdateOrgCommand(cfg),
 		_OrgProjServiceDeleteOrgCommand(cfg),
 	)
@@ -551,6 +552,7 @@ func _OrgProjServiceListProjectCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
+	cmd.PersistentFlags().StringVar(&req.AccountId, cfg.FlagNamer("AccountId"), "", "")
 
 	return cmd
 }
@@ -779,6 +781,55 @@ func _OrgProjServiceListOrgCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
+	cmd.PersistentFlags().StringVar(&req.AccountId, cfg.FlagNamer("AccountId"), "", "")
+
+	return cmd
+}
+
+func _OrgProjServiceListNonSubscribedOrgsCommand(cfg *client.Config) *cobra.Command {
+	req := &ListRequest{}
+
+	cmd := &cobra.Command{
+		Use:    cfg.CommandNamer("ListNonSubscribedOrgs"),
+		Short:  "ListNonSubscribedOrgs RPC client",
+		Long:   "",
+		Hidden: false,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if cfg.UseEnvVars {
+				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService"); err != nil {
+					return err
+				}
+				if err := flag.SetFlagsFromEnv(cmd.PersistentFlags(), false, cfg.EnvVarNamer, cfg.EnvVarPrefix, "OrgProjService", "ListNonSubscribedOrgs"); err != nil {
+					return err
+				}
+			}
+			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
+				cli := NewOrgProjServiceClient(cc)
+				v := &ListRequest{}
+
+				if err := in(v); err != nil {
+					return err
+				}
+				proto.Merge(v, req)
+
+				res, err := cli.ListNonSubscribedOrgs(cmd.Context(), v)
+
+				if err != nil {
+					return err
+				}
+
+				return out(res)
+
+			})
+		},
+	}
+
+	cmd.PersistentFlags().Int64Var(&req.PerPageEntries, cfg.FlagNamer("PerPageEntries"), 0, "limit")
+	cmd.PersistentFlags().StringVar(&req.OrderBy, cfg.FlagNamer("OrderBy"), "", "")
+	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
+	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
+	cmd.PersistentFlags().StringVar(&req.AccountId, cfg.FlagNamer("AccountId"), "", "")
 
 	return cmd
 }

@@ -5,6 +5,15 @@
 // @dart = 2.3
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
+const TimeSegment$json = const {
+  '1': 'TimeSegment',
+  '2': const [
+    const {'1': 'INVALID', '2': 0},
+    const {'1': 'HOUR', '2': 1},
+    const {'1': 'DAY', '2': 2},
+  ],
+};
+
 const RestoreResult$json = const {
   '1': 'RestoreResult',
   '2': const [
@@ -125,6 +134,80 @@ const FileDownloadResponse$json = const {
     const {'1': 'error_msg', '3': 3, '4': 1, '5': 9, '10': 'errorMsg'},
     const {'1': 'total_size', '3': 4, '4': 1, '5': 3, '10': 'totalSize'},
     const {'1': 'is_compressed', '3': 5, '4': 1, '5': 8, '10': 'isCompressed'},
+  ],
+};
+
+const GeoLoc$json = const {
+  '1': 'GeoLoc',
+  '2': const [
+    const {'1': 'longitude', '3': 1, '4': 1, '5': 2, '10': 'longitude'},
+    const {'1': 'latitude', '3': 2, '4': 1, '5': 2, '10': 'latitude'},
+  ],
+};
+
+const Meta$json = const {
+  '1': 'Meta',
+  '2': const [
+    const {'1': 'actor', '3': 1, '4': 1, '5': 9, '10': 'actor'},
+    const {'1': 'user_id', '3': 2, '4': 1, '5': 9, '10': 'userId'},
+    const {'1': 'user_name', '3': 3, '4': 1, '5': 9, '10': 'userName'},
+    const {'1': 'datetime', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'datetime'},
+    const {'1': 'geo', '3': 5, '4': 1, '5': 11, '6': '.v2.sys_core.services.GeoLoc', '10': 'geo'},
+    const {'1': 'org_id', '3': 6, '4': 1, '5': 9, '10': 'orgId'},
+    const {'1': 'org_name', '3': 7, '4': 1, '5': 9, '10': 'orgName'},
+    const {'1': 'project_id', '3': 8, '4': 1, '5': 9, '10': 'projectId'},
+    const {'1': 'project_name', '3': 9, '4': 1, '5': 9, '10': 'projectName'},
+  ],
+};
+
+const ModEvent$json = const {
+  '1': 'ModEvent',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'meta', '3': 2, '4': 1, '5': 11, '6': '.v2.sys_core.services.Meta', '10': 'meta'},
+    const {'1': 'event_type', '3': 3, '4': 1, '5': 9, '10': 'eventType'},
+    const {'1': 'payload', '3': 4, '4': 1, '5': 12, '10': 'payload'},
+    const {'1': 'payload_encoding', '3': 5, '4': 1, '5': 9, '10': 'payloadEncoding'},
+  ],
+};
+
+const AggMeta$json = const {
+  '1': 'AggMeta',
+  '2': const [
+    const {'1': 'time_segment', '3': 1, '4': 1, '5': 14, '6': '.v2.sys_core.services.TimeSegment', '10': 'timeSegment'},
+    const {'1': 'datetime_start', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'datetimeStart'},
+    const {'1': 'datetime_end', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'datetimeEnd'},
+  ],
+};
+
+const AggModEvent$json = const {
+  '1': 'AggModEvent',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'agg_meta', '3': 2, '4': 1, '5': 11, '6': '.v2.sys_core.services.AggMeta', '10': 'aggMeta'},
+    const {'1': 'event_metas', '3': 3, '4': 3, '5': 11, '6': '.v2.sys_core.services.Meta', '10': 'eventMetas'},
+    const {'1': 'event_type', '3': 4, '4': 1, '5': 9, '10': 'eventType'},
+    const {'1': 'payload', '3': 5, '4': 1, '5': 12, '10': 'payload'},
+    const {'1': 'count', '3': 6, '4': 1, '5': 3, '10': 'count'},
+  ],
+};
+
+const DownloadAnalyticsRequest$json = const {
+  '1': 'DownloadAnalyticsRequest',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'filter', '3': 2, '4': 1, '5': 12, '10': 'filter'},
+    const {'1': 'datetime_start', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'datetimeStart'},
+    const {'1': 'datetime_end', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'datetimeEnd'},
+  ],
+};
+
+const DownloadAnalyticsResponse$json = const {
+  '1': 'DownloadAnalyticsResponse',
+  '2': const [
+    const {'1': 'analytics_bytes', '3': 1, '4': 1, '5': 12, '10': 'analyticsBytes'},
+    const {'1': 'analytics_url', '3': 2, '4': 1, '5': 9, '10': 'analyticsUrl'},
+    const {'1': 'analytics_file', '3': 3, '4': 1, '5': 9, '10': 'analyticsFile'},
   ],
 };
 

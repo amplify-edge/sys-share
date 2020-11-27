@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 package v2.sys_core.services;
 
 option go_package = "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2";
@@ -80,3 +82,62 @@ message FileDownloadResponse {
   bool is_compressed = 5;
 }
 
+message GeoLoc {
+  float longitude = 1;
+  float latitude = 2;
+}
+
+message Meta {
+  string actor = 1;
+  string user_id = 2; // name or id
+  string user_name = 3;
+  google.protobuf.Timestamp datetime = 4;
+  GeoLoc geo = 5;
+  string org_id = 6;
+  string org_name = 7;
+  string project_id = 8;
+  string project_name = 9;
+}
+
+message ModEvent {
+  string id = 1;
+  Meta meta = 2;
+  string event_type = 3;
+  bytes payload = 4;
+  // string / json / proto / msgpack / whichever
+  string payload_encoding = 5;
+}
+
+enum TimeSegment {
+  INVALID = 0;
+  HOUR = 1;
+  DAY = 2;
+}
+
+message AggMeta {
+  TimeSegment time_segment = 1;
+  google.protobuf.Timestamp datetime_start = 2;
+  google.protobuf.Timestamp datetime_end = 3;
+}
+
+message AggModEvent {
+  string id = 1;
+  AggMeta agg_meta = 2;
+  repeated Meta event_metas = 3; // aggregation of metadata from the events it collects
+  string event_type = 4;
+  bytes payload = 5; // merged json or string
+  int64 count = 6;
+}
+
+message DownloadAnalyticsRequest {
+  string id = 1;
+  bytes filter = 2;
+  google.protobuf.Timestamp datetime_start = 3;
+  google.protobuf.Timestamp datetime_end = 4;
+}
+
+message DownloadAnalyticsResponse {
+  bytes analytics_bytes = 1; // when you want the raw data (json / msgpack / proto)
+  string analytics_url = 2; // when you want the url uploaded to sheets as json / csv
+  string analytics_file = 3; // when you want the file in json / csv format for example
+}

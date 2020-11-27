@@ -267,6 +267,11 @@ class OrgProjServiceClient extends $grpc.Client {
       '/v2.sys_account.services.OrgProjService/ListOrg',
       ($0.ListRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.ListResponse.fromBuffer(value));
+  static final _$listNonSubscribedOrgs =
+      $grpc.ClientMethod<$0.ListRequest, $0.ListResponse>(
+          '/v2.sys_account.services.OrgProjService/ListNonSubscribedOrgs',
+          ($0.ListRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $0.ListResponse.fromBuffer(value));
   static final _$updateOrg = $grpc.ClientMethod<$0.OrgUpdateRequest, $0.Org>(
       '/v2.sys_account.services.OrgProjService/UpdateOrg',
       ($0.OrgUpdateRequest value) => value.writeToBuffer(),
@@ -337,6 +342,15 @@ class OrgProjServiceClient extends $grpc.Client {
   $grpc.ResponseFuture<$0.ListResponse> listOrg($0.ListRequest request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$listOrg, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$0.ListResponse> listNonSubscribedOrgs(
+      $0.ListRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$listNonSubscribedOrgs, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -417,6 +431,13 @@ abstract class OrgProjServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.ListRequest.fromBuffer(value),
         ($0.ListResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.ListRequest, $0.ListResponse>(
+        'ListNonSubscribedOrgs',
+        listNonSubscribedOrgs_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.ListRequest.fromBuffer(value),
+        ($0.ListResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.OrgUpdateRequest, $0.Org>(
         'UpdateOrg',
         updateOrg_Pre,
@@ -473,6 +494,11 @@ abstract class OrgProjServiceBase extends $grpc.Service {
     return listOrg(call, await request);
   }
 
+  $async.Future<$0.ListResponse> listNonSubscribedOrgs_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.ListRequest> request) async {
+    return listNonSubscribedOrgs(call, await request);
+  }
+
   $async.Future<$0.Org> updateOrg_Pre($grpc.ServiceCall call,
       $async.Future<$0.OrgUpdateRequest> request) async {
     return updateOrg(call, await request);
@@ -496,6 +522,8 @@ abstract class OrgProjServiceBase extends $grpc.Service {
   $async.Future<$0.Org> newOrg($grpc.ServiceCall call, $0.OrgRequest request);
   $async.Future<$0.Org> getOrg($grpc.ServiceCall call, $0.IdRequest request);
   $async.Future<$0.ListResponse> listOrg(
+      $grpc.ServiceCall call, $0.ListRequest request);
+  $async.Future<$0.ListResponse> listNonSubscribedOrgs(
       $grpc.ServiceCall call, $0.ListRequest request);
   $async.Future<$0.Org> updateOrg(
       $grpc.ServiceCall call, $0.OrgUpdateRequest request);
