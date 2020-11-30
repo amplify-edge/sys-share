@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/sys_core.dart';
 import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
@@ -115,7 +116,7 @@ class AuthDialogState extends State<AuthDialog> {
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Theme.of(context).textTheme.subtitle2.color,
+                          color: Colors.blueGrey[300],
                         ),
                         hintText: SysAccountLocalizations.of(context)
                             .translate('emailHint'),
@@ -165,7 +166,9 @@ class AuthDialogState extends State<AuthDialog> {
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Theme.of(context).scaffoldBackgroundColor,
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
@@ -232,6 +235,7 @@ class AuthDialogState extends State<AuthDialog> {
                                                 error: false,
                                               );
                                               widget._callback();
+                                              Modular.to.pushNamed('/');
                                             }
                                           });
                                         }

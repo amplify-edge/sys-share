@@ -173,6 +173,7 @@ message ListRequest {
   string current_page_id = 3;
   bool is_descending = 4;
   bytes filters = 5;
+  string account_id = 6;
 }
 
 message ListResponse {

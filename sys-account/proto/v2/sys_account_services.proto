@@ -28,6 +28,7 @@ service OrgProjService {
   rpc NewOrg(v2.sys_account.services.OrgRequest) returns (v2.sys_account.services.Org) {};
   rpc GetOrg(v2.sys_account.services.IdRequest) returns (v2.sys_account.services.Org) {};
   rpc ListOrg(v2.sys_account.services.ListRequest) returns (v2.sys_account.services.ListResponse) {};
+  rpc ListNonSubscribedOrgs(v2.sys_account.services.ListRequest) returns (v2.sys_account.services.ListResponse) {};
   rpc UpdateOrg(v2.sys_account.services.OrgUpdateRequest) returns (v2.sys_account.services.Org) {};
   rpc DeleteOrg(v2.sys_account.services.IdRequest) returns (google.protobuf.Empty) {};
 }

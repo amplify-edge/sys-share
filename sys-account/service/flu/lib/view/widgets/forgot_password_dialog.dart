@@ -86,17 +86,16 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Colors.blueGrey[800],
+                            color: Theme.of(context).scaffoldBackgroundColor,
                             width: 3,
                           ),
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Theme.of(context)
-                              .dialogBackgroundColor
-                              .withOpacity(0.8),
+                          color: Colors.blueGrey[300],
                         ),
-                        hintText: SysAccountLocalizations.of(context).translate('email'),
+                        hintText: SysAccountLocalizations.of(context)
+                            .translate('email'),
                         fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
@@ -166,7 +165,8 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                                           ),
                                         ),
                                       )
-                                    : Text(SysAccountLocalizations.of(context).translate('resetPassword')),
+                                    : Text(SysAccountLocalizations.of(context)
+                                        .translate('resetPassword')),
                               ),
                             ),
                           ),
@@ -177,7 +177,8 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      SysAccountLocalizations.of(context).translate('byProceeding'),
+                      SysAccountLocalizations.of(context)
+                          .translate('byProceeding'),
                       maxLines: 2,
                       style: TextStyle(
                         color: Theme.of(context)
