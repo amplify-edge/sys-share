@@ -104,9 +104,10 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Theme.of(context).textTheme.subtitle2.color,
+                          color: Colors.blueGrey[300],
                         ),
-                        hintText: SysAccountLocalizations.of(context).translate('emailHint'),
+                        hintText: SysAccountLocalizations.of(context)
+                            .translate('emailHint'),
                         fillColor: Colors.white,
                         errorText: model.validateEmailText(),
                         errorStyle: TextStyle(
@@ -160,9 +161,10 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Theme.of(context).textTheme.subtitle2.color,
+                          color: Colors.blueGrey[300],
                         ),
-                        hintText: SysAccountLocalizations.of(context).translate('passwordHint'),
+                        hintText: SysAccountLocalizations.of(context)
+                            .translate('passwordHint'),
                         fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validatePasswordText(),
                         errorStyle: TextStyle(
@@ -190,7 +192,8 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                       bottom: 8,
                     ),
                     child: Text(
-                      SysAccountLocalizations.of(context).translate('verificationToken'),
+                      SysAccountLocalizations.of(context)
+                          .translate('verificationToken'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -230,9 +233,10 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Theme.of(context).textTheme.subtitle2.color,
+                          color: Colors.blueGrey[300],
                         ),
-                        hintText: SysAccountLocalizations.of(context).translate('verificationToken'),
+                        hintText: SysAccountLocalizations.of(context)
+                            .translate('verificationToken'),
                         fillColor: Colors.white,
                         errorText: model.validateVerificationTokenText(),
                         errorStyle: TextStyle(
@@ -296,7 +300,8 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                                         ),
                                       )
                                     : Text(
-                                        SysAccountLocalizations.of(context).translate('submitNewPassword'),
+                                        SysAccountLocalizations.of(context)
+                                            .translate('submitNewPassword'),
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.white,

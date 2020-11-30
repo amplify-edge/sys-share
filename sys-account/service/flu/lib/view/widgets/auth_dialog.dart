@@ -116,7 +116,7 @@ class AuthDialogState extends State<AuthDialog> {
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Theme.of(context).textTheme.subtitle2.color,
+                          color: Colors.blueGrey[300],
                         ),
                         hintText: SysAccountLocalizations.of(context)
                             .translate('emailHint'),
@@ -166,7 +166,9 @@ class AuthDialogState extends State<AuthDialog> {
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Theme.of(context).scaffoldBackgroundColor,
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
