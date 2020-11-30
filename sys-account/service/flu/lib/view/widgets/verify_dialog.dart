@@ -97,7 +97,7 @@ class VerifyDialogState extends State<VerifyDialog> {
                         ),
                         filled: true,
                         hintStyle: new TextStyle(
-                          color: Theme.of(context).textTheme.subtitle2.color,
+                          color: Colors.blueGrey[300],
                         ),
                         hintText: SysAccountLocalizations.of(context)
                             .translate('verificationToken'),
