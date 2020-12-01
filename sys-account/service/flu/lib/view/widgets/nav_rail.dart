@@ -164,15 +164,15 @@ class AccountNavRail extends StatelessWidget {
                               ),
                               child: tab.icon,
                             ),
-                            DefaultTextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: (currentIndex == tabs.indexOf(tab))
-                                    ? bottomNavigationBarSelectedColor
-                                    : bottomNavigationBarUnselectedColor,
-                              ),
-                              child: tab.title,
-                            ),
+                            // DefaultTextStyle(
+                            //   overflow: TextOverflow.ellipsis,
+                            //   style: TextStyle(
+                            //     color: (currentIndex == tabs.indexOf(tab))
+                            //         ? bottomNavigationBarSelectedColor
+                            //         : bottomNavigationBarUnselectedColor,
+                            //   ),
+                            //   child: tab.title,
+                            // ),
                           ],
                         ),
                       ),
