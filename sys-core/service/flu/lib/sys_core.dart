@@ -11,7 +11,6 @@ export 'package:sys_core/device_utils.dart';
 export 'package:sys_core/pkg/i18n/languages.dart';
 export 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 export 'package:sys_core/pkg/widgets/gc_master_detail.dart';
-export 'package:sys_core/pkg/widgets/old_master_detail.dart';
 export 'package:sys_core/pkg/widgets/notification.dart';
 export 'package:sys_core/pkg/settings/core_settings.dart';
 export 'package:sys_core/rpc/v2/sys_core_models.pb.dart';

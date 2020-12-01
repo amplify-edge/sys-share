@@ -36,7 +36,7 @@ class App extends StatelessWidget {
       initialRoute: "/",
       onGenerateRoute: Modular.generateRoute,
       localizationsDelegates: [
-        SysAccountLocalizationsDelegate(Locale('en')),
+        SysAccountLocalizationsDelegate(),
       ],
     );
   }

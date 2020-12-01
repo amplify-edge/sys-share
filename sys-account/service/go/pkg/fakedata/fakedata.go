@@ -14,11 +14,11 @@ type bootstrapSuperUser struct {
 }
 
 type bootstrapOrgs struct {
-	Orgs []*accountRpc.OrgRequest `fakesize:"200" json:"new_orgs" yaml:"new_orgs"`
+	Orgs []*accountRpc.OrgRequest `fakesize:"20" json:"new_orgs" yaml:"new_orgs"`
 }
 
 type bootstrapProjects struct {
-	Projects []*accountRpc.ProjectRequest `fakesize:"1000" json:"new_projects" yaml:"new_projects"`
+	Projects []*accountRpc.ProjectRequest `fakesize:"100" json:"new_projects" yaml:"new_projects"`
 }
 
 type BootstrapSysAccount struct {

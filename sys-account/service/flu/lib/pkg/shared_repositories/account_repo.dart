@@ -1,4 +1,5 @@
 import 'package:sys_core/sys_core.dart';
+import 'package:sys_share_sys_account_service/rpc/v2/google/protobuf/empty.pb.dart';
 import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart'
     as rpc;
 import 'package:fixnum/fixnum.dart';
@@ -86,6 +87,17 @@ class UserRepo {
       final resp =
           await client.disableAccount(req, options: await getCallOptions());
       return resp;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static Future<Empty> deleteAccount({@required String id}) async {
+    final req = rpc.DisableAccountRequest()..accountId = id;
+    try {
+      final client = await accountClient();
+      await client.deleteAccount(req, options: await getCallOptions());
+      return Empty();
     } catch (e) {
       throw e;
     }

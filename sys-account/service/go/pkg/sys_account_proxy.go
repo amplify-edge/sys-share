@@ -77,6 +77,7 @@ type AccountService interface {
 	AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
 	UpdateAccount(context.Context, *AccountUpdateRequest) (*Account, error)
 	DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
+	DeleteAccount(context.Context, *DisableAccountRequest) (*emptypb.Empty, error)
 }
 
 func newAccountProxy(as AccountService) func(context.Context, *rpc.AccountNewRequest) (*rpc.Account, error) {
@@ -169,6 +170,16 @@ func disableAccountProxy(as AccountService) func(context.Context, *rpc.DisableAc
 			return nil, err
 		}
 		return acc.ToProto()
+	}
+}
+
+func deleteAccountProxy(as AccountService) func(context.Context, *rpc.DisableAccountRequest) (*emptypb.Empty, error) {
+	return func(ctx context.Context, in *rpc.DisableAccountRequest) (*emptypb.Empty, error) {
+		acc, err := as.DeleteAccount(ctx, &DisableAccountRequest{AccountId: in.GetAccountId()})
+		if err != nil {
+			return nil, err
+		}
+		return acc, nil
 	}
 }
 
@@ -266,6 +277,7 @@ func newAccountService(acc AccountService) *accountService {
 			AssignAccountToRole: assignToRoleProxy(acc),
 			UpdateAccount:       updateAccountProxy(acc),
 			DisableAccount:      disableAccountProxy(acc),
+			DeleteAccount:       deleteAccountProxy(acc),
 		},
 	}
 }
@@ -303,6 +315,7 @@ type AccountServiceClient interface {
 	AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error)
 	UpdateAccount(ctx context.Context, in *AccountUpdateRequest, opts ...grpc.CallOption) (*Account, error)
 	DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type accountSvcClientProxy struct {
@@ -409,6 +422,15 @@ func (as *accountSvcClientProxy) DisableAccount(ctx context.Context, in *Disable
 		return nil, err
 	}
 	return account, nil
+}
+
+func (as *accountSvcClientProxy) DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	req := in.ToProto()
+	resp, err := as.svcClient.DeleteAccount(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
 
 type AuthServiceClient interface {

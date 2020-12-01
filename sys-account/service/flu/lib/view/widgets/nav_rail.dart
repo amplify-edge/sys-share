@@ -85,7 +85,7 @@ class AccountNavRail extends StatelessWidget {
           );
         }
 
-        //TABLET
+        /// TABLET
         if (dimens.maxWidth >= this.tabletBreakpoint &&
             dimens.maxHeight > this.minHeight) {
           return Scaffold(
@@ -133,7 +133,7 @@ class AccountNavRail extends StatelessWidget {
           );
         }
 
-        //PHONE
+        /// PHONE / MOBILE
         return Scaffold(
           body: body,
           floatingActionButton: floatingActionButton,
@@ -142,7 +142,7 @@ class AccountNavRail extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   for (var tab in this.tabs) ...[
                     InkWell(
@@ -157,21 +157,22 @@ class AccountNavRail extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             IconTheme(
-                                data: IconThemeData(
-                                  color: (currentIndex == tabs.indexOf(tab))
-                                      ? bottomNavigationBarSelectedColor
-                                      : bottomNavigationBarUnselectedColor,
-                                ),
-                                child: tab.icon),
-                            DefaultTextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
+                              data: IconThemeData(
                                 color: (currentIndex == tabs.indexOf(tab))
                                     ? bottomNavigationBarSelectedColor
                                     : bottomNavigationBarUnselectedColor,
                               ),
-                              child: tab.title,
+                              child: tab.icon,
                             ),
+                            // DefaultTextStyle(
+                            //   overflow: TextOverflow.ellipsis,
+                            //   style: TextStyle(
+                            //     color: (currentIndex == tabs.indexOf(tab))
+                            //         ? bottomNavigationBarSelectedColor
+                            //         : bottomNavigationBarUnselectedColor,
+                            //   ),
+                            //   child: tab.title,
+                            // ),
                           ],
                         ),
                       ),

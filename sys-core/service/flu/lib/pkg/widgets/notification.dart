@@ -9,7 +9,6 @@ void notify({
 }) {
   showFlash(
     context: context,
-    duration: Duration(seconds: 3),
     builder: (context, controller) {
       return Flash(
         controller: controller,

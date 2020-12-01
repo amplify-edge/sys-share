@@ -15,6 +15,7 @@ service AccountService {
   rpc AssignAccountToRole(v2.sys_account.services.AssignAccountToRoleRequest) returns (v2.sys_account.services.Account) {};
   rpc UpdateAccount(v2.sys_account.services.AccountUpdateRequest) returns (v2.sys_account.services.Account) {};
   rpc DisableAccount(v2.sys_account.services.DisableAccountRequest) returns (v2.sys_account.services.Account) {};
+  rpc DeleteAccount(v2.sys_account.services.DisableAccountRequest) returns (google.protobuf.Empty) {};
 }
 
 service OrgProjService {
