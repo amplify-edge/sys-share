@@ -25,6 +25,7 @@ type AccountServiceClient interface {
 	AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error)
 	UpdateAccount(ctx context.Context, in *AccountUpdateRequest, opts ...grpc.CallOption) (*Account, error)
 	DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type accountServiceClient struct {
@@ -126,6 +127,19 @@ func (c *accountServiceClient) DisableAccount(ctx context.Context, in *DisableAc
 	return out, nil
 }
 
+var accountServiceDeleteAccountStreamDesc = &grpc.StreamDesc{
+	StreamName: "DeleteAccount",
+}
+
+func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/DeleteAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceService is the service API for AccountService service.
 // Fields should be assigned to their respective handler implementations only before
 // RegisterAccountServiceService is called.  Any unassigned fields will result in the
@@ -138,6 +152,7 @@ type AccountServiceService struct {
 	AssignAccountToRole func(context.Context, *AssignAccountToRoleRequest) (*Account, error)
 	UpdateAccount       func(context.Context, *AccountUpdateRequest) (*Account, error)
 	DisableAccount      func(context.Context, *DisableAccountRequest) (*Account, error)
+	DeleteAccount       func(context.Context, *DisableAccountRequest) (*empty.Empty, error)
 }
 
 func (s *AccountServiceService) newAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -280,6 +295,26 @@ func (s *AccountServiceService) disableAccount(_ interface{}, ctx context.Contex
 	}
 	return interceptor(ctx, in, info, handler)
 }
+func (s *AccountServiceService) deleteAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	if s.DeleteAccount == nil {
+		return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
+	}
+	in := new(DisableAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return s.DeleteAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     s,
+		FullMethod: "/v2.sys_account.services.AccountService/DeleteAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return s.DeleteAccount(ctx, req.(*DisableAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
 
 // RegisterAccountServiceService registers a service implementation with a gRPC server.
 func RegisterAccountServiceService(s grpc.ServiceRegistrar, srv *AccountServiceService) {
@@ -313,6 +348,10 @@ func RegisterAccountServiceService(s grpc.ServiceRegistrar, srv *AccountServiceS
 			{
 				MethodName: "DisableAccount",
 				Handler:    srv.disableAccount,
+			},
+			{
+				MethodName: "DeleteAccount",
+				Handler:    srv.deleteAccount,
 			},
 		},
 		Streams:  []grpc.StreamDesc{},
@@ -365,6 +404,11 @@ func NewAccountServiceService(s interface{}) *AccountServiceService {
 	}); ok {
 		ns.DisableAccount = h.DisableAccount
 	}
+	if h, ok := s.(interface {
+		DeleteAccount(context.Context, *DisableAccountRequest) (*empty.Empty, error)
+	}); ok {
+		ns.DeleteAccount = h.DeleteAccount
+	}
 	return ns
 }
 
@@ -380,6 +424,7 @@ type UnstableAccountServiceService interface {
 	AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
 	UpdateAccount(context.Context, *AccountUpdateRequest) (*Account, error)
 	DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
+	DeleteAccount(context.Context, *DisableAccountRequest) (*empty.Empty, error)
 }
 
 // OrgProjServiceClient is the client API for OrgProjService service.

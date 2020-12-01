@@ -51,6 +51,11 @@ class AccountServiceClient extends $grpc.Client {
           '/v2.sys_account.services.AccountService/DisableAccount',
           ($0.DisableAccountRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Account.fromBuffer(value));
+  static final _$deleteAccount =
+      $grpc.ClientMethod<$0.DisableAccountRequest, $1.Empty>(
+          '/v2.sys_account.services.AccountService/DeleteAccount',
+          ($0.DisableAccountRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $1.Empty.fromBuffer(value));
 
   AccountServiceClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
@@ -112,6 +117,14 @@ class AccountServiceClient extends $grpc.Client {
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$disableAccount, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$1.Empty> deleteAccount($0.DisableAccountRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$deleteAccount, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -177,6 +190,14 @@ abstract class AccountServiceBase extends $grpc.Service {
         ($core.List<$core.int> value) =>
             $0.DisableAccountRequest.fromBuffer(value),
         ($0.Account value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.DisableAccountRequest, $1.Empty>(
+        'DeleteAccount',
+        deleteAccount_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) =>
+            $0.DisableAccountRequest.fromBuffer(value),
+        ($1.Empty value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.Account> newAccount_Pre($grpc.ServiceCall call,
@@ -216,6 +237,11 @@ abstract class AccountServiceBase extends $grpc.Service {
     return disableAccount(call, await request);
   }
 
+  $async.Future<$1.Empty> deleteAccount_Pre($grpc.ServiceCall call,
+      $async.Future<$0.DisableAccountRequest> request) async {
+    return deleteAccount(call, await request);
+  }
+
   $async.Future<$0.Account> newAccount(
       $grpc.ServiceCall call, $0.AccountNewRequest request);
   $async.Future<$0.Account> getAccount(
@@ -229,6 +255,8 @@ abstract class AccountServiceBase extends $grpc.Service {
   $async.Future<$0.Account> updateAccount(
       $grpc.ServiceCall call, $0.AccountUpdateRequest request);
   $async.Future<$0.Account> disableAccount(
+      $grpc.ServiceCall call, $0.DisableAccountRequest request);
+  $async.Future<$1.Empty> deleteAccount(
       $grpc.ServiceCall call, $0.DisableAccountRequest request);
 }
 
