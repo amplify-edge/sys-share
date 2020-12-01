@@ -227,6 +227,8 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
                   for (var item in widget.items)
                     ExpansionTile(
                         collapsedBackgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        backgroundColor:
                             Theme.of(context).dialogBackgroundColor,
                         maintainState: false,
                         initiallyExpanded:
@@ -308,7 +310,8 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
                   ),
                 if (widget.items != null && widget.items.isEmpty)
                   (widget.noItemsAvailable == null)
-                      ? Center(child: Text(sysCoreTranslate('noItemsAvailable')))
+                      ? Center(
+                          child: Text(sysCoreTranslate('noItemsAvailable')))
                       : widget.noItemsAvailable
               ],
             ),
