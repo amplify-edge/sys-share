@@ -257,6 +257,7 @@ type ListAccountsRequest struct {
 	CurrentPageId  string                 `json:"current_page_id,omitempty"`
 	IsDescending   bool                   `json:"is_descending,omitempty"`
 	Filters        map[string]interface{} `json:"filters,omitempty"`
+	Matcher        string                 `json:"matcher,omitempty"`
 }
 
 func (lar *ListAccountsRequest) ToProto() (*accountRpc.ListAccountsRequest, error) {
@@ -274,6 +275,7 @@ func (lar *ListAccountsRequest) ToProto() (*accountRpc.ListAccountsRequest, erro
 		CurrentPageId:  lar.CurrentPageId,
 		IsDescending:   lar.IsDescending,
 		Filters:        rpcFilter,
+		Matcher:        lar.Matcher,
 	}, nil
 }
 
@@ -291,6 +293,7 @@ func ListAccountsRequestFromProto(in *accountRpc.ListAccountsRequest) (*ListAcco
 		CurrentPageId:  in.GetCurrentPageId(),
 		IsDescending:   in.GetIsDescending(),
 		Filters:        pkgFilter,
+		Matcher:        in.GetMatcher(),
 	}, nil
 }
 

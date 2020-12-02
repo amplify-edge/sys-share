@@ -168,6 +168,7 @@ func _AccountServiceListAccountsCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.CurrentPageId, cfg.FlagNamer("CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
+	cmd.PersistentFlags().StringVar(&req.Matcher, cfg.FlagNamer("Matcher"), "", "")
 
 	return cmd
 }
@@ -218,6 +219,7 @@ func _AccountServiceSearchAccountsCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.SearchParams.CurrentPageId, cfg.FlagNamer("SearchParams CurrentPageId"), "", "number 3 => optional: current_page_id is the last id of the\n (current) listed Accounts for pagination purpose (cursor).")
 	cmd.PersistentFlags().BoolVar(&req.SearchParams.IsDescending, cfg.FlagNamer("SearchParams IsDescending"), false, "")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.SearchParams.Filters, cfg.FlagNamer("SearchParams Filters"), "")
+	cmd.PersistentFlags().StringVar(&req.SearchParams.Matcher, cfg.FlagNamer("SearchParams Matcher"), "", "")
 
 	return cmd
 }
@@ -264,7 +266,7 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 
 	cmd.PersistentFlags().StringVar(&req.AssigneeAccountId, cfg.FlagNamer("AssigneeAccountId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.AssignedAccountId, cfg.FlagNamer("AssignedAccountId"), "", "")
-	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "")
+	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "@inject_tag: fake:\"{number:1,3}\" yaml:\"role\"")
 	cmd.PersistentFlags().StringVar(&req.Role.ProjectId, cfg.FlagNamer("Role ProjectId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Role.OrgId, cfg.FlagNamer("Role OrgId"), "", "")
 	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
@@ -597,6 +599,7 @@ func _OrgProjServiceListProjectCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
 	cmd.PersistentFlags().StringVar(&req.AccountId, cfg.FlagNamer("AccountId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Matcher, cfg.FlagNamer("Matcher"), "", "")
 
 	return cmd
 }
@@ -826,6 +829,7 @@ func _OrgProjServiceListOrgCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
 	cmd.PersistentFlags().StringVar(&req.AccountId, cfg.FlagNamer("AccountId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Matcher, cfg.FlagNamer("Matcher"), "", "")
 
 	return cmd
 }
@@ -874,6 +878,7 @@ func _OrgProjServiceListNonSubscribedOrgsCommand(cfg *client.Config) *cobra.Comm
 	cmd.PersistentFlags().BoolVar(&req.IsDescending, cfg.FlagNamer("IsDescending"), false, "")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filters, cfg.FlagNamer("Filters"), "")
 	cmd.PersistentFlags().StringVar(&req.AccountId, cfg.FlagNamer("AccountId"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Matcher, cfg.FlagNamer("Matcher"), "", "")
 
 	return cmd
 }
@@ -1029,10 +1034,10 @@ func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
+	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "@inject_tag: fake:\"{mailseq:user,false,none,false}\" yaml:\"email\"")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
 	cmd.PersistentFlags().StringVar(&req.PasswordConfirm, cfg.FlagNamer("PasswordConfirm"), "", "")
-	_RolesVar(cmd.PersistentFlags(), &req.UserRole.Role, cfg.FlagNamer("UserRole Role"), "")
+	_RolesVar(cmd.PersistentFlags(), &req.UserRole.Role, cfg.FlagNamer("UserRole Role"), "@inject_tag: fake:\"{number:1,3}\" yaml:\"role\"")
 	cmd.PersistentFlags().StringVar(&req.UserRole.ProjectId, cfg.FlagNamer("UserRole ProjectId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.UserRole.OrgId, cfg.FlagNamer("UserRole OrgId"), "", "")
 	cmd.PersistentFlags().BoolVar(&req.UserRole.All, cfg.FlagNamer("UserRole All"), false, "")

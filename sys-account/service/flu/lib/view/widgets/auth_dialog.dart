@@ -13,11 +13,13 @@ class AuthDialog extends StatefulWidget {
   final Function _callback;
   final GlobalKey<NavigatorState> navigatorKey;
   final UserRoles userRole;
+  final bool isSignIn;
 
   const AuthDialog(
       {Key key,
       @required Function callback,
       @required this.navigatorKey,
+      this.isSignIn = true,
       this.userRole})
       : _callback = callback,
         super(key: key);
@@ -48,6 +50,7 @@ class AuthDialogState extends State<AuthDialog> {
     return ViewModelBuilder<AccountViewModel>.reactive(
       viewModelBuilder: () => AccountViewModel(role: widget.userRole),
       onModelReady: (AccountViewModel model) {
+        model.setIsLogin(widget.isSignIn);
         _emailCtrl.text = model.getEmail;
         _passwordCtrl.text = model.getPassword;
       },

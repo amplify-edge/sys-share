@@ -166,3 +166,7 @@ func ListFiles(dirpath string) ([]os.FileInfo, error) {
 	})
 	return files, nil
 }
+
+func TsToUnixUTC(in *timestamppb.Timestamp) int64 {
+	return int64(in.GetNanos())
+}

@@ -11,6 +11,7 @@ message ErrorReason {
 }
 
 message RegisterRequest {
+  // @inject_tag: fake:"{mailseq:user,false,none,false}" yaml:"email"
   string email = 1;
   string password = 2;
   string password_confirm = 3;
@@ -174,6 +175,7 @@ message ListRequest {
   bool is_descending = 4;
   bytes filters = 5;
   string account_id = 6;
+  string matcher = 7;
 }
 
 message ListResponse {
@@ -191,6 +193,7 @@ message ListResponse {
 // or specific project by its id (Project admin)
 // or specific org by its id (Org admin)
 message UserRoles {
+  // @inject_tag: fake:"{number:1,3}" yaml:"role"
   Roles role = 1;
   string project_id = 2;
   string org_id = 3;
@@ -250,6 +253,7 @@ message ListAccountsRequest {
   string current_page_id = 3;
   bool is_descending = 4;
   bytes filters = 5;
+  string matcher = 6;
 }
 
 message ListAccountsResponse {

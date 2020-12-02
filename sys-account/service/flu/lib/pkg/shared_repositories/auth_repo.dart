@@ -294,3 +294,17 @@ List<String> getSubscribedOrgs(rpc.Account account) {
   });
   return listSubscribedOrgs;
 }
+
+Map<String, List<String>> getSubscribedProjects(rpc.Account account) {
+  var subscribedProjectsMap = Map<String, List<String>>();
+  account.roles.forEach((role) {
+    if (role.orgId.isNotEmpty) {
+      if (subscribedProjectsMap[role.orgId] == null) {
+        subscribedProjectsMap[role.orgId] = [role.projectId];
+      } else {
+        subscribedProjectsMap[role.orgId].add(role.projectId);
+      }
+    }
+  });
+  return subscribedProjectsMap;
+}

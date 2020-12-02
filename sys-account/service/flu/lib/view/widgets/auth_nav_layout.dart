@@ -63,7 +63,10 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     title: Text(SysAccountLocalizations.of(context)
                         .translate('signOut')),
                     icon: Icon(Icons.logout),
-                    onTap: () async => await model.logOut(),
+                    onTap: () async {
+                      await model.logOut();
+                      Navigator.of(navigatorKey.currentContext).pushNamed('/');
+                    },
                   )
                 : TabItem(
                     title: Text(SysAccountLocalizations.of(context)

@@ -109,7 +109,6 @@ class AuthNavViewModel extends BaseModel {
       await _fetchAccountId();
       final _isSuperAdmin = authRepo.isSuperAdmin(_currentAccount);
       if (_isSuperAdmin) {
-        print("USER IS SUPERUSER!!!");
         _setSuperUser(true);
       }
     }
@@ -143,13 +142,14 @@ class AuthNavViewModel extends BaseModel {
   }
 
   Future<void> _fetchOrgs(
-      Map<String, dynamic> filter, int perPageEntries) async {
+      Map<String, dynamic> filter, int perPageEntries, String matcher) async {
     await orgRepo.OrgProjRepo.listUserOrgs(
       currentPageId: _currentPageId,
       orderBy: _orderBy,
       isDescending: _isDescending,
       perPageEntries: perPageEntries,
       filters: filter,
+      matcher: matcher,
     ).then((resp) {
       setCurrentPageId(Int64.parseInt(resp.nextPageId));
       _setSubscribedOrgs(resp.orgs);
@@ -166,16 +166,9 @@ class AuthNavViewModel extends BaseModel {
     await verifyAdmin();
     if (!_isSuperuser) {
       final orgIds = authRepo.getSubscribedOrgs(_currentAccount);
-      orgIds.forEach((_id) async {
-        await orgRepo.OrgProjRepo.getOrg(id: _id).then((_org) {
-          _subscribedOrgs.add(_org);
-          notifyListeners();
-        }).catchError((e) {
-          setErrMsg(e.toString());
-        });
-      });
+      await _fetchOrgs({"id": orgIds}, perPageEntries, "in");
     } else {
-      await _fetchOrgs(Map<String, dynamic>(), perPageEntries);
+      await _fetchOrgs(Map<String, dynamic>(), perPageEntries, "like");
     }
   }
 }
