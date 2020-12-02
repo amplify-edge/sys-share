@@ -10,15 +10,15 @@ import (
 )
 
 type bootstrapSuperUser struct {
-	SuperUsers []*accountRpc.LoginRequest `fakesize:"4" json:"new_superusers" yaml:"new_superusers"`
+	SuperUsers []*accountRpc.LoginRequest `fakesize:"100" json:"new_superusers" yaml:"new_superusers"`
 }
 
 type bootstrapOrgs struct {
-	Orgs []*accountRpc.OrgRequest `fakesize:"20" json:"new_orgs" yaml:"new_orgs"`
+	Orgs []*accountRpc.OrgRequest `fakesize:"4" json:"new_orgs" yaml:"new_orgs"`
 }
 
 type bootstrapProjects struct {
-	Projects []*accountRpc.ProjectRequest `fakesize:"100" json:"new_projects" yaml:"new_projects"`
+	Projects []*accountRpc.ProjectRequest `fakesize:"8" json:"new_projects" yaml:"new_projects"`
 }
 
 type BootstrapSysAccount struct {

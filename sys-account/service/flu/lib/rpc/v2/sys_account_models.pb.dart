@@ -1362,6 +1362,7 @@ class ListRequest extends $pb.GeneratedMessage {
     ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isDescending')
     ..a<$core.List<$core.int>>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'filters', $pb.PbFieldType.OY)
     ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountId')
+    ..aOS(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'matcher')
     ..hasRequiredFields = false
   ;
 
@@ -1441,6 +1442,15 @@ class ListRequest extends $pb.GeneratedMessage {
   $core.bool hasAccountId() => $_has(5);
   @$pb.TagNumber(6)
   void clearAccountId() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get matcher => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set matcher($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasMatcher() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearMatcher() => clearField(7);
 }
 
 class ListResponse extends $pb.GeneratedMessage {
@@ -1969,6 +1979,7 @@ class ListAccountsRequest extends $pb.GeneratedMessage {
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'currentPageId')
     ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'isDescending')
     ..a<$core.List<$core.int>>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'filters', $pb.PbFieldType.OY)
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'matcher')
     ..hasRequiredFields = false
   ;
 
@@ -2039,6 +2050,15 @@ class ListAccountsRequest extends $pb.GeneratedMessage {
   $core.bool hasFilters() => $_has(4);
   @$pb.TagNumber(5)
   void clearFilters() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get matcher => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set matcher($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasMatcher() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearMatcher() => clearField(6);
 }
 
 class ListAccountsResponse extends $pb.GeneratedMessage {

@@ -10,17 +10,20 @@ import 'dart:io';
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart';
 
 class OrgProjRepo {
-  static Future<rpc.ListResponse> listUserOrgs(
-      {Int64 currentPageId = Int64.ZERO,
-      String orderBy,
-      int perPageEntries = 10,
-      Map<String, dynamic> filters,
-      bool isDescending = false}) async {
+  static Future<rpc.ListResponse> listUserOrgs({
+    Int64 currentPageId = Int64.ZERO,
+    String orderBy,
+    int perPageEntries = 10,
+    Map<String, dynamic> filters,
+    bool isDescending = false,
+    String matcher = 'like',
+  }) async {
     final ppe = Int64(perPageEntries);
     final req = rpc.ListRequest()
       ..perPageEntries = ppe
       ..currentPageId = currentPageId.toString()
       ..orderBy = orderBy
+      ..matcher = matcher
       ..isDescending = isDescending;
 
     if (filters != null) {

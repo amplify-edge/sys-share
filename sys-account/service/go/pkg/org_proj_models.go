@@ -212,6 +212,7 @@ type ListRequest struct {
 	IsDescending   bool                   `json:"is_descending,omitempty"`
 	Filters        map[string]interface{} `json:"filters,omitempty"`
 	AccountId      string                 `json:"account_id,omitempty"`
+	Matcher        string                 `json:"matcher,omitempty"`
 }
 
 func (l *ListRequest) ToProto() (*accountRpc.ListRequest, error) {
@@ -229,6 +230,8 @@ func (l *ListRequest) ToProto() (*accountRpc.ListRequest, error) {
 		CurrentPageId:  l.CurrentPageId,
 		IsDescending:   l.IsDescending,
 		Filters:        rpcFilter,
+		AccountId:      l.AccountId,
+		Matcher:        l.Matcher,
 	}, nil
 }
 
@@ -247,6 +250,8 @@ func ListRequestFromProto(in *accountRpc.ListRequest) (*ListRequest, error) {
 		CurrentPageId:  in.GetCurrentPageId(),
 		IsDescending:   in.GetIsDescending(),
 		Filters:        pkgFilter,
+		AccountId:      in.GetAccountId(),
+		Matcher:        in.GetMatcher(),
 	}, nil
 }
 
