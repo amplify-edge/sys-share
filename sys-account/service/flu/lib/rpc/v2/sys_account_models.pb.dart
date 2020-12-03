@@ -1505,7 +1505,6 @@ class UserRoles extends $pb.GeneratedMessage {
     ..e<Roles>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'role', $pb.PbFieldType.OE, defaultOrMaker: Roles.INVALID, valueOf: Roles.valueOf, enumValues: Roles.values)
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'projectId')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'orgId')
-    ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'all')
     ..hasRequiredFields = false
   ;
 
@@ -1558,15 +1557,75 @@ class UserRoles extends $pb.GeneratedMessage {
   $core.bool hasOrgId() => $_has(2);
   @$pb.TagNumber(3)
   void clearOrgId() => clearField(3);
+}
+
+class NewUserRoles extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'NewUserRoles', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_account.services'), createEmptyInstance: create)
+    ..e<Roles>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'role', $pb.PbFieldType.OE, defaultOrMaker: Roles.INVALID, valueOf: Roles.valueOf, enumValues: Roles.values)
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'projectId')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'orgId')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'projectName')
+    ..hasRequiredFields = false
+  ;
+
+  NewUserRoles._() : super();
+  factory NewUserRoles() => create();
+  factory NewUserRoles.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory NewUserRoles.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  NewUserRoles clone() => NewUserRoles()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  NewUserRoles copyWith(void Function(NewUserRoles) updates) => super.copyWith((message) => updates(message as NewUserRoles)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static NewUserRoles create() => NewUserRoles._();
+  NewUserRoles createEmptyInstance() => create();
+  static $pb.PbList<NewUserRoles> createRepeated() => $pb.PbList<NewUserRoles>();
+  @$core.pragma('dart2js:noInline')
+  static NewUserRoles getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NewUserRoles>(create);
+  static NewUserRoles _defaultInstance;
+
+  @$pb.TagNumber(1)
+  Roles get role => $_getN(0);
+  @$pb.TagNumber(1)
+  set role(Roles v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasRole() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearRole() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get projectId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set projectId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasProjectId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearProjectId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get orgId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set orgId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasOrgId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearOrgId() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.bool get all => $_getBF(3);
+  $core.String get projectName => $_getSZ(3);
   @$pb.TagNumber(4)
-  set all($core.bool v) { $_setBool(3, v); }
+  set projectName($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasAll() => $_has(3);
+  $core.bool hasProjectName() => $_has(3);
   @$pb.TagNumber(4)
-  void clearAll() => clearField(4);
+  void clearProjectName() => clearField(4);
 }
 
 class Permission extends $pb.GeneratedMessage {
@@ -1768,6 +1827,7 @@ class AccountNewRequest extends $pb.GeneratedMessage {
     ..pc<UserRoles>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roles', $pb.PbFieldType.PM, subBuilder: UserRoles.create)
     ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'avatarFilepath')
     ..a<$core.List<$core.int>>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'avatarUploadBytes', $pb.PbFieldType.OY)
+    ..pc<NewUserRoles>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'newUserRoles', $pb.PbFieldType.PM, subBuilder: NewUserRoles.create)
     ..hasRequiredFields = false
   ;
 
@@ -1832,6 +1892,9 @@ class AccountNewRequest extends $pb.GeneratedMessage {
   $core.bool hasAvatarUploadBytes() => $_has(4);
   @$pb.TagNumber(5)
   void clearAvatarUploadBytes() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.List<NewUserRoles> get newUserRoles => $_getList(5);
 }
 
 class AccountUpdateRequest extends $pb.GeneratedMessage {

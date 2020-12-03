@@ -197,7 +197,17 @@ message UserRoles {
   Roles role = 1;
   string project_id = 2;
   string org_id = 3;
-  bool all = 4;
+}
+
+message NewUserRoles {
+  // @inject_tag: fake:"{number:2,3}" yaml:"role"
+  Roles role = 1;
+  // @inject_tag: fake:"skip" yaml:"project_id,omitempty"
+  string project_id = 2;
+  // @inject_tag: fake:"skip" yaml:"org_id,omitempty"
+  string org_id = 3;
+  // @inject_tag: fake:"{nameseq:sys_account_project,true,sys_account_project,false,false}" yaml:"project_name,omitempty"
+  string project_name = 4;
 }
 
 // Permission effectively controls access to specific resources
@@ -223,11 +233,18 @@ message Account {
 }
 
 message AccountNewRequest {
+  // @inject_tag: fake:"{mailseq:user,false,none,false}" yaml:"email,omitempty"
   string email = 1;
+  // @inject_tag: fake:"{password}" yaml:"password,omitempty"
   string password = 2;
+  // @inject_tag: fake:"skip" yaml:"roles,omitempty"
   repeated UserRoles roles = 3;
+  // @inject_tag: fake:"{avatargen:./bootstrap-data/client/generated,128}" yaml:"avatar_filepath,omitempty"
   string avatar_filepath = 4; // local upload i.e. bootstrap, remote upload will be user's directory
+  // @inject_tag: fake:"skip" yaml:"avatar_upload_bytes,omitempty"
   bytes avatar_upload_bytes = 5; // raw bytes upload for remote upload
+  // @inject_tag: fakesize:"1" yaml:"new_user_roles,omitempty"
+  repeated NewUserRoles new_user_roles = 6;
 }
 
 message AccountUpdateRequest {

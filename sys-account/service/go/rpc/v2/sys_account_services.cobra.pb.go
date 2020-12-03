@@ -73,10 +73,10 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 		},
 	}
 
-	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "")
-	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
-	cmd.PersistentFlags().StringVar(&req.AvatarFilepath, cfg.FlagNamer("AvatarFilepath"), "", "")
-	flag.BytesBase64Var(cmd.PersistentFlags(), &req.AvatarUploadBytes, cfg.FlagNamer("AvatarUploadBytes"), "")
+	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "@inject_tag: fake:\"{mailseq:user,false,none,false}\" yaml:\"email,omitempty\"")
+	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "@inject_tag: fake:\"{password}\" yaml:\"password,omitempty\"")
+	cmd.PersistentFlags().StringVar(&req.AvatarFilepath, cfg.FlagNamer("AvatarFilepath"), "", "@inject_tag: fake:\"{avatargen:./bootstrap-data/client/generated,128}\" yaml:\"avatar_filepath,omitempty\"")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.AvatarUploadBytes, cfg.FlagNamer("AvatarUploadBytes"), "@inject_tag: fake:\"skip\" yaml:\"avatar_upload_bytes,omitempty\"")
 
 	return cmd
 }
@@ -269,7 +269,6 @@ func _AccountServiceAssignAccountToRoleCommand(cfg *client.Config) *cobra.Comman
 	_RolesVar(cmd.PersistentFlags(), &req.Role.Role, cfg.FlagNamer("Role Role"), "@inject_tag: fake:\"{number:1,3}\" yaml:\"role\"")
 	cmd.PersistentFlags().StringVar(&req.Role.ProjectId, cfg.FlagNamer("Role ProjectId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Role.OrgId, cfg.FlagNamer("Role OrgId"), "", "")
-	cmd.PersistentFlags().BoolVar(&req.Role.All, cfg.FlagNamer("Role All"), false, "")
 
 	return cmd
 }
@@ -1040,7 +1039,6 @@ func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
 	_RolesVar(cmd.PersistentFlags(), &req.UserRole.Role, cfg.FlagNamer("UserRole Role"), "@inject_tag: fake:\"{number:1,3}\" yaml:\"role\"")
 	cmd.PersistentFlags().StringVar(&req.UserRole.ProjectId, cfg.FlagNamer("UserRole ProjectId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.UserRole.OrgId, cfg.FlagNamer("UserRole OrgId"), "", "")
-	cmd.PersistentFlags().BoolVar(&req.UserRole.All, cfg.FlagNamer("UserRole All"), false, "")
 
 	return cmd
 }
