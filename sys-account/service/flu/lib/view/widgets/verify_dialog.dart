@@ -3,6 +3,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
 import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_footer.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_header.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/verify_view_model.dart';
 
 class VerifyDialog extends StatefulWidget {
@@ -45,18 +47,7 @@ class VerifyDialogState extends State<VerifyDialog> {
               color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
-                  Center(
-                    child: Text(
-                      'GCN',
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.headline1.color,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 3,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30),
+                  SharedDialogHeader(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
@@ -78,14 +69,24 @@ class VerifyDialogState extends State<VerifyDialog> {
                       textInputAction: TextInputAction.next,
                       controller: _verifyTokenCtrl,
                       autofocus: false,
-                      onChanged: (v) => model.setVerifyToken(v),
-                      enabled: model.isVerifyTokenEnabled,
+                      obscureText: model.isObscured,
                       onSubmitted: (v) {
                         _verifyTokenFocusNode.unfocus();
                       },
                       style: TextStyle(
                           color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            model.isObscured
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          onPressed: () {
+                            model.setObscured(!model.isObscured);
+                          },
+                        ),
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
@@ -101,7 +102,7 @@ class VerifyDialogState extends State<VerifyDialog> {
                         ),
                         hintText: SysAccountLocalizations.of(context)
                             .translate('verificationToken'),
-                        fillColor: Colors.white,
+                        fillColor: Theme.of(context).dialogBackgroundColor,
                         errorText: model.validateVerificationToken(),
                         errorStyle: TextStyle(
                           fontSize: 12,
@@ -179,25 +180,7 @@ class VerifyDialogState extends State<VerifyDialog> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      SysAccountLocalizations.of(context)
-                          .translate('byProceeding'),
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            .color
-                            .withOpacity(0.85),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        // letterSpacing: 3,
-                      ),
-                    ),
-                  ),
+                  SharedDialogFooter(),
                 ],
               ),
             ),

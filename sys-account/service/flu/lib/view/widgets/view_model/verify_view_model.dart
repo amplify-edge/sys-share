@@ -5,14 +5,20 @@ import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.
 class VerifyAccountViewModel extends BaseModel {
   bool _hasResponse = false;
   bool _isVerifyTokenEnabled = true;
+  bool _isObscured = true;
 
   String _userVerifyToken = '';
   String _errMsg = '';
   String _successMsg = '';
 
   bool get hasResponse => _hasResponse;
+
   bool get isVerificationValid => _validateVerifyToken();
+
   bool get isVerifyTokenEnabled => _isVerifyTokenEnabled;
+
+  bool get isObscured => _isObscured;
+
   String get getVerifyToken => _userVerifyToken;
 
   String get errMsg => _errMsg;
@@ -21,6 +27,11 @@ class VerifyAccountViewModel extends BaseModel {
 
   void enableVerifyToken(bool value) {
     _isVerifyTokenEnabled = value;
+    notifyListeners();
+  }
+
+  void setObscured(bool val) {
+    _isObscured = val;
     notifyListeners();
   }
 

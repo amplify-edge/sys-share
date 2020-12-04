@@ -3,6 +3,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/sys_core.dart';
 import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_footer.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_header.dart';
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart';
 import 'package:sys_share_sys_account_service/view/widgets/forgot_password_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/verify_dialog.dart';
@@ -67,18 +69,7 @@ class AuthDialogState extends State<AuthDialog> {
               color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
-                  Center(
-                    child: Text(
-                      'GCN',
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.headline1.color,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 3,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30),
+                  SharedDialogHeader(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
@@ -192,7 +183,7 @@ class AuthDialogState extends State<AuthDialog> {
                             model.isPasswordObscured
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Theme.of(context).primaryColorDark,
+                            color: Theme.of(context).primaryColor,
                           ),
                           onPressed: () {
                             model
@@ -369,24 +360,7 @@ class AuthDialogState extends State<AuthDialog> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      SysAccountLocalizations.of(context)
-                          .translate('byProceeding'),
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            .color
-                            .withOpacity(0.85),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        // letterSpacing: 3,
-                      ),
-                    ),
-                  ),
+                  SharedDialogFooter(),
                 ],
               ),
             ),

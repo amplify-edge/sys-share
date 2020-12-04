@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
 import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_footer.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_header.dart';
-import 'package:sys_share_sys_account_service/view/widgets/reset_password_dialog.dart';
-import 'package:sys_share_sys_account_service/view/widgets/view_model/forgot_password_view_model.dart';
+import 'package:sys_share_sys_account_service/view/widgets/view_model/verify_view_model.dart';
 
-class ForgotPasswordDialog extends StatefulWidget {
-  const ForgotPasswordDialog({Key key}) : super(key: key);
+class VerifyPage extends StatefulWidget {
+  final Function callback;
+
+  const VerifyPage({Key key, this.callback}) : super(key: key);
 
   @override
-  ForgotPasswordDialogState createState() => ForgotPasswordDialogState();
+  VerifyPageState createState() => VerifyPageState();
 }
 
-class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
-  final _emailCtrl = TextEditingController();
-  final _emailFocusNode = FocusNode();
+class VerifyPageState extends State<VerifyPage> {
+  final _verifyTokenCtrl = TextEditingController();
+  final _verifyTokenFocusNode = FocusNode();
 
   @override
   void dispose() {
-    _emailCtrl.dispose();
-    _emailFocusNode.dispose();
+    _verifyTokenCtrl.dispose();
+    _verifyTokenFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext buildContext) {
-    return ViewModelBuilder<ForgotPasswordViewModel>.reactive(
-      viewModelBuilder: () => ForgotPasswordViewModel(),
-      onModelReady: (ForgotPasswordViewModel model) {
-        _emailCtrl.text = model.getEmail;
+    return ViewModelBuilder<VerifyAccountViewModel>.reactive(
+      viewModelBuilder: () => VerifyAccountViewModel(),
+      onModelReady: (VerifyAccountViewModel model) {
+        _verifyTokenCtrl.text = model.getVerifyToken;
       },
       builder: (context, model, child) => Dialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -49,7 +51,8 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      SysAccountLocalizations.of(context).translate('email'),
+                      SysAccountLocalizations.of(context)
+                          .translate('verifyAccount'),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.subtitle2.color,
@@ -61,23 +64,38 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
-                      focusNode: _emailFocusNode,
+                      focusNode: _verifyTokenFocusNode,
                       keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.done,
-                      controller: _emailCtrl,
+                      textInputAction: TextInputAction.next,
+                      controller: _verifyTokenCtrl,
                       autofocus: false,
-                      onChanged: (v) => model.setEmail(v),
-                      enabled: model.isEmailEnabled,
+                      onChanged: (v) => model.setVerifyToken(v),
+                      enabled: model.isVerifyTokenEnabled,
+                      obscureText: model.isObscured,
                       onSubmitted: (v) {
-                        _emailFocusNode.unfocus();
+                        _verifyTokenFocusNode.unfocus();
                       },
                       style: TextStyle(
                           color: Theme.of(context).textTheme.headline6.color),
                       decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            model.isObscured
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                          onPressed: () {
+                            model
+                                .setObscured(!model.isObscured);
+                          },
+                        ),
                         border: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(
-                            color: Theme.of(context).scaffoldBackgroundColor,
+                            color: Theme.of(context)
+                                .dialogBackgroundColor
+                                .withOpacity(0.8),
                             width: 3,
                           ),
                         ),
@@ -86,9 +104,9 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                           color: Colors.blueGrey[300],
                         ),
                         hintText: SysAccountLocalizations.of(context)
-                            .translate('email'),
+                            .translate('verificationToken'),
                         fillColor: Theme.of(context).dialogBackgroundColor,
-                        errorText: model.validateEmailText(),
+                        errorText: model.validateVerificationToken(),
                         errorStyle: TextStyle(
                           fontSize: 12,
                           color: Colors.redAccent,
@@ -111,22 +129,17 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                               disabledColor: Colors.grey[400],
                               hoverColor: Colors.blueGrey[900],
                               highlightColor: Colors.black,
-                              onPressed: model.isForgotPasswordValid
+                              onPressed: model.isVerificationValid
                                   ? () async {
-                                      await model.submitEmail().then((_) {
+                                      await model.submitVerifyToken().then((_) {
                                         if (model.successMsg.isNotEmpty) {
                                           Navigator.pop(context);
                                           notify(
-                                            context: context,
-                                            message: model.successMsg,
-                                            error: false,
-                                          );
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: buildContext,
-                                            builder: (context) =>
-                                                ResetPasswordDialog(),
-                                          );
+                                              context: context,
+                                              message: model.successMsg,
+                                              error: false);
+                                          widget.callback();
+                                          Modular.to.pushNamed('/');
                                         } else {
                                           notify(
                                               context: context,
@@ -156,8 +169,13 @@ class ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                                           ),
                                         ),
                                       )
-                                    : Text(SysAccountLocalizations.of(context)
-                                        .translate('resetPassword')),
+                                    : Text(
+                                        'Verify Account',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                               ),
                             ),
                           ),
