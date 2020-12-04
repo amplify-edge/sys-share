@@ -47,11 +47,36 @@ func RolesFromProto(r accountRpc.Roles) Roles {
 	return Roles(r.Number())
 }
 
+type NewUserRoles struct {
+	Role        Roles  `json:"role,omitempty"`
+	ProjectID   string `json:"project_id,omitempty"`
+	OrgID       string `json:"org_id,omitempty"`
+	ProjectName string `json:"project_name,omitempty"`
+}
+
+func (nur *NewUserRoles) ToProto() *accountRpc.NewUserRoles {
+	role := nur.Role.ToProto()
+	return &accountRpc.NewUserRoles{
+		Role:        role,
+		ProjectId:   nur.ProjectID,
+		OrgId:       nur.OrgID,
+		ProjectName: nur.ProjectName,
+	}
+}
+
+func NewUserRolesFromProto(in *accountRpc.NewUserRoles) *NewUserRoles {
+	return &NewUserRoles{
+		Role:        RolesFromProto(in.GetRole()),
+		ProjectID:   in.GetProjectId(),
+		OrgID:       in.GetOrgId(),
+		ProjectName: in.GetProjectName(),
+	}
+}
+
 type UserRoles struct {
 	Role      Roles  `json:"role,omitempty"`
 	ProjectID string `json:"project_id,omitempty"`
 	OrgID     string `json:"org_id,omitempty"`
-	All       bool   `json:"all,omitempty"`
 }
 
 func (ur *UserRoles) ToProto() *accountRpc.UserRoles {
@@ -60,7 +85,6 @@ func (ur *UserRoles) ToProto() *accountRpc.UserRoles {
 		Role:      role,
 		ProjectId: ur.ProjectID,
 		OrgId:     ur.OrgID,
-		All:       ur.All,
 	}
 }
 
@@ -69,7 +93,6 @@ func UserRolesFromProto(in *accountRpc.UserRoles) *UserRoles {
 		Role:      RolesFromProto(in.GetRole()),
 		ProjectID: in.GetProjectId(),
 		OrgID:     in.GetOrgId(),
-		All:       in.GetAll(),
 	}
 }
 
@@ -168,19 +191,27 @@ func AccountFromProto(in *accountRpc.Account) (*Account, error) {
 }
 
 type AccountNewRequest struct {
-	Email             string       `json:"email,omitempty"`
-	Password          string       `json:"password,omitempty"`
-	Roles             []*UserRoles `json:"roles,omitempty"`
-	AvatarFilepath    string       `json:"avatar_filepath,omitempty"`
-	AvatarUploadBytes []byte       `json:"avatar_upload_bytes,omitempty"`
+	Email             string          `json:"email,omitempty"`
+	Password          string          `json:"password,omitempty"`
+	Roles             []*UserRoles    `json:"roles,omitempty"`
+	AvatarFilepath    string          `json:"avatar_filepath,omitempty"`
+	AvatarUploadBytes []byte          `json:"avatar_upload_bytes,omitempty"`
+	NewUserRoles      []*NewUserRoles `json:"new_user_roles,omitempty"`
 }
 
 func (a *AccountNewRequest) ToProto() *accountRpc.AccountNewRequest {
 	var roles []*accountRpc.UserRoles
+	var newRoles []*accountRpc.NewUserRoles
 	if a.Roles != nil && len(a.Roles) > 0 {
 		for _, r := range a.Roles {
 			role := r.ToProto()
 			roles = append(roles, role)
+		}
+	}
+	if a.NewUserRoles != nil && len(a.NewUserRoles) > 0 {
+		for _, r := range a.NewUserRoles {
+			role := r.ToProto()
+			newRoles = append(newRoles, role)
 		}
 	}
 	return &accountRpc.AccountNewRequest{
@@ -189,6 +220,7 @@ func (a *AccountNewRequest) ToProto() *accountRpc.AccountNewRequest {
 		Roles:             roles,
 		AvatarFilepath:    a.AvatarFilepath,
 		AvatarUploadBytes: a.AvatarUploadBytes,
+		NewUserRoles:      newRoles,
 	}
 }
 
@@ -200,12 +232,20 @@ func AccountNewRequestFromProto(in *accountRpc.AccountNewRequest) *AccountNewReq
 			roles = append(roles, role)
 		}
 	}
+	var newRoles []*NewUserRoles
+	if in.NewUserRoles != nil && len(in.NewUserRoles) > 0 {
+		for _, r := range in.NewUserRoles {
+			role := NewUserRolesFromProto(r)
+			newRoles = append(newRoles, role)
+		}
+	}
 	return &AccountNewRequest{
 		Email:             in.GetEmail(),
 		Password:          in.GetPassword(),
 		Roles:             roles,
 		AvatarFilepath:    in.GetAvatarFilepath(),
 		AvatarUploadBytes: in.GetAvatarUploadBytes(),
+		NewUserRoles:      newRoles,
 	}
 }
 

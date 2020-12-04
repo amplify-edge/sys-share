@@ -238,7 +238,16 @@ const UserRoles$json = const {
     const {'1': 'role', '3': 1, '4': 1, '5': 14, '6': '.v2.sys_account.services.Roles', '10': 'role'},
     const {'1': 'project_id', '3': 2, '4': 1, '5': 9, '10': 'projectId'},
     const {'1': 'org_id', '3': 3, '4': 1, '5': 9, '10': 'orgId'},
-    const {'1': 'all', '3': 4, '4': 1, '5': 8, '10': 'all'},
+  ],
+};
+
+const NewUserRoles$json = const {
+  '1': 'NewUserRoles',
+  '2': const [
+    const {'1': 'role', '3': 1, '4': 1, '5': 14, '6': '.v2.sys_account.services.Roles', '10': 'role'},
+    const {'1': 'project_id', '3': 2, '4': 1, '5': 9, '10': 'projectId'},
+    const {'1': 'org_id', '3': 3, '4': 1, '5': 9, '10': 'orgId'},
+    const {'1': 'project_name', '3': 4, '4': 1, '5': 9, '10': 'projectName'},
   ],
 };
 
@@ -276,6 +285,7 @@ const AccountNewRequest$json = const {
     const {'1': 'roles', '3': 3, '4': 3, '5': 11, '6': '.v2.sys_account.services.UserRoles', '10': 'roles'},
     const {'1': 'avatar_filepath', '3': 4, '4': 1, '5': 9, '10': 'avatarFilepath'},
     const {'1': 'avatar_upload_bytes', '3': 5, '4': 1, '5': 12, '10': 'avatarUploadBytes'},
+    const {'1': 'new_user_roles', '3': 6, '4': 3, '5': 11, '6': '.v2.sys_account.services.NewUserRoles', '10': 'newUserRoles'},
   ],
 };
 

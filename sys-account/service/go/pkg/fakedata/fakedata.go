@@ -10,25 +10,34 @@ import (
 )
 
 type bootstrapSuperUser struct {
-	SuperUsers []*accountRpc.LoginRequest `fakesize:"100" json:"new_superusers" yaml:"new_superusers"`
+	SuperUsers []*accountRpc.LoginRequest `fakesize:"1" json:"new_superusers" yaml:"new_superusers"`
+}
+
+type bootstrapRegularUser struct {
+	UserAccounts []*accountRpc.AccountNewRequest `fakesize:"50" json:"new_accounts" yaml:"new_accounts"`
 }
 
 type bootstrapOrgs struct {
-	Orgs []*accountRpc.OrgRequest `fakesize:"4" json:"new_orgs" yaml:"new_orgs"`
+	Orgs []*accountRpc.OrgRequest `fakesize:"3" json:"new_orgs" yaml:"new_orgs"`
 }
 
 type bootstrapProjects struct {
-	Projects []*accountRpc.ProjectRequest `fakesize:"8" json:"new_projects" yaml:"new_projects"`
+	Projects []*accountRpc.ProjectRequest `fakesize:"6" json:"new_projects" yaml:"new_projects"`
 }
 
 type BootstrapSysAccount struct {
-	SuperUsers bootstrapSuperUser `json:"bootstrap_superusers" yaml:"bootstrap_superusers"`
-	Orgs       bootstrapOrgs      `json:"bootstrap_orgs" yaml:"bootstrap_orgs"`
-	Projects   bootstrapProjects  `json:"bootstrap_projects" yaml:"bootstrap_projects"`
+	SuperUsers   bootstrapSuperUser   `json:"bootstrap_superusers" yaml:"bootstrap_superusers"`
+	UserAccounts bootstrapRegularUser `json:"bootstrap_user_accounts" yaml:"bootstrap_regular_accounts"`
+	Orgs         bootstrapOrgs        `json:"bootstrap_orgs" yaml:"bootstrap_orgs"`
+	Projects     bootstrapProjects    `json:"bootstrap_projects" yaml:"bootstrap_projects"`
 }
 
 func (b *BootstrapSysAccount) GetSuperUsers() []*accountRpc.LoginRequest {
 	return b.SuperUsers.SuperUsers
+}
+
+func (b *BootstrapSysAccount) GetUserAccounts() []*accountRpc.AccountNewRequest {
+	return b.UserAccounts.UserAccounts
 }
 
 func (b *BootstrapSysAccount) GetOrgs() []*accountRpc.OrgRequest {
@@ -124,13 +133,16 @@ func BootstrapFakeData(domain string) (*fakehelper.RefCount, *fakehelper.RefCoun
 	var bsp bootstrapProjects
 	var bsu bootstrapSuperUser
 	var bso bootstrapOrgs
+	var bsru bootstrapRegularUser
 	gofakeit.Struct(&bsu)
 	gofakeit.Struct(&bso)
 	gofakeit.Struct(&bsp)
+	gofakeit.Struct(&bsru)
 	bmd := &BootstrapSysAccount{
-		Projects:   bsp,
-		SuperUsers: bsu,
-		Orgs:       bso,
+		Projects:     bsp,
+		SuperUsers:   bsu,
+		Orgs:         bso,
+		UserAccounts: bsru,
 	}
 	// mp, err := bmd.MarshalPretty()
 	accRc := accRefCount.ResetLastReference()
