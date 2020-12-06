@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:sys_share_sys_account_service/pkg/pkg.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart'
     as authRepo;
@@ -10,6 +11,7 @@ class VerifyAccountViewModel extends BaseModel {
   String _userVerifyToken = '';
   String _errMsg = '';
   String _successMsg = '';
+  String _accountId = '';
 
   bool get hasResponse => _hasResponse;
 
@@ -24,6 +26,12 @@ class VerifyAccountViewModel extends BaseModel {
   String get errMsg => _errMsg;
 
   String get successMsg => _successMsg;
+
+  // constructor
+  VerifyAccountViewModel({@required String accountId}) {
+    this._accountId = accountId;
+    notifyListeners();
+  }
 
   void enableVerifyToken(bool value) {
     _isVerifyTokenEnabled = value;
@@ -57,7 +65,10 @@ class VerifyAccountViewModel extends BaseModel {
 
   Future<void> submitVerifyToken() async {
     _loadingProcess(true);
-    final accountId = await getTempAccountId();
+    String accountId = _accountId;
+    if (accountId == null) {
+      accountId = await getTempAccountId();
+    }
     await authRepo.AuthRepo.verifyAccount(
             id: accountId, verificationToken: _userVerifyToken)
         .then((_) {

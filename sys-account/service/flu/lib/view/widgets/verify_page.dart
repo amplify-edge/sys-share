@@ -8,9 +8,10 @@ import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_header.d
 import 'package:sys_share_sys_account_service/view/widgets/view_model/verify_view_model.dart';
 
 class VerifyPage extends StatefulWidget {
+  final String id;
   final Function callback;
 
-  const VerifyPage({Key key, this.callback}) : super(key: key);
+  const VerifyPage({Key key, this.callback, this.id = ''}) : super(key: key);
 
   @override
   VerifyPageState createState() => VerifyPageState();
@@ -30,7 +31,7 @@ class VerifyPageState extends State<VerifyPage> {
   @override
   Widget build(BuildContext buildContext) {
     return ViewModelBuilder<VerifyAccountViewModel>.reactive(
-      viewModelBuilder: () => VerifyAccountViewModel(),
+      viewModelBuilder: () => VerifyAccountViewModel(accountId: widget.id),
       onModelReady: (VerifyAccountViewModel model) {
         _verifyTokenCtrl.text = model.getVerifyToken;
       },
@@ -86,8 +87,7 @@ class VerifyPageState extends State<VerifyPage> {
                             color: Theme.of(context).primaryColorDark,
                           ),
                           onPressed: () {
-                            model
-                                .setObscured(!model.isObscured);
+                            model.setObscured(!model.isObscured);
                           },
                         ),
                         border: new OutlineInputBorder(
@@ -138,7 +138,9 @@ class VerifyPageState extends State<VerifyPage> {
                                               context: context,
                                               message: model.successMsg,
                                               error: false);
-                                          widget.callback();
+                                          widget.callback != null
+                                              ? widget.callback()
+                                              : print('');
                                           Modular.to.pushNamed('/');
                                         } else {
                                           notify(
@@ -170,7 +172,7 @@ class VerifyPageState extends State<VerifyPage> {
                                         ),
                                       )
                                     : Text(
-                                        'Verify Account',
+                                        sysAccountTranslate('verifyAccount'),
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.white,

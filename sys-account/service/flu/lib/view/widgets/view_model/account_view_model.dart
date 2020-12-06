@@ -15,6 +15,7 @@ class AccountViewModel extends BaseModel {
   String _accessToken = '';
   String _errMessage = '';
   String _successMsg = '';
+  String _accountId = '';
   UserRoles _initialRole = UserRoles();
 
   AccountViewModel({UserRoles role}) {
@@ -47,6 +48,8 @@ class AccountViewModel extends BaseModel {
   String get refreshToken => _refreshToken;
 
   String get successMsg => _successMsg;
+
+  String get accountId => _accountId;
 
   String get errMsg => _errMessage;
 
@@ -106,6 +109,11 @@ class AccountViewModel extends BaseModel {
     enablePasswordField(!isInOp);
   }
 
+  void _setAccountId(String val) {
+    _accountId = val;
+    notifyListeners();
+  }
+
   Future<void> login() async {
     _loadingProcess(true);
     Future.delayed(
@@ -139,6 +147,7 @@ class AccountViewModel extends BaseModel {
     ).then((resp) {
       if (resp.success) {
         _setSuccessMsg(resp.successMsg);
+        _setAccountId(resp.tempUserId);
       } else if (resp.errorReason.hasReason()) {
         _setErrMsg(resp.errorReason.toString());
       }

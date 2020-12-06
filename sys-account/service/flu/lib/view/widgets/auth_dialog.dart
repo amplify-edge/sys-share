@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/sys_core.dart';
 import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
+import 'package:sys_share_sys_account_service/pkg/routes/paths.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_footer.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_header.dart';
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart';
@@ -252,15 +253,24 @@ class AuthDialogState extends State<AuthDialog> {
                                                         .currentContext,
                                                     message: model.successMsg,
                                                     error: false);
-                                                showDialog(
-                                                  barrierDismissible: false,
-                                                  context: navigatorKey
-                                                      .currentContext,
-                                                  builder: (context) =>
-                                                      VerifyDialog(
-                                                    callback: widget._callback,
-                                                  ),
-                                                );
+                                                // showDialog(
+                                                //   barrierDismissible: false,
+                                                //   context: navigatorKey
+                                                //       .currentContext,
+                                                //   builder: (context) =>
+                                                //       VerifyDialog(
+                                                //     callback: widget._callback,
+                                                //   ),
+                                                // );
+                                                Modular.to.pushNamed(
+                                                    Modular.get<Paths>()
+                                                        .sysAccountVerify
+                                                        .replaceAll(':id',
+                                                            model.accountId),
+                                                    arguments: {
+                                                      'callback':
+                                                          widget._callback
+                                                    });
                                               }
                                             },
                                           );
