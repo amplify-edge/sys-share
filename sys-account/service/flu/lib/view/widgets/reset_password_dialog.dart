@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:sys_core/pkg/widgets/notification.dart';
 import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_footer.dart';
+import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_header.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/reset_password_view_model.dart';
 
 class ResetPasswordDialog extends StatefulWidget {
@@ -52,18 +54,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
               color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
                 children: [
-                  Center(
-                    child: Text(
-                      'GCN',
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.headline1.color,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 3,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30),
+                  SharedDialogHeader(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
@@ -314,6 +305,7 @@ class ResetPasswordDialogState extends State<ResetPasswordDialog> {
                       ],
                     ),
                   ),
+                  SharedDialogFooter(),
                 ],
               ),
             ),

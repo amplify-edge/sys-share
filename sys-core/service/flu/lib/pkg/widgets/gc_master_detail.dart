@@ -329,7 +329,6 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
           .replaceAll(":id", "$newChildId")
           .replaceAll(":orgId", newParentId),
     );
-    print(routeSettings.name);
     var newMasterDetailView = NewGetCourageMasterDetail(
       items: widget.items,
       labelBuilder: widget.labelBuilder,

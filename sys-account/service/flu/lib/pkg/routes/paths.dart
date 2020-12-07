@@ -1,13 +1,7 @@
-
-
-
-class Paths{
+class Paths {
   final String baseRoute;
-  String login;
-  String signup;
+  String sysAccountVerify;
 
-  Paths(this.baseRoute) : 
-   login = '$baseRoute/login',
-   signup = '$baseRoute/signup';
-  
+  Paths(this.baseRoute)
+      : sysAccountVerify = '$baseRoute/verify/:id';
 }

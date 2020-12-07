@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:flutter/material.dart';
 import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
@@ -98,7 +99,9 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                 ),
                 title: Text(org.name, style: TextStyle(fontSize: 12)),
                 onTap: () {
-                  print(org.id);
+                  Modular.to.pushNamed('/projects', arguments: {
+                    'orgs': [org],
+                  });
                 },
               )
             ],
