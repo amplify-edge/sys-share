@@ -1,6 +1,7 @@
 import 'dart:convert' show json;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:grpc/grpc_web.dart';
+import 'package:grpc/grpc.dart';
 import 'package:sys_core/pkg/config/host_config.dart';
 
 class BaseRepo {
@@ -21,8 +22,8 @@ class BaseRepo {
         Uri(scheme: "https", host: hc.host, port: int.parse(hc.port)));
   }
 
-// static Future<ClientChannel> grpcClientChannel() async {
-//   final hc = await getHostConfig();
-//   return ClientChannel(hc.host, port: int.parse(hc.port), options: )
-// }
+  static Future<ClientChannel> grpcClientChannel() async {
+    final hc = await getHostConfig();
+    return ClientChannel(hc.host, port: int.parse(hc.port));
+  }
 }
