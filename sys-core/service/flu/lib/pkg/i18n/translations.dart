@@ -17,7 +17,25 @@ class Translations {
     return Intl.message(
       'No Items Available',
       name: 'noItemsAvailable',
-      desc: 'noItemsAvailable',
+      desc: 'No Items Available',
+      locale: locale.toString(),
+    );
+  }
+
+  String noBootstrapsAvailable() {
+    return Intl.message(
+      'No Bootstraps Available',
+      name: 'noBootstrapsAvailable',
+      desc: 'No Bootstraps Available',
+      locale: locale.toString(),
+    );
+  }
+
+  String selectBootstrap() {
+    return Intl.message(
+      'Select Bootstrap',
+      name: 'selectBootstrap',
+      desc: 'Select Bootstrap',
       locale: locale.toString(),
     );
   }

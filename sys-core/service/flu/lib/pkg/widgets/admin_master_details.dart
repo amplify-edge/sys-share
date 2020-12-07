@@ -5,17 +5,13 @@ import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 import 'package:sys_core/sys_core.dart';
 
-class NewGetCourageMasterDetail<T extends GeneratedMessage,
-    U extends GeneratedMessage> extends StatefulWidget {
+class AdminMasterDetails<T extends GeneratedMessage> extends StatefulWidget {
   /// [routeWithIdPlaceholder] is the actual route where the
   /// master-detail-view is located at e.g. /myneeds/orgs/:id
   final String routeWithIdPlaceholder;
 
-  /// [parentId] is the id parsed from the route, can be null
-  final String parentId;
-
-  /// [childId] is the childId parsed from the route, can be null
-  final String childId;
+  /// [id] is the id parsed from the route, can be null
+  final String id;
 
   /// [detailsBuilder] is used to build the details view
   ///[context] is the BuildContext
@@ -25,8 +21,8 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage,
   ///on mobile. With this flag we can disable the back button on master
   ///detail view, cause the master will have the back button.
   ///BUT on fullscreen it should show the back button of the details view.
-  final Widget Function(BuildContext context, String parentId, String childId,
-      bool isFullScreen) detailsBuilder;
+  final Widget Function(
+      BuildContext context, String widgetId, bool isFullScreen) detailsBuilder;
 
   ///[items] is the list of items which are displayed on the master view
   final List<T> items;
@@ -66,11 +62,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage,
 
   final Future<void> Function() fetchNextItems;
 
-  final List<U> Function(T item) itemChildren;
-
-  final List<Widget> Function(U itemChild, String id) childBuilder;
-
-  const NewGetCourageMasterDetail(
+  const AdminMasterDetails(
       {Key key,
       @required this.detailsBuilder,
       @required this.routeWithIdPlaceholder,
@@ -82,28 +74,22 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage,
       this.enableSearchBar = false,
       this.noItemsSelected,
       this.disableBackButtonOnNoItemSelected = true,
-      @required this.itemChildren,
-      @required this.childBuilder,
       this.searchFunction,
       this.isLoadingMoreItems = false,
       this.fetchNextItems,
       this.hasMoreItems = false,
       this.resetSearchFunction,
-      this.childId = '',
-      this.parentId = ''})
+      this.id = ''})
       : super(key: key);
 
   @override
-  _NewGetCourageMasterDetailState<T, U> createState() =>
-      _NewGetCourageMasterDetailState<T, U>();
+  _AdminMasterDetailsState<T> createState() => _AdminMasterDetailsState<T>();
 }
 
-class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
-    U extends GeneratedMessage> extends State<NewGetCourageMasterDetail<T, U>> {
+class _AdminMasterDetailsState<T extends GeneratedMessage>
+    extends State<AdminMasterDetails<T>> {
   ScrollController _scrollController;
   TextEditingController _searchTextCtrl;
-  String _selectedParentId;
-  String _previouslySelectedParentId;
 
   _scrollListener() async {
     if (_scrollController.offset >=
@@ -117,8 +103,6 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
 
   @override
   void initState() {
-    _previouslySelectedParentId = widget.parentId;
-    _selectedParentId = widget.parentId;
     _scrollController = ScrollController();
     _searchTextCtrl = TextEditingController();
     _scrollController.addListener(_scrollListener);
@@ -135,8 +119,7 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
   @override
   Widget build(BuildContext context) {
     bool isMobilePhone = !isTablet(context);
-    bool isItemSelected =
-        _selectedParentId.isNotEmpty && widget.childId.isNotEmpty;
+    bool isItemSelected = widget.id.isNotEmpty;
     bool showMaster = isMobilePhone && !isItemSelected || !isMobilePhone;
     bool showDetails = isMobilePhone && isItemSelected || !isMobilePhone;
 
@@ -154,14 +137,8 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
               (isItemSelected)
                   ? Expanded(
                       flex: 3,
-                      child: _previouslySelectedParentId != _selectedParentId
-                          ? widget.detailsBuilder(
-                              context,
-                              _previouslySelectedParentId,
-                              widget.childId,
-                              !showMaster)
-                          : widget.detailsBuilder(context, _selectedParentId,
-                              widget.childId, !showMaster),
+                      child: widget.detailsBuilder(
+                          context, widget.id, !showMaster),
                     )
                   : Expanded(
                       flex: 3,
@@ -197,8 +174,7 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
                   //disable back button if no item is selected...
                   automaticallyImplyLeading:
                       !(widget.disableBackButtonOnNoItemSelected &&
-                          _selectedParentId.isEmpty &&
-                          widget.childId.isEmpty),
+                          widget.id.isEmpty),
                   title: widget.masterAppBarTitle ?? Container(),
                 ),
                 if (widget.enableSearchBar)
@@ -224,87 +200,51 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
                       ),
                     ),
                   ),
-                if (widget.items != null && widget.itemChildren != null)
+                if (widget.items != null)
                   for (var item in widget.items)
-                    ExpansionTile(
-                        collapsedBackgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
-                        backgroundColor:
-                            Theme.of(context).dialogBackgroundColor,
-                        maintainState: false,
-                        initiallyExpanded:
-                            item.getField(1).toString() == _selectedParentId
-                                ? true
-                                : false,
-                        onExpansionChanged: (bool t) {
-                          setState(() {
-                            _selectedParentId = item.getField(1).toString();
-                          });
-                        },
-                        leading: widget.imageBuilder != null
-                            ? CircleAvatar(
-                                radius: 20,
-                                backgroundImage: MemoryImage(
-                                  Uint8List.fromList(widget.imageBuilder(item)),
-                                ),
-                              )
-                            : Container(),
-                        title: Container(
-                          height: 56,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  widget.labelBuilder(item),
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle1
-                                      .merge(TextStyle(
-                                        color: widget.items[widget.items
-                                                        .indexOf(item)]
-                                                    .getField(1)
-                                                    .toString() !=
-                                                _selectedParentId
-                                            ? Theme.of(context)
-                                                .textTheme
-                                                .subtitle1
-                                                .color
-                                            : Theme.of(context).accentColor,
-                                      )),
-                                ),
+                    InkWell(
+                      child: Container(
+                        height: 56,
+                        child: Row(
+                          children: <Widget>[
+                            widget.imageBuilder != null
+                                ? CircleAvatar(
+                                    radius: 20,
+                                    backgroundImage: MemoryImage(
+                                      Uint8List.fromList(
+                                          widget.imageBuilder(item)),
+                                    ),
+                                  )
+                                : Container(),
+                            Expanded(
+                              child: Text(
+                                widget.labelBuilder(item),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    .merge(TextStyle(
+                                      color: widget.items[widget.items
+                                                      .indexOf(item)]
+                                                  .getField(1)
+                                                  .toString() !=
+                                              widget.id
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .subtitle1
+                                              .color
+                                          : Theme.of(context).accentColor,
+                                    )),
                               ),
-                              // SizedBox(width: 30),
-                            ],
-                          ),
+                            ),
+                            // SizedBox(width: 30),
+                          ],
                         ),
-                        children: [
-                          for (var itemChild in widget.itemChildren(item))
-                            InkWell(
-                              child: Container(
-                                height: 56,
-                                child: Row(
-                                  children: widget.childBuilder(
-                                      itemChild, widget.childId),
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _selectedParentId =
-                                      item.getField(1).toString();
-                                });
-                                _pushDetailsRoute(
-                                    widget
-                                        .itemChildren(item)[widget
-                                            .itemChildren(item)
-                                            .indexOf(itemChild)]
-                                        .getField(1)
-                                        .toString(),
-                                    _selectedParentId,
-                                    context);
-                              },
-                            )
-                        ]),
+                      ),
+                      onTap: () {
+                        _pushParentDetailsRoute(item.getField(1).toString(), context);
+                      },
+                    ),
                 if (widget.hasMoreItems || widget.isLoadingMoreItems)
                   Center(
                     child: CircularProgressIndicator(),
@@ -322,21 +262,17 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
     );
   }
 
-  _pushDetailsRoute<T, U>(
-      String newChildId, String newParentId, BuildContext context) {
+  _pushParentDetailsRoute<T>(String newParentId, BuildContext context) {
     bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
-      name: widget.routeWithIdPlaceholder
-          .replaceAll(":id", "$newChildId")
-          .replaceAll(":orgId", newParentId),
+      name: widget.routeWithIdPlaceholder.replaceAll(":id", "$newParentId"),
     );
-    var newMasterDetailView = NewGetCourageMasterDetail(
+    var newMasterDetailView = AdminMasterDetails(
       items: widget.items,
       labelBuilder: widget.labelBuilder,
       noItemsSelected: widget.noItemsSelected,
       detailsBuilder: widget.detailsBuilder,
-      parentId: newParentId,
-      childId: newChildId,
+      id: newParentId,
       routeWithIdPlaceholder: widget.routeWithIdPlaceholder,
       enableSearchBar: widget.enableSearchBar,
       masterAppBarTitle: widget.masterAppBarTitle,
@@ -344,19 +280,9 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
           widget.disableBackButtonOnNoItemSelected,
       noItemsAvailable: widget.noItemsAvailable,
       imageBuilder: widget.imageBuilder,
-      itemChildren: widget.itemChildren,
-      childBuilder: widget.childBuilder,
       searchFunction: widget.searchFunction,
       resetSearchFunction: widget.resetSearchFunction,
     );
-    /*
-      We are not using flutter Modular for pushing the route here
-      since we need dynamic transitions. For the >tablet view
-      there shouldn't be a transition, since on each selection the
-      view is pushed again (to be able to change the omnibox).
-
-      for small devices there should be a transition to look normal
-    */
     Navigator.of(context).push(
       (withTransition)
           ? MaterialPageRoute(

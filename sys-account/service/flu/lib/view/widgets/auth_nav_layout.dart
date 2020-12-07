@@ -99,9 +99,7 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                 ),
                 title: Text(org.name, style: TextStyle(fontSize: 12)),
                 onTap: () {
-                  Modular.to.pushNamed('/projects', arguments: {
-                    'orgs': [org],
-                  });
+                  Modular.to.pushNamed('/projects', arguments: [org]);
                 },
               )
             ],
