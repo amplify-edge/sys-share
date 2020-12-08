@@ -75,8 +75,8 @@ func _AccountServiceNewAccountCommand(cfg *client.Config) *cobra.Command {
 
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "@inject_tag: fake:\"{mailseq:user,false,none,false}\" yaml:\"email,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "@inject_tag: fake:\"{password}\" yaml:\"password,omitempty\"")
-	cmd.PersistentFlags().StringVar(&req.AvatarFilepath, cfg.FlagNamer("AvatarFilepath"), "", "@inject_tag: fake:\"{avatargen:./bootstrap-data/client/generated,128}\" yaml:\"avatar_filepath,omitempty\"")
-	flag.BytesBase64Var(cmd.PersistentFlags(), &req.AvatarUploadBytes, cfg.FlagNamer("AvatarUploadBytes"), "@inject_tag: fake:\"skip\" yaml:\"avatar_upload_bytes,omitempty\"")
+	cmd.PersistentFlags().StringVar(&req.AvatarFilepath, cfg.FlagNamer("AvatarFilepath"), "", "@inject_tag: fake:\"skip\" yaml:\"avatar_filepath,omitempty\"")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.AvatarUploadBytes, cfg.FlagNamer("AvatarUploadBytes"), "@inject_tag: fake:\"{avatarbytesgen:128}\" yaml:\"avatar_upload_bytes,omitempty\"")
 
 	return cmd
 }
@@ -501,11 +501,11 @@ func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
 	}
 
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "@inject_tag: fake:\"{nameseq:sys_account_project,false,none,false,false}\" yaml:\"name,omitempty\"")
-	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "@inject_tag: fake:\"{avatargen:./bootstrap-data/client/generated,128}\" yaml:\"logo_filepath,omitempty\"")
+	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "@inject_tag: fake:\"skip\" yaml:\"logo_filepath,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "@inject_tag: fake:\"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}\" yaml:\"creator_id,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.OrgId, cfg.FlagNamer("OrgId"), "", "@inject_tag: fake:\"skip\" yaml:\"org_id,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.OrgName, cfg.FlagNamer("OrgName"), "", "@inject_tag: fake:\"{nameseq:sys_account_org,true,sys_account_org,false,false}\" yaml:\"org_name,omitempty\"")
-	flag.BytesBase64Var(cmd.PersistentFlags(), &req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "@inject_tag: fake:\"skip\" yaml:\"logo_upload_bytes,omitempty\"")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "@inject_tag: fake:\"{avatarbytesgen:128}\" yaml:\"logo_upload_bytes,omitempty\"")
 
 	return cmd
 }
@@ -732,10 +732,10 @@ func _OrgProjServiceNewOrgCommand(cfg *client.Config) *cobra.Command {
 	}
 
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "@inject_tag: fake:\"{nameseq:sys_account_org,false,none,false,false}\" yaml:\"name,omitempty\"")
-	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "@inject_tag: fake:\"{avatargen:./bootstrap-data/client/generated,128}\" yaml:\"logo_filepath,omitempty\"")
+	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "@inject_tag: fake:\"skip\" yaml:\"logo_filepath,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "@inject_tag: fake:\"{email}\" yaml:\"contact,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "@inject_tag: fake:\"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}\" yaml:\"creator_id,omitempty\"")
-	flag.BytesBase64Var(cmd.PersistentFlags(), &req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "@inject_tag: fake:\"skip\" yaml:\"logo_upload_bytes,omitempty\"")
+	flag.BytesBase64Var(cmd.PersistentFlags(), &req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "@inject_tag: fake:\"{avatarbytesgen:128}\" yaml:\"logo_upload_bytes,omitempty\"")
 
 	return cmd
 }
@@ -1262,4 +1262,3 @@ func _AuthServiceVerifyAccountCommand(cfg *client.Config) *cobra.Command {
 
 	return cmd
 }
-

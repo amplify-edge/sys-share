@@ -195,24 +195,53 @@ func FakeAvatarGen() (string, gofakeit.Info) {
 	}
 }
 
+// FakeAvatarGenBytes generates and writes random user / project / org letter avatar
+// Outputs the filepath to the generated image
+func FakeAvatarGenBytes() (string, gofakeit.Info) {
+	return "avatargenbytes", gofakeit.Info{
+		Category:    "avatargenbytes",
+		Description: "generate random user / project / org avatar",
+		Example:     "avatargenbytes:<SIZE>",
+		Output:      "string",
+		Params: []gofakeit.Param{
+			{Field: "size", Type: "int", Description: "generated avatar size", Default: "128"},
+		},
+		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
+			size, err := info.GetInt(m, "size")
+			if err != nil {
+				return nil, err
+			}
+			return GenFakeLogoBytes(size)
+		},
+	}
+}
+
 func GenFakeLogo(outDir string, size int) (string, error) {
 	if ex, _ := sharedConfig.PathExists(outDir); !ex {
 		_ = os.MkdirAll(outDir, 0755)
 	}
 	imgId := sharedConfig.NewID()
-	img, err := identicon.Make(size, randRGB(100), randRGB(255), []byte(randString(18)))
+	b, err := GenFakeLogoBytes(size)
 	if err != nil {
 		return "", err
 	}
 	filename := filepath.Join(outDir, fmt.Sprintf("%s.png", imgId))
-	b := bytes.Buffer{}
-	if err = png.Encode(&b, img); err != nil {
-		return "", err
-	}
-	if err = ioutil.WriteFile(filename, b.Bytes(), 0644); err != nil {
+	if err = ioutil.WriteFile(filename, b, 0644); err != nil {
 		return "", err
 	}
 	return filename, nil
+}
+
+func GenFakeLogoBytes(size int) ([]byte, error) {
+	img, err := identicon.Make(size, randRGB(100), randRGB(255), []byte(randString(18)))
+	if err != nil {
+		return nil, err
+	}
+	b := bytes.Buffer{}
+	if err = png.Encode(&b, img); err != nil {
+		return nil, err
+	}
+	return b.Bytes(), nil
 }
 
 func UnmarshalFromFilepath(path string, any interface{}) error {

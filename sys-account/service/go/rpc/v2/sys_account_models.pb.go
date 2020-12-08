@@ -991,16 +991,16 @@ type ProjectRequest struct {
 
 	// @inject_tag: fake:"{nameseq:sys_account_project,false,none,false,false}" yaml:"name,omitempty"
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" fake:"{nameseq:sys_account_project,false,none,false,false}" yaml:"name,omitempty"`
-	// @inject_tag: fake:"{avatargen:./bootstrap-data/client/generated,128}" yaml:"logo_filepath,omitempty"
-	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"{avatargen:./bootstrap-data/client/generated,128}" yaml:"logo_filepath,omitempty"`
+	// @inject_tag: fake:"skip" yaml:"logo_filepath,omitempty"
+	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"skip" yaml:"logo_filepath,omitempty"`
 	// @inject_tag: fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}" yaml:"creator_id,omitempty"
 	CreatorId string `protobuf:"bytes,3,opt,name=creator_id,json=creatorId,proto3" json:"creator_id,omitempty" fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}" yaml:"creator_id,omitempty"`
 	// @inject_tag: fake:"skip" yaml:"org_id,omitempty"
 	OrgId string `protobuf:"bytes,4,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty" fake:"skip" yaml:"org_id,omitempty"`
 	// @inject_tag: fake:"{nameseq:sys_account_org,true,sys_account_org,false,false}" yaml:"org_name,omitempty"
 	OrgName string `protobuf:"bytes,5,opt,name=org_name,json=orgName,proto3" json:"org_name,omitempty" fake:"{nameseq:sys_account_org,true,sys_account_org,false,false}" yaml:"org_name,omitempty"`
-	// @inject_tag: fake:"skip" yaml:"logo_upload_bytes,omitempty"
-	LogoUploadBytes []byte `protobuf:"bytes,6,opt,name=logo_upload_bytes,json=logoUploadBytes,proto3" json:"logo_upload_bytes,omitempty" fake:"skip" yaml:"logo_upload_bytes,omitempty"`
+	// @inject_tag: fake:"{avatarbytesgen:128}" yaml:"logo_upload_bytes,omitempty"
+	LogoUploadBytes []byte `protobuf:"bytes,6,opt,name=logo_upload_bytes,json=logoUploadBytes,proto3" json:"logo_upload_bytes,omitempty" fake:"{avatarbytesgen:128}" yaml:"logo_upload_bytes,omitempty"`
 }
 
 func (x *ProjectRequest) Reset() {
@@ -1259,14 +1259,14 @@ type OrgRequest struct {
 
 	// @inject_tag: fake:"{nameseq:sys_account_org,false,none,false,false}" yaml:"name,omitempty"
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" fake:"{nameseq:sys_account_org,false,none,false,false}" yaml:"name,omitempty"`
-	// @inject_tag: fake:"{avatargen:./bootstrap-data/client/generated,128}" yaml:"logo_filepath,omitempty"
-	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"{avatargen:./bootstrap-data/client/generated,128}" yaml:"logo_filepath,omitempty"`
+	// @inject_tag: fake:"skip" yaml:"logo_filepath,omitempty"
+	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"skip" yaml:"logo_filepath,omitempty"`
 	// @inject_tag: fake:"{email}" yaml:"contact,omitempty"
 	Contact string `protobuf:"bytes,3,opt,name=contact,proto3" json:"contact,omitempty" fake:"{email}" yaml:"contact,omitempty"`
 	// @inject_tag: fake:"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}" yaml:"creator_id,omitempty"
 	CreatorId string `protobuf:"bytes,4,opt,name=creator_id,json=creatorId,proto3" json:"creator_id,omitempty" fake:"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}" yaml:"creator_id,omitempty"`
-	// @inject_tag: fake:"skip" yaml:"logo_upload_bytes,omitempty"
-	LogoUploadBytes []byte `protobuf:"bytes,5,opt,name=logo_upload_bytes,json=logoUploadBytes,proto3" json:"logo_upload_bytes,omitempty" fake:"skip" yaml:"logo_upload_bytes,omitempty"`
+	// @inject_tag: fake:"{avatarbytesgen:128}" yaml:"logo_upload_bytes,omitempty"
+	LogoUploadBytes []byte `protobuf:"bytes,5,opt,name=logo_upload_bytes,json=logoUploadBytes,proto3" json:"logo_upload_bytes,omitempty" fake:"{avatarbytesgen:128}" yaml:"logo_upload_bytes,omitempty"`
 }
 
 func (x *OrgRequest) Reset() {
@@ -1980,10 +1980,10 @@ type AccountNewRequest struct {
 	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty" fake:"{password}" yaml:"password,omitempty"`
 	// @inject_tag: fake:"skip" yaml:"roles,omitempty"
 	Roles []*UserRoles `protobuf:"bytes,3,rep,name=roles,proto3" json:"roles,omitempty" fake:"skip" yaml:"roles,omitempty"`
-	// @inject_tag: fake:"{avatargen:./bootstrap-data/client/generated,128}" yaml:"avatar_filepath,omitempty"
-	AvatarFilepath string `protobuf:"bytes,4,opt,name=avatar_filepath,json=avatarFilepath,proto3" json:"avatar_filepath,omitempty" fake:"{avatargen:./bootstrap-data/client/generated,128}" yaml:"avatar_filepath,omitempty"` // local upload i.e. bootstrap, remote upload will be user's directory
-	// @inject_tag: fake:"skip" yaml:"avatar_upload_bytes,omitempty"
-	AvatarUploadBytes []byte `protobuf:"bytes,5,opt,name=avatar_upload_bytes,json=avatarUploadBytes,proto3" json:"avatar_upload_bytes,omitempty" fake:"skip" yaml:"avatar_upload_bytes,omitempty"` // raw bytes upload for remote upload
+	// @inject_tag: fake:"skip" yaml:"avatar_filepath,omitempty"
+	AvatarFilepath string `protobuf:"bytes,4,opt,name=avatar_filepath,json=avatarFilepath,proto3" json:"avatar_filepath,omitempty" fake:"skip" yaml:"avatar_filepath,omitempty"` // local upload i.e. bootstrap, remote upload will be user's directory
+	// @inject_tag: fake:"{avatarbytesgen:128}" yaml:"avatar_upload_bytes,omitempty"
+	AvatarUploadBytes []byte `protobuf:"bytes,5,opt,name=avatar_upload_bytes,json=avatarUploadBytes,proto3" json:"avatar_upload_bytes,omitempty" fake:"{avatarbytesgen:128}" yaml:"avatar_upload_bytes,omitempty"` // raw bytes upload for remote upload
 	// @inject_tag: fakesize:"1" yaml:"new_user_roles,omitempty"
 	NewUserRoles []*NewUserRoles `protobuf:"bytes,6,rep,name=new_user_roles,json=newUserRoles,proto3" json:"new_user_roles,omitempty" fakesize:"1" yaml:"new_user_roles,omitempty"`
 }
