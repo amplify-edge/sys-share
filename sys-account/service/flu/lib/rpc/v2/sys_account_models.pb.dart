@@ -891,7 +891,7 @@ class ProjectRequest extends $pb.GeneratedMessage {
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'creatorId')
     ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'orgId')
     ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'orgName')
-    ..a<$core.List<$core.int>>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logoUploadBytes', $pb.PbFieldType.OY)
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logoUploadBytes')
     ..hasRequiredFields = false
   ;
 
@@ -964,9 +964,9 @@ class ProjectRequest extends $pb.GeneratedMessage {
   void clearOrgName() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.List<$core.int> get logoUploadBytes => $_getN(5);
+  $core.String get logoUploadBytes => $_getSZ(5);
   @$pb.TagNumber(6)
-  set logoUploadBytes($core.List<$core.int> v) { $_setBytes(5, v); }
+  set logoUploadBytes($core.String v) { $_setString(5, v); }
   @$pb.TagNumber(6)
   $core.bool hasLogoUploadBytes() => $_has(5);
   @$pb.TagNumber(6)
@@ -1153,7 +1153,7 @@ class OrgRequest extends $pb.GeneratedMessage {
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logoFilepath')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'contact')
     ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'creatorId')
-    ..a<$core.List<$core.int>>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logoUploadBytes', $pb.PbFieldType.OY)
+    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logoUploadBytes')
     ..hasRequiredFields = false
   ;
 
@@ -1217,9 +1217,9 @@ class OrgRequest extends $pb.GeneratedMessage {
   void clearCreatorId() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.List<$core.int> get logoUploadBytes => $_getN(4);
+  $core.String get logoUploadBytes => $_getSZ(4);
   @$pb.TagNumber(5)
-  set logoUploadBytes($core.List<$core.int> v) { $_setBytes(4, v); }
+  set logoUploadBytes($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
   $core.bool hasLogoUploadBytes() => $_has(4);
   @$pb.TagNumber(5)
@@ -1826,7 +1826,7 @@ class AccountNewRequest extends $pb.GeneratedMessage {
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
     ..pc<UserRoles>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roles', $pb.PbFieldType.PM, subBuilder: UserRoles.create)
     ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'avatarFilepath')
-    ..a<$core.List<$core.int>>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'avatarUploadBytes', $pb.PbFieldType.OY)
+    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'avatarUploadBytes')
     ..pc<NewUserRoles>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'newUserRoles', $pb.PbFieldType.PM, subBuilder: NewUserRoles.create)
     ..hasRequiredFields = false
   ;
@@ -1885,9 +1885,9 @@ class AccountNewRequest extends $pb.GeneratedMessage {
   void clearAvatarFilepath() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.List<$core.int> get avatarUploadBytes => $_getN(4);
+  $core.String get avatarUploadBytes => $_getSZ(4);
   @$pb.TagNumber(5)
-  set avatarUploadBytes($core.List<$core.int> v) { $_setBytes(4, v); }
+  set avatarUploadBytes($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
   $core.bool hasAvatarUploadBytes() => $_has(4);
   @$pb.TagNumber(5)

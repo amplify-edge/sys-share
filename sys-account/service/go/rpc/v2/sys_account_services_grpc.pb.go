@@ -4,10 +4,10 @@ package v2
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -25,7 +25,7 @@ type AccountServiceClient interface {
 	AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error)
 	UpdateAccount(ctx context.Context, in *AccountUpdateRequest, opts ...grpc.CallOption) (*Account, error)
 	DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error)
-	DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type accountServiceClient struct {
@@ -131,8 +131,8 @@ var accountServiceDeleteAccountStreamDesc = &grpc.StreamDesc{
 	StreamName: "DeleteAccount",
 }
 
-func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/DeleteAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -152,7 +152,7 @@ type AccountServiceService struct {
 	AssignAccountToRole func(context.Context, *AssignAccountToRoleRequest) (*Account, error)
 	UpdateAccount       func(context.Context, *AccountUpdateRequest) (*Account, error)
 	DisableAccount      func(context.Context, *DisableAccountRequest) (*Account, error)
-	DeleteAccount       func(context.Context, *DisableAccountRequest) (*empty.Empty, error)
+	DeleteAccount       func(context.Context, *DisableAccountRequest) (*emptypb.Empty, error)
 }
 
 func (s *AccountServiceService) newAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -405,7 +405,7 @@ func NewAccountServiceService(s interface{}) *AccountServiceService {
 		ns.DisableAccount = h.DisableAccount
 	}
 	if h, ok := s.(interface {
-		DeleteAccount(context.Context, *DisableAccountRequest) (*empty.Empty, error)
+		DeleteAccount(context.Context, *DisableAccountRequest) (*emptypb.Empty, error)
 	}); ok {
 		ns.DeleteAccount = h.DeleteAccount
 	}
@@ -424,7 +424,7 @@ type UnstableAccountServiceService interface {
 	AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
 	UpdateAccount(context.Context, *AccountUpdateRequest) (*Account, error)
 	DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
-	DeleteAccount(context.Context, *DisableAccountRequest) (*empty.Empty, error)
+	DeleteAccount(context.Context, *DisableAccountRequest) (*emptypb.Empty, error)
 }
 
 // OrgProjServiceClient is the client API for OrgProjService service.
@@ -436,14 +436,14 @@ type OrgProjServiceClient interface {
 	GetProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Project, error)
 	ListProject(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	UpdateProject(ctx context.Context, in *ProjectUpdateRequest, opts ...grpc.CallOption) (*Project, error)
-	DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Orgs
 	NewOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error)
 	GetOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Org, error)
 	ListOrg(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	ListNonSubscribedOrgs(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	UpdateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error)
-	DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type orgProjServiceClient struct {
@@ -510,8 +510,8 @@ var orgProjServiceDeleteProjectStreamDesc = &grpc.StreamDesc{
 	StreamName: "DeleteProject",
 }
 
-func (c *orgProjServiceClient) DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *orgProjServiceClient) DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/DeleteProject", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -588,8 +588,8 @@ var orgProjServiceDeleteOrgStreamDesc = &grpc.StreamDesc{
 	StreamName: "DeleteOrg",
 }
 
-func (c *orgProjServiceClient) DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *orgProjServiceClient) DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/DeleteOrg", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -607,14 +607,14 @@ type OrgProjServiceService struct {
 	GetProject    func(context.Context, *IdRequest) (*Project, error)
 	ListProject   func(context.Context, *ListRequest) (*ListResponse, error)
 	UpdateProject func(context.Context, *ProjectUpdateRequest) (*Project, error)
-	DeleteProject func(context.Context, *IdRequest) (*empty.Empty, error)
+	DeleteProject func(context.Context, *IdRequest) (*emptypb.Empty, error)
 	// Orgs
 	NewOrg                func(context.Context, *OrgRequest) (*Org, error)
 	GetOrg                func(context.Context, *IdRequest) (*Org, error)
 	ListOrg               func(context.Context, *ListRequest) (*ListResponse, error)
 	ListNonSubscribedOrgs func(context.Context, *ListRequest) (*ListResponse, error)
 	UpdateOrg             func(context.Context, *OrgUpdateRequest) (*Org, error)
-	DeleteOrg             func(context.Context, *IdRequest) (*empty.Empty, error)
+	DeleteOrg             func(context.Context, *IdRequest) (*emptypb.Empty, error)
 }
 
 func (s *OrgProjServiceService) newProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -924,7 +924,7 @@ func NewOrgProjServiceService(s interface{}) *OrgProjServiceService {
 		ns.UpdateProject = h.UpdateProject
 	}
 	if h, ok := s.(interface {
-		DeleteProject(context.Context, *IdRequest) (*empty.Empty, error)
+		DeleteProject(context.Context, *IdRequest) (*emptypb.Empty, error)
 	}); ok {
 		ns.DeleteProject = h.DeleteProject
 	}
@@ -954,7 +954,7 @@ func NewOrgProjServiceService(s interface{}) *OrgProjServiceService {
 		ns.UpdateOrg = h.UpdateOrg
 	}
 	if h, ok := s.(interface {
-		DeleteOrg(context.Context, *IdRequest) (*empty.Empty, error)
+		DeleteOrg(context.Context, *IdRequest) (*emptypb.Empty, error)
 	}); ok {
 		ns.DeleteOrg = h.DeleteOrg
 	}
@@ -971,14 +971,14 @@ type UnstableOrgProjServiceService interface {
 	GetProject(context.Context, *IdRequest) (*Project, error)
 	ListProject(context.Context, *ListRequest) (*ListResponse, error)
 	UpdateProject(context.Context, *ProjectUpdateRequest) (*Project, error)
-	DeleteProject(context.Context, *IdRequest) (*empty.Empty, error)
+	DeleteProject(context.Context, *IdRequest) (*emptypb.Empty, error)
 	// Orgs
 	NewOrg(context.Context, *OrgRequest) (*Org, error)
 	GetOrg(context.Context, *IdRequest) (*Org, error)
 	ListOrg(context.Context, *ListRequest) (*ListResponse, error)
 	ListNonSubscribedOrgs(context.Context, *ListRequest) (*ListResponse, error)
 	UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
-	DeleteOrg(context.Context, *IdRequest) (*empty.Empty, error)
+	DeleteOrg(context.Context, *IdRequest) (*emptypb.Empty, error)
 }
 
 // AuthServiceClient is the client API for AuthService service.
@@ -993,7 +993,7 @@ type AuthServiceClient interface {
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error)
-	VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type authServiceClient struct {
@@ -1073,8 +1073,8 @@ var authServiceVerifyAccountStreamDesc = &grpc.StreamDesc{
 	StreamName: "VerifyAccount",
 }
 
-func (c *authServiceClient) VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *authServiceClient) VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/VerifyAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1095,7 +1095,7 @@ type AuthServiceService struct {
 	ResetPassword  func(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken func(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
-	VerifyAccount      func(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
+	VerifyAccount      func(context.Context, *VerifyAccountRequest) (*emptypb.Empty, error)
 }
 
 func (s *AuthServiceService) register(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1290,7 +1290,7 @@ func NewAuthServiceService(s interface{}) *AuthServiceService {
 		ns.RefreshAccessToken = h.RefreshAccessToken
 	}
 	if h, ok := s.(interface {
-		VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
+		VerifyAccount(context.Context, *VerifyAccountRequest) (*emptypb.Empty, error)
 	}); ok {
 		ns.VerifyAccount = h.VerifyAccount
 	}
@@ -1310,5 +1310,5 @@ type UnstableAuthServiceService interface {
 	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
-	VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
+	VerifyAccount(context.Context, *VerifyAccountRequest) (*emptypb.Empty, error)
 }

@@ -116,8 +116,8 @@ message ProjectRequest {
   string org_id = 4;
   // @inject_tag: fake:"{nameseq:sys_account_org,true,sys_account_org,false,false}" yaml:"org_name,omitempty"
   string org_name = 5;
-  // @inject_tag: fake:"{avatarbytesgen:128}" yaml:"logo_upload_bytes,omitempty"
-  bytes logo_upload_bytes = 6;
+  // @inject_tag: fake:"{logogen:128}" yaml:"logo_upload_bytes,omitempty"
+  string logo_upload_bytes = 6;
 }
 
 message ProjectUpdateRequest {
@@ -148,8 +148,8 @@ message OrgRequest {
   string contact = 3;
   // @inject_tag: fake:"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}" yaml:"creator_id,omitempty"
   string creator_id = 4;
-  // @inject_tag: fake:"{avatarbytesgen:128}" yaml:"logo_upload_bytes,omitempty"
-  bytes logo_upload_bytes = 5;
+  // @inject_tag: fake:"{logogen:128}" yaml:"logo_upload_bytes,omitempty"
+  string logo_upload_bytes = 5;
 }
 
 message OrgUpdateRequest {
@@ -241,8 +241,8 @@ message AccountNewRequest {
   repeated UserRoles roles = 3;
   // @inject_tag: fake:"skip" yaml:"avatar_filepath,omitempty"
   string avatar_filepath = 4; // local upload i.e. bootstrap, remote upload will be user's directory
-  // @inject_tag: fake:"{avatarbytesgen:128}" yaml:"avatar_upload_bytes,omitempty"
-  bytes avatar_upload_bytes = 5; // raw bytes upload for remote upload
+  // @inject_tag: fake:"{logogen:100}" yaml:"avatar_upload_bytes,omitempty"
+  string avatar_upload_bytes = 5; // raw bytes upload for remote upload
   // @inject_tag: fakesize:"1" yaml:"new_user_roles,omitempty"
   repeated NewUserRoles new_user_roles = 6;
 }

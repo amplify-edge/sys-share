@@ -2,6 +2,7 @@ package fakehelper
 
 import (
 	"bytes"
+	"encoding/base64"
 	"fmt"
 	"image/color"
 	"image/png"
@@ -197,24 +198,20 @@ func FakeAvatarGen() (string, gofakeit.Info) {
 // FakeAvatarGenBytes generates and writes random user / project / org letter avatar
 // Outputs the filepath to the generated image
 func FakeAvatarGenBytes() (string, gofakeit.Info) {
-	return "avatargenbytes", gofakeit.Info{
-		Category:    "avatargenbytes",
+	return "logogen", gofakeit.Info{
+		Category:    "logogen",
 		Description: "generate random user / project / org avatar",
-		Example:     "avatargenbytes:<SIZE>",
+		Example:     "logogen:<SIZE>",
 		Output:      "string",
 		Params: []gofakeit.Param{
-			{Field: "size", Type: "int", Description: "generated avatar size", Default: "128"},
+			{Field: "size", Type: "int", Description: "generated logo size", Default: "100"},
 		},
 		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
 			size, err := info.GetInt(m, "size")
 			if err != nil {
 				return nil, err
 			}
-			b, err := GenFakeLogoBytes(size)
-			if err != nil {
-				return nil, err
-			}
-			return string(b), nil
+			return genFakeLogoBase64(size)
 		},
 	}
 }
@@ -245,6 +242,14 @@ func GenFakeLogoBytes(size int) ([]byte, error) {
 		return nil, err
 	}
 	return b.Bytes(), nil
+}
+
+func genFakeLogoBase64(size int) (string, error) {
+	b, err := GenFakeLogoBytes(size)
+	if err != nil {
+		return "", err
+	}
+	return base64.RawStdEncoding.EncodeToString(b), nil
 }
 
 func UnmarshalFromFilepath(path string, any interface{}) error {

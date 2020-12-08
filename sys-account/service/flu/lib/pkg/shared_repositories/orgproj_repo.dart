@@ -117,16 +117,14 @@ class OrgProjRepo {
       File logoUpload,
       String creatorId,
       @required orgId}) async {
+    final logoBytes = base64Encode(logoUpload.readAsBytesSync());
     final req = rpc.ProjectRequest()
       ..orgId = orgId
       ..name = name
-      ..creatorId = creatorId;
+      ..creatorId = creatorId
+      ..logoUploadBytes = logoBytes
+      ..logoFilepath = logoUpload.absolute.path;
 
-    if (logoUpload != null) {
-      req
-        ..logoFilepath = logoUpload.absolute.path
-        ..logoUploadBytes = logoUpload.readAsBytesSync();
-    }
     try {
       final client = await orgProjectServiceClient();
       final resp =
@@ -139,19 +137,16 @@ class OrgProjRepo {
 
   static Future<rpc.Org> newOrg(
       {@required String name,
-      File logoUpload,
+      @required File logoUpload,
       String creatorId,
       String contact}) async {
+    final logoBytes = base64Encode(logoUpload.readAsBytesSync());
     final req = rpc.OrgRequest()
       ..creatorId = creatorId
       ..name = name
-      ..contact = contact;
-
-    if (logoUpload != null) {
-      req
-        ..logoUploadBytes = logoUpload.readAsBytesSync()
-        ..logoFilepath = logoUpload.absolute.path;
-    }
+      ..contact = contact
+      ..logoUploadBytes = logoBytes
+      ..logoFilepath = logoUpload.absolute.path;
 
     try {
       final client = await orgProjectServiceClient();
