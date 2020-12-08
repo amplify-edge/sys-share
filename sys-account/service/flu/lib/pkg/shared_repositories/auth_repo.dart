@@ -216,7 +216,6 @@ Future<void> updateTokens({
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final payload = _parseJwtPayLoad(accessToken);
   final accountId = payload["userId"];
-  print("USER ACCOUNT ID " + accountId);
   await prefs.setString(_accessTokenKey, accessToken);
   await prefs.setString(_refreshTokenKey, refreshToken);
   await prefs.setString(_accountIdKey, accountId);

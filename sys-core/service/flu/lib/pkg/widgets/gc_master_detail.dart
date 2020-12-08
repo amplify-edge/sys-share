@@ -227,10 +227,11 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
                 if (widget.items != null && widget.itemChildren != null)
                   for (var item in widget.items)
                     ExpansionTile(
-                        collapsedBackgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
+                        // collapsedBackgroundColor:
+                        //     Theme.of(context).scaffoldBackgroundColor,
                         backgroundColor:
                             Theme.of(context).dialogBackgroundColor,
+                        childrenPadding: EdgeInsets.only(left: 8),
                         maintainState: false,
                         initiallyExpanded:
                             item.getField(1).toString() == _selectedParentId
