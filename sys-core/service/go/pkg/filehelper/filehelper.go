@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/disintegration/imaging"
 
@@ -76,7 +77,12 @@ func getFileResourceId(fpath string) string {
 }
 
 func imgEncode(fpath string, content []byte) ([]byte, error) {
-	ext := filepath.Ext(fpath)
+	var ext string
+	if fpath != "" {
+		ext = filepath.Ext(fpath)
+	} else {
+		ext = fmt.Sprintf(".%s", strings.Split(http.DetectContentType(content), "/")[1])
+	}
 	b := bytes.Buffer{}
 	var img image.Image
 	var fmtExt imaging.Format
@@ -97,11 +103,15 @@ func imgEncode(fpath string, content []byte) ([]byte, error) {
 			}
 		}
 	} else {
-		f, err = ioutil.ReadFile(fpath)
-		if err != nil {
-			return nil, err
+		if fpath != "" && content == nil {
+			f, err = ioutil.ReadFile(fpath)
+			if err != nil {
+				return nil, err
+			}
+			b.Write(f)
+		} else if content != nil {
+			b.Write(content)
 		}
-		b.Write(f)
 	}
 	if fmtExt.String() != "" {
 		switch fmtExt {

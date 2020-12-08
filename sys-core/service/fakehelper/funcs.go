@@ -13,9 +13,8 @@ import (
 	"unsafe"
 
 	"github.com/brianvoe/gofakeit/v5"
-	"github.com/issue9/identicon"
-
 	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
+	"github.com/issue9/identicon"
 )
 
 const (
@@ -211,7 +210,11 @@ func FakeAvatarGenBytes() (string, gofakeit.Info) {
 			if err != nil {
 				return nil, err
 			}
-			return GenFakeLogoBytes(size)
+			b, err := GenFakeLogoBytes(size)
+			if err != nil {
+				return nil, err
+			}
+			return string(b), nil
 		},
 	}
 }
