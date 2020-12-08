@@ -38,6 +38,10 @@ class GuardianViewModel extends ChangeNotifier {
     _isUserLoggedIn = isLoggedOn;
     notifyListeners();
   }
+  
+  Future<void> getLoginStatus() async {
+    await _isLoggedIn();
+  }
 
   void _setAccountId(String value) {
     _accountId = value;
@@ -101,18 +105,22 @@ class GuardianViewModel extends ChangeNotifier {
       @required Widget widget,
       Future<void> Function(BuildContext context, Widget widget)
           grantAccessFunction}) async {
-    await _isLoggedIn();
-    if (!_isUserLoggedIn) {
-      setErrMsg(context, 'cannot access page, user is not logged in');
-      return;
-    }
-    if (grantAccessFunction != null) {
+    if (grantAccessFunction == null) {
       grantAccessFunction = _grantSuperAccess;
     }
     await grantAccessFunction(context, widget);
   }
 
+  Future<void> checkUserLoggedIn(BuildContext context) async {
+    await _isLoggedIn();
+    if (!_isUserLoggedIn) {
+      setErrMsg(context, 'cannot access page, user is not logged in');
+      return;
+    }
+  }
+
   Future<void> _grantSuperAccess(BuildContext context, Widget widget) async {
+    await checkUserLoggedIn(context);
     if (_currentAccount.id.isEmpty) {
       await fetchAccountId();
     }
