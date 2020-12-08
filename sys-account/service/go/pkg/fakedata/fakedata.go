@@ -63,6 +63,7 @@ func BootstrapFakeData(domain string) (*fakehelper.RefCount, *fakehelper.RefCoun
 	gofakeit.Seed(sharedConfig.CurrentTimestamp())
 	// generate fake sequence
 	gofakeit.AddFuncLookup(fakehelper.FakeAvatarGen())
+	gofakeit.AddFuncLookup(fakehelper.FakeAvatarGenBytes())
 	gofakeit.AddFuncLookup(fakehelper.FakeNameSequence(
 		func(prefix, referral string, isRef, isUniqueRef, reset bool) (interface{}, error) {
 			var rc, referralRc *fakehelper.RefCount
