@@ -15,6 +15,8 @@ func TestBootstrapFakeData(t *testing.T) {
 	b, err := fake.MarshalPretty()
 	require.NoError(t, err)
 
+	t.Logf("fakedata generated: %v", fake)
+
 	require.NoError(t, ioutil.WriteFile("./bs-sys-account.json", b, 0644))
 
 	b, err = fake.MarshalYAML()

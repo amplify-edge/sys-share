@@ -1,8 +1,9 @@
 package pkg
 
 import (
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 	"github.com/segmentio/encoding/json"
+
+	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 
 	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 )
@@ -195,7 +196,7 @@ type AccountNewRequest struct {
 	Password          string          `json:"password,omitempty"`
 	Roles             []*UserRoles    `json:"roles,omitempty"`
 	AvatarFilepath    string          `json:"avatar_filepath,omitempty"`
-	AvatarUploadBytes []byte          `json:"avatar_upload_bytes,omitempty"`
+	AvatarUploadBytes string          `json:"avatar_upload_bytes,omitempty"`
 	NewUserRoles      []*NewUserRoles `json:"new_user_roles,omitempty"`
 }
 

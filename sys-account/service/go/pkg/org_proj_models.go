@@ -1,8 +1,9 @@
 package pkg
 
 import (
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 	"github.com/segmentio/encoding/json"
+
+	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 
 	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
 )
@@ -48,7 +49,7 @@ func ProjectFromProto(in *accountRpc.Project) *Project {
 type ProjectRequest struct {
 	Name            string `json:"name,omitempty"`
 	LogoFilepath    string `json:"logo_filepath,omitempty"`
-	LogoUploadBytes []byte `json:"logo_upload_bytes,omitempty"`
+	LogoUploadBytes string `json:"logo_upload_bytes,omitempty"`
 	CreatedAt       int64  `json:"created_at,omitempty"`
 	CreatorId       string `json:"creator_id,omitempty"`
 	OrgId           string `json:"org_id,omitempty"`
@@ -154,7 +155,7 @@ func OrgFromProto(in *accountRpc.Org) *Org {
 type OrgRequest struct {
 	Name            string `json:"name,omitempty"`
 	LogoFilepath    string `json:"logo_filepath,omitempty"`
-	LogoUploadBytes []byte `json:"logo_upload_bytes,omitempty"`
+	LogoUploadBytes string `json:"logo_upload_bytes,omitempty"`
 	Contact         string `json:"contact,omitempty"`
 	CreatorId       string `json:"creatorId,omitempty"`
 }

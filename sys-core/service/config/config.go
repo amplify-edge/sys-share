@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 	"math/big"
@@ -169,4 +170,8 @@ func ListFiles(dirpath string) ([]os.FileInfo, error) {
 
 func TsToUnixUTC(in *timestamppb.Timestamp) int64 {
 	return int64(in.GetNanos())
+}
+
+func DecodeB64(in string) ([]byte, error) {
+	return base64.RawStdEncoding.DecodeString(in)
 }

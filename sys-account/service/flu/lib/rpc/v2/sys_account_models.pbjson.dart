@@ -152,7 +152,7 @@ const ProjectRequest$json = const {
     const {'1': 'creator_id', '3': 3, '4': 1, '5': 9, '10': 'creatorId'},
     const {'1': 'org_id', '3': 4, '4': 1, '5': 9, '10': 'orgId'},
     const {'1': 'org_name', '3': 5, '4': 1, '5': 9, '10': 'orgName'},
-    const {'1': 'logo_upload_bytes', '3': 6, '4': 1, '5': 12, '10': 'logoUploadBytes'},
+    const {'1': 'logo_upload_bytes', '3': 6, '4': 1, '5': 9, '10': 'logoUploadBytes'},
   ],
 };
 
@@ -187,7 +187,7 @@ const OrgRequest$json = const {
     const {'1': 'logo_filepath', '3': 2, '4': 1, '5': 9, '10': 'logoFilepath'},
     const {'1': 'contact', '3': 3, '4': 1, '5': 9, '10': 'contact'},
     const {'1': 'creator_id', '3': 4, '4': 1, '5': 9, '10': 'creatorId'},
-    const {'1': 'logo_upload_bytes', '3': 5, '4': 1, '5': 12, '10': 'logoUploadBytes'},
+    const {'1': 'logo_upload_bytes', '3': 5, '4': 1, '5': 9, '10': 'logoUploadBytes'},
   ],
 };
 
@@ -284,7 +284,7 @@ const AccountNewRequest$json = const {
     const {'1': 'password', '3': 2, '4': 1, '5': 9, '10': 'password'},
     const {'1': 'roles', '3': 3, '4': 3, '5': 11, '6': '.v2.sys_account.services.UserRoles', '10': 'roles'},
     const {'1': 'avatar_filepath', '3': 4, '4': 1, '5': 9, '10': 'avatarFilepath'},
-    const {'1': 'avatar_upload_bytes', '3': 5, '4': 1, '5': 12, '10': 'avatarUploadBytes'},
+    const {'1': 'avatar_upload_bytes', '3': 5, '4': 1, '5': 9, '10': 'avatarUploadBytes'},
     const {'1': 'new_user_roles', '3': 6, '4': 3, '5': 11, '6': '.v2.sys_account.services.NewUserRoles', '10': 'newUserRoles'},
   ],
 };
