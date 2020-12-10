@@ -23,7 +23,7 @@ class VerifyModule extends ChildModule {
           '$baseRoute/verify/:id',
           child: (_, args) => VerifyPage(
             id: args.params['id'] ?? '',
-            callback: args.data['callback'],
+            callback: args.data,
           ),
         ),
       ];

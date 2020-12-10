@@ -3,5 +3,5 @@ class Paths {
   String sysAccountVerify;
 
   Paths(this.baseRoute)
-      : sysAccountVerify = '$baseRoute/verify/:id';
+      : sysAccountVerify = '$baseRoute/sys-account/verify/:id';
 }

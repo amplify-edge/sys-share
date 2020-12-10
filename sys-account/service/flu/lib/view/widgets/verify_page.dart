@@ -35,12 +35,8 @@ class VerifyPageState extends State<VerifyPage> {
       onModelReady: (VerifyAccountViewModel model) {
         _verifyTokenCtrl.text = model.getVerifyToken;
       },
-      builder: (context, model, child) => Dialog(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: SingleChildScrollView(
+      builder: (context, model, child) => Scaffold(
+        body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
@@ -138,9 +134,9 @@ class VerifyPageState extends State<VerifyPage> {
                                               context: context,
                                               message: model.successMsg,
                                               error: false);
-                                          widget.callback != null
-                                              ? widget.callback()
-                                              : print('');
+                                          if (widget.callback != null) {
+                                            widget.callback();
+                                          }
                                           Modular.to.pushNamed('/');
                                         } else {
                                           notify(
