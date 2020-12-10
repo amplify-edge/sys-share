@@ -1,5 +1,6 @@
 name: sys_share_sys_account_service
 description: A new Flutter project.
+publish_to: none
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -29,7 +30,11 @@ dependencies:
   stacked: ^1.7.6
   shared_preferences: '>=0.5.12+2 <2.0.0'
   sys_core:
-    path: ../../../sys-core/service/flu
+    git:
+      url: git://github.com/getcouragenow/sys-share.git
+      path: sys-core/service/flu
+      ref: d7fca509165d9cb5a1abe051e1888a80e20804c8
+  #    path: ../../../sys-core/service/flu
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
