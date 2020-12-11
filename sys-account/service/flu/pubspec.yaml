@@ -33,7 +33,7 @@ dependencies:
     git:
       url: git://github.com/getcouragenow/sys-share.git
       path: sys-core/service/flu
-      ref: d7fca509165d9cb5a1abe051e1888a80e20804c8
+      ref: 9a2df691224ac65d35f4ba717f5e2bf5a3988a59
   #    path: ../../../sys-core/service/flu
 
   # The following adds the Cupertino Icons font to your application.
@@ -57,7 +57,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - ./i18n/
-    - packages/sys_core/assets/hostconfig.json
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
