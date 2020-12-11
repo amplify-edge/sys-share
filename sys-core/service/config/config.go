@@ -175,3 +175,41 @@ func TsToUnixUTC(in *timestamppb.Timestamp) int64 {
 func DecodeB64(in string) ([]byte, error) {
 	return base64.RawStdEncoding.DecodeString(in)
 }
+
+func GetCACert(domain string) (credentials.TransportCredentials, error) {
+	conf := &tls.Config{
+		InsecureSkipVerify: true,
+	}
+	conn, err := tls.Dial("tcp", fmt.Sprintf("%s:443", domain), conf)
+	if err != nil {
+		return nil, err
+	}
+	defer conn.Close()
+	certs := conn.ConnectionState().PeerCertificates
+	for _, cert := range certs {
+		if cert.IsCA {
+			// publicKeyBlock := pem.Block{
+			// 	Type:  "CERTIFICATE",
+			// 	Bytes: cert.Raw,
+			// }
+			// publicKeyPem := pem.EncodeToMemory(&publicKeyBlock)
+			certPool := x509.NewCertPool()
+			certPool.AddCert(cert)
+			config := &tls.Config{
+				RootCAs: certPool,
+			}
+			return credentials.NewTLS(config), nil
+			// if !certPool.AppendCertsFromPEM(pemServerCA) {
+			// 	return nil, fmt.Errorf("failed to add server CA's certificate")
+			// }
+			// config := &tls.Config{
+			// 	RootCAs: certPool,
+			// }
+			// err = ioutil.WriteFile(outputPath, publicKeyPem, 0644)
+			// if err != nil {
+			// 	return err
+			// }
+		}
+	}
+	return nil, fmt.Errorf("unable to get CA from server: cert does not exist")
+}
