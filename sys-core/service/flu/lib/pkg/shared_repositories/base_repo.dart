@@ -6,7 +6,7 @@ import 'package:sys_core/pkg/config/host_config.dart';
 
 class BaseRepo {
   static final String hostConfigPath =
-      "packages/sys_core/assets/hostconfig.json";
+      "assets/env.json";
   static final Map<String, String> callMetadata = {
     "Content-Type": "application/grpc-web",
   };
