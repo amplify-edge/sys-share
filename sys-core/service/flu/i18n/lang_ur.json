@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-11-23T03:02:08.510997",
+  "@@last_modified": "2020-12-14T13:30:06.982509",
   "search": "تلاش کریں",
   "@search": {
     "description": "search",
@@ -8,7 +8,19 @@
   },
   "noItemsAvailable": "کوئی اشیا دستیاب نہیں",
   "@noItemsAvailable": {
-    "description": "noItemsAvailable",
+    "description": "No Items Available",
+    "placeholders": {},
+    "type": "text"
+  },
+  "noBootstrapsAvailable": "کوئی بوٹسٹریپ دستیاب نہیں ہے",
+  "@noBootstrapsAvailable": {
+    "description": "No Bootstraps Available",
+    "placeholders": {},
+    "type": "text"
+  },
+  "selectBootstrap": "بوٹسٹریپ منتخب کریں",
+  "@selectBootstrap": {
+    "description": "Select Bootstrap",
     "placeholders": {},
     "type": "text"
   }
