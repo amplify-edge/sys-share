@@ -18,6 +18,7 @@ class BaseRepo {
 
   static Future<GrpcWebClientChannel> grpcWebClientChannel() async {
     final hc = await getHostConfig();
+    print("HOST: ${hc.host}, PORT: ${hc.port}");
     return GrpcWebClientChannel.xhr(
         Uri(scheme: "https", host: hc.host, port: int.parse(hc.port)));
   }
