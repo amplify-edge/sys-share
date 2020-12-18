@@ -21,7 +21,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "noBootstrapsAvailable" : MessageLookupByLibrary.simpleMessage("کوئی بوٹسٹریپ دستیاب نہیں ہے"),
     "noItemsAvailable" : MessageLookupByLibrary.simpleMessage("کوئی اشیا دستیاب نہیں"),
-    "search" : MessageLookupByLibrary.simpleMessage("تلاش کریں")
+    "search" : MessageLookupByLibrary.simpleMessage("تلاش کریں"),
+    "selectBootstrap" : MessageLookupByLibrary.simpleMessage("بوٹسٹریپ منتخب کریں")
   };
 }
