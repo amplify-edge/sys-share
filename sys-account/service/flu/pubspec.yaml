@@ -30,10 +30,11 @@ dependencies:
   stacked: ^1.7.6
   shared_preferences: '>=0.5.12+2 <2.0.0'
   sys_core:
-    git:
-      url: git://github.com/getcouragenow/sys-share.git
-      path: sys-core/service/flu
-      ref: 9a2df691224ac65d35f4ba717f5e2bf5a3988a59
+    #    git:
+    #      url: git://github.com/getcouragenow/sys-share.git
+    #      path: sys-core/service/flu
+    #      ref: 9a2df691224ac65d35f4ba717f5e2bf5a3988a59
+    path: ../../../sys-core/service/flu
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
