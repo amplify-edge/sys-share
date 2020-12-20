@@ -14,11 +14,11 @@ dependencies:
 
   # Architectural packages
   # protobuf: ^1.0.1
-  grpc: ^2.3.0
-  intl: ^0.16.1
-  intl_translation: ^0.17.10+1
-  protobuf: ^1.0.1
-  hive: ^1.4.1+1
+  grpc: ^2.8.0
+  intl: ^0.17.0-nullsafety.2
+  #  intl_translation: ^0.17.10+1
+  protobuf: ^1.1.0
+  hive: ^1.5.0-pre
   shared_preferences: '>=0.5.12+2 <2.0.0'
   flash: ^1.2.0
 
