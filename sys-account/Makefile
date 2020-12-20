@@ -58,8 +58,8 @@ this-gen: this-gen-delete
 	@echo "Generating GRPC models and services for Go & Flutter"
 	@mkdir -p service/{flu/lib,go}/rpc/v2
 	@go generate
-#   $(MAKE) flu-gen-all
-	$(MAKE) flu-gen-lang
+	#$(MAKE) flu-gen-all
+	#$(MAKE) flu-gen-lang
 
 this-gen-delete:
 	@echo 'Removing generated protobuf definition (Go and Flutter)'
