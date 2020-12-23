@@ -8,6 +8,7 @@ void notify({
   flashStyle = FlashStyle.floating,
 }) {
   showFlash(
+    duration: Duration(seconds: 5),
     context: context,
     builder: (context, controller) {
       return Flash(
