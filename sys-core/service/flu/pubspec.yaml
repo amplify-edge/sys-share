@@ -25,6 +25,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  intl_translation:
+    git:
+      url: https://github.com/gutterbacon/intl_translation
+      ref: 4c5e4638bf23444ab7d5d60f00f4319f37dee98c
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -58,7 +58,7 @@ this-gen: this-gen-delete
 	@echo "Generating Flutter Config"
 
 #   $(MAKE) flu-gen-all
-#	$(MAKE) flu-gen-lang
+	$(MAKE) flu-gen-lang
 
 this-gen-dep:
 	GO111MODULE=on go get github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema

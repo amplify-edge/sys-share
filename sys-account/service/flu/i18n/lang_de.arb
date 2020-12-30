@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-12-08T20:31:19.907789",
+  "@@last_modified": "2020-12-30T22:21:55.965591",
   "email": "Email",
   "@email": {
     "description": "Email",
@@ -54,7 +54,7 @@
     "placeholders": {},
     "type": "text"
   },
-  "signIn": "Einloggen",
+  "signIn": "Anmelden",
   "@signIn": {
     "description": "Sign In",
     "placeholders": {},
