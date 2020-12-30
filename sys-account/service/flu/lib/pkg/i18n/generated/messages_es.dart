@@ -22,12 +22,17 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "byProceeding" : MessageLookupByLibrary.simpleMessage("Al continuar, acepta nuestros Términos de uso y confirma que ha leído nuestra Política de privacidad."),
-    "email" : MessageLookupByLibrary.simpleMessage("Correo electrónico"),
+    "email" : MessageLookupByLibrary.simpleMessage("Email"),
+    "emailHint" : MessageLookupByLibrary.simpleMessage("Tu correo electrónico"),
     "forgotPassword" : MessageLookupByLibrary.simpleMessage("Se te olvidó tu contraseña"),
+    "invalidEmail" : MessageLookupByLibrary.simpleMessage("Email inválido"),
     "invalidPassword" : MessageLookupByLibrary.simpleMessage("Contraseña invalida"),
+    "invalidVerificationToken" : MessageLookupByLibrary.simpleMessage("Token de verificación no válido"),
     "password" : MessageLookupByLibrary.simpleMessage("Contraseña"),
+    "passwordHint" : MessageLookupByLibrary.simpleMessage("Tu contraseña"),
     "resetPassword" : MessageLookupByLibrary.simpleMessage("Restablecer la contraseña"),
     "signIn" : MessageLookupByLibrary.simpleMessage("Registrarse"),
+    "signOut" : MessageLookupByLibrary.simpleMessage("Desconectar"),
     "signUp" : MessageLookupByLibrary.simpleMessage("Regístrate"),
     "submitNewPassword" : MessageLookupByLibrary.simpleMessage("Enviar nueva contraseña"),
     "verificationToken" : MessageLookupByLibrary.simpleMessage("Token de verificación"),
