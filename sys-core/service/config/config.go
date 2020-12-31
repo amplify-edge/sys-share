@@ -207,3 +207,15 @@ func DownloadCACert(outputPath, domain string) error {
 	publicKeyPem := pem.EncodeToMemory(&publicKeyBlock)
 	return ioutil.WriteFile(outputPath, publicKeyPem, 0644)
 }
+
+func DedupSlice(stringSlice []string) []string {
+	keys := make(map[string]bool)
+	list := []string{}
+	for _, entry := range stringSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
+}
