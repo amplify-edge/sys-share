@@ -95,13 +95,13 @@ func (e *mailProxyService) registerSvc(srv *grpc.Server) {
 }
 
 type DbAdminService interface {
-	Backup(context.Context, *emptypb.Empty) (*BackupResult, error)
-	ListBackup(context.Context, *emptypb.Empty) (*ListBackupResult, error)
-	Restore(context.Context, *RestoreRequest) (*RestoreResult, error)
+	Backup(context.Context, *emptypb.Empty) (*BackupAllResult, error)
+	ListBackup(context.Context, *ListBackupRequest) (*ListBackupResult, error)
+	Restore(context.Context, *RestoreAllRequest) (*RestoreAllResult, error)
 }
 
-func backupProxy(d DbAdminService) func(context.Context, *emptypb.Empty) (*dbrpc.BackupResult, error) {
-	return func(ctx context.Context, emp *emptypb.Empty) (*dbrpc.BackupResult, error) {
+func backupProxy(d DbAdminService) func(context.Context, *emptypb.Empty) (*dbrpc.BackupAllResult, error) {
+	return func(ctx context.Context, emp *emptypb.Empty) (*dbrpc.BackupAllResult, error) {
 		res, err := d.Backup(ctx, emp)
 		if err != nil {
 			return nil, err
@@ -110,9 +110,9 @@ func backupProxy(d DbAdminService) func(context.Context, *emptypb.Empty) (*dbrpc
 	}
 }
 
-func listBackupProxy(d DbAdminService) func(context.Context, *emptypb.Empty) (*dbrpc.ListBackupResult, error) {
-	return func(ctx context.Context, emp *emptypb.Empty) (*dbrpc.ListBackupResult, error) {
-		res, err := d.ListBackup(ctx, emp)
+func listBackupProxy(d DbAdminService) func(context.Context, *dbrpc.ListBackupRequest) (*dbrpc.ListBackupResult, error) {
+	return func(ctx context.Context, in *dbrpc.ListBackupRequest) (*dbrpc.ListBackupResult, error) {
+		res, err := d.ListBackup(ctx, ListBackupRequestFromProto(in))
 		if err != nil {
 			return nil, err
 		}
@@ -120,9 +120,9 @@ func listBackupProxy(d DbAdminService) func(context.Context, *emptypb.Empty) (*d
 	}
 }
 
-func restoreProxy(d DbAdminService) func(context.Context, *dbrpc.RestoreRequest) (*dbrpc.RestoreResult, error) {
-	return func(ctx context.Context, in *dbrpc.RestoreRequest) (*dbrpc.RestoreResult, error) {
-		res, err := d.Restore(ctx, RestoreRequestFromProto(in))
+func restoreProxy(d DbAdminService) func(context.Context, *dbrpc.RestoreAllRequest) (*dbrpc.RestoreAllResult, error) {
+	return func(ctx context.Context, in *dbrpc.RestoreAllRequest) (*dbrpc.RestoreAllResult, error) {
+		res, err := d.Restore(ctx, RestoreAllRequestFromProto(in))
 		if err != nil {
 			return nil, err
 		}
@@ -200,9 +200,9 @@ func (b *busClientProxy) Broadcast(ctx context.Context, in *EventRequest, opts .
 }
 
 type DbAdminServiceClient interface {
-	Backup(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BackupResult, error)
-	ListBackup(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListBackupResult, error)
-	Restore(ctx context.Context, in *RestoreRequest, opts ...grpc.CallOption) (*RestoreResult, error)
+	Backup(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BackupAllResult, error)
+	ListBackup(ctx context.Context, in *dbrpc.ListBackupRequest, opts ...grpc.CallOption) (*ListBackupResult, error)
+	Restore(ctx context.Context, in *RestoreAllRequest, opts ...grpc.CallOption) (*RestoreAllResult, error)
 }
 
 type sysCoreClientProxy struct {
@@ -214,26 +214,26 @@ func newSysCoreClientProxy(cc grpc.ClientConnInterface) *sysCoreClientProxy {
 	return &sysCoreClientProxy{svcClient: newClient}
 }
 
-func (s *sysCoreClientProxy) Backup(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BackupResult, error) {
+func (s *sysCoreClientProxy) Backup(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BackupAllResult, error) {
 	resp, err := s.svcClient.Backup(ctx, in, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return BackupResultFromProto(resp), nil
+	return BackupAllResultFromProto(resp), nil
 }
 
-func (s *sysCoreClientProxy) ListBackup(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListBackupResult, error) {
-	resp, err := s.svcClient.ListBackup(ctx, in, opts...)
+func (s *sysCoreClientProxy) ListBackup(ctx context.Context, in *ListBackupRequest, opts ...grpc.CallOption) (*ListBackupResult, error) {
+	resp, err := s.svcClient.ListBackup(ctx, in.ToProto(), opts...)
 	if err != nil {
 		return nil, err
 	}
 	return ListBackupFromProto(resp), nil
 }
 
-func (s *sysCoreClientProxy) Restore(ctx context.Context, in *RestoreRequest, opts ...grpc.CallOption) (*RestoreResult, error) {
+func (s *sysCoreClientProxy) Restore(ctx context.Context, in *RestoreAllRequest, opts ...grpc.CallOption) (*RestoreAllResult, error) {
 	resp, err := s.svcClient.Restore(ctx, in.ToProto(), opts...)
 	if err != nil {
 		return nil, err
 	}
-	return RestoreResultFromProto(resp), nil
+	return RestoreAllResultFromProto(resp), nil
 }

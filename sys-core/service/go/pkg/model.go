@@ -4,60 +4,133 @@ import (
 	dbrpc "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2"
 )
 
-type RestoreResult struct {
-	Result string `json:"result"`
-}
-
-func (rr *RestoreResult) ToProto() *dbrpc.RestoreResult {
-	return &dbrpc.RestoreResult{Result: rr.Result}
-}
-
-func RestoreResultFromProto(drr *dbrpc.RestoreResult) *RestoreResult {
-	return &RestoreResult{Result: drr.Result}
-}
-
-type BackupResult struct {
+type SingleBackupResult struct {
 	BackupFile string `json:"backup_file"`
 }
 
-func (br *BackupResult) ToProto() *dbrpc.BackupResult {
-	return &dbrpc.BackupResult{BackupFile: br.BackupFile}
+func (br *SingleBackupResult) ToProto() *dbrpc.SingleBackupResult {
+	return &dbrpc.SingleBackupResult{BackupFile: br.BackupFile}
 }
 
-func BackupResultFromProto(in *dbrpc.BackupResult) *BackupResult {
-	return &BackupResult{BackupFile: in.BackupFile}
+func SingleBackupResultFromProto(in *dbrpc.SingleBackupResult) *SingleBackupResult {
+	return &SingleBackupResult{BackupFile: in.BackupFile}
+}
+
+type BackupAllResult struct {
+	Version     string                `json:"version"`
+	BackupFiles []*SingleBackupResult `json:"backup_files"`
+}
+
+func (bar *BackupAllResult) ToProto() *dbrpc.BackupAllResult {
+	var rpcBackupFiles []*dbrpc.SingleBackupResult
+	for _, bf := range bar.BackupFiles {
+		rpcBackupFiles = append(rpcBackupFiles, bf.ToProto())
+	}
+	return &dbrpc.BackupAllResult{
+		Version:     bar.Version,
+		BackupFiles: rpcBackupFiles,
+	}
+}
+
+func BackupAllResultFromProto(in *dbrpc.BackupAllResult) *BackupAllResult {
+	var backupFiles []*SingleBackupResult
+	for _, bf := range in.BackupFiles {
+		backupFiles = append(backupFiles, SingleBackupResultFromProto(bf))
+	}
+	return &BackupAllResult{
+		Version:     in.GetVersion(),
+		BackupFiles: backupFiles,
+	}
 }
 
 type ListBackupResult struct {
-	BackupFiles []*BackupResult `json:"backup_files"`
+	BackupVersions []*BackupAllResult `json:"backup_versions"`
 }
 
 func (l *ListBackupResult) ToProto() *dbrpc.ListBackupResult {
-	var bfiles []*dbrpc.BackupResult
-	for _, f := range l.BackupFiles {
+	var bfiles []*dbrpc.BackupAllResult
+	for _, f := range l.BackupVersions {
 		bfiles = append(bfiles, f.ToProto())
 	}
-	return &dbrpc.ListBackupResult{BackupFiles: bfiles}
+	return &dbrpc.ListBackupResult{BackupVersions: bfiles}
 }
 
 func ListBackupFromProto(in *dbrpc.ListBackupResult) *ListBackupResult {
-	var bfiles []*BackupResult
-	for _, f := range in.BackupFiles {
-		bfiles = append(bfiles, BackupResultFromProto(f))
+	var bfiles []*BackupAllResult
+	for _, f := range in.GetBackupVersions() {
+		bfiles = append(bfiles, BackupAllResultFromProto(f))
 	}
-	return &ListBackupResult{BackupFiles: bfiles}
+	return &ListBackupResult{BackupVersions: bfiles}
 }
 
-type RestoreRequest struct {
+type ListBackupRequest struct {
+	BackupVersion string `json:"backup_version"`
+}
+
+func (l *ListBackupRequest) ToProto() *dbrpc.ListBackupRequest {
+	return &dbrpc.ListBackupRequest{
+		BackupVersion: l.BackupVersion,
+	}
+}
+
+func ListBackupRequestFromProto(in *dbrpc.ListBackupRequest) *ListBackupRequest {
+	return &ListBackupRequest{BackupVersion: in.BackupVersion}
+}
+
+type SingleRestoreRequest struct {
 	BackupFile string `json:"backup_file"`
 }
 
-func (r *RestoreRequest) ToProto() *dbrpc.RestoreRequest {
-	return &dbrpc.RestoreRequest{BackupFile: r.BackupFile}
+func (r *SingleRestoreRequest) ToProto() *dbrpc.SingleRestoreRequest {
+	return &dbrpc.SingleRestoreRequest{BackupFile: r.BackupFile}
 }
 
-func RestoreRequestFromProto(in *dbrpc.RestoreRequest) *RestoreRequest {
-	return &RestoreRequest{BackupFile: in.BackupFile}
+func SingleRestoreRequestFromProto(in *dbrpc.SingleRestoreRequest) *SingleRestoreRequest {
+	return &SingleRestoreRequest{BackupFile: in.BackupFile}
+}
+
+type SingleRestoreResult struct {
+	Result string `json:"result"`
+}
+
+func (rr *SingleRestoreResult) ToProto() *dbrpc.SingleRestoreResult {
+	return &dbrpc.SingleRestoreResult{Result: rr.Result}
+}
+
+func SingleRestoreResultFromProto(drr *dbrpc.SingleRestoreResult) *SingleRestoreResult {
+	return &SingleRestoreResult{Result: drr.Result}
+}
+
+type RestoreAllRequest struct {
+	RestoreVersion string `json:"restore_version"`
+}
+
+func (r *RestoreAllRequest) ToProto() *dbrpc.RestoreAllRequest {
+	return &dbrpc.RestoreAllRequest{RestoreVersion: r.RestoreVersion}
+}
+
+func RestoreAllRequestFromProto(in *dbrpc.RestoreAllRequest) *RestoreAllRequest {
+	return &RestoreAllRequest{RestoreVersion: in.GetRestoreVersion()}
+}
+
+type RestoreAllResult struct {
+	RestoreResults []*SingleRestoreResult `json:"restore_results"`
+}
+
+func (r *RestoreAllResult) ToProto() *dbrpc.RestoreAllResult {
+	var singleResultSlice []*dbrpc.SingleRestoreResult
+	for _, sar := range r.RestoreResults {
+		singleResultSlice = append(singleResultSlice, sar.ToProto())
+	}
+	return &dbrpc.RestoreAllResult{RestoreResults: singleResultSlice}
+}
+
+func RestoreAllResultFromProto(in *dbrpc.RestoreAllResult) *RestoreAllResult {
+	var singleResultSlice []*SingleRestoreResult
+	for _, sar := range in.GetRestoreResults() {
+		singleResultSlice = append(singleResultSlice, SingleRestoreResultFromProto(sar))
+	}
+	return &RestoreAllResult{RestoreResults: singleResultSlice}
 }
 
 type EventRequest struct {

@@ -8,9 +8,9 @@ package v2.sys_core.services;
 option go_package = "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2";
 
 service DbAdminService {
-  rpc Backup(google.protobuf.Empty) returns (v2.sys_core.services.BackupResult) {}
-  rpc ListBackup(google.protobuf.Empty) returns (v2.sys_core.services.ListBackupResult) {}
-  rpc Restore(v2.sys_core.services.RestoreRequest) returns (v2.sys_core.services.RestoreResult){}
+  rpc Backup(google.protobuf.Empty) returns (v2.sys_core.services.BackupAllResult) {}
+  rpc ListBackup(v2.sys_core.services.ListBackupRequest) returns (v2.sys_core.services.ListBackupResult) {}
+  rpc Restore(v2.sys_core.services.RestoreAllRequest) returns (v2.sys_core.services.RestoreAllResult){}
 }
 
 service BusService {
