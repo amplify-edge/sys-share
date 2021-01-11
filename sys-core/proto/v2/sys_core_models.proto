@@ -20,6 +20,7 @@ message SingleBackupResult {
 
 message RestoreAllRequest {
 	string restore_version = 1;
+	map<string,string> backup_files = 2;
 }
 
 message RestoreAllResult {

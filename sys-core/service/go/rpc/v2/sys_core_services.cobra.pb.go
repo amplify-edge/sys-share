@@ -149,6 +149,7 @@ func _DbAdminServiceRestoreCommand(cfg *client.Config) *cobra.Command {
 	}
 
 	cmd.PersistentFlags().StringVar(&req.RestoreVersion, cfg.FlagNamer("RestoreVersion"), "", "")
+	cmd.PersistentFlags().StringToStringVar(&req.BackupFiles, cfg.FlagNamer("BackupFiles"), nil, "")
 
 	return cmd
 }

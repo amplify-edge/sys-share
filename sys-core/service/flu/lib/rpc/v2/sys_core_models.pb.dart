@@ -136,6 +136,7 @@ class SingleBackupResult extends $pb.GeneratedMessage {
 class RestoreAllRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RestoreAllRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'restoreVersion')
+    ..m<$core.String, $core.String>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backupFiles', entryClassName: 'RestoreAllRequest.BackupFilesEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('v2.sys_core.services'))
     ..hasRequiredFields = false
   ;
 
@@ -170,6 +171,9 @@ class RestoreAllRequest extends $pb.GeneratedMessage {
   $core.bool hasRestoreVersion() => $_has(0);
   @$pb.TagNumber(1)
   void clearRestoreVersion() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.Map<$core.String, $core.String> get backupFiles => $_getMap(1);
 }
 
 class RestoreAllResult extends $pb.GeneratedMessage {

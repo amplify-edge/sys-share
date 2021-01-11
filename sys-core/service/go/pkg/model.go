@@ -102,15 +102,16 @@ func SingleRestoreResultFromProto(drr *dbrpc.SingleRestoreResult) *SingleRestore
 }
 
 type RestoreAllRequest struct {
-	RestoreVersion string `json:"restore_version"`
+	RestoreVersion string   `json:"restore_version"`
+	BackupFiles    map[string]string `json:"backup_files"`
 }
 
 func (r *RestoreAllRequest) ToProto() *dbrpc.RestoreAllRequest {
-	return &dbrpc.RestoreAllRequest{RestoreVersion: r.RestoreVersion}
+	return &dbrpc.RestoreAllRequest{RestoreVersion: r.RestoreVersion, BackupFiles: r.BackupFiles}
 }
 
 func RestoreAllRequestFromProto(in *dbrpc.RestoreAllRequest) *RestoreAllRequest {
-	return &RestoreAllRequest{RestoreVersion: in.GetRestoreVersion()}
+	return &RestoreAllRequest{RestoreVersion: in.GetRestoreVersion(), BackupFiles: in.GetBackupFiles()}
 }
 
 type RestoreAllResult struct {

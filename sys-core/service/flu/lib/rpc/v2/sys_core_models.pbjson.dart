@@ -39,7 +39,18 @@ const RestoreAllRequest$json = const {
   '1': 'RestoreAllRequest',
   '2': const [
     const {'1': 'restore_version', '3': 1, '4': 1, '5': 9, '10': 'restoreVersion'},
+    const {'1': 'backup_files', '3': 2, '4': 3, '5': 11, '6': '.v2.sys_core.services.RestoreAllRequest.BackupFilesEntry', '10': 'backupFiles'},
   ],
+  '3': const [RestoreAllRequest_BackupFilesEntry$json],
+};
+
+const RestoreAllRequest_BackupFilesEntry$json = const {
+  '1': 'BackupFilesEntry',
+  '2': const [
+    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    const {'1': 'value', '3': 2, '4': 1, '5': 9, '10': 'value'},
+  ],
+  '7': const {'7': true},
 };
 
 const RestoreAllResult$json = const {
