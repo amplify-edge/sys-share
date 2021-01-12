@@ -6,20 +6,38 @@ package v2.sys_core.services;
 
 option go_package = "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2";
 
-message RestoreResult {
+message SingleRestoreResult {
   string result = 1;
 }
 
-message BackupResult {
+message SingleRestoreRequest {
   string backupFile = 1;
+}
+
+message SingleBackupResult {
+  string backupFile = 1;
+}
+
+message RestoreAllRequest {
+	string restore_version = 1;
+	map<string,string> backup_files = 2;
+}
+
+message RestoreAllResult {
+	repeated SingleRestoreResult restore_results = 1;
+}
+
+message BackupAllResult {
+	string version = 1;
+	repeated SingleBackupResult backup_files = 2;
+}
+
+message ListBackupRequest {
+	string backup_version = 1;
 }
 
 message ListBackupResult {
-  repeated BackupResult backupFiles = 1;
-}
-
-message RestoreRequest {
-  string backupFile = 1;
+  repeated BackupAllResult backup_versions = 1;
 }
 
 // This will be replaced by NATS in the future

@@ -13,6 +13,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/issue9/identicon v1.0.1
 	github.com/joho/godotenv v1.3.0
+	github.com/karrick/godirwalk v1.16.1
 	github.com/matcornic/hermes/v2 v2.1.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/schollz/progressbar/v2 v2.15.0

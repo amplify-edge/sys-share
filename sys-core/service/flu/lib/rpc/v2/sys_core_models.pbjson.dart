@@ -14,31 +14,71 @@ const TimeSegment$json = const {
   ],
 };
 
-const RestoreResult$json = const {
-  '1': 'RestoreResult',
+const SingleRestoreResult$json = const {
+  '1': 'SingleRestoreResult',
   '2': const [
     const {'1': 'result', '3': 1, '4': 1, '5': 9, '10': 'result'},
   ],
 };
 
-const BackupResult$json = const {
-  '1': 'BackupResult',
+const SingleRestoreRequest$json = const {
+  '1': 'SingleRestoreRequest',
   '2': const [
     const {'1': 'backupFile', '3': 1, '4': 1, '5': 9, '10': 'backupFile'},
+  ],
+};
+
+const SingleBackupResult$json = const {
+  '1': 'SingleBackupResult',
+  '2': const [
+    const {'1': 'backupFile', '3': 1, '4': 1, '5': 9, '10': 'backupFile'},
+  ],
+};
+
+const RestoreAllRequest$json = const {
+  '1': 'RestoreAllRequest',
+  '2': const [
+    const {'1': 'restore_version', '3': 1, '4': 1, '5': 9, '10': 'restoreVersion'},
+    const {'1': 'backup_files', '3': 2, '4': 3, '5': 11, '6': '.v2.sys_core.services.RestoreAllRequest.BackupFilesEntry', '10': 'backupFiles'},
+  ],
+  '3': const [RestoreAllRequest_BackupFilesEntry$json],
+};
+
+const RestoreAllRequest_BackupFilesEntry$json = const {
+  '1': 'BackupFilesEntry',
+  '2': const [
+    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    const {'1': 'value', '3': 2, '4': 1, '5': 9, '10': 'value'},
+  ],
+  '7': const {'7': true},
+};
+
+const RestoreAllResult$json = const {
+  '1': 'RestoreAllResult',
+  '2': const [
+    const {'1': 'restore_results', '3': 1, '4': 3, '5': 11, '6': '.v2.sys_core.services.SingleRestoreResult', '10': 'restoreResults'},
+  ],
+};
+
+const BackupAllResult$json = const {
+  '1': 'BackupAllResult',
+  '2': const [
+    const {'1': 'version', '3': 1, '4': 1, '5': 9, '10': 'version'},
+    const {'1': 'backup_files', '3': 2, '4': 3, '5': 11, '6': '.v2.sys_core.services.SingleBackupResult', '10': 'backupFiles'},
+  ],
+};
+
+const ListBackupRequest$json = const {
+  '1': 'ListBackupRequest',
+  '2': const [
+    const {'1': 'backup_version', '3': 1, '4': 1, '5': 9, '10': 'backupVersion'},
   ],
 };
 
 const ListBackupResult$json = const {
   '1': 'ListBackupResult',
   '2': const [
-    const {'1': 'backupFiles', '3': 1, '4': 3, '5': 11, '6': '.v2.sys_core.services.BackupResult', '10': 'backupFiles'},
-  ],
-};
-
-const RestoreRequest$json = const {
-  '1': 'RestoreRequest',
-  '2': const [
-    const {'1': 'backupFile', '3': 1, '4': 1, '5': 9, '10': 'backupFile'},
+    const {'1': 'backup_versions', '3': 1, '4': 3, '5': 11, '6': '.v2.sys_core.services.BackupAllResult', '10': 'backupVersions'},
   ],
 };
 

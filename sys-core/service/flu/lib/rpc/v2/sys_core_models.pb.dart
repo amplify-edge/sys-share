@@ -16,34 +16,34 @@ import 'sys_core_models.pbenum.dart';
 
 export 'sys_core_models.pbenum.dart';
 
-class RestoreResult extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RestoreResult', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+class SingleRestoreResult extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SingleRestoreResult', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'result')
     ..hasRequiredFields = false
   ;
 
-  RestoreResult._() : super();
-  factory RestoreResult() => create();
-  factory RestoreResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RestoreResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  SingleRestoreResult._() : super();
+  factory SingleRestoreResult() => create();
+  factory SingleRestoreResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SingleRestoreResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  RestoreResult clone() => RestoreResult()..mergeFromMessage(this);
+  SingleRestoreResult clone() => SingleRestoreResult()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  RestoreResult copyWith(void Function(RestoreResult) updates) => super.copyWith((message) => updates(message as RestoreResult)); // ignore: deprecated_member_use
+  SingleRestoreResult copyWith(void Function(SingleRestoreResult) updates) => super.copyWith((message) => updates(message as SingleRestoreResult)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static RestoreResult create() => RestoreResult._();
-  RestoreResult createEmptyInstance() => create();
-  static $pb.PbList<RestoreResult> createRepeated() => $pb.PbList<RestoreResult>();
+  static SingleRestoreResult create() => SingleRestoreResult._();
+  SingleRestoreResult createEmptyInstance() => create();
+  static $pb.PbList<SingleRestoreResult> createRepeated() => $pb.PbList<SingleRestoreResult>();
   @$core.pragma('dart2js:noInline')
-  static RestoreResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RestoreResult>(create);
-  static RestoreResult _defaultInstance;
+  static SingleRestoreResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SingleRestoreResult>(create);
+  static SingleRestoreResult _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get result => $_getSZ(0);
@@ -55,34 +55,34 @@ class RestoreResult extends $pb.GeneratedMessage {
   void clearResult() => clearField(1);
 }
 
-class BackupResult extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'BackupResult', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+class SingleRestoreRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SingleRestoreRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backupFile', protoName: 'backupFile')
     ..hasRequiredFields = false
   ;
 
-  BackupResult._() : super();
-  factory BackupResult() => create();
-  factory BackupResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory BackupResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  SingleRestoreRequest._() : super();
+  factory SingleRestoreRequest() => create();
+  factory SingleRestoreRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SingleRestoreRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  BackupResult clone() => BackupResult()..mergeFromMessage(this);
+  SingleRestoreRequest clone() => SingleRestoreRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  BackupResult copyWith(void Function(BackupResult) updates) => super.copyWith((message) => updates(message as BackupResult)); // ignore: deprecated_member_use
+  SingleRestoreRequest copyWith(void Function(SingleRestoreRequest) updates) => super.copyWith((message) => updates(message as SingleRestoreRequest)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static BackupResult create() => BackupResult._();
-  BackupResult createEmptyInstance() => create();
-  static $pb.PbList<BackupResult> createRepeated() => $pb.PbList<BackupResult>();
+  static SingleRestoreRequest create() => SingleRestoreRequest._();
+  SingleRestoreRequest createEmptyInstance() => create();
+  static $pb.PbList<SingleRestoreRequest> createRepeated() => $pb.PbList<SingleRestoreRequest>();
   @$core.pragma('dart2js:noInline')
-  static BackupResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupResult>(create);
-  static BackupResult _defaultInstance;
+  static SingleRestoreRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SingleRestoreRequest>(create);
+  static SingleRestoreRequest _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get backupFile => $_getSZ(0);
@@ -94,9 +94,206 @@ class BackupResult extends $pb.GeneratedMessage {
   void clearBackupFile() => clearField(1);
 }
 
+class SingleBackupResult extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SingleBackupResult', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backupFile', protoName: 'backupFile')
+    ..hasRequiredFields = false
+  ;
+
+  SingleBackupResult._() : super();
+  factory SingleBackupResult() => create();
+  factory SingleBackupResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SingleBackupResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  SingleBackupResult clone() => SingleBackupResult()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  SingleBackupResult copyWith(void Function(SingleBackupResult) updates) => super.copyWith((message) => updates(message as SingleBackupResult)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static SingleBackupResult create() => SingleBackupResult._();
+  SingleBackupResult createEmptyInstance() => create();
+  static $pb.PbList<SingleBackupResult> createRepeated() => $pb.PbList<SingleBackupResult>();
+  @$core.pragma('dart2js:noInline')
+  static SingleBackupResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SingleBackupResult>(create);
+  static SingleBackupResult _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get backupFile => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set backupFile($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasBackupFile() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearBackupFile() => clearField(1);
+}
+
+class RestoreAllRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RestoreAllRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'restoreVersion')
+    ..m<$core.String, $core.String>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backupFiles', entryClassName: 'RestoreAllRequest.BackupFilesEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('v2.sys_core.services'))
+    ..hasRequiredFields = false
+  ;
+
+  RestoreAllRequest._() : super();
+  factory RestoreAllRequest() => create();
+  factory RestoreAllRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RestoreAllRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RestoreAllRequest clone() => RestoreAllRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RestoreAllRequest copyWith(void Function(RestoreAllRequest) updates) => super.copyWith((message) => updates(message as RestoreAllRequest)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static RestoreAllRequest create() => RestoreAllRequest._();
+  RestoreAllRequest createEmptyInstance() => create();
+  static $pb.PbList<RestoreAllRequest> createRepeated() => $pb.PbList<RestoreAllRequest>();
+  @$core.pragma('dart2js:noInline')
+  static RestoreAllRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RestoreAllRequest>(create);
+  static RestoreAllRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get restoreVersion => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set restoreVersion($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasRestoreVersion() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearRestoreVersion() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.Map<$core.String, $core.String> get backupFiles => $_getMap(1);
+}
+
+class RestoreAllResult extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RestoreAllResult', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..pc<SingleRestoreResult>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'restoreResults', $pb.PbFieldType.PM, subBuilder: SingleRestoreResult.create)
+    ..hasRequiredFields = false
+  ;
+
+  RestoreAllResult._() : super();
+  factory RestoreAllResult() => create();
+  factory RestoreAllResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RestoreAllResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RestoreAllResult clone() => RestoreAllResult()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RestoreAllResult copyWith(void Function(RestoreAllResult) updates) => super.copyWith((message) => updates(message as RestoreAllResult)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static RestoreAllResult create() => RestoreAllResult._();
+  RestoreAllResult createEmptyInstance() => create();
+  static $pb.PbList<RestoreAllResult> createRepeated() => $pb.PbList<RestoreAllResult>();
+  @$core.pragma('dart2js:noInline')
+  static RestoreAllResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RestoreAllResult>(create);
+  static RestoreAllResult _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<SingleRestoreResult> get restoreResults => $_getList(0);
+}
+
+class BackupAllResult extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'BackupAllResult', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'version')
+    ..pc<SingleBackupResult>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backupFiles', $pb.PbFieldType.PM, subBuilder: SingleBackupResult.create)
+    ..hasRequiredFields = false
+  ;
+
+  BackupAllResult._() : super();
+  factory BackupAllResult() => create();
+  factory BackupAllResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory BackupAllResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  BackupAllResult clone() => BackupAllResult()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  BackupAllResult copyWith(void Function(BackupAllResult) updates) => super.copyWith((message) => updates(message as BackupAllResult)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static BackupAllResult create() => BackupAllResult._();
+  BackupAllResult createEmptyInstance() => create();
+  static $pb.PbList<BackupAllResult> createRepeated() => $pb.PbList<BackupAllResult>();
+  @$core.pragma('dart2js:noInline')
+  static BackupAllResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupAllResult>(create);
+  static BackupAllResult _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get version => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set version($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasVersion() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearVersion() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.List<SingleBackupResult> get backupFiles => $_getList(1);
+}
+
+class ListBackupRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ListBackupRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backupVersion')
+    ..hasRequiredFields = false
+  ;
+
+  ListBackupRequest._() : super();
+  factory ListBackupRequest() => create();
+  factory ListBackupRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ListBackupRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ListBackupRequest clone() => ListBackupRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ListBackupRequest copyWith(void Function(ListBackupRequest) updates) => super.copyWith((message) => updates(message as ListBackupRequest)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ListBackupRequest create() => ListBackupRequest._();
+  ListBackupRequest createEmptyInstance() => create();
+  static $pb.PbList<ListBackupRequest> createRepeated() => $pb.PbList<ListBackupRequest>();
+  @$core.pragma('dart2js:noInline')
+  static ListBackupRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListBackupRequest>(create);
+  static ListBackupRequest _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get backupVersion => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set backupVersion($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasBackupVersion() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearBackupVersion() => clearField(1);
+}
+
 class ListBackupResult extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ListBackupResult', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
-    ..pc<BackupResult>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backupFiles', $pb.PbFieldType.PM, protoName: 'backupFiles', subBuilder: BackupResult.create)
+    ..pc<BackupAllResult>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backupVersions', $pb.PbFieldType.PM, subBuilder: BackupAllResult.create)
     ..hasRequiredFields = false
   ;
 
@@ -124,46 +321,7 @@ class ListBackupResult extends $pb.GeneratedMessage {
   static ListBackupResult _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<BackupResult> get backupFiles => $_getList(0);
-}
-
-class RestoreRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RestoreRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_core.services'), createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'backupFile', protoName: 'backupFile')
-    ..hasRequiredFields = false
-  ;
-
-  RestoreRequest._() : super();
-  factory RestoreRequest() => create();
-  factory RestoreRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RestoreRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  RestoreRequest clone() => RestoreRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  RestoreRequest copyWith(void Function(RestoreRequest) updates) => super.copyWith((message) => updates(message as RestoreRequest)); // ignore: deprecated_member_use
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static RestoreRequest create() => RestoreRequest._();
-  RestoreRequest createEmptyInstance() => create();
-  static $pb.PbList<RestoreRequest> createRepeated() => $pb.PbList<RestoreRequest>();
-  @$core.pragma('dart2js:noInline')
-  static RestoreRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RestoreRequest>(create);
-  static RestoreRequest _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get backupFile => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set backupFile($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasBackupFile() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearBackupFile() => clearField(1);
+  $core.List<BackupAllResult> get backupVersions => $_getList(0);
 }
 
 class EventRequest extends $pb.GeneratedMessage {

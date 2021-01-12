@@ -11,9 +11,11 @@ import (
 	"math/big"
 	"os"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/caddyserver/certmagic"
+	"github.com/karrick/godirwalk"
 	"github.com/segmentio/encoding/json"
 	"github.com/segmentio/ksuid"
 	"google.golang.org/grpc/credentials"
@@ -218,4 +220,27 @@ func DedupSlice(stringSlice []string) []string {
 		}
 	}
 	return list
+}
+
+// LookupFile in a directory, if it exists, returns the full path to the file
+// if it doesn't returns error
+// takes the directory of the file, and the string containing parts of the file (or the whole file name)
+func LookupFile(dirname, contains string) (string, error) {
+	var matched string
+	_ = godirwalk.Walk(dirname, &godirwalk.Options{
+		FollowSymbolicLinks: true,
+		Callback: func(osPathname string, de *godirwalk.Dirent) error {
+			if de.IsRegular() && strings.Contains(de.Name(), contains) {
+				matched = osPathname
+				return nil
+			}
+			return nil
+		},
+		Unsorted: true, // (optional) set true for faster yet non-deterministic enumeration (see godoc)
+	})
+	if matched == "" {
+		return "", fmt.Errorf("file contains %s not found", contains)
+	}
+
+	return matched, nil
 }
