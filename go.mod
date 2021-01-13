@@ -3,12 +3,14 @@ module github.com/getcouragenow/sys-share
 go 1.15
 
 require (
+	github.com/VictoriaMetrics/metrics v1.12.3
 	github.com/bojand/ghz v0.61.0
 	github.com/brianvoe/gofakeit/v5 v5.9.3
 	github.com/caddyserver/certmagic v0.12.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/disintegration/imaging v1.6.2
 	github.com/getcouragenow/protoc-gen-cobra v0.3.1-0.20201005114840-ccc8cd57bcdc
+	github.com/go-ole/go-ole v1.2.5 // indirect
 	github.com/golang/protobuf v1.4.2
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/issue9/identicon v1.0.1
@@ -19,6 +21,7 @@ require (
 	github.com/schollz/progressbar/v2 v2.15.0
 	github.com/segmentio/encoding v0.2.0
 	github.com/segmentio/ksuid v1.0.3
+	github.com/shirou/gopsutil/v3 v3.20.12
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
