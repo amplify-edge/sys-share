@@ -16,19 +16,19 @@ func NewOpsSystemMetrics() *OpsSystemMetrics {
 		MemoryStats: prom.NewGaugeVec(prom.GaugeOpts{
 			Name: "ops_mem_stats",
 			Help: "system memory usage stats, use for Ops",
-		}, []string{}),
+		}, []string{"type"}),
 		CpuStats: prom.NewGaugeVec(prom.GaugeOpts{
 			Name: "ops_cpu_stats",
 			Help: "system cpu time stats, use for Ops",
-		}, []string{}),
+		}, []string{"type"}),
 		DiskStats: prom.NewGaugeVec(prom.GaugeOpts{
 			Name: "ops_disk_usage_stats",
 			Help: "system disk usage stats, use for Ops",
-		}, []string{}),
+		}, []string{"type"}),
 		NetworkStats: prom.NewCounterVec(prom.CounterOpts{
 			Name: "ops_network_stats",
 			Help: "system network stats, use for Ops, labelled by network interface",
-		}, []string{"net_iface"}),
+		}, []string{"type", "net_iface"}),
 	}
 }
 
