@@ -10,10 +10,10 @@ import (
 )
 
 const (
-	METRICS_MEMORY_EXPOSITION  = "ops_memory_stats{type=%s}"
-	METRICS_CPU_EXPOSITION     = "ops_cpu_stats{type=%s}"
-	METRICS_DISK_EXPOSITION    = "ops_disk_stats{type=%s}"
-	METRICS_NETWORK_EXPOSITION = "ops_network_stats{type=%s, iface=%s}"
+	METRICS_MEMORY_EXPOSITION  = `ops_memory_stats{type="%s"}`
+	METRICS_CPU_EXPOSITION     = `ops_cpu_stats{type="%s"}`
+	METRICS_DISK_EXPOSITION    = `ops_disk_stats{type="%s"}`
+	METRICS_NETWORK_EXPOSITION = `ops_network_stats{type="%s", iface="%s"}`
 )
 
 // OpsSystemMetrics contains the metricsetheus monitoring metrics
