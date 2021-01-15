@@ -1,9 +1,11 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:sys_share_sys_account_service/view/widgets/auth_nav_layout.dart';
 import 'package:sys_share_sys_account_service/view/widgets/nav_rail.dart';
 
 class AccountView extends StatelessWidget {
-  final List<TabItem> tabs;
+  final LinkedHashMap<String, TabItem> tabs;
   final GlobalKey<NavigatorState> navigatorKey;
   final Widget body;
 

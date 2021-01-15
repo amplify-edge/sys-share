@@ -1,4 +1,7 @@
+import 'dart:collection';
+
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter/material.dart';
 import 'package:sys_share_sys_account_service/pkg/pkg.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart'
     as authRepo;
@@ -21,9 +24,12 @@ class AuthNavViewModel extends BaseModel {
   bool _isAdmin = false;
   Int64 _currentPageId = Int64.ZERO;
   Map<int, rpc.UserRoles> _mapRoles = Map<int, rpc.UserRoles>();
-  Map<String, dynamic> _filters = Map<String, dynamic>();
-  List<rpc.Org> _subscribedOrgs = List<rpc.Org>();
-  List<rpc.Project> _subscribedProjects = List<rpc.Project>();
+  List<rpc.Org> _subscribedOrgs = List<rpc.Org>.empty();
+  List<rpc.Project> _subscribedProjects = List<rpc.Project>.empty();
+  List<Widget> _widgetList = List<Widget>.empty(growable: true);
+  List<String> _widgetKeys = List<String>.empty(growable: true);
+  int _previousIndex = 2;
+  int _currentNavIndex = 2;
 
   // getters
   bool get isSuperuser => _isSuperuser;
@@ -32,11 +38,51 @@ class AuthNavViewModel extends BaseModel {
 
   bool get isLoggedIn => _isLoggedIn;
 
+  int get currentNavIndex => _currentNavIndex;
+
+  int get previousNavIndex => _previousIndex;
+
   List<rpc.Org> get subscribedOrgs => _subscribedOrgs;
 
   List<rpc.Project> get subscribedProjects => _subscribedProjects;
 
+  List<Widget> get widgetList => _widgetList;
+
   String get errMsg => _errMsg;
+
+  void setupTabItems(LinkedHashMap<String, Widget> val) {
+    val.forEach((key, value) {
+      _widgetList.add(value);
+      _widgetKeys.add(key);
+    });
+    // setPreviousNavIndex(getDynamicNavIndex("/") + 1);
+    // setCurrentNavIndex(getDynamicNavIndex("/") + 1);
+  }
+
+  int getDynamicNavIndex(String route) {
+    return _widgetKeys.indexWhere((element) => element == "/");
+  }
+
+  String getTabRoute(int index) {
+    if (index >= _widgetKeys.length) {
+      return "/";
+    }
+    var nextRoute = _widgetKeys.elementAt(index);
+    if (nextRoute.isEmpty || nextRoute == null) {
+      nextRoute = "/";
+    }
+    return nextRoute;
+  }
+
+  void setCurrentNavIndex(int val) {
+    _currentNavIndex = val;
+    notifyListeners();
+  }
+
+  void setPreviousNavIndex(int val) {
+    _previousIndex = val;
+    notifyListeners();
+  }
 
   void _setSuperUser(bool value) {
     _isSuperuser = value;
@@ -133,7 +179,7 @@ class AuthNavViewModel extends BaseModel {
     _setSuperUser(false);
     _setAdmin(false);
     _setCurrentAccount(rpc.Account());
-    _setSubscribedOrgs(List<rpc.Org>());
+    _setSubscribedOrgs(List<rpc.Org>.empty(growable: true));
   }
 
   Future<void> logOut() async {

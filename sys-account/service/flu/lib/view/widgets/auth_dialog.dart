@@ -8,7 +8,6 @@ import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_footer.d
 import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_header.dart';
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart';
 import 'package:sys_share_sys_account_service/view/widgets/forgot_password_dialog.dart';
-import 'package:sys_share_sys_account_service/view/widgets/verify_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/account_view_model.dart';
 import 'package:meta/meta.dart';
 
@@ -230,7 +229,7 @@ class AuthDialogState extends State<AuthDialog> {
                                                 error: false,
                                               );
                                               widget._callback();
-                                              Modular.to.pushNamed('/');
+                                              // Modular.to.pushNamed('/');
                                             }
                                           });
                                         }

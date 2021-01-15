@@ -125,7 +125,6 @@ class AccountViewModel extends BaseModel {
           _setSuccessMsg("Login Successful");
           _setAccessToken(resp.accessToken);
           _setRefreshToken(resp.refreshToken);
-          print("Access token: " + _accessToken);
         } else if (resp.errorReason.hasReason()) {
           _setErrMsg(resp.errorReason.toString());
         }

@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:typed_data';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider_architecture/provider_architecture.dart';
@@ -10,7 +11,7 @@ import 'package:sys_share_sys_account_service/view/widgets/auth_dialog.dart';
 
 class AuthNavLayout extends StatefulWidget {
   final Widget body;
-  final List<Widget> tabs;
+  final LinkedHashMap<String, Widget> tabs;
   final GlobalKey<NavigatorState> navigatorKey;
 
   const AuthNavLayout({
@@ -25,8 +26,6 @@ class AuthNavLayout extends StatefulWidget {
 }
 
 class _AuthNavLayoutState extends State<AuthNavLayout> {
-  int _currentIndex = 0;
-
   GlobalKey<NavigatorState> get navigatorKey => widget.navigatorKey;
 
   @override
@@ -42,6 +41,7 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
         if (model.isLoggedIn) {
           await model.getSubscribedOrgs();
         }
+        model.setupTabItems(widget.tabs);
       },
       builder: (ctx, model, child) {
         return AccountNavRail(
@@ -50,7 +50,7 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
           // the window
           isDense: false,
           key: ValueKey(platform),
-          currentIndex: _currentIndex,
+          currentIndex: model.currentNavIndex,
           drawerHeader: Container(height: 74, child: Text("")),
           body: widget.body,
           bottomNavigationBarSelectedColor:
@@ -66,7 +66,9 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     icon: Icon(Icons.logout),
                     onTap: () async {
                       await model.logOut();
-                      Navigator.of(navigatorKey.currentContext).pushNamed('/');
+                      model.setCurrentNavIndex(model.previousNavIndex);
+                      Navigator.of(navigatorKey.currentContext)
+                          .pushReplacementNamed(model.getTabRoute(model.currentNavIndex - 1));
                     },
                   )
                 : TabItem(
@@ -81,12 +83,15 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                           await model.isUserLoggedIn();
                           if (model.isLoggedIn) {
                             await model.getSubscribedOrgs();
+                            model.setCurrentNavIndex(model.previousNavIndex);
+                            Navigator.of(navigatorKey.currentContext).pushReplacementNamed(
+                                model.getTabRoute(model.currentNavIndex - 1));
                           }
                         },
                       ),
                     ),
                   ),
-            ...widget.tabs,
+            ...model.widgetList,
             for (var org in model.subscribedOrgs) ...[
               TabItem(
                 icon: ClipOval(
@@ -105,10 +110,8 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
             ],
           ],
           onPressed: (index) {
-            print(index);
-            setState(() {
-              _currentIndex = index;
-            });
+            model.setPreviousNavIndex(model.currentNavIndex);
+            model.setCurrentNavIndex(index);
           },
         );
       },
