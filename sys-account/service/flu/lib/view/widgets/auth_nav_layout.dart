@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:typed_data';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +11,11 @@ import 'package:sys_share_sys_account_service/view/widgets/auth_dialog.dart';
 class AuthNavLayout extends StatefulWidget {
   final Widget body;
   final LinkedHashMap<String, Widget> tabs;
-  final GlobalKey<NavigatorState> navigatorKey;
 
   const AuthNavLayout({
     Key key,
     @required this.body,
     @required this.tabs,
-    @required this.navigatorKey,
   }) : super(key: key);
 
   @override
@@ -26,7 +23,8 @@ class AuthNavLayout extends StatefulWidget {
 }
 
 class _AuthNavLayoutState extends State<AuthNavLayout> {
-  GlobalKey<NavigatorState> get navigatorKey => widget.navigatorKey;
+  // final GlobalKey<NavigatorState> navigatorKey =
+  //     new GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +33,13 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
     if (isDesktop(context)) platform = "desktop";
 
     return ViewModelProvider<AuthNavViewModel>.withConsumer(
-      viewModelBuilder: () => AuthNavViewModel(),
+      viewModelBuilder: () => Modular.get<AuthNavViewModel>(),
       onModelReady: (AuthNavViewModel model) async {
         await model.isUserLoggedIn();
         if (model.isLoggedIn) {
           await model.getSubscribedOrgs();
         }
-        model.setupTabItems(widget.tabs);
+        model.setupTabItems(widget.tabs, context);
       },
       builder: (ctx, model, child) {
         return AccountNavRail(
@@ -67,8 +65,8 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     onTap: () async {
                       await model.logOut();
                       model.setCurrentNavIndex(model.previousNavIndex);
-                      Navigator.of(navigatorKey.currentContext)
-                          .pushReplacementNamed(model.getTabRoute(model.currentNavIndex - 1));
+                      Modular.to.pushReplacementNamed(
+                          model.getTabRoute(model.currentNavIndex));
                     },
                   )
                 : TabItem(
@@ -76,38 +74,22 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                         .translate('signIn')),
                     icon: Icon(Icons.login),
                     onTap: () => showDialog(
-                      context: navigatorKey.currentContext,
+                      context: context,
                       builder: (context) => AuthDialog(
-                        navigatorKey: navigatorKey,
+                        // navigatorKey: navigatorKey,
                         callback: () async {
                           await model.isUserLoggedIn();
                           if (model.isLoggedIn) {
                             await model.getSubscribedOrgs();
                             model.setCurrentNavIndex(model.previousNavIndex);
-                            Navigator.of(navigatorKey.currentContext).pushReplacementNamed(
-                                model.getTabRoute(model.currentNavIndex - 1));
+                            Modular.to.pushReplacementNamed(
+                                model.getTabRoute(model.currentNavIndex));
                           }
                         },
                       ),
                     ),
                   ),
             ...model.widgetList,
-            for (var org in model.subscribedOrgs) ...[
-              TabItem(
-                icon: ClipOval(
-                  child: Image.memory(
-                    Uint8List.fromList(org.logo),
-                    width: 30,
-                    height: 30,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                title: Text(org.name, style: TextStyle(fontSize: 12)),
-                onTap: () {
-                  Modular.to.pushNamed('/projects', arguments: [org]);
-                },
-              )
-            ],
           ],
           onPressed: (index) {
             model.setPreviousNavIndex(model.currentNavIndex);

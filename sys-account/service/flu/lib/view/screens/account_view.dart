@@ -6,10 +6,9 @@ import 'package:sys_share_sys_account_service/view/widgets/nav_rail.dart';
 
 class AccountView extends StatelessWidget {
   final LinkedHashMap<String, TabItem> tabs;
-  final GlobalKey<NavigatorState> navigatorKey;
   final Widget body;
 
-  const AccountView({Key key, @required this.tabs, @required this.body, @required this.navigatorKey})
+  const AccountView({Key key, @required this.tabs, @required this.body})
       : super(key: key);
 
   @override
@@ -17,7 +16,6 @@ class AccountView extends StatelessWidget {
     return AuthNavLayout(
       body: body,
       tabs: tabs,
-      navigatorKey: navigatorKey,
     );
   }
 }
