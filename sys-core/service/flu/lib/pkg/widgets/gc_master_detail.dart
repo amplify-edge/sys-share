@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 import 'package:sys_core/sys_core.dart';
@@ -358,17 +359,12 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
 
       for small devices there should be a transition to look normal
     */
-    Navigator.of(context).push(
-      (withTransition)
-          ? MaterialPageRoute(
-              builder: (context) {
-                return newMasterDetailView;
-              },
-              settings: routeSettings)
-          : PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  newMasterDetailView,
-              settings: routeSettings),
+    Modular.to.push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            newMasterDetailView,
+        settings: routeSettings,
+      ),
     );
   }
 }
