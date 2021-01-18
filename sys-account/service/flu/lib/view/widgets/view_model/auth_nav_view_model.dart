@@ -1,4 +1,9 @@
+import 'dart:collection';
+import 'dart:typed_data';
+
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sys_share_sys_account_service/pkg/pkg.dart';
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart'
     as authRepo;
@@ -8,6 +13,8 @@ import 'package:sys_share_sys_account_service/pkg/shared_repositories/orgproj_re
     as orgRepo;
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart'
     as rpc;
+
+import '../nav_rail.dart';
 
 class AuthNavViewModel extends BaseModel {
   // fields
@@ -21,9 +28,13 @@ class AuthNavViewModel extends BaseModel {
   bool _isAdmin = false;
   Int64 _currentPageId = Int64.ZERO;
   Map<int, rpc.UserRoles> _mapRoles = Map<int, rpc.UserRoles>();
-  Map<String, dynamic> _filters = Map<String, dynamic>();
-  List<rpc.Org> _subscribedOrgs = List<rpc.Org>();
-  List<rpc.Project> _subscribedProjects = List<rpc.Project>();
+  List<rpc.Org> _subscribedOrgs = List<rpc.Org>.empty();
+  List<rpc.Project> _subscribedProjects = List<rpc.Project>.empty();
+  List<Widget> _widgetList = List<Widget>.empty(growable: true);
+  List<String> _widgetKeys = List<String>.empty(growable: true);
+  int _previousIndex = 2;
+  int _currentNavIndex = 2;
+  int _nonDynamicWidgetListLength = 0;
 
   // getters
   bool get isSuperuser => _isSuperuser;
@@ -32,11 +43,60 @@ class AuthNavViewModel extends BaseModel {
 
   bool get isLoggedIn => _isLoggedIn;
 
+  int get currentNavIndex => _currentNavIndex;
+
+  int get previousNavIndex => _previousIndex;
+
   List<rpc.Org> get subscribedOrgs => _subscribedOrgs;
 
   List<rpc.Project> get subscribedProjects => _subscribedProjects;
 
+  List<Widget> get widgetList => _widgetList;
+
   String get errMsg => _errMsg;
+
+  void setupTabItems(LinkedHashMap<String, Widget> val, BuildContext context) {
+    _widgetKeys.add("/accounts");
+    val.forEach((key, value) {
+      _widgetList.add(value);
+      _widgetKeys.add(key);
+    });
+    _setNonDynamicListLength(_widgetList.length);
+  }
+
+  int getDynamicNavIndex(String route) {
+    if (route == "/") {
+      return _widgetKeys.indexWhere((el) => el == route);
+    } else {
+      return _widgetKeys.indexWhere((el) => el != "/" && (route.contains(el)));
+    }
+  }
+
+  String getTabRoute(int index) {
+    if (index >= _widgetKeys.length) {
+      return "/";
+    }
+    var nextRoute = _widgetKeys.elementAt(index);
+    if (nextRoute.isEmpty || nextRoute == null) {
+      nextRoute = "/";
+    }
+    return nextRoute;
+  }
+
+  void setCurrentNavIndex(int val) {
+    _currentNavIndex = val;
+    notifyListeners();
+  }
+
+  void _setNonDynamicListLength(int val) {
+    _nonDynamicWidgetListLength = val;
+    notifyListeners();
+  }
+
+  void setPreviousNavIndex(int val) {
+    _previousIndex = val;
+    notifyListeners();
+  }
 
   void _setSuperUser(bool value) {
     _isSuperuser = value;
@@ -133,12 +193,13 @@ class AuthNavViewModel extends BaseModel {
     _setSuperUser(false);
     _setAdmin(false);
     _setCurrentAccount(rpc.Account());
-    _setSubscribedOrgs(List<rpc.Org>());
+    _setSubscribedOrgs(List<rpc.Org>.empty(growable: true));
+    _widgetList = _widgetList.sublist(0, _nonDynamicWidgetListLength);
   }
 
   Future<void> logOut() async {
-    _reset();
     await authRepo.logOut();
+    _reset();
   }
 
   Future<void> _fetchOrgs(
@@ -170,5 +231,21 @@ class AuthNavViewModel extends BaseModel {
     } else {
       await _fetchOrgs(Map<String, dynamic>(), perPageEntries, "like");
     }
+    _subscribedOrgs.forEach((org) {
+      _widgetList.add(TabItem(
+        icon: ClipOval(
+          child: Image.memory(
+            Uint8List.fromList(org.logo),
+            width: 30,
+            height: 30,
+            fit: BoxFit.cover,
+          ),
+        ),
+        title: Text(org.name, style: TextStyle(fontSize: 12)),
+        onTap: () {
+          Modular.to.pushNamed('/projects', arguments: [org]);
+        },
+      ));
+    });
   }
 }

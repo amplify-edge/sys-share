@@ -14,12 +14,12 @@ class VerifyModule extends ChildModule {
 
   @override
   List<Bind> get binds => [
-        Bind((i) => Paths(baseRoute)),
+        Bind.singleton((i) => Paths(baseRoute)),
       ];
 
   @override
-  List<ModularRouter> get routers => [
-        ModularRouter(
+  List<ModularRoute> get routes => [
+        ChildRoute(
           '$baseRoute/verify/:id',
           child: (_, args) => VerifyPage(
             id: args.params['id'] ?? '',
@@ -28,5 +28,5 @@ class VerifyModule extends ChildModule {
         ),
       ];
 
-  static Inject get to => Inject<VerifyModule>.of();
+  static Inject get to => Inject<VerifyModule>();
 }

@@ -19,8 +19,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_modular: ^2.0.0+1
-
   sys_share_sys_account_service:
     path: ../../../service/flu
 

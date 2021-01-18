@@ -13,14 +13,13 @@ dependencies:
     sdk: flutter
 
   # Architectural packages
-  # protobuf: ^1.0.1
   grpc: ^2.8.0
   intl: ^0.17.0-nullsafety.2
-  #  intl_translation: ^0.17.10+1
   protobuf: ^1.1.0
   hive: ^1.5.0-pre
   shared_preferences: '>=0.5.12+2 <2.0.0'
   flash: ^1.2.0
+  flutter_modular: ^3.0.0-0
 
 dev_dependencies:
   flutter_test:

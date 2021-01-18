@@ -8,20 +8,20 @@ import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_footer.d
 import 'package:sys_share_sys_account_service/pkg/shared_widgets/dialog_header.dart';
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart';
 import 'package:sys_share_sys_account_service/view/widgets/forgot_password_dialog.dart';
-import 'package:sys_share_sys_account_service/view/widgets/verify_dialog.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/account_view_model.dart';
 import 'package:meta/meta.dart';
 
 class AuthDialog extends StatefulWidget {
   final Function _callback;
-  final GlobalKey<NavigatorState> navigatorKey;
+
+  // final GlobalKey<NavigatorState> navigatorKey;
   final UserRoles userRole;
   final bool isSignIn;
 
   const AuthDialog(
       {Key key,
       @required Function callback,
-      @required this.navigatorKey,
+      // @required this.navigatorKey,
       this.isSignIn = true,
       this.userRole})
       : _callback = callback,
@@ -37,7 +37,7 @@ class AuthDialogState extends State<AuthDialog> {
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
-  GlobalKey<NavigatorState> get navigatorKey => widget.navigatorKey;
+  // GlobalKey<NavigatorState> get navigatorKey => widget.navigatorKey;
 
   @override
   void dispose() {
@@ -213,24 +213,21 @@ class AuthDialogState extends State<AuthDialog> {
                                   ? model.isLoginParamValid
                                       ? () async {
                                           await model.login().then((_) {
-                                            Navigator.pop(
-                                                navigatorKey.currentContext);
+                                            Modular.to.pop(context);
                                             if (model.errMsg.isNotEmpty) {
                                               notify(
-                                                context:
-                                                    navigatorKey.currentContext,
+                                                context: context,
                                                 message: model.errMsg,
                                                 error: true,
                                               );
                                             } else {
                                               notify(
-                                                context:
-                                                    navigatorKey.currentContext,
+                                                context: context,
                                                 message: model.successMsg,
                                                 error: false,
                                               );
                                               widget._callback();
-                                              Modular.to.pushNamed('/');
+                                              // Modular.to.pushNamed('/');
                                             }
                                           });
                                         }
@@ -239,18 +236,15 @@ class AuthDialogState extends State<AuthDialog> {
                                       ? () async {
                                           await model.register().then(
                                             (_) {
-                                              Navigator.pop(
-                                                  navigatorKey.currentContext);
+                                              Modular.to.pop(context);
                                               if (model.errMsg.isNotEmpty) {
                                                 notify(
-                                                    context: navigatorKey
-                                                        .currentContext,
+                                                    context: context,
                                                     message: model.errMsg,
                                                     error: true);
                                               } else {
                                                 notify(
-                                                    context: navigatorKey
-                                                        .currentContext,
+                                                    context: context,
                                                     message: model.successMsg,
                                                     error: false);
                                                 // showDialog(
@@ -349,10 +343,10 @@ class AuthDialogState extends State<AuthDialog> {
                             width: double.maxFinite,
                             child: TextButton(
                               onPressed: () {
-                                Navigator.pop(navigatorKey.currentContext);
+                                Navigator.pop(context);
                                 showDialog(
                                   barrierDismissible: false,
-                                  context: navigatorKey.currentContext,
+                                  context: context,
                                   builder: (context) => ForgotPasswordDialog(),
                                 );
                               },
