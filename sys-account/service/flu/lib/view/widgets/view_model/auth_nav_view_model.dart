@@ -231,21 +231,5 @@ class AuthNavViewModel extends BaseModel {
     } else {
       await _fetchOrgs(Map<String, dynamic>(), perPageEntries, "like");
     }
-    _subscribedOrgs.forEach((org) {
-      _widgetList.add(TabItem(
-        icon: ClipOval(
-          child: Image.memory(
-            Uint8List.fromList(org.logo),
-            width: 30,
-            height: 30,
-            fit: BoxFit.cover,
-          ),
-        ),
-        title: Text(org.name, style: TextStyle(fontSize: 12)),
-        onTap: () {
-          Modular.to.pushNamed('/projects', arguments: [org]);
-        },
-      ));
-    });
   }
 }
