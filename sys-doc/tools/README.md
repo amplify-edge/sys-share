@@ -1,14 +1,6 @@
 # doc tools
 
-# Bluge
 
-bluge is the new bleve and looks good because its good old Hugo but with a golang server for search.
-
-It creates an index of the markdown ( or html - not sure yet), so that at runtime, your can search it.
-
-https://github.com/blugelabs/bluge
-
-Facets and many types example: https://github.com/blugelabs/beer-search
 
 ## Design Intent / Architecture
 
@@ -30,8 +22,32 @@ For Desktop and mobile, we will embed a Webview. https://pub.dev/packages/webvie
 		- Used for https://pub.dev/packages?q=dependency%3Aweb_browser.
 		- https://github.com/dint-dev/web_node
 			- maybe we can use this to mix flutter and html ( from hugo), and so also use this concept for making the flutter modules composable at runtime...
-		
 
+## WebView
+
+This is here because we need to be able to open the Docs in a webview on all platforms.
+
+This one works well and has a makefile. Works on Web, Ios and Android. Need to extend for Apple and Windows. See make file
+https://github.com/dint-dev/web_node
+
+Have a look at his other stuff as it looks like it might be a way for use to have the flutter flutter modules composable at runtime...
+https://pub.dev/packages/webview_flutter
+- Many are using this: https://pub.dev/packages?q=dependency%3Awebview_flutter
+	- https://pub.dev/packages/web_browser
+		- Looks like a good one that uses Iframes to advantage on Web, and not for Native.
+		- Used for https://pub.dev/packages?q=dependency%3Aweb_browser.
+		- https://github.com/dint-dev/web_node
+
+
+## Bluge
+
+bluge is the new bleve and looks good because its good old Hugo but with a golang server for search.
+
+It creates an index of the markdown ( or html - not sure yet), so that at runtime, your can search it.
+
+https://github.com/blugelabs/bluge
+
+Facets and many types example: https://github.com/blugelabs/beer-search
 
 ## Examples
 
