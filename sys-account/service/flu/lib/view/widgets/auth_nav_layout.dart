@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:typed_data';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:asuka/asuka.dart' as asuka;
@@ -33,7 +32,7 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
 
     return ViewModelProvider<AuthNavViewModel>.withConsumer(
       viewModelBuilder: () => Modular.get<AuthNavViewModel>(),
-      disposeViewModel: false,
+      disposeViewModel: true,
       onModelReady: (AuthNavViewModel model) async {
         await model.isUserLoggedIn();
         if (model.isLoggedIn) {
@@ -64,9 +63,8 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     icon: Icon(Icons.logout),
                     onTap: () async {
                       await model.logOut();
-                      model.setCurrentNavIndex(model.previousNavIndex);
-                      Modular.to
-                          .navigate(model.getTabRoute(model.currentNavIndex));
+                      // reset navigation stack
+                      Modular.to.navigate("/");
                     },
                   )
                 : TabItem(
@@ -89,22 +87,6 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     ),
                   ),
             ...model.widgetList,
-            for (var org in model.subscribedOrgs) ...[
-              TabItem(
-                icon: ClipOval(
-                  child: Image.memory(
-                    Uint8List.fromList(org.logo),
-                    width: 30,
-                    height: 30,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                title: Text(org.name, style: TextStyle(fontSize: 12)),
-                onTap: () {
-                  Modular.to.pushNamed('/disco/projects', arguments: [org]);
-                },
-              )
-            ],
           ],
           onPressed: (index) {
             model.setPreviousNavIndex(model.currentNavIndex);

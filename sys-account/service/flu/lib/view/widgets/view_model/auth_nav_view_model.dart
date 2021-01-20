@@ -56,6 +56,7 @@ class AuthNavViewModel extends BaseModel {
   String get errMsg => _errMsg;
 
   void setupTabItems(LinkedHashMap<String, Widget> val, BuildContext context) {
+    _reset();
     _widgetKeys.add("/accounts");
     val.forEach((key, value) {
       _widgetList.add(value);
@@ -68,7 +69,7 @@ class AuthNavViewModel extends BaseModel {
     if (route == "/") {
       return _widgetKeys.indexWhere((el) => el == route);
     } else {
-      return _widgetKeys.indexWhere((el) => el != "/" && (route.contains(el)));
+      return _widgetKeys.indexWhere((el) => el != "/" && route == el);
     }
   }
 
@@ -195,6 +196,7 @@ class AuthNavViewModel extends BaseModel {
     _setCurrentAccount(rpc.Account());
     _setSubscribedOrgs(List<rpc.Org>.empty(growable: true));
     _widgetList = _widgetList.sublist(0, _nonDynamicWidgetListLength);
+    _widgetKeys = _widgetKeys.sublist(0, _nonDynamicWidgetListLength);
   }
 
   Future<void> logOut() async {
@@ -231,5 +233,23 @@ class AuthNavViewModel extends BaseModel {
     } else {
       await _fetchOrgs(Map<String, dynamic>(), perPageEntries, "like");
     }
+    _subscribedOrgs.forEach((org) {
+      final _namedRoute = '/disco/projects/' + org.id;
+      _widgetKeys.add(_namedRoute);
+      _widgetList.add(TabItem(
+        icon: ClipOval(
+          child: Image.memory(
+            Uint8List.fromList(org.logo),
+            width: 30,
+            height: 30,
+            fit: BoxFit.cover,
+          ),
+        ),
+        title: Text(org.name, style: TextStyle(fontSize: 12)),
+        onTap: () {
+          Modular.to.pushNamed('/disco/projects', arguments: [org]);
+        },
+      ));
+    });
   }
 }
