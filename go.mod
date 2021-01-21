@@ -3,6 +3,7 @@ module github.com/getcouragenow/sys-share
 go 1.15
 
 require (
+	github.com/HdrHistogram/hdrhistogram-go v1.0.1 // indirect
 	github.com/VictoriaMetrics/metrics v1.12.3
 	github.com/bojand/ghz v0.61.0
 	github.com/brianvoe/gofakeit/v5 v5.9.3
@@ -17,6 +18,7 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/karrick/godirwalk v1.16.1
 	github.com/matcornic/hermes/v2 v2.1.0
+	github.com/opentracing/opentracing-go v1.1.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/schollz/progressbar/v2 v2.15.0
 	github.com/segmentio/encoding v0.2.0
@@ -26,6 +28,8 @@ require (
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.6.1
+	github.com/uber/jaeger-client-go v2.25.0+incompatible
+	github.com/uber/jaeger-lib v2.4.0+incompatible // indirect
 	golang.org/x/crypto v0.0.0-20200930160638-afb6bcd081ae // indirect
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
 	google.golang.org/genproto v0.0.0-20201001141541-efaab9d3c4f7 // indirect
