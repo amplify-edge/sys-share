@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 import 'package:sys_core/sys_core.dart';
@@ -333,27 +332,30 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
           .replaceAll(":id", "$newChildId")
           .replaceAll(":oid", newParentId),
     );
-    print('ROUTE NAME: ${routeSettings.name}');
-    Modular.to.pushNamed(routeSettings.name);
-    // var newMasterDetailView = NewGetCourageMasterDetail(
-    //   items: widget.items,
-    //   labelBuilder: widget.labelBuilder,
-    //   noItemsSelected: widget.noItemsSelected,
-    //   detailsBuilder: widget.detailsBuilder,
-    //   parentId: newParentId,
-    //   childId: newChildId,
-    //   routeWithIdPlaceholder: widget.routeWithIdPlaceholder,
-    //   enableSearchBar: widget.enableSearchBar,
-    //   masterAppBarTitle: widget.masterAppBarTitle,
-    //   disableBackButtonOnNoItemSelected:
-    //       widget.disableBackButtonOnNoItemSelected,
-    //   noItemsAvailable: widget.noItemsAvailable,
-    //   imageBuilder: widget.imageBuilder,
-    //   itemChildren: widget.itemChildren,
-    //   childBuilder: widget.childBuilder,
-    //   searchFunction: widget.searchFunction,
-    //   resetSearchFunction: widget.resetSearchFunction,
-    // );
+    // Modular.to.pushNamed(routeSettings.name, arguments: {
+    //   'id': newChildId,
+    //   'oid': newParentId,
+    //   'orgs': widget.items
+    // });
+    var newMasterDetailView = NewGetCourageMasterDetail(
+      items: widget.items,
+      labelBuilder: widget.labelBuilder,
+      noItemsSelected: widget.noItemsSelected,
+      detailsBuilder: widget.detailsBuilder,
+      parentId: newParentId,
+      childId: newChildId,
+      routeWithIdPlaceholder: widget.routeWithIdPlaceholder,
+      enableSearchBar: widget.enableSearchBar,
+      masterAppBarTitle: widget.masterAppBarTitle,
+      disableBackButtonOnNoItemSelected:
+          widget.disableBackButtonOnNoItemSelected,
+      noItemsAvailable: widget.noItemsAvailable,
+      imageBuilder: widget.imageBuilder,
+      itemChildren: widget.itemChildren,
+      childBuilder: widget.childBuilder,
+      searchFunction: widget.searchFunction,
+      resetSearchFunction: widget.resetSearchFunction,
+    );
     /*
       We are not using flutter Modular for pushing the route here
       since we need dynamic transitions. For the >tablet view
@@ -362,17 +364,17 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
 
       for small devices there should be a transition to look normal
     */
-    // Navigator.of(context).push(
-    //   (withTransition)
-    //       ? MaterialPageRoute(
-    //           builder: (context) {
-    //             return newMasterDetailView;
-    //           },
-    //           settings: routeSettings)
-    //       : PageRouteBuilder(
-    //           pageBuilder: (context, animation, secondaryAnimation) =>
-    //               newMasterDetailView,
-    //           settings: routeSettings),
-    // );
+    Navigator.of(context).push(
+      (withTransition)
+          ? MaterialPageRoute(
+              builder: (context) {
+                return newMasterDetailView;
+              },
+              settings: routeSettings)
+          : PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  newMasterDetailView,
+              settings: routeSettings),
+    );
   }
 }
