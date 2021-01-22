@@ -2,7 +2,7 @@ package shared
 
 import (
 	"context"
-	"github.com/sirupsen/logrus"
+	"github.com/getcouragenow/sys-share/sys-core/service/logging"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -12,7 +12,7 @@ type ServerAuthzInterceptor interface {
 	GetUnauthenticatedRoutes() []string
 	GetAuthenticatedRoutes() map[string]func(claims TokenClaims) error // for bus
 	GetTokenConfig() *TokenConfig
-	GetLogger() *logrus.Entry
+	GetLogger() logging.Logger
 }
 
 func ClaimsFromMetadata(ctx context.Context, isAccess bool, itc ServerAuthzInterceptor) (claims TokenClaims, err error) {

@@ -2,9 +2,9 @@ package ops
 
 import (
 	"context"
+	"github.com/getcouragenow/sys-share/sys-core/service/logging"
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/mem"
-	"github.com/sirupsen/logrus"
 	"time"
 
 	"github.com/shirou/gopsutil/v3/cpu"
@@ -13,7 +13,7 @@ import (
 
 type OpsSystemMonitor struct {
 	ctx              context.Context
-	logger           *logrus.Entry
+	logger           logging.Logger
 	interval         time.Duration
 	netStats         map[string]net.IOCountersStat // interface-name as key
 	netStatsUpdated  map[string]time.Time          // last updated time
@@ -24,14 +24,14 @@ type OpsSystemMonitor struct {
 
 // NewOpsSystemMonitor is the constructor for OpsSystemMonitor
 // also registers system metrics and runtime metrics
-func NewOpsSystemMonitor(ctx context.Context, interval time.Duration, metricsDiskPath string, logger *logrus.Entry) *OpsSystemMonitor {
+func NewOpsSystemMonitor(ctx context.Context, interval time.Duration, metricsDiskPath string, logger logging.Logger) *OpsSystemMonitor {
 	opsSystemMetrics := NewOpsSystemMetrics()
 	if metricsDiskPath == "" {
 		metricsDiskPath = "/"
 	}
 	return &OpsSystemMonitor{
 		ctx:              ctx,
-		logger: logger,
+		logger:           logger,
 		interval:         interval,
 		netStats:         make(map[string]net.IOCountersStat),
 		netStatsUpdated:  make(map[string]time.Time),
