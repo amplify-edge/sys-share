@@ -11,11 +11,13 @@ import 'package:sys_share_sys_account_service/view/widgets/auth_dialog.dart';
 
 class AuthNavLayout extends StatefulWidget {
   final Widget body;
+  final LinkedHashMap<String, Widget> adminTabs;
   final LinkedHashMap<String, Widget> tabs;
 
   const AuthNavLayout({
     Key key,
     @required this.body,
+    @required this.adminTabs,
     @required this.tabs,
   }) : super(key: key);
 
@@ -38,7 +40,7 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
         if (model.isLoggedIn) {
           await model.getSubscribedOrgs();
         }
-        model.setupTabItems(widget.tabs, context);
+        model.setupTabItems(widget.tabs, widget.adminTabs, context);
       },
       builder: (ctx, model, child) {
         return AccountNavRail(
@@ -86,6 +88,8 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                       ),
                     ),
                   ),
+            if (model.isSuperuser)
+             ...widget.adminTabs.values,
             ...model.widgetList,
           ],
           onPressed: (index) {

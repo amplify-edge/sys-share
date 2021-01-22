@@ -30,10 +30,12 @@ class AuthNavViewModel extends BaseModel {
   Map<int, rpc.UserRoles> _mapRoles = Map<int, rpc.UserRoles>();
   List<rpc.Org> _subscribedOrgs = List<rpc.Org>.empty();
   List<rpc.Project> _subscribedProjects = List<rpc.Project>.empty();
+  LinkedHashMap<String, Widget> _tabItems =
+      LinkedHashMap.of(<String, Widget>{});
   List<Widget> _widgetList = List<Widget>.empty(growable: true);
   List<String> _widgetKeys = List<String>.empty(growable: true);
-  int _previousIndex = 2;
-  int _currentNavIndex = 2;
+  int _previousIndex = 0;
+  int _currentNavIndex = 0;
   int _nonDynamicWidgetListLength = 0;
 
   // getters
@@ -53,11 +55,20 @@ class AuthNavViewModel extends BaseModel {
 
   List<Widget> get widgetList => _widgetList;
 
+  LinkedHashMap<String, Widget> get tabItems => _tabItems;
+
   String get errMsg => _errMsg;
 
-  void setupTabItems(LinkedHashMap<String, Widget> val, BuildContext context) {
+  void setupTabItems(LinkedHashMap<String, Widget> val,
+      LinkedHashMap<String, Widget> adminTabs, BuildContext context) {
     _reset();
     _widgetKeys.add("/accounts");
+    if (_isLoggedIn && _isSuperuser) {
+      adminTabs.forEach((key, value) {
+        _widgetKeys.add(key);
+        _widgetList.add(value);
+      });
+    }
     val.forEach((key, value) {
       _widgetList.add(value);
       _widgetKeys.add(key);
