@@ -33,7 +33,7 @@ func NewClientSideInterceptor(client pkg.AuthServiceClient, access, refresh stri
 		accessToken:     access,
 		refreshToken:    refresh,
 		refreshDuration: DEFAULT_REFRESH_DURATION,
-		logger:          logger.WithFields(map[string]string{"purpose": "clientInterceptor"}),
+		logger:          logger.WithFields(map[string]interface{}{"purpose": "clientInterceptor"}),
 	}
 	c.scheduleRefreshToken()
 	return c, nil

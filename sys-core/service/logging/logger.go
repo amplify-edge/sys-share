@@ -4,8 +4,9 @@ import "google.golang.org/grpc"
 
 // Logger c
 type Logger interface {
-	InitLogger(extraFields map[string]string)
-	WithFields(extraFields map[string]string) Logger // WithFields create sub-logger / technically new logger
+	InitLogger(args map[string]interface{})
+	WithFields(args map[string]interface{}) Logger // WithFields create sub-logger / technically new logger
+	GetLogPath() (string, error)
 	Debug(args ...interface{})
 	Debugf(template string, args ...interface{})
 	Info(args ...interface{})

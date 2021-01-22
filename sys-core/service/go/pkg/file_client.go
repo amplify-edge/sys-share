@@ -56,7 +56,7 @@ func (p *progressBar) Add(b int) {
 
 func NewFileServiceClient(cc grpc.ClientConnInterface) *FileClient {
 	svc := dbrpc.NewFileServiceClient(cc)
-	logger := zaplog.NewZapLogger("debug", "sys-file-client", true)
+	logger := zaplog.NewZapLogger(zaplog.DEBUG, "sys-file-client", true, "")
 	logger.InitLogger(nil)
 	return &FileClient{svc: svc, logger: logger}
 }

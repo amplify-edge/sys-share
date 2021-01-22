@@ -1,68 +1,84 @@
 package zaplog
 
 import (
-	"github.com/getcouragenow/sys-share/sys-core/service/logging"
+	"errors"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"google.golang.org/grpc"
+	"gopkg.in/natefinch/lumberjack.v2"
 	"os"
+	"path/filepath"
+
+	"github.com/getcouragenow/sys-share/sys-core/service/logging"
 
 	grpcZap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
+)
+
+const (
+	DEBUG            = zapcore.DebugLevel
+	INFO             = zapcore.InfoLevel
+	WARN             = zapcore.WarnLevel
+	ErrNoStoragePath = "error: logger is configured without a storage path"
 )
 
 // ZapLogger implements Logger interface as defined in
 // "github.com/getcouragenow/sys-share/sys-core/service/logging"
 type ZapLogger struct {
 	isDevelopmentMode bool
-	logLevel          string
+	storagePath       string
+	logLevel          zapcore.Level
 	moduleName        string
 	sugarLogger       *zap.SugaredLogger
 }
 
 // Zap Logger constructor
-func NewZapLogger(level, moduleName string, isDevelopmentMode bool) *ZapLogger {
-	return &ZapLogger{logLevel: level, isDevelopmentMode: isDevelopmentMode, moduleName: moduleName}
-}
-
-// For mapping config logger to app logger levels
-var loggerLevelMap = map[string]zapcore.Level{
-	"debug":  zapcore.DebugLevel,
-	"info":   zapcore.InfoLevel,
-	"warn":   zapcore.WarnLevel,
-	"error":  zapcore.ErrorLevel,
-	"dpanic": zapcore.DPanicLevel,
-	"panic":  zapcore.PanicLevel,
-	"fatal":  zapcore.FatalLevel,
-}
-
-func (l *ZapLogger) configuredLogLevel() zapcore.Level {
-	level, exist := loggerLevelMap[l.logLevel]
-	if !exist {
-		return zapcore.DebugLevel
+func NewZapLogger(level zapcore.Level, moduleName string, isDevelopmentMode bool, storagePath string) *ZapLogger {
+	if !isDevelopmentMode && storagePath == "" {
+		dir, _ := os.Getwd()
+		storagePath = filepath.Join(dir, "gcn.log")
 	}
+	if !isDevelopmentMode && storagePath != "" {
+		dir := filepath.Dir(storagePath)
+		_ = os.MkdirAll(dir, os.ModeDir)
+	}
+	return &ZapLogger{logLevel: level, isDevelopmentMode: isDevelopmentMode, moduleName: moduleName, storagePath: storagePath}
+}
 
-	return level
+func (l *ZapLogger) GetLogPath() (string, error) {
+	if !l.isDevelopmentMode {
+		return l.storagePath, nil
+	}
+	return "", errors.New("")
 }
 
 // Init logger
-func (l *ZapLogger) InitLogger(extraFields map[string]string) {
-	logLevel := l.configuredLogLevel()
-
-	logWriter := zapcore.AddSync(os.Stderr)
-
+func (l *ZapLogger) InitLogger(extraFields map[string]interface{}) {
+	// set log level
+	logLevel := l.logLevel
+	var logWriter zapcore.WriteSyncer
 	var encoderCfg zapcore.EncoderConfig
 	if l.isDevelopmentMode {
+		logWriter = zapcore.AddSync(os.Stderr)
 		encoderCfg = zap.NewDevelopmentEncoderConfig()
 	} else {
+		// for i.e. Loki store the logs to a file with log rotation, plus backup, plus safe concurrent writes.
+		// use promtail to fed it to Loki.
+		// even if we don't use loki, we can still ask the client / user / org to give their log file
+		logWriter = zapcore.AddSync(&lumberjack.Logger{
+			Filename:   l.storagePath,
+			MaxSize:    200, // MB
+			MaxBackups: 2,   // number of backups to keep
+			MaxAge:     28,  // days
+		})
 		encoderCfg = zap.NewProductionEncoderConfig()
 	}
 
 	var encoder zapcore.Encoder
-	encoderCfg.LevelKey = "LVL"
-	encoderCfg.CallerKey = "CALLER"
-	encoderCfg.TimeKey = "TIME"
-	encoderCfg.NameKey = "NAME"
-	encoderCfg.MessageKey = "MSG"
+	encoderCfg.LevelKey = "lvl"
+	encoderCfg.CallerKey = "caller"
+	encoderCfg.TimeKey = "time"
+	encoderCfg.NameKey = "name"
+	encoderCfg.MessageKey = "msg"
 
 	if l.isDevelopmentMode {
 		encoder = zapcore.NewConsoleEncoder(encoderCfg)
@@ -83,16 +99,15 @@ func (l *ZapLogger) InitLogger(extraFields map[string]string) {
 	logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
 
 	l.sugarLogger = logger.Sugar()
-	//if err := l.sugarLogger.Sync(); err != nil {
-	//	l.sugarLogger.Error(err)
-	//}
-	l.sugarLogger.Sync()
+	if err := l.sugarLogger.Sync(); err != nil {
+		l.sugarLogger.Error(err)
+	}
 }
 
 // ZapLogger methods to satisfy Logger interface
-func (l *ZapLogger) WithFields(extraFields map[string]string) logging.Logger {
+func (l *ZapLogger) WithFields(args map[string]interface{}) logging.Logger {
 	zl := l
-	zl.InitLogger(extraFields)
+	zl.InitLogger(args)
 	return zl
 }
 
