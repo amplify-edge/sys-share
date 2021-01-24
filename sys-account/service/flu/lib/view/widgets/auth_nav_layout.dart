@@ -42,13 +42,14 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
       onModelReady: (AuthNavViewModel model) async {
         await model.isUserLoggedIn();
         if (model.isLoggedIn) {
-          await model.getSubscribedOrgs();
+          await model.getSubscribedOrgs(
+            adminTabs: widget.adminTabs,
+            superAdminTabs: widget.superAdminTabs,
+          );
         }
         model.setupTabItems(
           normalTabs: widget.tabs,
-          adminTabs: widget.adminTabs,
           context: context,
-          superAdminTabs: widget.superAdminTabs,
         );
       },
       builder: (ctx, model, child) {
@@ -88,7 +89,10 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                           Navigator.of(context).pop();
                           await model.isUserLoggedIn();
                           if (model.isLoggedIn) {
-                            await model.getSubscribedOrgs();
+                            await model.getSubscribedOrgs(
+                              adminTabs: widget.adminTabs,
+                              superAdminTabs: widget.superAdminTabs,
+                            );
                             model.setCurrentNavIndex(model.previousNavIndex);
                             Modular.to.navigate(
                                 model.getTabRoute(model.currentNavIndex));
@@ -97,8 +101,8 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                       ),
                     ),
                   ),
-            if (model.isSuperuser) ...widget.superAdminTabs.values,
-            if (model.isAdmin || model.isSuperuser) ...widget.adminTabs.values,
+            // if (model.isSuperuser) ...widget.superAdminTabs.values,
+            // if (model.isAdmin || model.isSuperuser) ...widget.adminTabs.values,
             ...model.widgetList,
           ],
           onPressed: (index) {

@@ -62,23 +62,9 @@ class AuthNavViewModel extends BaseModel {
 
   void setupTabItems(
       {@required LinkedHashMap<String, Widget> normalTabs,
-      @required LinkedHashMap<String, Widget> adminTabs,
-      @required LinkedHashMap<String, Widget> superAdminTabs,
       @required BuildContext context}) {
     _reset();
     _widgetKeys.add(_accountTabKey);
-    if (_isLoggedIn && _isSuperuser) {
-      superAdminTabs.forEach((key, value) {
-        _widgetKeys.add(key);
-        _widgetList.add(value);
-      });
-    }
-    if (_isLoggedIn && _isAdmin) {
-      adminTabs.forEach((key, value) {
-        _widgetKeys.add(key);
-        _widgetList.add(value);
-      });
-    }
     normalTabs.forEach((key, value) {
       _widgetList.add(value);
       _widgetKeys.add(key);
@@ -87,11 +73,13 @@ class AuthNavViewModel extends BaseModel {
   }
 
   int getDynamicNavIndex(String route) {
+    print(_widgetKeys);
     if (route == "/" || route == _accountTabKey) {
       return _widgetKeys.indexWhere((el) => el == _accountTabKey);
     } else {
+      print(route);
       return _widgetKeys.indexWhere(
-        (el) => el != "/" && route.contains(el),
+        (el) => el != "/" && el.contains(route),
       );
     }
   }
@@ -244,7 +232,11 @@ class AuthNavViewModel extends BaseModel {
     });
   }
 
-  Future<void> getSubscribedOrgs({perPageEntries = 10}) async {
+  Future<void> getSubscribedOrgs({
+    perPageEntries = 10,
+    @required LinkedHashMap<String, Widget> adminTabs,
+    @required LinkedHashMap<String, Widget> superAdminTabs,
+  }) async {
     if (_currentAccount.id.isEmpty) {
       await _fetchAccountId();
     }
@@ -256,8 +248,21 @@ class AuthNavViewModel extends BaseModel {
     } else {
       await _fetchOrgs(Map<String, dynamic>(), perPageEntries, "like");
     }
+    if (_isLoggedIn && _isSuperuser) {
+      superAdminTabs.forEach((key, value) {
+        _widgetKeys.add(key);
+        _widgetList.add(value);
+      });
+    }
+    if (_isLoggedIn && (_isAdmin || _isSuperuser)) {
+      adminTabs.forEach((key, value) {
+        _widgetKeys.add(key);
+        _widgetList.add(value);
+      });
+    }
+
     _subscribedOrgs.forEach((org) {
-      final _namedRoute = '/disco' + org.id;
+      final _namedRoute = '/disco/' + org.id;
       _widgetKeys.add(_namedRoute);
       _widgetList.add(TabItem(
         icon: ClipOval(
@@ -270,7 +275,7 @@ class AuthNavViewModel extends BaseModel {
         ),
         title: Text(org.name, style: TextStyle(fontSize: 12)),
         onTap: () {
-          Modular.to.pushNamed('/disco', arguments: [org]);
+          Modular.to.pushNamed(_namedRoute, arguments: [org]);
         },
       ));
     });
