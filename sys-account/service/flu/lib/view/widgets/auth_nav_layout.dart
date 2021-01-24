@@ -1,22 +1,26 @@
 import 'dart:collection';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:provider_architecture/provider_architecture.dart';
+
 import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
-import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
-import 'package:sys_share_sys_account_service/view/widgets/view_model/auth_nav_view_model.dart';
-import 'nav_rail.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:provider_architecture/provider_architecture.dart';
 import 'package:sys_core/sys_core.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/auth_dialog.dart';
+import 'package:sys_share_sys_account_service/view/widgets/view_model/auth_nav_view_model.dart';
+
+import 'nav_rail.dart';
 
 class AuthNavLayout extends StatefulWidget {
   final Widget body;
+  final LinkedHashMap<String, Widget> superAdminTabs;
   final LinkedHashMap<String, Widget> adminTabs;
   final LinkedHashMap<String, Widget> tabs;
 
   const AuthNavLayout({
     Key key,
     @required this.body,
+    @required this.superAdminTabs,
     @required this.adminTabs,
     @required this.tabs,
   }) : super(key: key);
@@ -40,7 +44,12 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
         if (model.isLoggedIn) {
           await model.getSubscribedOrgs();
         }
-        model.setupTabItems(widget.tabs, widget.adminTabs, context);
+        model.setupTabItems(
+          normalTabs: widget.tabs,
+          adminTabs: widget.adminTabs,
+          context: context,
+          superAdminTabs: widget.superAdminTabs,
+        );
       },
       builder: (ctx, model, child) {
         return AccountNavRail(
@@ -88,8 +97,8 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                       ),
                     ),
                   ),
-            if (model.isSuperuser)
-             ...widget.adminTabs.values,
+            if (model.isSuperuser) ...widget.superAdminTabs.values,
+            if (model.isAdmin || model.isSuperuser) ...widget.adminTabs.values,
             ...model.widgetList,
           ],
           onPressed: (index) {
