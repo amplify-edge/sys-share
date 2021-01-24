@@ -1,24 +1,24 @@
 {
   "@@last_modified": "2021-01-24T23:29:41.765157",
-  "search": "Chercher",
+  "search": "Arama",
   "@search": {
     "description": "search",
     "placeholders": {},
     "type": "text"
   },
-  "noItemsAvailable": "Aucun article disponible",
+  "noItemsAvailable": "Mevcut Öğe Yok",
   "@noItemsAvailable": {
     "description": "No Items Available",
     "placeholders": {},
     "type": "text"
   },
-  "noBootstrapsAvailable": "Aucun bootstraps disponible",
+  "noBootstrapsAvailable": "Kullanılabilir Önyükleme Yok",
   "@noBootstrapsAvailable": {
     "description": "No Bootstraps Available",
     "placeholders": {},
     "type": "text"
   },
-  "selectBootstrap": "Sélectionnez Bootstrap",
+  "selectBootstrap": "Bootstrap'i seçin",
   "@selectBootstrap": {
     "description": "Select Bootstrap",
     "placeholders": {},

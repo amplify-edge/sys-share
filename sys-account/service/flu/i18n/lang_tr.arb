@@ -1,96 +1,96 @@
 {
   "@@last_modified": "2021-01-24T23:30:39.478538",
-  "email": "Email",
+  "email": "Eposta",
   "@email": {
     "description": "Email",
     "placeholders": {},
     "type": "text"
   },
-  "emailHint": "Deine E-Mail",
+  "emailHint": "E-posta adresiniz",
   "@emailHint": {
     "description": "Your Email",
     "placeholders": {},
     "type": "text"
   },
-  "password": "Passwort",
+  "password": "Parola",
   "@password": {
     "description": "Password",
     "placeholders": {},
     "type": "text"
   },
-  "passwordHint": "Ihr Passwort",
+  "passwordHint": "Şifreniz",
   "@passwordHint": {
     "description": "Your Password",
     "placeholders": {},
     "type": "text"
   },
-  "verificationToken": "Bestätigungstoken",
+  "verificationToken": "Doğrulama Jetonu",
   "@verificationToken": {
     "description": "Verification Token",
     "placeholders": {},
     "type": "text"
   },
-  "verifyAccount": "Konto überprüfen",
+  "verifyAccount": "Hesabı Doğrula",
   "@verifyAccount": {
     "description": "Verifiy Account",
     "placeholders": {},
     "type": "text"
   },
-  "submitNewPassword": "Neues Passwort senden",
+  "submitNewPassword": "Yeni Şifre Gönder",
   "@submitNewPassword": {
     "description": "Submit New Password",
     "placeholders": {},
     "type": "text"
   },
-  "byProceeding": "Indem Sie fortfahren, stimmen Sie unseren Nutzungsbedingungen zu und bestätigen, dass Sie unsere Datenschutzrichtlinie gelesen haben.",
+  "byProceeding": "Devam ederek Kullanım Koşullarımızı kabul ediyor ve Gizlilik Politikamızı okuduğunuzu onaylıyorsunuz.",
   "@byProceeding": {
     "description": "By Proceeding",
     "placeholders": {},
     "type": "text"
   },
-  "signUp": "Anmelden",
+  "signUp": "Kaydol",
   "@signUp": {
     "description": "Sign Up",
     "placeholders": {},
     "type": "text"
   },
-  "signIn": "Anmelden",
+  "signIn": "Oturum aç",
   "@signIn": {
     "description": "Sign In",
     "placeholders": {},
     "type": "text"
   },
-  "signOut": "Ausloggen",
+  "signOut": "Oturumu Kapat",
   "@signOut": {
     "description": "Sign Out",
     "placeholders": {},
     "type": "text"
   },
-  "forgotPassword": "Passwort vergessen",
+  "forgotPassword": "Parolanızı mı unuttunuz",
   "@forgotPassword": {
     "description": "Forgot Password",
     "placeholders": {},
     "type": "text"
   },
-  "resetPassword": "Passwort zurücksetzen",
+  "resetPassword": "Şifreyi yenile",
   "@resetPassword": {
     "description": "Reset Password",
     "placeholders": {},
     "type": "text"
   },
-  "invalidEmail": "Ungültige E-Mail",
+  "invalidEmail": "Geçersiz e-posta",
   "@invalidEmail": {
     "description": "Invalid Email",
     "placeholders": {},
     "type": "text"
   },
-  "invalidPassword": "Ungültiges Passwort",
+  "invalidPassword": "geçersiz şifre",
   "@invalidPassword": {
     "description": "Invalid Password",
     "placeholders": {},
     "type": "text"
   },
-  "invalidVerificationToken": "Ungültiges Bestätigungstoken",
+  "invalidVerificationToken": "Geçersiz Doğrulama Jetonu",
   "@invalidVerificationToken": {
     "description": "Invalid Verification Token",
     "placeholders": {},
