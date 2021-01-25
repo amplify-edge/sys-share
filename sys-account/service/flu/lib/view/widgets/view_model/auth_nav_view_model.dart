@@ -73,13 +73,11 @@ class AuthNavViewModel extends BaseModel {
   }
 
   int getDynamicNavIndex(String route) {
-    print(_widgetKeys);
     if (route == "/" || route == _accountTabKey) {
       return _widgetKeys.indexWhere((el) => el == _accountTabKey);
     } else {
-      print(route);
       return _widgetKeys.indexWhere(
-        (el) => el != "/" && el.contains(route),
+        (el) => el != "/" && el == route,
       );
     }
   }
@@ -275,7 +273,7 @@ class AuthNavViewModel extends BaseModel {
         ),
         title: Text(org.name, style: TextStyle(fontSize: 12)),
         onTap: () {
-          Modular.to.pushNamed(_namedRoute, arguments: [org]);
+          Modular.to.pushNamed('/disco/projects', arguments: [org]);
         },
       ));
     });
