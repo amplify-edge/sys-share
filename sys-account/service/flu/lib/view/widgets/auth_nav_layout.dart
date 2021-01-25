@@ -1,20 +1,27 @@
 import 'dart:collection';
+
+import 'package:asuka/asuka.dart' as asuka;
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import 'package:flutter/material.dart';
-import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
-import 'package:sys_share_sys_account_service/view/widgets/view_model/auth_nav_view_model.dart';
-import 'nav_rail.dart';
 import 'package:sys_core/sys_core.dart';
+import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.dart';
 import 'package:sys_share_sys_account_service/view/widgets/auth_dialog.dart';
+import 'package:sys_share_sys_account_service/view/widgets/view_model/auth_nav_view_model.dart';
+
+import 'nav_rail.dart';
 
 class AuthNavLayout extends StatefulWidget {
   final Widget body;
+  final LinkedHashMap<String, Widget> superAdminTabs;
+  final LinkedHashMap<String, Widget> adminTabs;
   final LinkedHashMap<String, Widget> tabs;
 
   const AuthNavLayout({
     Key key,
     @required this.body,
+    @required this.superAdminTabs,
+    @required this.adminTabs,
     @required this.tabs,
   }) : super(key: key);
 
@@ -23,9 +30,6 @@ class AuthNavLayout extends StatefulWidget {
 }
 
 class _AuthNavLayoutState extends State<AuthNavLayout> {
-  // final GlobalKey<NavigatorState> navigatorKey =
-  //     new GlobalKey<NavigatorState>();
-
   @override
   Widget build(BuildContext context) {
     String platform = "phone";
@@ -34,12 +38,19 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
 
     return ViewModelProvider<AuthNavViewModel>.withConsumer(
       viewModelBuilder: () => Modular.get<AuthNavViewModel>(),
+      disposeViewModel: true,
       onModelReady: (AuthNavViewModel model) async {
         await model.isUserLoggedIn();
         if (model.isLoggedIn) {
-          await model.getSubscribedOrgs();
+          await model.getSubscribedOrgs(
+            adminTabs: widget.adminTabs,
+            superAdminTabs: widget.superAdminTabs,
+          );
         }
-        model.setupTabItems(widget.tabs, context);
+        model.setupTabItems(
+          normalTabs: widget.tabs,
+          context: context,
+        );
       },
       builder: (ctx, model, child) {
         return AccountNavRail(
@@ -64,31 +75,34 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     icon: Icon(Icons.logout),
                     onTap: () async {
                       await model.logOut();
-                      model.setCurrentNavIndex(model.previousNavIndex);
-                      Modular.to.pushReplacementNamed(
-                          model.getTabRoute(model.currentNavIndex));
+                      // reset navigation stack
+                      Modular.to.navigate("/");
                     },
                   )
                 : TabItem(
                     title: Text(SysAccountLocalizations.of(context)
                         .translate('signIn')),
                     icon: Icon(Icons.login),
-                    onTap: () => showDialog(
-                      context: context,
+                    onTap: () => asuka.showDialog(
                       builder: (context) => AuthDialog(
-                        // navigatorKey: navigatorKey,
                         callback: () async {
+                          Navigator.of(context).pop();
                           await model.isUserLoggedIn();
                           if (model.isLoggedIn) {
-                            await model.getSubscribedOrgs();
+                            await model.getSubscribedOrgs(
+                              adminTabs: widget.adminTabs,
+                              superAdminTabs: widget.superAdminTabs,
+                            );
                             model.setCurrentNavIndex(model.previousNavIndex);
-                            Modular.to.pushReplacementNamed(
+                            Modular.to.navigate(
                                 model.getTabRoute(model.currentNavIndex));
                           }
                         },
                       ),
                     ),
                   ),
+            // if (model.isSuperuser) ...widget.superAdminTabs.values,
+            // if (model.isAdmin || model.isSuperuser) ...widget.adminTabs.values,
             ...model.widgetList,
           ],
           onPressed: (index) {

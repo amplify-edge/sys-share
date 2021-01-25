@@ -213,7 +213,7 @@ class AuthDialogState extends State<AuthDialog> {
                                   ? model.isLoginParamValid
                                       ? () async {
                                           await model.login().then((_) {
-                                            Modular.to.pop(context);
+                                            // Modular.to.pop(context);
                                             if (model.errMsg.isNotEmpty) {
                                               notify(
                                                 context: context,
@@ -236,7 +236,7 @@ class AuthDialogState extends State<AuthDialog> {
                                       ? () async {
                                           await model.register().then(
                                             (_) {
-                                              Modular.to.pop(context);
+                                              // Modular.to.pop(context);
                                               if (model.errMsg.isNotEmpty) {
                                                 notify(
                                                     context: context,

@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 import 'package:sys_core/sys_core.dart';
@@ -120,6 +119,7 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
   void initState() {
     _previouslySelectedParentId = widget.parentId;
     _selectedParentId = widget.parentId;
+    print("PARENT_ID: ${widget.parentId}, CHILD ID: ${widget.childId}");
     _scrollController = ScrollController();
     _searchTextCtrl = TextEditingController();
     _scrollController.addListener(_scrollListener);
@@ -330,8 +330,13 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
     var routeSettings = RouteSettings(
       name: widget.routeWithIdPlaceholder
           .replaceAll(":id", "$newChildId")
-          .replaceAll(":orgId", newParentId),
+          .replaceAll(":oid", newParentId),
     );
+    // Modular.to.pushNamed(routeSettings.name, arguments: {
+    //   'id': newChildId,
+    //   'oid': newParentId,
+    //   'orgs': widget.items
+    // });
     var newMasterDetailView = NewGetCourageMasterDetail(
       items: widget.items,
       labelBuilder: widget.labelBuilder,
@@ -359,12 +364,17 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
 
       for small devices there should be a transition to look normal
     */
-    Modular.to.push(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            newMasterDetailView,
-        settings: routeSettings,
-      ),
+    Navigator.of(context).push(
+      (withTransition)
+          ? MaterialPageRoute(
+              builder: (context) {
+                return newMasterDetailView;
+              },
+              settings: routeSettings)
+          : PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  newMasterDetailView,
+              settings: routeSettings),
     );
   }
 }

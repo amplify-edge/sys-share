@@ -285,12 +285,17 @@ class _AdminMasterDetailsState<T extends GeneratedMessage>
       searchFunction: widget.searchFunction,
       resetSearchFunction: widget.resetSearchFunction,
     );
-    Modular.to.push(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            newMasterDetailView,
-        settings: routeSettings,
-      ),
+    Navigator.of(context).push(
+      (withTransition)
+          ? MaterialPageRoute(
+          builder: (context) {
+            return newMasterDetailView;
+          },
+          settings: routeSettings)
+          : PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+          newMasterDetailView,
+          settings: routeSettings),
     );
   }
 }

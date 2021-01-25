@@ -5,10 +5,10 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sys_share_sys_account_service/pkg/pkg.dart';
-import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart'
-    as authRepo;
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/account_repo.dart'
     as accountRepo;
+import 'package:sys_share_sys_account_service/pkg/shared_repositories/auth_repo.dart'
+    as authRepo;
 import 'package:sys_share_sys_account_service/pkg/shared_repositories/orgproj_repo.dart'
     as orgRepo;
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart'
@@ -19,6 +19,7 @@ import '../nav_rail.dart';
 class AuthNavViewModel extends BaseModel {
   // fields
   rpc.Account _currentAccount = rpc.Account();
+  String _accountTabKey = '/accounts';
   String _orderBy = 'name';
   String _accountId = '';
   String _errMsg = '';
@@ -30,10 +31,12 @@ class AuthNavViewModel extends BaseModel {
   Map<int, rpc.UserRoles> _mapRoles = Map<int, rpc.UserRoles>();
   List<rpc.Org> _subscribedOrgs = List<rpc.Org>.empty();
   List<rpc.Project> _subscribedProjects = List<rpc.Project>.empty();
+  LinkedHashMap<String, Widget> _tabItems =
+      LinkedHashMap.of(<String, Widget>{});
   List<Widget> _widgetList = List<Widget>.empty(growable: true);
   List<String> _widgetKeys = List<String>.empty(growable: true);
-  int _previousIndex = 2;
-  int _currentNavIndex = 2;
+  int _previousIndex = 0;
+  int _currentNavIndex = 0;
   int _nonDynamicWidgetListLength = 0;
 
   // getters
@@ -53,11 +56,16 @@ class AuthNavViewModel extends BaseModel {
 
   List<Widget> get widgetList => _widgetList;
 
+  LinkedHashMap<String, Widget> get tabItems => _tabItems;
+
   String get errMsg => _errMsg;
 
-  void setupTabItems(LinkedHashMap<String, Widget> val, BuildContext context) {
-    _widgetKeys.add("/accounts");
-    val.forEach((key, value) {
+  void setupTabItems(
+      {@required LinkedHashMap<String, Widget> normalTabs,
+      @required BuildContext context}) {
+    _reset();
+    _widgetKeys.add(_accountTabKey);
+    normalTabs.forEach((key, value) {
       _widgetList.add(value);
       _widgetKeys.add(key);
     });
@@ -65,10 +73,12 @@ class AuthNavViewModel extends BaseModel {
   }
 
   int getDynamicNavIndex(String route) {
-    if (route == "/") {
-      return _widgetKeys.indexWhere((el) => el == route);
+    if (route == "/" || route == _accountTabKey) {
+      return _widgetKeys.indexWhere((el) => el == _accountTabKey);
     } else {
-      return _widgetKeys.indexWhere((el) => el != "/" && (route.contains(el)));
+      return _widgetKeys.indexWhere(
+        (el) => el != "/" && el == route,
+      );
     }
   }
 
@@ -195,6 +205,7 @@ class AuthNavViewModel extends BaseModel {
     _setCurrentAccount(rpc.Account());
     _setSubscribedOrgs(List<rpc.Org>.empty(growable: true));
     _widgetList = _widgetList.sublist(0, _nonDynamicWidgetListLength);
+    _widgetKeys = _widgetKeys.sublist(0, _nonDynamicWidgetListLength);
   }
 
   Future<void> logOut() async {
@@ -219,7 +230,11 @@ class AuthNavViewModel extends BaseModel {
     });
   }
 
-  Future<void> getSubscribedOrgs({perPageEntries = 10}) async {
+  Future<void> getSubscribedOrgs({
+    perPageEntries = 10,
+    @required LinkedHashMap<String, Widget> adminTabs,
+    @required LinkedHashMap<String, Widget> superAdminTabs,
+  }) async {
     if (_currentAccount.id.isEmpty) {
       await _fetchAccountId();
     }
@@ -231,7 +246,22 @@ class AuthNavViewModel extends BaseModel {
     } else {
       await _fetchOrgs(Map<String, dynamic>(), perPageEntries, "like");
     }
+    if (_isLoggedIn && _isSuperuser) {
+      superAdminTabs.forEach((key, value) {
+        _widgetKeys.add(key);
+        _widgetList.add(value);
+      });
+    }
+    if (_isLoggedIn && (_isAdmin || _isSuperuser)) {
+      adminTabs.forEach((key, value) {
+        _widgetKeys.add(key);
+        _widgetList.add(value);
+      });
+    }
+
     _subscribedOrgs.forEach((org) {
+      final _namedRoute = '/disco/' + org.id;
+      _widgetKeys.add(_namedRoute);
       _widgetList.add(TabItem(
         icon: ClipOval(
           child: Image.memory(
@@ -243,7 +273,7 @@ class AuthNavViewModel extends BaseModel {
         ),
         title: Text(org.name, style: TextStyle(fontSize: 12)),
         onTap: () {
-          Modular.to.pushNamed('/projects', arguments: [org]);
+          Modular.to.pushNamed('/disco/projects', arguments: [org]);
         },
       ));
     });

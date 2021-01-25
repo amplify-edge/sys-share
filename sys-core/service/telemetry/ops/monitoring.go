@@ -2,9 +2,9 @@ package ops
 
 import (
 	"context"
+	"github.com/getcouragenow/sys-share/sys-core/service/logging"
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/mem"
-	"github.com/sirupsen/logrus"
 	"time"
 
 	"github.com/shirou/gopsutil/v3/cpu"
@@ -13,7 +13,7 @@ import (
 
 type OpsSystemMonitor struct {
 	ctx              context.Context
-	logger           *logrus.Entry
+	logger           logging.Logger
 	interval         time.Duration
 	netStats         map[string]net.IOCountersStat // interface-name as key
 	netStatsUpdated  map[string]time.Time          // last updated time
@@ -24,13 +24,14 @@ type OpsSystemMonitor struct {
 
 // NewOpsSystemMonitor is the constructor for OpsSystemMonitor
 // also registers system metrics and runtime metrics
-func NewOpsSystemMonitor(ctx context.Context, interval time.Duration, metricsDiskPath string) *OpsSystemMonitor {
+func NewOpsSystemMonitor(ctx context.Context, interval time.Duration, metricsDiskPath string, logger logging.Logger) *OpsSystemMonitor {
 	opsSystemMetrics := NewOpsSystemMetrics()
 	if metricsDiskPath == "" {
 		metricsDiskPath = "/"
 	}
 	return &OpsSystemMonitor{
 		ctx:              ctx,
+		logger:           logger,
 		interval:         interval,
 		netStats:         make(map[string]net.IOCountersStat),
 		netStatsUpdated:  make(map[string]time.Time),
@@ -55,11 +56,13 @@ func (o *OpsSystemMonitor) Run() {
 }
 
 func (o *OpsSystemMonitor) collectMetrics() {
-	cpuStat, err := cpu.TimesWithContext(o.ctx, false)
+	cpuStat, err := cpu.TimesWithContext(o.ctx, true)
 	if err != nil {
 		o.logger.Errorf("getting cpu time stats error: %v", err)
 	}
-	o.systemStat.CPUTime = &cpuStat[0]
+	if cpuStat != nil && len(cpuStat) > 0 {
+		o.systemStat.CPUTime = &cpuStat[0]
+	}
 	memstat, err := mem.VirtualMemoryWithContext(o.ctx)
 	if err != nil {
 		o.logger.Errorf("getting memory stats error: %v", err)
@@ -81,7 +84,9 @@ func (o *OpsSystemMonitor) collectMetrics() {
 func (o *OpsSystemMonitor) updatePrometheusStats() {
 	// CPU
 	cpuStat := o.systemStat.CPUTime
-	o.opsSystemMetrics.CpuStats.updatePrometheusStats(cpuStat)
+	if cpuStat != nil {
+		o.opsSystemMetrics.CpuStats.updatePrometheusStats(cpuStat)
+	}
 
 	// Memory
 	memGauge := o.opsSystemMetrics.MemoryStats

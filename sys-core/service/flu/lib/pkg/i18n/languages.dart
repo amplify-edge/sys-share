@@ -7,6 +7,7 @@ class Languages {
     'de': 'German',
     'es': 'Spanish',
     'it': 'Italian',
+    'tr': 'Turkish',
     'ur': 'Urdu',
   };
 

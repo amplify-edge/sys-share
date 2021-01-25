@@ -8,6 +8,8 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	log "github.com/getcouragenow/sys-share/sys-core/service/logging"
+	"github.com/getcouragenow/sys-share/sys-core/service/logging/zaplog"
 	"github.com/spf13/cobra"
 	"io"
 	"io/ioutil"
@@ -20,7 +22,6 @@ import (
 	"github.com/getcouragenow/protoc-gen-cobra/flag"
 	"github.com/getcouragenow/protoc-gen-cobra/iocodec"
 	bar "github.com/schollz/progressbar/v2"
-	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
 
@@ -37,7 +38,7 @@ const (
 
 type FileClient struct {
 	svc    dbrpc.FileServiceClient
-	logger *logrus.Entry
+	logger log.Logger
 }
 
 type progressBar struct {
@@ -55,7 +56,9 @@ func (p *progressBar) Add(b int) {
 
 func NewFileServiceClient(cc grpc.ClientConnInterface) *FileClient {
 	svc := dbrpc.NewFileServiceClient(cc)
-	return &FileClient{svc: svc}
+	logger := zaplog.NewZapLogger(zaplog.DEBUG, "sys-file-client", true, "")
+	logger.InitLogger(nil)
+	return &FileClient{svc: svc, logger: logger}
 }
 
 func NewFileServiceClientCommand(options ...client.Option) *cobra.Command {
@@ -165,14 +168,14 @@ func downloadFileCommand(cfg *client.Config) *cobra.Command {
 				}
 				if isDir {
 					destpath := filepath.Join(abspath, "downloaded.tar.gz")
-					logrus.Warnf("Destination: %s", destpath)
+					fc.logger.Warnf("Destination: %s", destpath)
 					file, err := os.OpenFile(destpath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 					if err != nil {
-						logrus.Warnf("Cannot open file tar gz : %v", err)
+						fc.logger.Warnf("Cannot open file tar gz : %v", err)
 						return err
 					}
 					if _, err = io.Copy(file, bytes.NewBuffer(res)); err != nil {
-						logrus.Warnf("Cannot copy to file : %v", err)
+						fc.logger.Warnf("Cannot copy to file : %v", err)
 						return err
 					}
 					// if err = unarchive(bytes.NewBuffer(res), abspath); err != nil {
