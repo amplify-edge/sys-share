@@ -5,8 +5,8 @@ import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 import 'package:sys_core/sys_core.dart';
 
-class NewGetCourageMasterDetail<T extends GeneratedMessage,
-    U extends GeneratedMessage> extends StatefulWidget {
+class GCMasterDetail<T extends GeneratedMessage, U extends GeneratedMessage>
+    extends StatefulWidget {
   /// [routeWithIdPlaceholder] is the actual route where the
   /// master-detail-view is located at e.g. /myneeds/orgs/:id
   final String routeWithIdPlaceholder;
@@ -70,7 +70,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage,
 
   final List<Widget> Function(U itemChild, String id) childBuilder;
 
-  const NewGetCourageMasterDetail(
+  const GCMasterDetail(
       {Key key,
       @required this.detailsBuilder,
       @required this.routeWithIdPlaceholder,
@@ -94,12 +94,11 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage,
       : super(key: key);
 
   @override
-  _NewGetCourageMasterDetailState<T, U> createState() =>
-      _NewGetCourageMasterDetailState<T, U>();
+  _GCMasterDetailState<T, U> createState() => _GCMasterDetailState<T, U>();
 }
 
-class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
-    U extends GeneratedMessage> extends State<NewGetCourageMasterDetail<T, U>> {
+class _GCMasterDetailState<T extends GeneratedMessage,
+    U extends GeneratedMessage> extends State<GCMasterDetail<T, U>> {
   ScrollController _scrollController;
   TextEditingController _searchTextCtrl;
   String _selectedParentId;
@@ -119,7 +118,6 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
   void initState() {
     _previouslySelectedParentId = widget.parentId;
     _selectedParentId = widget.parentId;
-    print("PARENT_ID: ${widget.parentId}, CHILD ID: ${widget.childId}");
     _scrollController = ScrollController();
     _searchTextCtrl = TextEditingController();
     _scrollController.addListener(_scrollListener);
@@ -324,20 +322,15 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
     );
   }
 
-  _pushDetailsRoute<T, U>(
+  void _pushDetailsRoute<T, U>(
       String newChildId, String newParentId, BuildContext context) {
     bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: widget.routeWithIdPlaceholder
           .replaceAll(":id", "$newChildId")
-          .replaceAll(":oid", newParentId),
+          .replaceAll(":orgId", newParentId),
     );
-    // Modular.to.pushNamed(routeSettings.name, arguments: {
-    //   'id': newChildId,
-    //   'oid': newParentId,
-    //   'orgs': widget.items
-    // });
-    var newMasterDetailView = NewGetCourageMasterDetail(
+    var newMasterDetailView = GCMasterDetail(
       items: widget.items,
       labelBuilder: widget.labelBuilder,
       noItemsSelected: widget.noItemsSelected,

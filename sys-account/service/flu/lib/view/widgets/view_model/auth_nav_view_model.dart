@@ -260,7 +260,7 @@ class AuthNavViewModel extends BaseModel {
     }
 
     _subscribedOrgs.forEach((org) {
-      final _namedRoute = '/disco/' + org.id;
+      final _namedRoute = '/disco/subbed/' + org.id;
       _widgetKeys.add(_namedRoute);
       _widgetList.add(TabItem(
         icon: ClipOval(
@@ -273,7 +273,7 @@ class AuthNavViewModel extends BaseModel {
         ),
         title: Text(org.name, style: TextStyle(fontSize: 12)),
         onTap: () {
-          Modular.to.pushNamed('/disco/projects', arguments: [org]);
+          Modular.to.pushNamed(_namedRoute);
         },
       ));
     });

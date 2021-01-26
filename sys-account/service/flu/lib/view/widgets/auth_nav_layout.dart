@@ -76,7 +76,7 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     onTap: () async {
                       await model.logOut();
                       // reset navigation stack
-                      Modular.to.navigate("/");
+                      Modular.to.pushNamed("/");
                     },
                   )
                 : TabItem(
@@ -94,8 +94,9 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                               superAdminTabs: widget.superAdminTabs,
                             );
                             model.setCurrentNavIndex(model.previousNavIndex);
-                            Modular.to.navigate(
-                                model.getTabRoute(model.currentNavIndex));
+                            Modular.to.pushNamed(
+                                model.getTabRoute(model.currentNavIndex) ??
+                                    '/');
                           }
                         },
                       ),
