@@ -1,6 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/src/presenters/navigation/modular_router_delegate.dart'
+    as rd;
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 import 'package:sys_core/sys_core.dart';
@@ -349,6 +352,10 @@ class _GCMasterDetailState<T extends GeneratedMessage,
       searchFunction: widget.searchFunction,
       resetSearchFunction: widget.resetSearchFunction,
     );
+    Modular.to.pushNamed(
+      routeSettings.name,
+      arguments: widget.items,
+    );
     /*
       We are not using flutter Modular for pushing the route here
       since we need dynamic transitions. For the >tablet view
@@ -357,17 +364,23 @@ class _GCMasterDetailState<T extends GeneratedMessage,
 
       for small devices there should be a transition to look normal
     */
-    Navigator.of(context).push(
-      (withTransition)
-          ? MaterialPageRoute(
-              builder: (context) {
-                return newMasterDetailView;
-              },
-              settings: routeSettings)
-          : PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  newMasterDetailView,
-              settings: routeSettings),
-    );
+    // final routerDelegate = Router.of(context).routerDelegate;
+    // final currentConfig = routerDelegate.currentConfiguration;
+    // routerDelegate.setNewRoutePath(
+    //     ChildRoute(routeSettings.name, child: (ctx, args) => newMasterDetailView),
+    // );
+
+    // Navigator.of(context).push(
+    //   (withTransition)
+    //       ? MaterialPageRoute(
+    //           builder: (context) {
+    //             return newMasterDetailView;
+    //           },
+    //           settings: routeSettings)
+    //       : PageRouteBuilder(
+    //           pageBuilder: (context, animation, secondaryAnimation) =>
+    //               newMasterDetailView,
+    //           settings: routeSettings),
+    // );
   }
 }
