@@ -9,10 +9,6 @@ import (
 	"math/rand"
 )
 
-type bootstrapSuperUser struct {
-	SuperUsers []*accountRpc.LoginRequest `fakesize:"1" json:"new_superusers" yaml:"new_superusers"`
-}
-
 type bootstrapRegularUser struct {
 	UserAccounts []*accountRpc.AccountNewRequest `fakesize:"15" json:"new_accounts" yaml:"new_accounts"`
 }
@@ -26,14 +22,9 @@ type bootstrapProjects struct {
 }
 
 type BootstrapSysAccount struct {
-	SuperUsers   bootstrapSuperUser   `json:"bootstrap_superusers" yaml:"bootstrap_superusers"`
 	UserAccounts bootstrapRegularUser `json:"bootstrap_user_accounts" yaml:"bootstrap_regular_accounts"`
 	Orgs         bootstrapOrgs        `json:"bootstrap_orgs" yaml:"bootstrap_orgs"`
 	Projects     bootstrapProjects    `json:"bootstrap_projects" yaml:"bootstrap_projects"`
-}
-
-func (b *BootstrapSysAccount) GetSuperUsers() []*accountRpc.LoginRequest {
-	return b.SuperUsers.SuperUsers
 }
 
 func (b *BootstrapSysAccount) GetUserAccounts() []*accountRpc.AccountNewRequest {
@@ -132,16 +123,13 @@ func BootstrapFakeData(domain string) (*fakehelper.RefCount, *fakehelper.RefCoun
 		},
 	))
 	var bsp bootstrapProjects
-	var bsu bootstrapSuperUser
 	var bso bootstrapOrgs
 	var bsru bootstrapRegularUser
-	gofakeit.Struct(&bsu)
 	gofakeit.Struct(&bso)
 	gofakeit.Struct(&bsp)
 	gofakeit.Struct(&bsru)
 	bmd := &BootstrapSysAccount{
 		Projects:     bsp,
-		SuperUsers:   bsu,
 		Orgs:         bso,
 		UserAccounts: bsru,
 	}

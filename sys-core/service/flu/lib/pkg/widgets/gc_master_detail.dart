@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/src/presenters/navigation/modular_router_delegate.dart'
-    as rd;
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
@@ -327,31 +325,13 @@ class _GCMasterDetailState<T extends GeneratedMessage,
 
   void _pushDetailsRoute<T, U>(
       String newChildId, String newParentId, BuildContext context) {
-    bool withTransition = !isTablet(context);
+    // bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: widget.routeWithIdPlaceholder
           .replaceAll(":id", "$newChildId")
           .replaceAll(":orgId", newParentId),
     );
-    var newMasterDetailView = GCMasterDetail(
-      items: widget.items,
-      labelBuilder: widget.labelBuilder,
-      noItemsSelected: widget.noItemsSelected,
-      detailsBuilder: widget.detailsBuilder,
-      parentId: newParentId,
-      childId: newChildId,
-      routeWithIdPlaceholder: widget.routeWithIdPlaceholder,
-      enableSearchBar: widget.enableSearchBar,
-      masterAppBarTitle: widget.masterAppBarTitle,
-      disableBackButtonOnNoItemSelected:
-          widget.disableBackButtonOnNoItemSelected,
-      noItemsAvailable: widget.noItemsAvailable,
-      imageBuilder: widget.imageBuilder,
-      itemChildren: widget.itemChildren,
-      childBuilder: widget.childBuilder,
-      searchFunction: widget.searchFunction,
-      resetSearchFunction: widget.resetSearchFunction,
-    );
+    print("Next route: ${routeSettings.name}");
     Modular.to.pushNamed(
       routeSettings.name,
       arguments: widget.items,
@@ -368,19 +348,6 @@ class _GCMasterDetailState<T extends GeneratedMessage,
     // final currentConfig = routerDelegate.currentConfiguration;
     // routerDelegate.setNewRoutePath(
     //     ChildRoute(routeSettings.name, child: (ctx, args) => newMasterDetailView),
-    // );
-
-    // Navigator.of(context).push(
-    //   (withTransition)
-    //       ? MaterialPageRoute(
-    //           builder: (context) {
-    //             return newMasterDetailView;
-    //           },
-    //           settings: routeSettings)
-    //       : PageRouteBuilder(
-    //           pageBuilder: (context, animation, secondaryAnimation) =>
-    //               newMasterDetailView,
-    //           settings: routeSettings),
     // );
   }
 }
