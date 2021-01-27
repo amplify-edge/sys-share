@@ -93,10 +93,8 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                               adminTabs: widget.adminTabs,
                               superAdminTabs: widget.superAdminTabs,
                             );
-                            model.setCurrentNavIndex(model.previousNavIndex);
-                            Modular.to.pushNamed(
-                                model.getTabRoute(model.currentNavIndex) ??
-                                    '/');
+                            // reset navigation stack
+                            Modular.to.pushNamed('/');
                           }
                         },
                       ),

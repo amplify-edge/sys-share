@@ -325,25 +325,15 @@ class _GCMasterDetailState<T extends GeneratedMessage,
 
   void _pushDetailsRoute<T, U>(
       String newChildId, String newParentId, BuildContext context) {
-    // bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: widget.routeWithIdPlaceholder
           .replaceAll(":id", "$newChildId")
           .replaceAll(":orgId", newParentId),
     );
-    print("Next route: ${routeSettings.name}");
     Modular.to.pushNamed(
       routeSettings.name,
       arguments: widget.items,
     );
-    /*
-      We are not using flutter Modular for pushing the route here
-      since we need dynamic transitions. For the >tablet view
-      there shouldn't be a transition, since on each selection the
-      view is pushed again (to be able to change the omnibox).
-
-      for small devices there should be a transition to look normal
-    */
     // final routerDelegate = Router.of(context).routerDelegate;
     // final currentConfig = routerDelegate.currentConfiguration;
     // routerDelegate.setNewRoutePath(

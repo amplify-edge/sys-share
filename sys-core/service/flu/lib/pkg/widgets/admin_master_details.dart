@@ -265,37 +265,10 @@ class _AdminMasterDetailsState<T extends GeneratedMessage>
   }
 
   _pushParentDetailsRoute<T>(String newParentId, BuildContext context) {
-    bool withTransition = !isTablet(context);
+    print("NEW PARENT ID: $newParentId");
     var routeSettings = RouteSettings(
       name: widget.routeWithIdPlaceholder.replaceAll(":id", "$newParentId"),
     );
-    var newMasterDetailView = AdminMasterDetails(
-      items: widget.items,
-      labelBuilder: widget.labelBuilder,
-      noItemsSelected: widget.noItemsSelected,
-      detailsBuilder: widget.detailsBuilder,
-      id: newParentId,
-      routeWithIdPlaceholder: widget.routeWithIdPlaceholder,
-      enableSearchBar: widget.enableSearchBar,
-      masterAppBarTitle: widget.masterAppBarTitle,
-      disableBackButtonOnNoItemSelected:
-          widget.disableBackButtonOnNoItemSelected,
-      noItemsAvailable: widget.noItemsAvailable,
-      imageBuilder: widget.imageBuilder,
-      searchFunction: widget.searchFunction,
-      resetSearchFunction: widget.resetSearchFunction,
-    );
-    Navigator.of(context).push(
-      (withTransition)
-          ? MaterialPageRoute(
-          builder: (context) {
-            return newMasterDetailView;
-          },
-          settings: routeSettings)
-          : PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-          newMasterDetailView,
-          settings: routeSettings),
-    );
+    Modular.to.pushNamed(routeSettings.name, arguments: widget.items);
   }
 }
