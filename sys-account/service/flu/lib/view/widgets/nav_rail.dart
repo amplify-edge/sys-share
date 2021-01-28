@@ -126,7 +126,7 @@ class AccountNavRail extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: body,
+                  child: body ?? Container(),
                 ),
               ],
             ),
