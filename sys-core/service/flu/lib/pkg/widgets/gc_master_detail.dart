@@ -169,6 +169,7 @@ class _GCMasterDetailState<T extends GeneratedMessage,
                         children: <Widget>[
                           AppBar(
                             leading: Container(),
+                            automaticallyImplyLeading: false,
                           ),
                           Expanded(
                               child: widget.noItemsSelected ??
@@ -194,11 +195,12 @@ class _GCMasterDetailState<T extends GeneratedMessage,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 AppBar(
+                  automaticallyImplyLeading: false,
                   //disable back button if no item is selected...
-                  automaticallyImplyLeading:
-                      !(widget.disableBackButtonOnNoItemSelected &&
-                          _selectedParentId.isEmpty &&
-                          widget.childId.isEmpty),
+                  // automaticallyImplyLeading:
+                  //     !(widget.disableBackButtonOnNoItemSelected &&
+                  //         _selectedParentId.isEmpty &&
+                  //         widget.childId.isEmpty),
                   title: widget.masterAppBarTitle ?? Container(),
                 ),
                 if (widget.enableSearchBar)

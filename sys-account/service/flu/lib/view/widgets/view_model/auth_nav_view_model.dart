@@ -13,6 +13,7 @@ import 'package:sys_share_sys_account_service/pkg/shared_repositories/orgproj_re
     as orgRepo;
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart'
     as rpc;
+import 'package:string_similarity/string_similarity.dart';
 
 import '../nav_rail.dart';
 
@@ -76,9 +77,7 @@ class AuthNavViewModel extends BaseModel {
     if (route == "/" || route == _accountTabKey) {
       return _widgetKeys.indexWhere((el) => el == _accountTabKey);
     } else {
-      return _widgetKeys.indexWhere(
-        (el) => el != "/" && el == route,
-      );
+      return route.bestMatch(_widgetKeys).bestMatchIndex;
     }
   }
 
