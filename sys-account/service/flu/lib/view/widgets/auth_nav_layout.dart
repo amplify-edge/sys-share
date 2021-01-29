@@ -40,19 +40,17 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
     if (isDesktop(context)) platform = "desktop";
 
     return ViewModelProvider<AuthNavViewModel>.withConsumer(
-      disposeViewModel: false,
       viewModelBuilder: () => Modular.get<AuthNavViewModel>(),
       onModelReady: (AuthNavViewModel model) async {
-        model.isUserLoggedIn();
+        model.setupTabItems(
+          normalTabs: widget.tabs,
+        );
         if (model.isLoggedIn) {
           await model.getSubscribedOrgs(
             adminTabs: widget.adminTabs,
             superAdminTabs: widget.superAdminTabs,
           );
         }
-        model.setupTabItems(
-          normalTabs: widget.tabs,
-        );
       },
       builder: (ctx, model, child) {
         return AccountNavRail(
@@ -79,6 +77,7 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     onTap: () {
                       model.logOut();
                       // reset navigation stack
+                      model.setupTabItems(normalTabs: widget.tabs);
                       Modular.to.pushNamed("/");
                     },
                   )

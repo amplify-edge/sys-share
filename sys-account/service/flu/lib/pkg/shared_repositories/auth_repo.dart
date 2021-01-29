@@ -215,7 +215,6 @@ void updateTokens({
   @required String accessToken,
   @required String refreshToken,
 }) async {
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
   final prefs = Hive.box(_hiveAccountDb);
   final payload = _parseJwtPayLoad(accessToken);
   final accountId = payload["userId"];
@@ -225,22 +224,17 @@ void updateTokens({
 }
 
 bool isLoggedIn() {
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  final prefs = Hive.box('account');
-  final accessToken = prefs.get(_accessTokenKey);
-  final refreshToken = prefs.get(_refreshTokenKey);
-  if (accessToken != null &&
-      accessToken.isNotEmpty &&
-      refreshToken != null &&
-      refreshToken.isNotEmpty) {
+  final prefs = Hive.box(_hiveAccountDb);
+  final accessToken = prefs.get(_accessTokenKey) ?? '';
+  final refreshToken = prefs.get(_refreshTokenKey) ?? '';
+  if (accessToken.isNotEmpty && refreshToken.isNotEmpty) {
     return true;
   }
   return false;
 }
 
 String getAccountId() {
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  final prefs = Hive.box('account');
+  final prefs = Hive.box(_hiveAccountDb);
   final accountId = prefs.get(_accountIdKey);
   if (accountId != null && accountId.isNotEmpty) {
     return accountId;
@@ -249,13 +243,11 @@ String getAccountId() {
 }
 
 void insertTempAccountId({@required String tempAccountId}) {
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
   final prefs = Hive.box('account');
   prefs.put(_tempAccountIdKey, tempAccountId);
 }
 
 String getTempAccountId() {
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
   final prefs = Hive.box('account');
   final accountId = prefs.get(_tempAccountIdKey);
   if (accountId != null && accountId.isNotEmpty) {
@@ -265,7 +257,6 @@ String getTempAccountId() {
 }
 
 void logOut() {
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
   final prefs = Hive.box('account');
   prefs.delete(_accountIdKey);
   prefs.delete(_accessTokenKey);
@@ -314,12 +305,6 @@ Map<int, rpc.UserRoles> isAdmin() {
       mapAdminRoles[i] = rpcRole;
     }
   }
-  //
-  // for (var i = 0; i < account.roles.length; i++) {
-  //   if (account.roles[i].role == rpc.Roles.ADMIN) {
-  //     mapAdminRoles[i] = account.roles[i];
-  //   }
-  // }
   return mapAdminRoles;
 }
 

@@ -43,9 +43,12 @@ class AuthNavViewModel extends BaseModel {
   AuthNavViewModel() {
     isUserLoggedIn();
     if (_isLoggedIn) {
+      print("USER IS LOGGED IN!");
       _fetchAccountId();
       verifySuperuser();
       verifyAdmin();
+    } else {
+      print("FOR SOME REASON USER IS NOT LOGGED IN");
     }
   }
 
@@ -73,7 +76,7 @@ class AuthNavViewModel extends BaseModel {
   String get errMsg => _errMsg;
 
   void setupTabItems({@required LinkedHashMap<String, Widget> normalTabs}) {
-    _reset();
+    _resetNav();
     _widgetKeys.add(_accountTabKey);
     normalTabs.forEach((key, value) {
       _widgetList.add(value);
@@ -198,22 +201,26 @@ class AuthNavViewModel extends BaseModel {
     }
   }
 
-  void _reset() {
-    _isLoggedIn = false;
-    notifyListeners();
+  void _resetNav() {
     setCurrentPageId(Int64.ZERO);
-    _setAccountId('');
-    _setSuperUser(false);
-    _setAdmin(false);
-    _setCurrentAccount(rpc.Account());
     _setSubscribedOrgs(List<rpc.Org>.empty(growable: true));
     _widgetList = _widgetList.sublist(0, _nonDynamicWidgetListLength);
     _widgetKeys = _widgetKeys.sublist(0, _nonDynamicWidgetListLength);
   }
 
+  void _resetAuth() {
+    _isLoggedIn = false;
+    _setAccountId('');
+    _setSuperUser(false);
+    _setAdmin(false);
+    _setCurrentAccount(rpc.Account());
+    notifyListeners();
+  }
+
   void logOut() {
     authRepo.logOut();
-    _reset();
+    _resetAuth();
+    _resetNav();
   }
 
   Future<void> _fetchOrgs(

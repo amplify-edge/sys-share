@@ -30,7 +30,6 @@ dependencies:
   #  intl_translation: ^0.17.10+1
   provider_architecture: ^1.1.1+1
   stacked: ^1.7.7
-  shared_preferences: '>=0.5.12+2 <2.0.0'
   sys_core:
     #    git:
     #      url: git://github.com/getcouragenow/sys-share.git
