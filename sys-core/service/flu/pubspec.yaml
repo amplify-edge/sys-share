@@ -16,7 +16,8 @@ dependencies:
   grpc: ^2.8.0
   intl: ^0.17.0-nullsafety.2
   protobuf: ^1.1.0
-  hive: ^1.5.0-pre
+  hive: ^1.4.4-0
+  hive_flutter: ^0.3.1
   shared_preferences: '>=0.5.12+2 <2.0.0'
   flash: ^1.2.0
   flutter_modular: ^3.0.0-0
@@ -28,7 +29,9 @@ dev_dependencies:
   intl_translation:
     git:
       url: https://github.com/gutterbacon/intl_translation
-      ref: 4c5e4638bf23444ab7d5d60f00f4319f37dee98c
+      ref: 248adfbd76ad3d3be702fb376cfa28112fa1a5b4
+  hive_generator: ^0.8.2
+  build_runner: ^1.11.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

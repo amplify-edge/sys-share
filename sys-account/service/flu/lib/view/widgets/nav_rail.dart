@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const _tabletSpacingVertical = 12.0;
 const _tabletSpacingHorizontial = 10.0;
 
-class AccountNavRail extends StatelessWidget {
+class AccountNavRail extends StatefulWidget {
   final Widget drawerHeader;
   final FloatingActionButton floatingActionButton;
   final ValueChanged<int> onPressed;
@@ -44,6 +44,11 @@ class AccountNavRail extends StatelessWidget {
       : super(key: key);
 
   @override
+  _AccountNavRailState createState() => _AccountNavRailState();
+}
+
+class _AccountNavRailState extends State<AccountNavRail> {
+  @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: Directionality.of(context),
@@ -52,8 +57,8 @@ class AccountNavRail extends StatelessWidget {
         final isRtl = _direction == TextDirection.rtl;
 
         //DESKTOP
-        if (dimens.maxWidth >= this.desktopBreakpoint &&
-            dimens.maxHeight > this.minHeight) {
+        if (dimens.maxWidth >= this.widget.desktopBreakpoint &&
+            dimens.maxHeight > this.widget.minHeight) {
           return Material(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: Row(
@@ -65,14 +70,14 @@ class AccountNavRail extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     children: <Widget>[
                       Positioned.fill(
-                        child: Scaffold(body: body),
+                        child: Scaffold(body: widget.body),
                       ),
-                      if (this.floatingActionButton != null) ...[
+                      if (this.widget.floatingActionButton != null) ...[
                         Positioned(
                           top: kToolbarHeight - kToolbarHeight / 2,
                           right: isRtl ? null : kToolbarHeight / 2,
                           left: !isRtl ? null : kToolbarHeight / 2,
-                          child: floatingActionButton,
+                          child: widget.floatingActionButton,
                           width: 50,
                           height: 50,
                         )
@@ -86,8 +91,8 @@ class AccountNavRail extends StatelessWidget {
         }
 
         /// TABLET
-        if (dimens.maxWidth >= this.tabletBreakpoint &&
-            dimens.maxHeight > this.minHeight) {
+        if (dimens.maxWidth >= this.widget.tabletBreakpoint &&
+            dimens.maxHeight > this.widget.minHeight) {
           return Scaffold(
             body: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,16 +101,16 @@ class AccountNavRail extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   child: Column(
                     children: [
-                      if (this.floatingActionButton != null) ...[
+                      if (this.widget.floatingActionButton != null) ...[
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: _tabletSpacingVertical,
                             horizontal: _tabletSpacingHorizontial,
                           ),
-                          child: floatingActionButton,
+                          child: widget.floatingActionButton,
                         )
                       ],
-                      for (var tab in this.tabs) ...[
+                      for (var tab in this.widget.tabs) ...[
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: _tabletSpacingVertical,
@@ -114,8 +119,8 @@ class AccountNavRail extends StatelessWidget {
                           child: Container(
                             height: 95,
                             child: _buildTab(
-                              selected:
-                                  (currentIndex == this.tabs.indexOf(tab)),
+                              selected: (widget.currentIndex ==
+                                  this.widget.tabs.indexOf(tab)),
                               context: context,
                               item: tab,
                             ),
@@ -126,7 +131,7 @@ class AccountNavRail extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: body ?? Container(),
+                  child: widget.body ?? Container(),
                 ),
               ],
             ),
@@ -135,8 +140,8 @@ class AccountNavRail extends StatelessWidget {
 
         /// PHONE / MOBILE
         return Scaffold(
-          body: body,
-          floatingActionButton: floatingActionButton,
+          body: widget.body,
+          floatingActionButton: widget.floatingActionButton,
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           bottomNavigationBar: BottomAppBar(
             child: Row(
@@ -148,10 +153,10 @@ class AccountNavRail extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      for (var tab in this.tabs) ...[
+                      for (var tab in this.widget.tabs) ...[
                         InkWell(
                           onTap: () {
-                            onPressed(tabs.indexOf(tab));
+                            widget.onPressed(widget.tabs.indexOf(tab));
                             tab.onTap();
                           },
                           child: Container(
@@ -161,9 +166,12 @@ class AccountNavRail extends StatelessWidget {
                               children: <Widget>[
                                 IconTheme(
                                   data: IconThemeData(
-                                    color: (currentIndex == tabs.indexOf(tab))
-                                        ? bottomNavigationBarSelectedColor
-                                        : bottomNavigationBarUnselectedColor,
+                                    color: (widget.currentIndex ==
+                                            widget.tabs.indexOf(tab))
+                                        ? widget
+                                            .bottomNavigationBarSelectedColor
+                                        : widget
+                                            .bottomNavigationBarUnselectedColor,
                                   ),
                                   child: tab.icon,
                                 ),
@@ -191,12 +199,12 @@ class AccountNavRail extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              if (drawerHeader != null) ...[drawerHeader],
-              if (drawerHeaderBuilder != null) ...[
-                drawerHeaderBuilder(context),
+              if (widget.drawerHeader != null) ...[widget.drawerHeader],
+              if (widget.drawerHeaderBuilder != null) ...[
+                widget.drawerHeaderBuilder(context),
               ],
               if (showTabs) ...[
-                for (var tab in tabs) ...[
+                for (var tab in widget.tabs) ...[
                   InkWell(
                     child: Container(
                       height: 56,
@@ -206,7 +214,8 @@ class AccountNavRail extends StatelessWidget {
                           //logic taken from ListTile
                           IconTheme.merge(
                               data: IconThemeData(
-                                  color: (currentIndex != tabs.indexOf(tab)
+                                  color: (widget.currentIndex !=
+                                          widget.tabs.indexOf(tab)
                                       ? Theme.of(context).disabledColor
                                       : Theme.of(context).accentColor)),
                               child: tab?.icon),
@@ -216,7 +225,8 @@ class AccountNavRail extends StatelessWidget {
                             child: tab?.title,
                             style: Theme.of(context).textTheme.bodyText2.merge(
                                   TextStyle(
-                                    color: (currentIndex != tabs.indexOf(tab)
+                                    color: (widget.currentIndex !=
+                                            widget.tabs.indexOf(tab)
                                         ? Theme.of(context).disabledColor
                                         : Theme.of(context).accentColor),
                                   ),
@@ -227,7 +237,7 @@ class AccountNavRail extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      onPressed(tabs.indexOf(tab));
+                      widget.onPressed(widget.tabs.indexOf(tab));
                       tab.onTap();
                     },
                   ),
@@ -271,10 +281,10 @@ class AccountNavRail extends StatelessWidget {
       ),
     );
 
-    if (isDense) {
+    if (widget.isDense) {
       return IconButton(
         onPressed: () {
-          onPressed(tabs.indexOf(item));
+          widget.onPressed(widget.tabs.indexOf(item));
           item.onTap();
         },
         icon: Padding(
@@ -286,7 +296,7 @@ class AccountNavRail extends StatelessWidget {
     return IconButton(
       iconSize: 60,
       onPressed: () {
-        onPressed(tabs.indexOf(item));
+        widget.onPressed(widget.tabs.indexOf(item));
         item.onTap();
       },
       icon: Column(

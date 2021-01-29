@@ -36,8 +36,8 @@ class AuthNavViewModel extends BaseModel {
       LinkedHashMap.of(<String, Widget>{});
   List<Widget> _widgetList = List<Widget>.empty(growable: true);
   List<String> _widgetKeys = List<String>.empty(growable: true);
-  int _previousIndex = 0;
-  int _currentNavIndex = 0;
+  int _previousIndex;
+  int _currentNavIndex;
   int _nonDynamicWidgetListLength = 0;
 
   // getters
@@ -152,14 +152,14 @@ class AuthNavViewModel extends BaseModel {
     notifyListeners();
   }
 
-  Future<void> isUserLoggedIn() async {
-    _isLoggedIn = await authRepo.isLoggedIn();
+  void isUserLoggedIn() {
+    _isLoggedIn = authRepo.isLoggedIn();
     notifyListeners();
   }
 
   Future<void> _fetchAccountId() async {
     if (_accountId.isEmpty) {
-      final accountId = await getAccountId();
+      final accountId = getAccountId();
       _setAccountId(accountId);
       await _fetchCurrentAccount();
       if (_currentAccount.id.isNotEmpty) {
@@ -207,8 +207,8 @@ class AuthNavViewModel extends BaseModel {
     _widgetKeys = _widgetKeys.sublist(0, _nonDynamicWidgetListLength);
   }
 
-  Future<void> logOut() async {
-    await authRepo.logOut();
+  void logOut() {
+    authRepo.logOut();
     _reset();
   }
 

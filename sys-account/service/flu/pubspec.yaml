@@ -20,7 +20,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-#  flutter_modular: ^2.0.1
+  #  flutter_modular: ^2.0.1
   flutter_modular: ^3.0.0-0
   fixnum:
   protobuf: ^1.1.0
@@ -49,7 +49,7 @@ dev_dependencies:
   intl_translation:
     git:
       url: https://github.com/gutterbacon/intl_translation
-      ref: 4c5e4638bf23444ab7d5d60f00f4319f37dee98c
+      ref: 248adfbd76ad3d3be702fb376cfa28112fa1a5b4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -3,9 +3,9 @@ import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart'
 import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart'
     as rpc;
 import 'package:grpc/grpc_web.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:meta/meta.dart';
+import 'package:hive/hive.dart';
 
 class AuthRepo extends BaseRepo {
   static Future<rpc.LoginResponse> loginUser(
@@ -19,7 +19,7 @@ class AuthRepo extends BaseRepo {
       final resp = await client.login(req).then((res) {
         return res;
       });
-      await updateTokens(
+      updateTokens(
         accessToken: resp.accessToken,
         refreshToken: resp.refreshToken,
       );
@@ -57,7 +57,7 @@ class AuthRepo extends BaseRepo {
       if (resp.hasVerifyToken()) {
         print(resp.verifyToken);
       }
-      await insertTempAccountId(tempAccountId: resp.tempUserId);
+      insertTempAccountId(tempAccountId: resp.tempUserId);
       return resp;
     } catch (e) {
       throw e;
@@ -135,9 +135,10 @@ const _tempAccountIdKey = "tempAccountId";
 const _minute = 60; // 60 seconds
 
 Future<CallOptions> getCallOptions() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var accToken = prefs.getString(_accessTokenKey);
-  final refreshToken = prefs.getString(_refreshTokenKey);
+  final prefs = Hive.box('account');
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  var accToken = prefs.get(_accessTokenKey);
+  final refreshToken = prefs.get(_refreshTokenKey);
   final currentTime = DateTime.now().toUtc().millisecondsSinceEpoch / 1000;
   if (accToken != null &&
       accToken.isNotEmpty &&
@@ -150,8 +151,8 @@ Future<CallOptions> getCallOptions() async {
       final refreshExpiry = refreshPayload["exp"];
       if (refreshExpiry <= currentTime + _minute) {
         // refreshtoken expired => log out
-        await prefs.remove(_accessTokenKey);
-        await prefs.remove(_refreshTokenKey);
+        prefs.delete(_accessTokenKey);
+        prefs.delete(_refreshTokenKey);
         throw "refresh token expired, logging out";
       }
       try {
@@ -161,7 +162,7 @@ Future<CallOptions> getCallOptions() async {
             rpc.AuthServiceClient(await BaseRepo.grpcWebClientChannel());
         client.refreshAccessToken(req).then((resp) {
           if (resp.hasAccessToken()) {
-            prefs.setString(_accessTokenKey, resp.accessToken);
+            prefs.put(_accessTokenKey, resp.accessToken);
           }
         });
       } catch (e) {
@@ -209,22 +210,24 @@ String _decodeBase64(String str) {
   return utf8.decode(base64Url.decode(output));
 }
 
-Future<void> updateTokens({
+void updateTokens({
   @required String accessToken,
   @required String refreshToken,
 }) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  final prefs = Hive.box('account');
   final payload = _parseJwtPayLoad(accessToken);
   final accountId = payload["userId"];
-  await prefs.setString(_accessTokenKey, accessToken);
-  await prefs.setString(_refreshTokenKey, refreshToken);
-  await prefs.setString(_accountIdKey, accountId);
+  prefs.put(_accessTokenKey, accessToken);
+  prefs.put(_refreshTokenKey, refreshToken);
+  prefs.put(_accountIdKey, accountId);
 }
 
-Future<bool> isLoggedIn() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final accessToken = prefs.getString(_accessTokenKey);
-  final refreshToken = prefs.getString(_refreshTokenKey);
+bool isLoggedIn() {
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  final prefs = Hive.box('account');
+  final accessToken = prefs.get(_accessTokenKey);
+  final refreshToken = prefs.get(_refreshTokenKey);
   if (accessToken != null &&
       accessToken.isNotEmpty &&
       refreshToken != null &&
@@ -234,34 +237,38 @@ Future<bool> isLoggedIn() async {
   return false;
 }
 
-Future<String> getAccountId() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final accountId = prefs.getString(_accountIdKey);
+String getAccountId() {
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  final prefs = Hive.box('account');
+  final accountId = prefs.get(_accountIdKey);
   if (accountId != null && accountId.isNotEmpty) {
     return accountId;
   }
   return "";
 }
 
-Future<void> insertTempAccountId({@required String tempAccountId}) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString(_tempAccountIdKey, tempAccountId);
+void insertTempAccountId({@required String tempAccountId}) {
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  final prefs = Hive.box('account');
+  prefs.put(_tempAccountIdKey, tempAccountId);
 }
 
-Future<String> getTempAccountId() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final accountId = prefs.getString(_tempAccountIdKey);
+String getTempAccountId() {
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  final prefs = Hive.box('account');
+  final accountId = prefs.get(_tempAccountIdKey);
   if (accountId != null && accountId.isNotEmpty) {
     return accountId;
   }
   return "";
 }
 
-Future<void> logOut() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.remove(_accountIdKey);
-  prefs.remove(_accessTokenKey);
-  prefs.remove(_refreshTokenKey);
+void logOut() {
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  final prefs = Hive.box('account');
+  prefs.delete(_accountIdKey);
+  prefs.delete(_accessTokenKey);
+  prefs.delete(_refreshTokenKey);
 }
 
 bool isSuperAdmin(rpc.Account account) {
@@ -285,7 +292,7 @@ Map<int, rpc.UserRoles> isAdmin(rpc.Account account) {
 }
 
 List<String> getSubscribedOrgs(rpc.Account account) {
-  var listSubscribedOrgs = List<String>();
+  var listSubscribedOrgs = List<String>.empty();
   account.roles.forEach((role) {
     if (role.orgId.isNotEmpty) {
       listSubscribedOrgs.add(role.orgId);

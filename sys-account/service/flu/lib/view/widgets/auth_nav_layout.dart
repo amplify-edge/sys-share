@@ -37,10 +37,10 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
     if (isDesktop(context)) platform = "desktop";
 
     return ViewModelProvider<AuthNavViewModel>.withConsumer(
+      disposeViewModel: false,
       viewModelBuilder: () => Modular.get<AuthNavViewModel>(),
-      disposeViewModel: true,
       onModelReady: (AuthNavViewModel model) async {
-        await model.isUserLoggedIn();
+        model.isUserLoggedIn();
         if (model.isLoggedIn) {
           await model.getSubscribedOrgs(
             adminTabs: widget.adminTabs,
@@ -73,8 +73,8 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     title: Text(SysAccountLocalizations.of(context)
                         .translate('signOut')),
                     icon: Icon(Icons.logout),
-                    onTap: () async {
-                      await model.logOut();
+                    onTap: () {
+                      model.logOut();
                       // reset navigation stack
                       Modular.to.pushNamed("/");
                     },
@@ -87,7 +87,7 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                       builder: (context) => AuthDialog(
                         callback: () async {
                           Navigator.of(context).pop();
-                          await model.isUserLoggedIn();
+                          model.isUserLoggedIn();
                           if (model.isLoggedIn) {
                             await model.getSubscribedOrgs(
                               adminTabs: widget.adminTabs,
@@ -100,8 +100,6 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                       ),
                     ),
                   ),
-            // if (model.isSuperuser) ...widget.superAdminTabs.values,
-            // if (model.isAdmin || model.isSuperuser) ...widget.adminTabs.values,
             ...model.widgetList,
           ],
           onPressed: (index) {
