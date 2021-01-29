@@ -8,8 +8,13 @@ import 'package:sys_share_sys_account_service/pkg/i18n/sys_account_localization.
 import 'package:sys_share_sys_account_service/view/widgets/auth_nav_layout.dart';
 import 'package:sys_share_sys_account_service/view/widgets/nav_rail.dart';
 import 'package:sys_share_sys_account_service/view/widgets/view_model/auth_nav_view_model.dart';
+import 'package:hive/hive.dart';
 
-void main() => runApp(ModularApp(module: AppModule()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.openBox('account');
+  runApp(ModularApp(module: AppModule()));
+}
 
 class AppModule extends MainModule {
   @override
@@ -17,21 +22,26 @@ class AppModule extends MainModule {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute("/",
-            child: (context, args) => AuthNavLayout(
-                body: Container(width: 10, height: 10),
-                tabs: LinkedHashMap.from(<String, Widget>{
-                  "/settings": TabItem(
-                    title: Text(
-                      "bleh",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    icon: Icon(Icons.settings, size: 30),
-                    onTap: () {
-                      print("IT TAPPED");
-                    },
-                  )
-                }))),
+        ChildRoute(
+          "/",
+          child: (context, args) => AuthNavLayout(
+            body: Container(width: 10, height: 10),
+            tabs: LinkedHashMap.from(<String, Widget>{
+              "/settings": TabItem(
+                title: Text(
+                  "bleh",
+                  style: TextStyle(fontSize: 12),
+                ),
+                icon: Icon(Icons.settings, size: 30),
+                onTap: () {
+                  print("IT TAPPED");
+                },
+              )
+            }),
+            adminTabs: LinkedHashMap<String, Widget>(),
+            superAdminTabs: LinkedHashMap<String, Widget>(),
+          ),
+        ),
       ];
 
   @override

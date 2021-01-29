@@ -87,15 +87,17 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                       builder: (context) => AuthDialog(
                         callback: () async {
                           Navigator.of(context).pop();
-                          model.isUserLoggedIn();
-                          if (model.isLoggedIn) {
-                            await model.getSubscribedOrgs(
-                              adminTabs: widget.adminTabs,
-                              superAdminTabs: widget.superAdminTabs,
-                            );
-                            // reset navigation stack
-                            Modular.to.pushNamed('/');
-                          }
+                          Future.delayed(Duration.zero, () async {
+                            model.isUserLoggedIn();
+                            if (model.isLoggedIn) {
+                              await model.getSubscribedOrgs(
+                                adminTabs: widget.adminTabs,
+                                superAdminTabs: widget.superAdminTabs,
+                              );
+                              // reset navigation stack
+                              Modular.to.pushNamed('/');
+                            }
+                          });
                         },
                       ),
                     ),

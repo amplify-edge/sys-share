@@ -41,6 +41,8 @@ class AuthNavViewModel extends BaseModel {
   int _nonDynamicWidgetListLength = 0;
 
   // getters
+  rpc.Account get currentAccount => _currentAccount;
+
   bool get isSuperuser => _isSuperuser;
 
   bool get isAdmin => _isAdmin;
@@ -157,11 +159,11 @@ class AuthNavViewModel extends BaseModel {
     notifyListeners();
   }
 
-  Future<void> _fetchAccountId() async {
+  void _fetchAccountId() {
     if (_accountId.isEmpty) {
       final accountId = getAccountId();
       _setAccountId(accountId);
-      await _fetchCurrentAccount();
+      // await _fetchCurrentAccount();
       if (_currentAccount.id.isNotEmpty) {
         _setAccountId(_currentAccount.id);
       }
@@ -173,20 +175,20 @@ class AuthNavViewModel extends BaseModel {
     _setCurrentAccount(currentUser);
   }
 
-  Future<void> verifySuperuser() async {
+  void verifySuperuser() {
     if (_isLoggedIn) {
-      await _fetchAccountId();
-      final _isSuperAdmin = authRepo.isSuperAdmin(_currentAccount);
+      _fetchAccountId();
+      final _isSuperAdmin = authRepo.isSuperAdmin();
       if (_isSuperAdmin) {
         _setSuperUser(true);
       }
     }
   }
 
-  Future<void> verifyAdmin() async {
+  void verifyAdmin() {
     if (_isLoggedIn) {
-      await _fetchAccountId();
-      _mapRoles = authRepo.isAdmin(_currentAccount);
+      _fetchAccountId();
+      _mapRoles = authRepo.isAdmin();
       notifyListeners();
       if (_mapRoles.isNotEmpty) {
         _setAdmin(true);
@@ -235,23 +237,24 @@ class AuthNavViewModel extends BaseModel {
     @required LinkedHashMap<String, Widget> superAdminTabs,
   }) async {
     if (_currentAccount.id.isEmpty) {
-      await _fetchAccountId();
+      _fetchAccountId();
     }
-    await verifySuperuser();
-    await verifyAdmin();
+    await _fetchCurrentAccount();
+    verifySuperuser();
+    verifyAdmin();
     if (!_isSuperuser) {
       final orgIds = authRepo.getSubscribedOrgs(_currentAccount);
       await _fetchOrgs({"id": orgIds}, perPageEntries, "in");
     } else {
       await _fetchOrgs(Map<String, dynamic>(), perPageEntries, "like");
     }
-    if (_isLoggedIn && _isSuperuser) {
+    if (_isLoggedIn && _isSuperuser && superAdminTabs != null) {
       superAdminTabs.forEach((key, value) {
         _widgetKeys.add(key);
         _widgetList.add(value);
       });
     }
-    if (_isLoggedIn && (_isAdmin || _isSuperuser)) {
+    if (_isLoggedIn && (_isAdmin || _isSuperuser) && adminTabs != null) {
       adminTabs.forEach((key, value) {
         _widgetKeys.add(key);
         _widgetList.add(value);

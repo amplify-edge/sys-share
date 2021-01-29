@@ -132,6 +132,7 @@ const _accessTokenKey = "accessToken";
 const _refreshTokenKey = "refreshToken";
 const _accountIdKey = "accountId";
 const _tempAccountIdKey = "tempAccountId";
+const _hiveAccountDb = "account";
 const _minute = 60; // 60 seconds
 
 Future<CallOptions> getCallOptions() async {
@@ -215,7 +216,7 @@ void updateTokens({
   @required String refreshToken,
 }) async {
   // SharedPreferences prefs = await SharedPreferences.getInstance();
-  final prefs = Hive.box('account');
+  final prefs = Hive.box(_hiveAccountDb);
   final payload = _parseJwtPayLoad(accessToken);
   final accountId = payload["userId"];
   prefs.put(_accessTokenKey, accessToken);
@@ -271,23 +272,54 @@ void logOut() {
   prefs.delete(_refreshTokenKey);
 }
 
-bool isSuperAdmin(rpc.Account account) {
+bool isSuperAdmin() {
+  final prefs = Hive.box('account');
+  final refreshToken = prefs.get(_refreshTokenKey);
+  final roles = _parseJwtPayLoad(refreshToken)['role'] as List<dynamic>;
   var isSuper = false;
-  account.roles.forEach((role) {
-    if (role.role.name == rpc.Roles.SUPERADMIN.name) {
+  roles.forEach((role) {
+    if (role['role'] == rpc.Roles.SUPERADMIN.value) {
       isSuper = true;
     }
   });
   return isSuper;
 }
 
-Map<int, rpc.UserRoles> isAdmin(rpc.Account account) {
+Map<int, rpc.UserRoles> isAdmin() {
   var mapAdminRoles = Map<int, rpc.UserRoles>();
-  for (var i = 0; i < account.roles.length; i++) {
-    if (account.roles[i].role == rpc.Roles.ADMIN) {
-      mapAdminRoles[i] = account.roles[i];
+  final prefs = Hive.box('account');
+  final refreshToken = prefs.get(_refreshTokenKey);
+  final roles = _parseJwtPayLoad(refreshToken)['role'] as List<dynamic>;
+  for (var i = 0; i < roles.length; i++) {
+    Roles currentRole;
+    if (roles[i]['role'] == rpc.Roles.SUPERADMIN.value) {
+      currentRole = rpc.Roles.SUPERADMIN;
+    } else if (roles[i]['role'] == rpc.Roles.ADMIN.value) {
+      currentRole = rpc.Roles.ADMIN;
+    } else if (roles[i]['role'] == rpc.Roles.USER.value) {
+      currentRole = rpc.Roles.USER;
+    } else if (roles[i]['role'] == rpc.Roles.GUEST.value) {
+      currentRole = rpc.Roles.GUEST;
+    } else if (roles[i]['role'] == rpc.Roles.INVALID.value) {
+      currentRole = rpc.Roles.INVALID;
+    }
+    final rpcRole = UserRoles()..role = currentRole;
+    if (roles[i]['projectId'] != null) {
+      rpcRole..projectId = roles[i]['projectId'];
+    }
+    if (roles[i]['orgId'] != null) {
+      rpcRole..orgId = roles[i]['orgId'];
+    }
+    if (rpcRole.role.value == rpc.Roles.ADMIN.value) {
+      mapAdminRoles[i] = rpcRole;
     }
   }
+  //
+  // for (var i = 0; i < account.roles.length; i++) {
+  //   if (account.roles[i].role == rpc.Roles.ADMIN) {
+  //     mapAdminRoles[i] = account.roles[i];
+  //   }
+  // }
   return mapAdminRoles;
 }
 
