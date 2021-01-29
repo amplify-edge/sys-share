@@ -18,7 +18,7 @@ EXAMPLE_EMAIL = superadmin@getcouragenow.org
 EXAMPLE_PASSWORD = superadmin
 EXAMPLE_SERVER_ADDRESS = 127.0.0.1:8888
 
-this-all: this-print this-config this-build this-print-end
+this-all: this-print this-build this-print-end
 
 ## Print all settings
 this-print: ## print
@@ -57,32 +57,14 @@ this-gen: this-gen-delete
 	@go generate
 	@echo "Generating Flutter Config"
 
-#   $(MAKE) flu-gen-all
-	$(MAKE) flu-gen-lang
+	# $(MAKE) flu-gen-all
+	# $(MAKE) flu-gen-lang
 
 this-gen-dep:
-	GO111MODULE=on go get github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
-	go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
+	# GO111MODULE=on go get github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
+	# go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
 
-this-config:
-	this-config-gen
-
-this-config-gen: this-config-dep
-	@echo Generating Config
-	@mkdir -p service/flu/lib/assets
-	jsonnet -S service/go/flutter_base_repo.jsonnet \
-		-V SYS_CORE_HOST="127.0.0.1" \
-		-V SYS_CORE_PORT="9074" \
-		> ./service/flu/lib/assets/hostconfig.json
-
-this-config-clean:
-	@echo Deleting previously generated config
-	rm -rf ./service/flu/lib/assets/hostconfig.json
-
-this-config-dep:
-	#cd service/go && jb install && jb update
-
-this-gen-delete: this-config-clean
+this-gen-delete:
 	@echo 'Removing generated protobuf definition (Go and Flutter)'
 	rm -rf service/{flu/lib,go}/rpc/v2/*.{dart,go}
 
