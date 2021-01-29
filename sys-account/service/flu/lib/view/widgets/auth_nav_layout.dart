@@ -29,6 +29,9 @@ class AuthNavLayout extends StatefulWidget {
   _AuthNavLayoutState createState() => _AuthNavLayoutState();
 }
 
+// Should rebuild when:
+// logged in / logged out
+// also on change language
 class _AuthNavLayoutState extends State<AuthNavLayout> {
   @override
   Widget build(BuildContext context) {
@@ -49,13 +52,12 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
         }
         model.setupTabItems(
           normalTabs: widget.tabs,
-          context: context,
         );
       },
       builder: (ctx, model, child) {
         return AccountNavRail(
-          //rebuild here on every platform change
-          //unique keys would lead to rerender on every pixel change when resizing
+          // rebuild here on every platform change
+          // unique keys would lead to rerender on every pixel change when resizing
           // the window
           isDense: false,
           key: ValueKey(platform),
@@ -70,8 +72,9 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
           tabs: [
             model.isLoggedIn
                 ? TabItem(
-                    title: Text(SysAccountLocalizations.of(context)
-                        .translate('signOut')),
+                    // title: Text(SysAccountLocalizations.of(context)
+                    //     .translate('signOut')),
+                    title: Text('Logout'),
                     icon: Icon(Icons.logout),
                     onTap: () {
                       model.logOut();
@@ -80,8 +83,9 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
                     },
                   )
                 : TabItem(
-                    title: Text(SysAccountLocalizations.of(context)
-                        .translate('signIn')),
+                    // title: Text(SysAccountLocalizations.of(context)
+                    //     .translate('signIn')),
+                    title: Text('Login'),
                     icon: Icon(Icons.login),
                     onTap: () => asuka.showDialog(
                       builder: (context) => AuthDialog(

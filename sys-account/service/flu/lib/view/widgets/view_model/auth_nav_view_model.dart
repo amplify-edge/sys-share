@@ -40,6 +40,15 @@ class AuthNavViewModel extends BaseModel {
   int _currentNavIndex;
   int _nonDynamicWidgetListLength = 0;
 
+  AuthNavViewModel() {
+    isUserLoggedIn();
+    if (_isLoggedIn) {
+      _fetchAccountId();
+      verifySuperuser();
+      verifyAdmin();
+    }
+  }
+
   // getters
   rpc.Account get currentAccount => _currentAccount;
 
@@ -63,16 +72,14 @@ class AuthNavViewModel extends BaseModel {
 
   String get errMsg => _errMsg;
 
-  void setupTabItems(
-      {@required LinkedHashMap<String, Widget> normalTabs,
-      @required BuildContext context}) {
+  void setupTabItems({@required LinkedHashMap<String, Widget> normalTabs}) {
     _reset();
     _widgetKeys.add(_accountTabKey);
     normalTabs.forEach((key, value) {
       _widgetList.add(value);
       _widgetKeys.add(key);
     });
-    _setNonDynamicListLength(_widgetList.length);
+    // _setNonDynamicListLength(_widgetList.length);
   }
 
   int getDynamicNavIndex(String route) {
@@ -96,11 +103,6 @@ class AuthNavViewModel extends BaseModel {
 
   void setCurrentNavIndex(int val) {
     _currentNavIndex = val;
-    notifyListeners();
-  }
-
-  void _setNonDynamicListLength(int val) {
-    _nonDynamicWidgetListLength = val;
     notifyListeners();
   }
 
