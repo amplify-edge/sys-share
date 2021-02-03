@@ -4,7 +4,7 @@
     {
       "source": {
         "git": {
-          "remote": "https://github.com/getcouragenow/sys-share.git",
+          "remote": "https://github.com/amplify-cms/sys-share.git",
           "subdir": "sys-core/service/config/mixins"
         }
       },

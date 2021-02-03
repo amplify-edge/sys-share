@@ -6,7 +6,7 @@ import (
 
 	"github.com/brianvoe/gofakeit/v5"
 
-	authRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
+	authRpc "github.com/amplify-cms/sys-share/sys-account/service/go/rpc/v2"
 )
 
 type RegisterRequest struct {

@@ -2,7 +2,7 @@ package ops
 
 import (
 	"context"
-	"github.com/getcouragenow/sys-share/sys-core/service/logging"
+	"github.com/amplify-cms/sys-share/sys-core/service/logging"
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/mem"
 	"time"

@@ -3,9 +3,9 @@ package shared_test
 import (
 	"testing"
 
-	pkg "github.com/getcouragenow/sys-share/sys-account/service/go/pkg"
-	"github.com/getcouragenow/sys-share/sys-account/service/go/pkg/shared"
-	utilities "github.com/getcouragenow/sys-share/sys-core/service/config"
+	pkg "github.com/amplify-cms/sys-share/sys-account/service/go/pkg"
+	"github.com/amplify-cms/sys-share/sys-account/service/go/pkg/shared"
+	utilities "github.com/amplify-cms/sys-share/sys-core/service/config"
 	"github.com/stretchr/testify/assert"
 )
 

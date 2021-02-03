@@ -993,8 +993,8 @@ type ProjectRequest struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" fake:"{nameseq:sys_account_project,false,none,false,false}" yaml:"name,omitempty"`
 	// @inject_tag: fake:"skip" yaml:"logo_filepath,omitempty"
 	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"skip" yaml:"logo_filepath,omitempty"`
-	// @inject_tag: fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}" yaml:"creator_id,omitempty"
-	CreatorId string `protobuf:"bytes,3,opt,name=creator_id,json=creatorId,proto3" json:"creator_id,omitempty" fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}" yaml:"creator_id,omitempty"`
+	// @inject_tag: fake:"{randomstring:[ops@amplify-cms.org, dev@amplify-cms.org]}" yaml:"creator_id,omitempty"
+	CreatorId string `protobuf:"bytes,3,opt,name=creator_id,json=creatorId,proto3" json:"creator_id,omitempty" fake:"{randomstring:[ops@amplify-cms.org, dev@amplify-cms.org]}" yaml:"creator_id,omitempty"`
 	// @inject_tag: fake:"skip" yaml:"org_id,omitempty"
 	OrgId string `protobuf:"bytes,4,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty" fake:"skip" yaml:"org_id,omitempty"`
 	// @inject_tag: fake:"{nameseq:sys_account_org,true,sys_account_org,false,false}" yaml:"org_name,omitempty"
@@ -1263,8 +1263,8 @@ type OrgRequest struct {
 	LogoFilepath string `protobuf:"bytes,2,opt,name=logo_filepath,json=logoFilepath,proto3" json:"logo_filepath,omitempty" fake:"skip" yaml:"logo_filepath,omitempty"`
 	// @inject_tag: fake:"{email}" yaml:"contact,omitempty"
 	Contact string `protobuf:"bytes,3,opt,name=contact,proto3" json:"contact,omitempty" fake:"{email}" yaml:"contact,omitempty"`
-	// @inject_tag: fake:"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}" yaml:"creator_id,omitempty"
-	CreatorId string `protobuf:"bytes,4,opt,name=creator_id,json=creatorId,proto3" json:"creator_id,omitempty" fake:"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}" yaml:"creator_id,omitempty"`
+	// @inject_tag: fake:"{randomstring:[ops@amplify-cms.org,contact@amplify-cms.org]}" yaml:"creator_id,omitempty"
+	CreatorId string `protobuf:"bytes,4,opt,name=creator_id,json=creatorId,proto3" json:"creator_id,omitempty" fake:"{randomstring:[ops@amplify-cms.org,contact@amplify-cms.org]}" yaml:"creator_id,omitempty"`
 	// @inject_tag: fake:"{logogen:128}" yaml:"logo_upload_bytes,omitempty"
 	LogoUploadBytes string `protobuf:"bytes,5,opt,name=logo_upload_bytes,json=logoUploadBytes,proto3" json:"logo_upload_bytes,omitempty" fake:"{logogen:128}" yaml:"logo_upload_bytes,omitempty"`
 }

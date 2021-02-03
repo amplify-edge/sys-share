@@ -5,7 +5,7 @@ import (
 
 	"github.com/segmentio/encoding/json"
 
-	"github.com/getcouragenow/sys-share/sys-core/service/go/pkg"
+	"github.com/amplify-cms/sys-share/sys-core/service/go/pkg"
 )
 
 type ActionDispatcher func(context.Context, *pkg.EventRequest) (map[string]interface{}, error)

@@ -8,8 +8,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
 
-	"github.com/getcouragenow/sys-share/sys-account/service/go/pkg"
-	"github.com/getcouragenow/sys-share/sys-core/service/config"
+	"github.com/amplify-cms/sys-share/sys-account/service/go/pkg"
+	"github.com/amplify-cms/sys-share/sys-core/service/config"
 )
 
 var (

@@ -2,7 +2,7 @@ name: sys_core
 description: core functionalities for all modules
 version: 0.0.1
 author:
-homepage: https://getcouragenow.org
+homepage: https://amplify-cms.org
 publish_to: none
 
 environment:

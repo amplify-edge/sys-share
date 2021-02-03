@@ -4,7 +4,7 @@ local cfg = {
     HostCfg:: loadVar(prefixName="SYS_CORE", host="HOST", port="PORT"),
     host: self.HostCfg.server.host,
     port: self.HostCfg.server.port,
-    baseUri: "getcouragenow.org",
+    baseUri: "amplify-cms.org",
     url: "maintemplate.ci" + "." + self.baseUri,
     url_native: "grpc.maintemplate.ci" + "." + self.baseUri,
     flutter_channel: "beta",

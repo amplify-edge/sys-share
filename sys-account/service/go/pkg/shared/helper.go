@@ -2,7 +2,7 @@ package shared
 
 import (
 	"fmt"
-	"github.com/getcouragenow/sys-share/sys-account/service/go/pkg"
+	"github.com/amplify-cms/sys-share/sys-account/service/go/pkg"
 	"github.com/segmentio/ksuid"
 )
 

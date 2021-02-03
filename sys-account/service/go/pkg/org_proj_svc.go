@@ -6,7 +6,7 @@ import (
 	"google.golang.org/grpc"
 	empty "google.golang.org/protobuf/types/known/emptypb"
 
-	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
+	accountRpc "github.com/amplify-cms/sys-share/sys-account/service/go/rpc/v2"
 )
 
 type OrgProjService interface {

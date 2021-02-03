@@ -1,7 +1,7 @@
 package config_test
 
 import (
-	utilities "github.com/getcouragenow/sys-share/sys-core/service/config"
+	utilities "github.com/amplify-cms/sys-share/sys-core/service/config"
 	"github.com/stretchr/testify/require"
 	"testing"
 )

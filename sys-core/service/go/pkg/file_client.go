@@ -8,8 +8,8 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	log "github.com/getcouragenow/sys-share/sys-core/service/logging"
-	"github.com/getcouragenow/sys-share/sys-core/service/logging/zaplog"
+	log "github.com/amplify-cms/sys-share/sys-core/service/logging"
+	"github.com/amplify-cms/sys-share/sys-core/service/logging/zaplog"
 	"github.com/spf13/cobra"
 	"io"
 	"io/ioutil"
@@ -18,16 +18,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/getcouragenow/protoc-gen-cobra/client"
-	"github.com/getcouragenow/protoc-gen-cobra/flag"
-	"github.com/getcouragenow/protoc-gen-cobra/iocodec"
+	"github.com/amplify-cms/protoc-gen-cobra/client"
+	"github.com/amplify-cms/protoc-gen-cobra/flag"
+	"github.com/amplify-cms/protoc-gen-cobra/iocodec"
 	bar "github.com/schollz/progressbar/v2"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	"github.com/getcouragenow/sys-share/sys-core/service/config"
+	"github.com/amplify-cms/sys-share/sys-core/service/config"
 
-	dbrpc "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2"
+	dbrpc "github.com/amplify-cms/sys-share/sys-core/service/go/rpc/v2"
 )
 
 const (

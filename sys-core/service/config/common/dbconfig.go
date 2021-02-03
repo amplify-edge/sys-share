@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
+	sharedConfig "github.com/amplify-cms/sys-share/sys-core/service/config"
 )
 
 const (

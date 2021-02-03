@@ -9,7 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/getcouragenow/sys-share/sys-core/service/logging"
+	"github.com/amplify-cms/sys-share/sys-core/service/logging"
 
 	grpcZap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 )
@@ -22,7 +22,7 @@ const (
 )
 
 // ZapLogger implements Logger interface as defined in
-// "github.com/getcouragenow/sys-share/sys-core/service/logging"
+// "github.com/amplify-cms/sys-share/sys-core/service/logging"
 type ZapLogger struct {
 	isDevelopmentMode bool
 	storagePath       string

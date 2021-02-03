@@ -14,7 +14,7 @@ override FLU_LIB_NAME = mod_survey
 override FLU_LIB_FSPATH = $(PWD)/service/flu
 override FLU_LANG_LOCALIZATION_DIR = $(FLU_LIB_FSPATH)/lib/pkg/i18n
 
-EXAMPLE_EMAIL = superadmin@getcouragenow.org
+EXAMPLE_EMAIL = superadmin@amplify-cms.org
 EXAMPLE_PASSWORD = superadmin
 EXAMPLE_SERVER_ADDRESS = 127.0.0.1:8888
 

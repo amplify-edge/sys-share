@@ -2,12 +2,12 @@ package pkg
 
 import (
 	"context"
-	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
+	cliClient "github.com/amplify-cms/protoc-gen-cobra/client"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	dbrpc "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2"
+	dbrpc "github.com/amplify-cms/sys-share/sys-core/service/go/rpc/v2"
 )
 
 // CLI

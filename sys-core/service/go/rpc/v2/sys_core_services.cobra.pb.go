@@ -3,9 +3,9 @@
 package v2
 
 import (
-	client "github.com/getcouragenow/protoc-gen-cobra/client"
-	flag "github.com/getcouragenow/protoc-gen-cobra/flag"
-	iocodec "github.com/getcouragenow/protoc-gen-cobra/iocodec"
+	client "github.com/amplify-cms/protoc-gen-cobra/client"
+	flag "github.com/amplify-cms/protoc-gen-cobra/flag"
+	iocodec "github.com/amplify-cms/protoc-gen-cobra/iocodec"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	cobra "github.com/spf13/cobra"

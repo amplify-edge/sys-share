@@ -14,7 +14,7 @@ import (
 	"unsafe"
 
 	"github.com/brianvoe/gofakeit/v5"
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
+	sharedConfig "github.com/amplify-cms/sys-share/sys-core/service/config"
 	"github.com/issue9/identicon"
 )
 
