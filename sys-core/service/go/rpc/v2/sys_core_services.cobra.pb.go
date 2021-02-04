@@ -16,9 +16,10 @@ import (
 func DbAdminServiceClientCommand(options ...client.Option) *cobra.Command {
 	cfg := client.NewConfig(options...)
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("DbAdminService"),
-		Short: "DbAdminService service client",
-		Long:  "",
+		Use:    cfg.CommandNamer("DbAdminService"),
+		Short:  "DbAdminService service client",
+		Long:   "",
+		Hidden: false,
 	}
 	cfg.BindFlags(cmd.PersistentFlags())
 	cmd.AddCommand(
@@ -33,9 +34,10 @@ func _DbAdminServiceBackupCommand(cfg *client.Config) *cobra.Command {
 	req := &empty.Empty{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("Backup"),
-		Short: "Backup RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("Backup"),
+		Short:  "Backup RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "DbAdminService"); err != nil {
@@ -73,9 +75,10 @@ func _DbAdminServiceListBackupCommand(cfg *client.Config) *cobra.Command {
 	req := &ListBackupRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("ListBackup"),
-		Short: "ListBackup RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("ListBackup"),
+		Short:  "ListBackup RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "DbAdminService"); err != nil {
@@ -115,9 +118,10 @@ func _DbAdminServiceRestoreCommand(cfg *client.Config) *cobra.Command {
 	req := &RestoreAllRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("Restore"),
-		Short: "Restore RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("Restore"),
+		Short:  "Restore RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "DbAdminService"); err != nil {
@@ -157,9 +161,10 @@ func _DbAdminServiceRestoreCommand(cfg *client.Config) *cobra.Command {
 func BusServiceClientCommand(options ...client.Option) *cobra.Command {
 	cfg := client.NewConfig(options...)
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("BusService"),
-		Short: "BusService service client",
-		Long:  "",
+		Use:    cfg.CommandNamer("BusService"),
+		Short:  "BusService service client",
+		Long:   "",
+		Hidden: false,
 	}
 	cfg.BindFlags(cmd.PersistentFlags())
 	cmd.AddCommand(
@@ -172,9 +177,10 @@ func _BusServiceBroadcastCommand(cfg *client.Config) *cobra.Command {
 	req := &EventRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("Broadcast"),
-		Short: "Broadcast RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("Broadcast"),
+		Short:  "Broadcast RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "BusService"); err != nil {
@@ -216,9 +222,10 @@ func _BusServiceBroadcastCommand(cfg *client.Config) *cobra.Command {
 func EmailServiceClientCommand(options ...client.Option) *cobra.Command {
 	cfg := client.NewConfig(options...)
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("EmailService"),
-		Short: "EmailService service client",
-		Long:  "",
+		Use:    cfg.CommandNamer("EmailService"),
+		Short:  "EmailService service client",
+		Long:   "",
+		Hidden: false,
 	}
 	cfg.BindFlags(cmd.PersistentFlags())
 	cmd.AddCommand(
@@ -231,9 +238,10 @@ func _EmailServiceSendMailCommand(cfg *client.Config) *cobra.Command {
 	req := &EmailRequest{}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("SendMail"),
-		Short: "SendMail RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("SendMail"),
+		Short:  "SendMail RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "EmailService"); err != nil {
@@ -279,9 +287,10 @@ func _EmailServiceSendMailCommand(cfg *client.Config) *cobra.Command {
 func AnalyticsServiceClientCommand(options ...client.Option) *cobra.Command {
 	cfg := client.NewConfig(options...)
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("AnalyticsService"),
-		Short: "AnalyticsService service client",
-		Long:  "",
+		Use:    cfg.CommandNamer("AnalyticsService"),
+		Short:  "AnalyticsService service client",
+		Long:   "",
+		Hidden: false,
 	}
 	cfg.BindFlags(cmd.PersistentFlags())
 	cmd.AddCommand(
@@ -300,9 +309,10 @@ func _AnalyticsServiceSendAnalyticsEventCommand(cfg *client.Config) *cobra.Comma
 	}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("SendAnalyticsEvent"),
-		Short: "SendAnalyticsEvent RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("SendAnalyticsEvent"),
+		Short:  "SendAnalyticsEvent RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AnalyticsService"); err != nil {
@@ -359,9 +369,10 @@ func _AnalyticsServiceDownloadAnalyticsCommand(cfg *client.Config) *cobra.Comman
 	}
 
 	cmd := &cobra.Command{
-		Use:   cfg.CommandNamer("DownloadAnalytics"),
-		Short: "DownloadAnalytics RPC client",
-		Long:  "",
+		Use:    cfg.CommandNamer("DownloadAnalytics"),
+		Short:  "DownloadAnalytics RPC client",
+		Long:   "",
+		Hidden: false,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.UseEnvVars {
 				if err := flag.SetFlagsFromEnv(cmd.Parent().PersistentFlags(), true, cfg.EnvVarNamer, cfg.EnvVarPrefix, "AnalyticsService"); err != nil {
