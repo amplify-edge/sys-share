@@ -1263,31 +1263,3 @@ func _AuthServiceVerifyAccountCommand(cfg *client.Config) *cobra.Command {
 	return cmd
 }
 
-type _RolesValue Roles
-
-func _RolesVar(fs *pflag.FlagSet, p *Roles, name, usage string) {
-	fs.Var((*_RolesValue)(p), name, usage)
-}
-
-func (v *_RolesValue) Set(val string) error {
-	if e, err := parseRoles(val); err != nil {
-		return err
-	} else {
-		*v = _RolesValue(e)
-		return nil
-	}
-}
-
-func (*_RolesValue) Type() string { return "Roles" }
-
-func (v *_RolesValue) String() string { return (Roles)(*v).String() }
-
-func parseRoles(s string) (Roles, error) {
-	if i, ok := Roles_value[s]; ok {
-		return Roles(i), nil
-	} else if i, err := strconv.ParseInt(s, 0, 32); err == nil {
-		return Roles(i), nil
-	} else {
-		return 0, err
-	}
-}
