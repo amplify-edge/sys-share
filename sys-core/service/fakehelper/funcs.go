@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
+	"github.com/amplify-cms/sys-share/sys-core/service/fileutils"
 	"image/color"
 	"image/png"
 	"io/ioutil"
@@ -13,8 +14,8 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/brianvoe/gofakeit/v5"
 	sharedConfig "github.com/amplify-cms/sys-share/sys-core/service/config"
+	"github.com/brianvoe/gofakeit/v5"
 	"github.com/issue9/identicon"
 )
 
@@ -263,7 +264,7 @@ func FakeAvatarGenBytes() (string, gofakeit.Info) {
 }
 
 func GenFakeLogo(outDir string, size int) (string, error) {
-	if ex, _ := sharedConfig.PathExists(outDir); !ex {
+	if ex, _ := fileutils.PathExists(outDir); !ex {
 		_ = os.MkdirAll(outDir, 0755)
 	}
 	imgId := sharedConfig.NewID()

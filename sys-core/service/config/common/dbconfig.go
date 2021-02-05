@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	"github.com/amplify-cms/sys-share/sys-core/service/fileutils"
 	"os"
 	"path/filepath"
 
@@ -41,7 +42,7 @@ func (d DbConfig) Validate() error {
 	if err != nil {
 		return err
 	}
-	exists, err := sharedConfig.PathExists(abspath)
+	exists, err := fileutils.PathExists(abspath)
 	if err != nil || !exists {
 		return os.MkdirAll(abspath, defaultDirPerm)
 	}
@@ -64,7 +65,7 @@ func (c CronConfig) Validate() error {
 	if c.BackupSchedule == "" || c.RotateSchedule == "" {
 		return fmt.Errorf(errCronSchedule)
 	}
-	if exists, err := sharedConfig.PathExists(c.BackupDir); err != nil || !exists {
+	if exists, err := fileutils.PathExists(c.BackupDir); err != nil || !exists {
 		return os.MkdirAll(c.BackupDir, defaultDirPerm)
 	}
 	c.BackupDir, _ = filepath.Abs(c.BackupDir)

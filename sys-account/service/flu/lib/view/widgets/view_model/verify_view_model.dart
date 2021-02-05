@@ -67,7 +67,7 @@ class VerifyAccountViewModel extends BaseModel {
     _loadingProcess(true);
     String accountId = _accountId;
     if (accountId == null) {
-      accountId = await getTempAccountId();
+      accountId = getTempAccountId();
     }
     await authRepo.AuthRepo.verifyAccount(
             id: accountId, verificationToken: _userVerifyToken)

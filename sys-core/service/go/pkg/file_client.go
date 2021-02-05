@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"github.com/amplify-cms/sys-share/sys-core/service/fileutils"
 	log "github.com/amplify-cms/sys-share/sys-core/service/logging"
 	"github.com/amplify-cms/sys-share/sys-core/service/logging/zaplog"
 	"github.com/spf13/cobra"
@@ -24,8 +25,6 @@ import (
 	bar "github.com/schollz/progressbar/v2"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
-
-	"github.com/amplify-cms/sys-share/sys-core/service/config"
 
 	dbrpc "github.com/amplify-cms/sys-share/sys-core/service/go/rpc/v2"
 )
@@ -103,7 +102,7 @@ func uploadFileCommand(cfg *client.Config) *cobra.Command {
 				if err != nil {
 					return err
 				}
-				isDir, err := config.IsDirectory(abspath)
+				isDir, err := fileutils.IsDirectory(abspath)
 				if err != nil {
 					return err
 				}
