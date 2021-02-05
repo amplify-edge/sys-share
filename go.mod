@@ -5,7 +5,6 @@ go 1.15
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.0.1 // indirect
 	github.com/VictoriaMetrics/metrics v1.12.3
-	github.com/amplify-cms/protoc-gen-cobra v0.3.1-0.20210203065653-3c0be935c016
 	github.com/bojand/ghz v0.90.0
 	github.com/brianvoe/gofakeit/v5 v5.11.2
 	github.com/caddyserver/certmagic v0.12.0
@@ -27,10 +26,11 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/uber/jaeger-client-go v2.25.0+incompatible
 	github.com/uber/jaeger-lib v2.4.0+incompatible // indirect
+	go.amplifyedge.org/protoc-gen-cobra v0.4.0 // indirect
 	go.uber.org/zap v1.15.0
 	golang.org/x/oauth2 v0.0.0-20210201163806-010130855d6c
 	google.golang.org/grpc v1.35.0
 	google.golang.org/protobuf v1.25.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
-	gopkg.in/yaml.v2 v2.3.0
+	gopkg.in/yaml.v2 v2.4.0
 )
