@@ -1,7 +1,7 @@
 package pkg
 
 import (
-	dbrpc "github.com/amplify-cms/sys-share/sys-core/service/go/rpc/v2"
+	dbrpc "go.amplifyedge.org/sys-share-v2/sys-core/service/go/rpc/v2"
 )
 
 type SingleBackupResult struct {

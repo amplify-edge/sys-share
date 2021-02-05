@@ -2,11 +2,11 @@ package common
 
 import (
 	"fmt"
-	"github.com/amplify-cms/sys-share/sys-core/service/fileutils"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/fileutils"
 	"os"
 	"path/filepath"
 
-	sharedConfig "github.com/amplify-cms/sys-share/sys-core/service/config"
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 )
 
 const (

@@ -1,8 +1,8 @@
 package main
 
 import (
-	corepkg "github.com/amplify-cms/sys-share/sys-core/service/go/pkg"
-	"github.com/amplify-cms/sys-share/sys-core/service/logging/zaplog"
+	corepkg "go.amplifyedge.org/sys-share-v2/sys-core/service/go/pkg"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/logging/zaplog"
 	"github.com/spf13/cobra"
 )
 

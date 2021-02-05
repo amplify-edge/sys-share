@@ -1,7 +1,7 @@
 package config_test
 
 import (
-	utilities "github.com/amplify-cms/sys-share/sys-core/service/config"
+	utilities "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 	"github.com/stretchr/testify/require"
 	"testing"
 )

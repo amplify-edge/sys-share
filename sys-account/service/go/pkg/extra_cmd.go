@@ -11,8 +11,8 @@ import (
 	"io/ioutil"
 	"text/template"
 
-	accountRpc "github.com/amplify-cms/sys-share/sys-account/service/go/rpc/v2"
-	"github.com/amplify-cms/sys-share/sys-core/service/clihelper"
+	accountRpc "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/clihelper"
 )
 
 func AuthServiceSigninCommand(options ...client.Option) *cobra.Command {

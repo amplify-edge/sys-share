@@ -8,9 +8,9 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"github.com/amplify-cms/sys-share/sys-core/service/fileutils"
-	log "github.com/amplify-cms/sys-share/sys-core/service/logging"
-	"github.com/amplify-cms/sys-share/sys-core/service/logging/zaplog"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/fileutils"
+	log "go.amplifyedge.org/sys-share-v2/sys-core/service/logging"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/logging/zaplog"
 	"github.com/spf13/cobra"
 	"io"
 	"io/ioutil"
@@ -26,7 +26,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	dbrpc "github.com/amplify-cms/sys-share/sys-core/service/go/rpc/v2"
+	dbrpc "go.amplifyedge.org/sys-share-v2/sys-core/service/go/rpc/v2"
 )
 
 const (

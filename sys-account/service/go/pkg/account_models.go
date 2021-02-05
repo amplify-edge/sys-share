@@ -3,9 +3,8 @@ package pkg
 import (
 	"github.com/segmentio/encoding/json"
 
-	sharedConfig "github.com/amplify-cms/sys-share/sys-core/service/config"
-
-	accountRpc "github.com/amplify-cms/sys-share/sys-account/service/go/rpc/v2"
+	accountRpc "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2"
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 )
 
 type Permission struct {

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
-	"github.com/amplify-cms/sys-share/sys-core/service/fileutils"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/fileutils"
 	"image/color"
 	"image/png"
 	"io/ioutil"
@@ -14,7 +14,7 @@ import (
 	"time"
 	"unsafe"
 
-	sharedConfig "github.com/amplify-cms/sys-share/sys-core/service/config"
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 	"github.com/brianvoe/gofakeit/v5"
 	"github.com/issue9/identicon"
 )

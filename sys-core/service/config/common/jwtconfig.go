@@ -1,6 +1,6 @@
 package common
 
-import sharedConfig "github.com/amplify-cms/sys-share/sys-core/service/config"
+import sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 
 type TokenConfig struct {
 	Secret string `json:"secret" yaml:"secret" mapstructure:"secret"`

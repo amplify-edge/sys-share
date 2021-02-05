@@ -8,8 +8,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	rpc "github.com/amplify-cms/sys-share/sys-account/service/go/rpc/v2"
-	sharedConfig "github.com/amplify-cms/sys-share/sys-core/service/config"
+	rpc "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2"
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 )
 
 // SysAccountClient is just a stub

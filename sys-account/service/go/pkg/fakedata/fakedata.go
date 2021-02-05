@@ -3,9 +3,9 @@ package fakedata
 import (
 	"fmt"
 	"github.com/brianvoe/gofakeit/v5"
-	accountRpc "github.com/amplify-cms/sys-share/sys-account/service/go/rpc/v2"
-	sharedConfig "github.com/amplify-cms/sys-share/sys-core/service/config"
-	"github.com/amplify-cms/sys-share/sys-core/service/fakehelper"
+	accountRpc "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2"
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/fakehelper"
 	"math/rand"
 )
 

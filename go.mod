@@ -1,4 +1,4 @@
-module github.com/amplify-cms/sys-share
+module go.amplifyedge.org/sys-share-v2
 
 go 1.15
 

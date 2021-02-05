@@ -5,7 +5,7 @@ import (
 	"testing"
 	"github.com/stretchr/testify/require"
 
-	"github.com/amplify-cms/sys-share/sys-core/service/fakehelper"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/fakehelper"
 )
 
 func TestGenFakeLogoBytes(t *testing.T) {

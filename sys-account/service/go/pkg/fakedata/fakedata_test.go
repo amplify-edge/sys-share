@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/amplify-cms/sys-share/sys-account/service/go/pkg/fakedata"
+	"go.amplifyedge.org/sys-share-v2/sys-account/service/go/pkg/fakedata"
 )
 
 func TestBootstrapFakeData(t *testing.T) {

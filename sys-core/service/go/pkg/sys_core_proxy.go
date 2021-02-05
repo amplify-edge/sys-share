@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	dbrpc "github.com/amplify-cms/sys-share/sys-core/service/go/rpc/v2"
+	dbrpc "go.amplifyedge.org/sys-share-v2/sys-core/service/go/rpc/v2"
 )
 
 // CLI
