@@ -2,10 +2,11 @@ package common
 
 import (
 	"fmt"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/fileutils"
 	"os"
 	"path/filepath"
 
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 )
 
 const (
@@ -41,7 +42,7 @@ func (d DbConfig) Validate() error {
 	if err != nil {
 		return err
 	}
-	exists, err := sharedConfig.PathExists(abspath)
+	exists, err := fileutils.PathExists(abspath)
 	if err != nil || !exists {
 		return os.MkdirAll(abspath, defaultDirPerm)
 	}
@@ -64,7 +65,7 @@ func (c CronConfig) Validate() error {
 	if c.BackupSchedule == "" || c.RotateSchedule == "" {
 		return fmt.Errorf(errCronSchedule)
 	}
-	if exists, err := sharedConfig.PathExists(c.BackupDir); err != nil || !exists {
+	if exists, err := fileutils.PathExists(c.BackupDir); err != nil || !exists {
 		return os.MkdirAll(c.BackupDir, defaultDirPerm)
 	}
 	c.BackupDir, _ = filepath.Abs(c.BackupDir)

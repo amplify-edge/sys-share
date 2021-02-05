@@ -13,6 +13,7 @@ import 'package:sys_share_sys_account_service/pkg/shared_repositories/orgproj_re
     as orgRepo;
 import 'package:sys_share_sys_account_service/rpc/v2/sys_account_models.pb.dart'
     as rpc;
+import 'package:string_similarity/string_similarity.dart';
 
 import '../nav_rail.dart';
 
@@ -35,11 +36,25 @@ class AuthNavViewModel extends BaseModel {
       LinkedHashMap.of(<String, Widget>{});
   List<Widget> _widgetList = List<Widget>.empty(growable: true);
   List<String> _widgetKeys = List<String>.empty(growable: true);
-  int _previousIndex = 0;
-  int _currentNavIndex = 0;
+  int _previousIndex;
+  int _currentNavIndex;
   int _nonDynamicWidgetListLength = 0;
 
+  AuthNavViewModel() {
+    isUserLoggedIn();
+    if (_isLoggedIn) {
+      print("USER IS LOGGED IN!");
+      _fetchAccountId();
+      verifySuperuser();
+      verifyAdmin();
+    } else {
+      print("FOR SOME REASON USER IS NOT LOGGED IN");
+    }
+  }
+
   // getters
+  rpc.Account get currentAccount => _currentAccount;
+
   bool get isSuperuser => _isSuperuser;
 
   bool get isAdmin => _isAdmin;
@@ -60,25 +75,21 @@ class AuthNavViewModel extends BaseModel {
 
   String get errMsg => _errMsg;
 
-  void setupTabItems(
-      {@required LinkedHashMap<String, Widget> normalTabs,
-      @required BuildContext context}) {
-    _reset();
+  void setupTabItems({@required LinkedHashMap<String, Widget> normalTabs}) {
+    _resetNav();
     _widgetKeys.add(_accountTabKey);
     normalTabs.forEach((key, value) {
       _widgetList.add(value);
       _widgetKeys.add(key);
     });
-    _setNonDynamicListLength(_widgetList.length);
+    // _setNonDynamicListLength(_widgetList.length);
   }
 
   int getDynamicNavIndex(String route) {
     if (route == "/" || route == _accountTabKey) {
       return _widgetKeys.indexWhere((el) => el == _accountTabKey);
     } else {
-      return _widgetKeys.indexWhere(
-        (el) => el != "/" && el == route,
-      );
+      return route.bestMatch(_widgetKeys).bestMatchIndex;
     }
   }
 
@@ -95,11 +106,6 @@ class AuthNavViewModel extends BaseModel {
 
   void setCurrentNavIndex(int val) {
     _currentNavIndex = val;
-    notifyListeners();
-  }
-
-  void _setNonDynamicListLength(int val) {
-    _nonDynamicWidgetListLength = val;
     notifyListeners();
   }
 
@@ -153,16 +159,16 @@ class AuthNavViewModel extends BaseModel {
     notifyListeners();
   }
 
-  Future<void> isUserLoggedIn() async {
-    _isLoggedIn = await authRepo.isLoggedIn();
+  void isUserLoggedIn() {
+    _isLoggedIn = authRepo.isLoggedIn();
     notifyListeners();
   }
 
-  Future<void> _fetchAccountId() async {
+  void _fetchAccountId() {
     if (_accountId.isEmpty) {
-      final accountId = await getAccountId();
+      final accountId = getAccountId();
       _setAccountId(accountId);
-      await _fetchCurrentAccount();
+      // await _fetchCurrentAccount();
       if (_currentAccount.id.isNotEmpty) {
         _setAccountId(_currentAccount.id);
       }
@@ -174,20 +180,20 @@ class AuthNavViewModel extends BaseModel {
     _setCurrentAccount(currentUser);
   }
 
-  Future<void> verifySuperuser() async {
+  void verifySuperuser() {
     if (_isLoggedIn) {
-      await _fetchAccountId();
-      final _isSuperAdmin = authRepo.isSuperAdmin(_currentAccount);
+      _fetchAccountId();
+      final _isSuperAdmin = authRepo.isSuperAdmin();
       if (_isSuperAdmin) {
         _setSuperUser(true);
       }
     }
   }
 
-  Future<void> verifyAdmin() async {
+  void verifyAdmin() {
     if (_isLoggedIn) {
-      await _fetchAccountId();
-      _mapRoles = authRepo.isAdmin(_currentAccount);
+      _fetchAccountId();
+      _mapRoles = authRepo.isAdmin();
       notifyListeners();
       if (_mapRoles.isNotEmpty) {
         _setAdmin(true);
@@ -195,22 +201,26 @@ class AuthNavViewModel extends BaseModel {
     }
   }
 
-  void _reset() {
-    _isLoggedIn = false;
-    notifyListeners();
+  void _resetNav() {
     setCurrentPageId(Int64.ZERO);
-    _setAccountId('');
-    _setSuperUser(false);
-    _setAdmin(false);
-    _setCurrentAccount(rpc.Account());
     _setSubscribedOrgs(List<rpc.Org>.empty(growable: true));
     _widgetList = _widgetList.sublist(0, _nonDynamicWidgetListLength);
     _widgetKeys = _widgetKeys.sublist(0, _nonDynamicWidgetListLength);
   }
 
-  Future<void> logOut() async {
-    await authRepo.logOut();
-    _reset();
+  void _resetAuth() {
+    _isLoggedIn = false;
+    _setAccountId('');
+    _setSuperUser(false);
+    _setAdmin(false);
+    _setCurrentAccount(rpc.Account());
+    notifyListeners();
+  }
+
+  void logOut() {
+    authRepo.logOut();
+    _resetAuth();
+    _resetNav();
   }
 
   Future<void> _fetchOrgs(
@@ -236,23 +246,24 @@ class AuthNavViewModel extends BaseModel {
     @required LinkedHashMap<String, Widget> superAdminTabs,
   }) async {
     if (_currentAccount.id.isEmpty) {
-      await _fetchAccountId();
+      _fetchAccountId();
     }
-    await verifySuperuser();
-    await verifyAdmin();
+    await _fetchCurrentAccount();
+    verifySuperuser();
+    verifyAdmin();
     if (!_isSuperuser) {
       final orgIds = authRepo.getSubscribedOrgs(_currentAccount);
       await _fetchOrgs({"id": orgIds}, perPageEntries, "in");
     } else {
       await _fetchOrgs(Map<String, dynamic>(), perPageEntries, "like");
     }
-    if (_isLoggedIn && _isSuperuser) {
+    if (_isLoggedIn && _isSuperuser && superAdminTabs != null) {
       superAdminTabs.forEach((key, value) {
         _widgetKeys.add(key);
         _widgetList.add(value);
       });
     }
-    if (_isLoggedIn && (_isAdmin || _isSuperuser)) {
+    if (_isLoggedIn && (_isAdmin || _isSuperuser) && adminTabs != null) {
       adminTabs.forEach((key, value) {
         _widgetKeys.add(key);
         _widgetList.add(value);
@@ -260,7 +271,7 @@ class AuthNavViewModel extends BaseModel {
     }
 
     _subscribedOrgs.forEach((org) {
-      final _namedRoute = '/disco/' + org.id;
+      final _namedRoute = '/disco/subbed/' + org.id;
       _widgetKeys.add(_namedRoute);
       _widgetList.add(TabItem(
         icon: ClipOval(
@@ -273,7 +284,7 @@ class AuthNavViewModel extends BaseModel {
         ),
         title: Text(org.name, style: TextStyle(fontSize: 12)),
         onTap: () {
-          Modular.to.pushNamed('/disco/projects', arguments: [org]);
+          Modular.to.pushNamed(_namedRoute);
         },
       ));
     });

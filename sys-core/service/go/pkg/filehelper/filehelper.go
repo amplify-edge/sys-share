@@ -13,8 +13,8 @@ import (
 
 	"github.com/disintegration/imaging"
 
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
-	dbrpc "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2"
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
+	dbrpc "go.amplifyedge.org/sys-share-v2/sys-core/service/go/rpc/v2"
 )
 
 const (

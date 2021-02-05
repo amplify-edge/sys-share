@@ -20,7 +20,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-#  flutter_modular: ^2.0.1
+  #  flutter_modular: ^2.0.1
   flutter_modular: ^3.0.0-0
   fixnum:
   protobuf: ^1.1.0
@@ -30,10 +30,9 @@ dependencies:
   #  intl_translation: ^0.17.10+1
   provider_architecture: ^1.1.1+1
   stacked: ^1.7.7
-  shared_preferences: '>=0.5.12+2 <2.0.0'
   sys_core:
     #    git:
-    #      url: git://github.com/getcouragenow/sys-share.git
+    #      url: git://github.com/amplify-cms/sys-share.git
     #      path: sys-core/service/flu
     #      ref: 9a2df691224ac65d35f4ba717f5e2bf5a3988a59
     path: ../../../sys-core/service/flu
@@ -41,6 +40,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
+  string_similarity: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -48,7 +48,7 @@ dev_dependencies:
   intl_translation:
     git:
       url: https://github.com/gutterbacon/intl_translation
-      ref: 4c5e4638bf23444ab7d5d60f00f4319f37dee98c
+      ref: 248adfbd76ad3d3be702fb376cfa28112fa1a5b4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

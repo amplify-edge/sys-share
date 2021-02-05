@@ -3,9 +3,9 @@ package pkg
 import (
 	"github.com/segmentio/encoding/json"
 
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 
-	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
+	accountRpc "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2"
 )
 
 type Project struct {

@@ -1,12 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:sys_core/pkg/i18n/sys_core_localizations.dart';
 import 'package:sys_core/sys_core.dart';
 
-class NewGetCourageMasterDetail<T extends GeneratedMessage,
-    U extends GeneratedMessage> extends StatefulWidget {
+class GCMasterDetail<T extends GeneratedMessage, U extends GeneratedMessage>
+    extends StatefulWidget {
   /// [routeWithIdPlaceholder] is the actual route where the
   /// master-detail-view is located at e.g. /myneeds/orgs/:id
   final String routeWithIdPlaceholder;
@@ -70,7 +71,7 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage,
 
   final List<Widget> Function(U itemChild, String id) childBuilder;
 
-  const NewGetCourageMasterDetail(
+  const GCMasterDetail(
       {Key key,
       @required this.detailsBuilder,
       @required this.routeWithIdPlaceholder,
@@ -94,12 +95,11 @@ class NewGetCourageMasterDetail<T extends GeneratedMessage,
       : super(key: key);
 
   @override
-  _NewGetCourageMasterDetailState<T, U> createState() =>
-      _NewGetCourageMasterDetailState<T, U>();
+  _GCMasterDetailState<T, U> createState() => _GCMasterDetailState<T, U>();
 }
 
-class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
-    U extends GeneratedMessage> extends State<NewGetCourageMasterDetail<T, U>> {
+class _GCMasterDetailState<T extends GeneratedMessage,
+    U extends GeneratedMessage> extends State<GCMasterDetail<T, U>> {
   ScrollController _scrollController;
   TextEditingController _searchTextCtrl;
   String _selectedParentId;
@@ -119,7 +119,6 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
   void initState() {
     _previouslySelectedParentId = widget.parentId;
     _selectedParentId = widget.parentId;
-    print("PARENT_ID: ${widget.parentId}, CHILD ID: ${widget.childId}");
     _scrollController = ScrollController();
     _searchTextCtrl = TextEditingController();
     _scrollController.addListener(_scrollListener);
@@ -170,6 +169,7 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
                         children: <Widget>[
                           AppBar(
                             leading: Container(),
+                            automaticallyImplyLeading: false,
                           ),
                           Expanded(
                               child: widget.noItemsSelected ??
@@ -195,11 +195,12 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 AppBar(
+                  automaticallyImplyLeading: false,
                   //disable back button if no item is selected...
-                  automaticallyImplyLeading:
-                      !(widget.disableBackButtonOnNoItemSelected &&
-                          _selectedParentId.isEmpty &&
-                          widget.childId.isEmpty),
+                  // automaticallyImplyLeading:
+                  //     !(widget.disableBackButtonOnNoItemSelected &&
+                  //         _selectedParentId.isEmpty &&
+                  //         widget.childId.isEmpty),
                   title: widget.masterAppBarTitle ?? Container(),
                 ),
                 if (widget.enableSearchBar)
@@ -324,57 +325,21 @@ class _NewGetCourageMasterDetailState<T extends GeneratedMessage,
     );
   }
 
-  _pushDetailsRoute<T, U>(
+  void _pushDetailsRoute<T, U>(
       String newChildId, String newParentId, BuildContext context) {
-    bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: widget.routeWithIdPlaceholder
           .replaceAll(":id", "$newChildId")
-          .replaceAll(":oid", newParentId),
+          .replaceAll(":orgId", newParentId),
     );
-    // Modular.to.pushNamed(routeSettings.name, arguments: {
-    //   'id': newChildId,
-    //   'oid': newParentId,
-    //   'orgs': widget.items
-    // });
-    var newMasterDetailView = NewGetCourageMasterDetail(
-      items: widget.items,
-      labelBuilder: widget.labelBuilder,
-      noItemsSelected: widget.noItemsSelected,
-      detailsBuilder: widget.detailsBuilder,
-      parentId: newParentId,
-      childId: newChildId,
-      routeWithIdPlaceholder: widget.routeWithIdPlaceholder,
-      enableSearchBar: widget.enableSearchBar,
-      masterAppBarTitle: widget.masterAppBarTitle,
-      disableBackButtonOnNoItemSelected:
-          widget.disableBackButtonOnNoItemSelected,
-      noItemsAvailable: widget.noItemsAvailable,
-      imageBuilder: widget.imageBuilder,
-      itemChildren: widget.itemChildren,
-      childBuilder: widget.childBuilder,
-      searchFunction: widget.searchFunction,
-      resetSearchFunction: widget.resetSearchFunction,
+    Modular.to.pushNamed(
+      routeSettings.name,
+      arguments: widget.items,
     );
-    /*
-      We are not using flutter Modular for pushing the route here
-      since we need dynamic transitions. For the >tablet view
-      there shouldn't be a transition, since on each selection the
-      view is pushed again (to be able to change the omnibox).
-
-      for small devices there should be a transition to look normal
-    */
-    Navigator.of(context).push(
-      (withTransition)
-          ? MaterialPageRoute(
-              builder: (context) {
-                return newMasterDetailView;
-              },
-              settings: routeSettings)
-          : PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  newMasterDetailView,
-              settings: routeSettings),
-    );
+    // final routerDelegate = Router.of(context).routerDelegate;
+    // final currentConfig = routerDelegate.currentConfiguration;
+    // routerDelegate.setNewRoutePath(
+    //     ChildRoute(routeSettings.name, child: (ctx, args) => newMasterDetailView),
+    // );
   }
 }

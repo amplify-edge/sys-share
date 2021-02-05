@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/fileutils"
 	"image/color"
 	"image/png"
 	"io/ioutil"
@@ -13,16 +14,17 @@ import (
 	"time"
 	"unsafe"
 
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 	"github.com/brianvoe/gofakeit/v5"
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
 	"github.com/issue9/identicon"
 )
 
 const (
-	letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	letterIdxBits = 6                    // 6 bits to represent a letter index
-	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
-	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
+	letterBytes      = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	letterIdxBits    = 6                    // 6 bits to represent a letter index
+	letterIdxMask    = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
+	letterIdxMax     = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
+	maxQuestionGroup = 3
 )
 
 var popularYts = []string{
@@ -36,6 +38,10 @@ var popularYts = []string{
 	"https://www.youtube.com/watch?v=NstTz8iyl-c",
 	"https://www.youtube.com/watch?v=r6En29azNBA",
 	"https://www.youtube.com/watch?v=hY4yspCQRaM",
+}
+
+type QuestionGroup struct {
+	GroupAndType map[string]string // for example { question_group_1 : "dropdown" }, etc
 }
 
 type RefCount struct {
@@ -169,6 +175,47 @@ func FakeYtUrls() (string, gofakeit.Info) {
 	}
 }
 
+// FakeQuestionGroup creates / generates question group number useful for dropdown question generation
+func FakeQuestionGroup(genFunc func(int) (interface{}, error)) (string, gofakeit.Info) {
+	return "questiongroup", gofakeit.Info{
+		Category:    "questiongroup",
+		Description: "generate sequential int with number, i.e.: 1,2,3,4,5,6",
+		Output:      "string",
+		Params: []gofakeit.Param{
+			{Field: "reset", Type: "bool", Description: "reset reference"},
+		},
+		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
+			return genFunc(randInt())
+		},
+	}
+}
+
+// FakeQuestionType creates / generates question type (dropdown,singlecheckbox,textfield)
+func FakeQuestionType(genFunc func() (interface{}, error)) (string, gofakeit.Info) {
+	return "questiontype", gofakeit.Info{
+		Category:    "questiontype",
+		Description: "Generates one of dropdown, singlecheckbox, or textfield",
+		Example:     "questiontype",
+		Output:      "string",
+		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
+			return genFunc()
+		},
+	}
+}
+
+// FakeDropdownQuestion generates dropdown question for the same question group
+func FakeDropdownQuestion(genFunc func() (interface{}, error)) (string, gofakeit.Info) {
+	return "dropdownquestion", gofakeit.Info{
+		Category:    "dropdownquestion",
+		Description: "Generates dropdown question for the same question group",
+		Example:     "dropdownquestion",
+		Output:      "string",
+		Call: func(m *map[string][]string, info *gofakeit.Info) (interface{}, error) {
+			return genFunc()
+		},
+	}
+}
+
 // FakeAvatarGen generates and writes random user / project / org letter avatar
 // Outputs the filepath to the generated image
 func FakeAvatarGen() (string, gofakeit.Info) {
@@ -217,7 +264,7 @@ func FakeAvatarGenBytes() (string, gofakeit.Info) {
 }
 
 func GenFakeLogo(outDir string, size int) (string, error) {
-	if ex, _ := sharedConfig.PathExists(outDir); !ex {
+	if ex, _ := fileutils.PathExists(outDir); !ex {
 		_ = os.MkdirAll(outDir, 0755)
 	}
 	imgId := sharedConfig.NewID()
@@ -299,4 +346,8 @@ func randString(n int) string {
 	}
 
 	return *(*string)(unsafe.Pointer(&b))
+}
+
+func randInt() int {
+	return rand.Intn(maxQuestionGroup)
 }

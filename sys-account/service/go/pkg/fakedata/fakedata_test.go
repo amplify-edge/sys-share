@@ -6,11 +6,11 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/getcouragenow/sys-share/sys-account/service/go/pkg/fakedata"
+	"go.amplifyedge.org/sys-share-v2/sys-account/service/go/pkg/fakedata"
 )
 
 func TestBootstrapFakeData(t *testing.T) {
-	_, _, _, fake, err := fakedata.BootstrapFakeData("getcouragenow.org")
+	_, _, _, fake, err := fakedata.BootstrapFakeData("amplify-cms.org")
 	require.NoError(t, err)
 	b, err := fake.MarshalPretty()
 	require.NoError(t, err)

@@ -2,14 +2,14 @@ package pkg
 
 import (
 	"context"
-	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
+	cliClient "github.com/amplify-cms/protoc-gen-cobra/client"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	rpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
-	sharedConfig "github.com/getcouragenow/sys-share/sys-core/service/config"
+	rpc "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2"
+	sharedConfig "go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 )
 
 // SysAccountClient is just a stub

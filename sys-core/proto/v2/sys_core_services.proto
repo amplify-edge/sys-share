@@ -5,7 +5,7 @@ import "sys_core_models.proto";
 
 package v2.sys_core.services;
 
-option go_package = "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2";
+option go_package = "github.com/amplify-cms/sys-share/sys-core/service/go/rpc/v2";
 
 service DbAdminService {
   rpc Backup(google.protobuf.Empty) returns (v2.sys_core.services.BackupAllResult) {}

@@ -1,7 +1,7 @@
 package pkg
 
 import (
-	cliClient "github.com/getcouragenow/protoc-gen-cobra/client"
+	cliClient "github.com/amplify-cms/protoc-gen-cobra/client"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

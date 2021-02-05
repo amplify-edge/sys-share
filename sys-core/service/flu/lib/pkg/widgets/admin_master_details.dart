@@ -61,6 +61,8 @@ class AdminMasterDetails<T extends GeneratedMessage> extends StatefulWidget {
 
   final bool isLoadingMoreItems;
 
+  final String activeId;
+
   final Future<void> Function() fetchNextItems;
 
   const AdminMasterDetails(
@@ -80,6 +82,7 @@ class AdminMasterDetails<T extends GeneratedMessage> extends StatefulWidget {
       this.fetchNextItems,
       this.hasMoreItems = false,
       this.resetSearchFunction,
+      this.activeId = '',
       this.id = ''})
       : super(key: key);
 
@@ -173,9 +176,12 @@ class _AdminMasterDetailsState<T extends GeneratedMessage>
               children: <Widget>[
                 AppBar(
                   //disable back button if no item is selected...
-                  automaticallyImplyLeading:
-                      !(widget.disableBackButtonOnNoItemSelected &&
-                          widget.id.isEmpty),
+                  // automaticallyImplyLeading:
+                  //     !(widget.disableBackButtonOnNoItemSelected &&
+                  //         widget.id.isEmpty),
+                  // just disable ugly back button since we have gesture or hardware back button
+                  // or even back browser button
+                  automaticallyImplyLeading: false,
                   title: widget.masterAppBarTitle ?? Container(),
                 ),
                 if (widget.enableSearchBar)
@@ -217,6 +223,15 @@ class _AdminMasterDetailsState<T extends GeneratedMessage>
                                     ),
                                   )
                                 : Container(),
+                            if (widget.activeId.isNotEmpty)
+                              Icon(
+                                Icons.check_box_outlined,
+                                size: 15,
+                                color: Colors.green[500],
+                              ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 10),
+                            ),
                             Expanded(
                               child: Text(
                                 widget.labelBuilder(item),
@@ -265,37 +280,9 @@ class _AdminMasterDetailsState<T extends GeneratedMessage>
   }
 
   _pushParentDetailsRoute<T>(String newParentId, BuildContext context) {
-    bool withTransition = !isTablet(context);
     var routeSettings = RouteSettings(
       name: widget.routeWithIdPlaceholder.replaceAll(":id", "$newParentId"),
     );
-    var newMasterDetailView = AdminMasterDetails(
-      items: widget.items,
-      labelBuilder: widget.labelBuilder,
-      noItemsSelected: widget.noItemsSelected,
-      detailsBuilder: widget.detailsBuilder,
-      id: newParentId,
-      routeWithIdPlaceholder: widget.routeWithIdPlaceholder,
-      enableSearchBar: widget.enableSearchBar,
-      masterAppBarTitle: widget.masterAppBarTitle,
-      disableBackButtonOnNoItemSelected:
-          widget.disableBackButtonOnNoItemSelected,
-      noItemsAvailable: widget.noItemsAvailable,
-      imageBuilder: widget.imageBuilder,
-      searchFunction: widget.searchFunction,
-      resetSearchFunction: widget.resetSearchFunction,
-    );
-    Navigator.of(context).push(
-      (withTransition)
-          ? MaterialPageRoute(
-          builder: (context) {
-            return newMasterDetailView;
-          },
-          settings: routeSettings)
-          : PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-          newMasterDetailView,
-          settings: routeSettings),
-    );
+    Modular.to.pushNamed(routeSettings.name, arguments: widget.items);
   }
 }

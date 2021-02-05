@@ -29,6 +29,9 @@ class AuthNavLayout extends StatefulWidget {
   _AuthNavLayoutState createState() => _AuthNavLayoutState();
 }
 
+// Should rebuild when:
+// logged in / logged out
+// also on change language
 class _AuthNavLayoutState extends State<AuthNavLayout> {
   @override
   Widget build(BuildContext context) {
@@ -38,24 +41,21 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
 
     return ViewModelProvider<AuthNavViewModel>.withConsumer(
       viewModelBuilder: () => Modular.get<AuthNavViewModel>(),
-      disposeViewModel: true,
       onModelReady: (AuthNavViewModel model) async {
-        await model.isUserLoggedIn();
+        model.setupTabItems(
+          normalTabs: widget.tabs,
+        );
         if (model.isLoggedIn) {
           await model.getSubscribedOrgs(
             adminTabs: widget.adminTabs,
             superAdminTabs: widget.superAdminTabs,
           );
         }
-        model.setupTabItems(
-          normalTabs: widget.tabs,
-          context: context,
-        );
       },
       builder: (ctx, model, child) {
         return AccountNavRail(
-          //rebuild here on every platform change
-          //unique keys would lead to rerender on every pixel change when resizing
+          // rebuild here on every platform change
+          // unique keys would lead to rerender on every pixel change when resizing
           // the window
           isDense: false,
           key: ValueKey(platform),
@@ -70,39 +70,41 @@ class _AuthNavLayoutState extends State<AuthNavLayout> {
           tabs: [
             model.isLoggedIn
                 ? TabItem(
-                    title: Text(SysAccountLocalizations.of(context)
-                        .translate('signOut')),
+                    // title: Text(SysAccountLocalizations.of(context)
+                    //     .translate('signOut')),
+                    title: Text('Logout'),
                     icon: Icon(Icons.logout),
-                    onTap: () async {
-                      await model.logOut();
+                    onTap: () {
+                      model.logOut();
                       // reset navigation stack
-                      Modular.to.navigate("/");
+                      model.setupTabItems(normalTabs: widget.tabs);
+                      Modular.to.pushNamed("/");
                     },
                   )
                 : TabItem(
-                    title: Text(SysAccountLocalizations.of(context)
-                        .translate('signIn')),
+                    // title: Text(SysAccountLocalizations.of(context)
+                    //     .translate('signIn')),
+                    title: Text('Login'),
                     icon: Icon(Icons.login),
                     onTap: () => asuka.showDialog(
                       builder: (context) => AuthDialog(
                         callback: () async {
                           Navigator.of(context).pop();
-                          await model.isUserLoggedIn();
-                          if (model.isLoggedIn) {
-                            await model.getSubscribedOrgs(
-                              adminTabs: widget.adminTabs,
-                              superAdminTabs: widget.superAdminTabs,
-                            );
-                            model.setCurrentNavIndex(model.previousNavIndex);
-                            Modular.to.navigate(
-                                model.getTabRoute(model.currentNavIndex));
-                          }
+                          Future.delayed(Duration.zero, () async {
+                            model.isUserLoggedIn();
+                            if (model.isLoggedIn) {
+                              await model.getSubscribedOrgs(
+                                adminTabs: widget.adminTabs,
+                                superAdminTabs: widget.superAdminTabs,
+                              );
+                              // reset navigation stack
+                              Modular.to.pushNamed('/');
+                            }
+                          });
                         },
                       ),
                     ),
                   ),
-            // if (model.isSuperuser) ...widget.superAdminTabs.values,
-            // if (model.isAdmin || model.isSuperuser) ...widget.adminTabs.values,
             ...model.widgetList,
           ],
           onPressed: (index) {

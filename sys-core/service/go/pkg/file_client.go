@@ -8,8 +8,9 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	log "github.com/getcouragenow/sys-share/sys-core/service/logging"
-	"github.com/getcouragenow/sys-share/sys-core/service/logging/zaplog"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/fileutils"
+	log "go.amplifyedge.org/sys-share-v2/sys-core/service/logging"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/logging/zaplog"
 	"github.com/spf13/cobra"
 	"io"
 	"io/ioutil"
@@ -18,16 +19,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/getcouragenow/protoc-gen-cobra/client"
-	"github.com/getcouragenow/protoc-gen-cobra/flag"
-	"github.com/getcouragenow/protoc-gen-cobra/iocodec"
+	"github.com/amplify-cms/protoc-gen-cobra/client"
+	"github.com/amplify-cms/protoc-gen-cobra/flag"
+	"github.com/amplify-cms/protoc-gen-cobra/iocodec"
 	bar "github.com/schollz/progressbar/v2"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	"github.com/getcouragenow/sys-share/sys-core/service/config"
-
-	dbrpc "github.com/getcouragenow/sys-share/sys-core/service/go/rpc/v2"
+	dbrpc "go.amplifyedge.org/sys-share-v2/sys-core/service/go/rpc/v2"
 )
 
 const (
@@ -103,7 +102,7 @@ func uploadFileCommand(cfg *client.Config) *cobra.Command {
 				if err != nil {
 					return err
 				}
-				isDir, err := config.IsDirectory(abspath)
+				isDir, err := fileutils.IsDirectory(abspath)
 				if err != nil {
 					return err
 				}

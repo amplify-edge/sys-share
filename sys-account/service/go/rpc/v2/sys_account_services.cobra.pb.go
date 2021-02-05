@@ -3,11 +3,11 @@
 package v2
 
 import (
-	client "github.com/getcouragenow/protoc-gen-cobra/client"
-	flag "github.com/getcouragenow/protoc-gen-cobra/flag"
-	iocodec "github.com/getcouragenow/protoc-gen-cobra/iocodec"
 	cobra "github.com/spf13/cobra"
 	pflag "github.com/spf13/pflag"
+	client "go.amplifyedge.org/protoc-gen-cobra/client"
+	flag "go.amplifyedge.org/protoc-gen-cobra/flag"
+	iocodec "go.amplifyedge.org/protoc-gen-cobra/iocodec"
 	grpc "google.golang.org/grpc"
 	proto "google.golang.org/protobuf/proto"
 	strconv "strconv"
@@ -502,7 +502,7 @@ func _OrgProjServiceNewProjectCommand(cfg *client.Config) *cobra.Command {
 
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "@inject_tag: fake:\"{nameseq:sys_account_project,false,none,false,false}\" yaml:\"name,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "@inject_tag: fake:\"skip\" yaml:\"logo_filepath,omitempty\"")
-	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "@inject_tag: fake:\"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}\" yaml:\"creator_id,omitempty\"")
+	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "@inject_tag: fake:\"{randomstring:[ops@amplify-cms.org, dev@amplify-cms.org]}\" yaml:\"creator_id,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.OrgId, cfg.FlagNamer("OrgId"), "", "@inject_tag: fake:\"skip\" yaml:\"org_id,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.OrgName, cfg.FlagNamer("OrgName"), "", "@inject_tag: fake:\"{nameseq:sys_account_org,true,sys_account_org,false,false}\" yaml:\"org_name,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "", "@inject_tag: fake:\"{logogen:128}\" yaml:\"logo_upload_bytes,omitempty\"")
@@ -734,7 +734,7 @@ func _OrgProjServiceNewOrgCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Name, cfg.FlagNamer("Name"), "", "@inject_tag: fake:\"{nameseq:sys_account_org,false,none,false,false}\" yaml:\"name,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.LogoFilepath, cfg.FlagNamer("LogoFilepath"), "", "@inject_tag: fake:\"skip\" yaml:\"logo_filepath,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.Contact, cfg.FlagNamer("Contact"), "", "@inject_tag: fake:\"{email}\" yaml:\"contact,omitempty\"")
-	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "@inject_tag: fake:\"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}\" yaml:\"creator_id,omitempty\"")
+	cmd.PersistentFlags().StringVar(&req.CreatorId, cfg.FlagNamer("CreatorId"), "", "@inject_tag: fake:\"{randomstring:[ops@amplify-cms.org,contact@amplify-cms.org]}\" yaml:\"creator_id,omitempty\"")
 	cmd.PersistentFlags().StringVar(&req.LogoUploadBytes, cfg.FlagNamer("LogoUploadBytes"), "", "@inject_tag: fake:\"{logogen:128}\" yaml:\"logo_upload_bytes,omitempty\"")
 
 	return cmd

@@ -2,17 +2,17 @@ package pkg
 
 import (
 	"bytes"
-	"github.com/getcouragenow/protoc-gen-cobra/client"
-	"github.com/getcouragenow/protoc-gen-cobra/flag"
-	"github.com/getcouragenow/protoc-gen-cobra/iocodec"
+	"github.com/amplify-cms/protoc-gen-cobra/client"
+	"github.com/amplify-cms/protoc-gen-cobra/flag"
+	"github.com/amplify-cms/protoc-gen-cobra/iocodec"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
 	"io/ioutil"
 	"text/template"
 
-	accountRpc "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2"
-	"github.com/getcouragenow/sys-share/sys-core/service/clihelper"
+	accountRpc "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2"
+	"go.amplifyedge.org/sys-share-v2/sys-core/service/clihelper"
 )
 
 func AuthServiceSigninCommand(options ...client.Option) *cobra.Command {

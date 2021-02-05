@@ -14,10 +14,6 @@ override FLU_LIB_NAME = mod_survey
 override FLU_LIB_FSPATH = $(PWD)/service/flu
 override FLU_LANG_LOCALIZATION_DIR = $(FLU_LIB_FSPATH)/lib/pkg/i18n
 
-EXAMPLE_EMAIL = superadmin@getcouragenow.org
-EXAMPLE_PASSWORD = superadmin
-EXAMPLE_SERVER_ADDRESS = 127.0.0.1:8888
-
 this-all: this-print this-config this-build this-print-end
 	
 ## Print all settings
@@ -58,20 +54,13 @@ this-gen: this-gen-delete
 	@echo "Generating GRPC models and services for Go & Flutter"
 	@mkdir -p service/{flu/lib,go}/rpc/v2
 	@go generate
-	#$(MAKE) flu-gen-all
-	$(MAKE) flu-gen-lang
+	# comment out flu-gen-lang for now as it hangs
+	# $(MAKE) flu-gen-all
+	# $(MAKE) flu-gen-lang
 
 this-gen-delete:
 	@echo 'Removing generated protobuf definition (Go and Flutter)'
 	rm -rf service/{flu/lib,go}/rpc/v2/*.{dart,go}
-
-this-example-run:
-	@echo Running Example Login Client
-	./bin-all/cli/go/main auth-service login --email $(EXAMPLE_EMAIL) --password $(EXAMPLE_PASSWORD) --server-addr $(EXAMPLE_SERVER_ADDRESS)
-
-this-example-register:
-	@echo Running Example Register Client
-	./bin-all/cli/go/main auth-service register --email $(EXAMPLE_EMAIL) --password $(EXAMPLE_PASSWORD) --password-confirm $(EXAMPLE_PASSWORD) --server-addr $(EXAMPLE_SERVER_ADDRESS)
 
 this-example-flutter-web-run:
 	@echo Running Example Flutter Client

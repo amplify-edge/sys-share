@@ -4,7 +4,7 @@ import "google/protobuf/timestamp.proto";
 
 package v2.sys_account.services;
 
-option go_package = "github.com/getcouragenow/sys-share/sys-account/service/go/rpc/v2";
+option go_package = "github.com/amplify-cms/sys-share/sys-account/service/go/rpc/v2";
 
 message ErrorReason {
   string reason = 1;
@@ -110,7 +110,7 @@ message ProjectRequest {
   string name = 1;
   // @inject_tag: fake:"skip" yaml:"logo_filepath,omitempty"
   string logo_filepath = 2;
-  // @inject_tag: fake:"{randomstring:[ops@getcouragenow.org, dev@getcouragenow.org]}" yaml:"creator_id,omitempty"
+  // @inject_tag: fake:"{randomstring:[ops@amplify-cms.org, dev@amplify-cms.org]}" yaml:"creator_id,omitempty"
   string creator_id = 3;
   // @inject_tag: fake:"skip" yaml:"org_id,omitempty"
   string org_id = 4;
@@ -146,7 +146,7 @@ message OrgRequest {
   string logo_filepath = 2;
   // @inject_tag: fake:"{email}" yaml:"contact,omitempty"
   string contact = 3;
-  // @inject_tag: fake:"{randomstring:[ops@getcouragenow.org,contact@getcouragenow.org]}" yaml:"creator_id,omitempty"
+  // @inject_tag: fake:"{randomstring:[ops@amplify-cms.org,contact@amplify-cms.org]}" yaml:"creator_id,omitempty"
   string creator_id = 4;
   // @inject_tag: fake:"{logogen:128}" yaml:"logo_upload_bytes,omitempty"
   string logo_upload_bytes = 5;

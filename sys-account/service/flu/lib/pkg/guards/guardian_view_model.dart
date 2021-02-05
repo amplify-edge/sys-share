@@ -9,13 +9,15 @@ import 'package:sys_share_sys_account_service/sys_share_sys_account_service.dart
 class GuardianViewModel extends ChangeNotifier {
   Account _currentAccount = Account();
   Map<int, UserRoles> _mapRoles = Map<int, UserRoles>();
-  String _accountId = '';
+  String _accountId = getAccountId();
   String _errMsg = '';
   bool _isUserSuperuser = false;
   bool _isUserLoggedIn = false;
   bool _isUserAdmin = false;
 
   Account get currentAccount => _currentAccount;
+
+  String get accountId => getAccountId();
 
   bool get isUserSuperuser => _isUserSuperuser;
 
@@ -33,14 +35,14 @@ class GuardianViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _isLoggedIn() async {
-    final isLoggedOn = await isLoggedIn();
+  void _isLoggedIn() {
+    final isLoggedOn = isLoggedIn();
     _isUserLoggedIn = isLoggedOn;
     notifyListeners();
   }
-  
-  Future<void> getLoginStatus() async {
-    await _isLoggedIn();
+
+  void getLoginStatus() {
+    _isLoggedIn();
   }
 
   void _setAccountId(String value) {
@@ -68,31 +70,30 @@ class GuardianViewModel extends ChangeNotifier {
     _setCurrentAccount(currentUser);
   }
 
-  Future<void> fetchAccountId() async {
+  void fetchAccountId() {
     if (_accountId.isEmpty) {
-      final accountId = await getAccountId();
+      final accountId = getAccountId();
       _setAccountId(accountId);
-      await _fetchCurrentAccount();
       if (_currentAccount.id.isNotEmpty) {
         _setAccountId(_currentAccount.id);
       }
     }
   }
 
-  Future<void> verifySuperuser() async {
+  void verifySuperuser() {
     if (_isUserLoggedIn) {
-      await fetchAccountId();
-      final _isSuperAdmin = isSuperAdmin(_currentAccount);
+      fetchAccountId();
+      final _isSuperAdmin = isSuperAdmin();
       if (_isSuperAdmin) {
         _setSuperUser(true);
       }
     }
   }
 
-  Future<void> verifyAdmin() async {
+  void verifyAdmin() {
     if (_isUserLoggedIn) {
-      await fetchAccountId();
-      _mapRoles = isAdmin(_currentAccount);
+      fetchAccountId();
+      _mapRoles = isAdmin();
       notifyListeners();
       if (_mapRoles.isNotEmpty) {
         _setAdmin(true);
@@ -111,20 +112,20 @@ class GuardianViewModel extends ChangeNotifier {
     await grantAccessFunction(context, widget);
   }
 
-  Future<void> checkUserLoggedIn(BuildContext context) async {
-    await _isLoggedIn();
+  void checkUserLoggedIn(BuildContext context) {
+    _isLoggedIn();
     if (!_isUserLoggedIn) {
       setErrMsg(context, 'cannot access page, user is not logged in');
       return;
     }
   }
 
-  Future<void> _grantSuperAccess(BuildContext context, Widget widget) async {
-    await checkUserLoggedIn(context);
+  void _grantSuperAccess(BuildContext context, Widget widget) {
+    checkUserLoggedIn(context);
     if (_currentAccount.id.isEmpty) {
-      await fetchAccountId();
+      fetchAccountId();
     }
-    await verifySuperuser();
+    verifySuperuser();
     if (!_isUserSuperuser) {
       setErrMsg(context, "cannot access page, user is not authorized");
       return;
