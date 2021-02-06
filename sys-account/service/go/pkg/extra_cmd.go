@@ -2,9 +2,9 @@ package pkg
 
 import (
 	"bytes"
-	"github.com/amplify-cms/protoc-gen-cobra/client"
-	"github.com/amplify-cms/protoc-gen-cobra/flag"
-	"github.com/amplify-cms/protoc-gen-cobra/iocodec"
+	"go.amplifyedge.org/protoc-gen-cobra/client"
+	"go.amplifyedge.org/protoc-gen-cobra/flag"
+	"go.amplifyedge.org/protoc-gen-cobra/iocodec"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
