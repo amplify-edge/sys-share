@@ -24,7 +24,7 @@ this-print-end:
 	@echo
 
 this-dep:
-	cd $(SHARED_FSPATH) && $(MAKE) this-all
+	cd $(SHARED_FSPATH) && $(MAKE) this-dep
 
 this-build:
 	cd sys-core && $(MAKE) this-all
