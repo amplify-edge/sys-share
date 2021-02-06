@@ -4,7 +4,7 @@ import "google/protobuf/timestamp.proto";
 
 package v2.sys_account.services;
 
-option go_package = "github.com/amplify-cms/sys-share/sys-account/service/go/rpc/v2";
+option go_package = "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2";
 
 message ErrorReason {
   string reason = 1;

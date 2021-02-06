@@ -5,7 +5,7 @@ import "sys_account_models.proto";
 
 package v2.sys_account.services;
 
-option go_package = "github.com/amplify-cms/sys-share/sys-account/service/go/rpc/v2";
+option go_package = "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2";
 
 service AccountService {
   rpc NewAccount(v2.sys_account.services.AccountNewRequest) returns (v2.sys_account.services.Account) {};
