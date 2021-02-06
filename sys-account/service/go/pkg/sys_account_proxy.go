@@ -2,7 +2,7 @@ package pkg
 
 import (
 	"context"
-	cliClient "github.com/amplify-cms/protoc-gen-cobra/client"
+	cliClient "go.amplifyedge.org/protoc-gen-cobra/client"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"

@@ -19,9 +19,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/amplify-cms/protoc-gen-cobra/client"
-	"github.com/amplify-cms/protoc-gen-cobra/flag"
-	"github.com/amplify-cms/protoc-gen-cobra/iocodec"
+	"go.amplifyedge.org/protoc-gen-cobra/client"
+	"go.amplifyedge.org/protoc-gen-cobra/flag"
+	"go.amplifyedge.org/protoc-gen-cobra/iocodec"
 	bar "github.com/schollz/progressbar/v2"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
