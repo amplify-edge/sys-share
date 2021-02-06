@@ -4,7 +4,7 @@ import "sys_core_models.proto";
 
 package v2.sys_core.services;
 
-option go_package = "github.com/amplify-cms/sys-share/sys-core/service/go/rpc/v2";
+option go_package = "go.amplifyedge.org/sys-share-v2/sys-core/service/go/rpc/v2";
 
 service FileService {
   rpc Upload(stream v2.sys_core.services.FileUploadRequest) returns (v2.sys_core.services.FileUploadResponse) {}
