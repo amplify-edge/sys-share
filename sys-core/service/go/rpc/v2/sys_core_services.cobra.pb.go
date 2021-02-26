@@ -3,14 +3,13 @@
 package v2
 
 import (
-	empty "github.com/golang/protobuf/ptypes/empty"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	cobra "github.com/spf13/cobra"
 	client "go.amplifyedge.org/protoc-gen-cobra/client"
 	flag "go.amplifyedge.org/protoc-gen-cobra/flag"
 	iocodec "go.amplifyedge.org/protoc-gen-cobra/iocodec"
 	grpc "google.golang.org/grpc"
 	proto "google.golang.org/protobuf/proto"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 func DbAdminServiceClientCommand(options ...client.Option) *cobra.Command {
@@ -31,7 +30,7 @@ func DbAdminServiceClientCommand(options ...client.Option) *cobra.Command {
 }
 
 func _DbAdminServiceBackupCommand(cfg *client.Config) *cobra.Command {
-	req := &empty.Empty{}
+	req := &emptypb.Empty{}
 
 	cmd := &cobra.Command{
 		Use:    cfg.CommandNamer("Backup"),
@@ -49,7 +48,7 @@ func _DbAdminServiceBackupCommand(cfg *client.Config) *cobra.Command {
 			}
 			return client.RoundTrip(cmd.Context(), cfg, func(cc grpc.ClientConnInterface, in iocodec.Decoder, out iocodec.Encoder) error {
 				cli := NewDbAdminServiceClient(cc)
-				v := &empty.Empty{}
+				v := &emptypb.Empty{}
 
 				if err := in(v); err != nil {
 					return err
@@ -303,8 +302,7 @@ func AnalyticsServiceClientCommand(options ...client.Option) *cobra.Command {
 func _AnalyticsServiceSendAnalyticsEventCommand(cfg *client.Config) *cobra.Command {
 	req := &ModEvent{
 		Meta: &Meta{
-			Datetime: &timestamp.Timestamp{},
-			Geo:      &GeoLoc{},
+			Geo: &GeoLoc{},
 		},
 	}
 
@@ -347,8 +345,7 @@ func _AnalyticsServiceSendAnalyticsEventCommand(cfg *client.Config) *cobra.Comma
 	cmd.PersistentFlags().StringVar(&req.Meta.Actor, cfg.FlagNamer("Meta Actor"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Meta.UserId, cfg.FlagNamer("Meta UserId"), "", "")
 	cmd.PersistentFlags().StringVar(&req.Meta.UserName, cfg.FlagNamer("Meta UserName"), "", "")
-	cmd.PersistentFlags().Int64Var(&req.Meta.Datetime.Seconds, cfg.FlagNamer("Meta Datetime Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.Meta.Datetime.Nanos, cfg.FlagNamer("Meta Datetime Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	flag.TimestampVar(cmd.PersistentFlags(), &req.Meta.Datetime, cfg.FlagNamer("Meta Datetime"), "")
 	cmd.PersistentFlags().Float32Var(&req.Meta.Geo.Longitude, cfg.FlagNamer("Meta Geo Longitude"), 0, "")
 	cmd.PersistentFlags().Float32Var(&req.Meta.Geo.Latitude, cfg.FlagNamer("Meta Geo Latitude"), 0, "")
 	cmd.PersistentFlags().StringVar(&req.Meta.OrgId, cfg.FlagNamer("Meta OrgId"), "", "")
@@ -363,10 +360,7 @@ func _AnalyticsServiceSendAnalyticsEventCommand(cfg *client.Config) *cobra.Comma
 }
 
 func _AnalyticsServiceDownloadAnalyticsCommand(cfg *client.Config) *cobra.Command {
-	req := &DownloadAnalyticsRequest{
-		DatetimeStart: &timestamp.Timestamp{},
-		DatetimeEnd:   &timestamp.Timestamp{},
-	}
+	req := &DownloadAnalyticsRequest{}
 
 	cmd := &cobra.Command{
 		Use:    cfg.CommandNamer("DownloadAnalytics"),
@@ -405,10 +399,8 @@ func _AnalyticsServiceDownloadAnalyticsCommand(cfg *client.Config) *cobra.Comman
 
 	cmd.PersistentFlags().StringVar(&req.Id, cfg.FlagNamer("Id"), "", "")
 	flag.BytesBase64Var(cmd.PersistentFlags(), &req.Filter, cfg.FlagNamer("Filter"), "")
-	cmd.PersistentFlags().Int64Var(&req.DatetimeStart.Seconds, cfg.FlagNamer("DatetimeStart Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.DatetimeStart.Nanos, cfg.FlagNamer("DatetimeStart Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
-	cmd.PersistentFlags().Int64Var(&req.DatetimeEnd.Seconds, cfg.FlagNamer("DatetimeEnd Seconds"), 0, "Represents seconds of UTC time since Unix epoch\n 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to\n 9999-12-31T23:59:59Z inclusive.")
-	cmd.PersistentFlags().Int32Var(&req.DatetimeEnd.Nanos, cfg.FlagNamer("DatetimeEnd Nanos"), 0, "Non-negative fractions of a second at nanosecond resolution. Negative\n second values with fractions must still have non-negative nanos values\n that count forward in time. Must be from 0 to 999,999,999\n inclusive.")
+	flag.TimestampVar(cmd.PersistentFlags(), &req.DatetimeStart, cfg.FlagNamer("DatetimeStart"), "")
+	flag.TimestampVar(cmd.PersistentFlags(), &req.DatetimeEnd, cfg.FlagNamer("DatetimeEnd"), "")
 
 	return cmd
 }

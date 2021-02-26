@@ -4,14 +4,15 @@ package v2
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // AccountServiceClient is the client API for AccountService service.
@@ -25,7 +26,7 @@ type AccountServiceClient interface {
 	AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error)
 	UpdateAccount(ctx context.Context, in *AccountUpdateRequest, opts ...grpc.CallOption) (*Account, error)
 	DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error)
-	DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type accountServiceClient struct {
@@ -34,10 +35,6 @@ type accountServiceClient struct {
 
 func NewAccountServiceClient(cc grpc.ClientConnInterface) AccountServiceClient {
 	return &accountServiceClient{cc}
-}
-
-var accountServiceNewAccountStreamDesc = &grpc.StreamDesc{
-	StreamName: "NewAccount",
 }
 
 func (c *accountServiceClient) NewAccount(ctx context.Context, in *AccountNewRequest, opts ...grpc.CallOption) (*Account, error) {
@@ -49,10 +46,6 @@ func (c *accountServiceClient) NewAccount(ctx context.Context, in *AccountNewReq
 	return out, nil
 }
 
-var accountServiceGetAccountStreamDesc = &grpc.StreamDesc{
-	StreamName: "GetAccount",
-}
-
 func (c *accountServiceClient) GetAccount(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/GetAccount", in, out, opts...)
@@ -60,10 +53,6 @@ func (c *accountServiceClient) GetAccount(ctx context.Context, in *IdRequest, op
 		return nil, err
 	}
 	return out, nil
-}
-
-var accountServiceListAccountsStreamDesc = &grpc.StreamDesc{
-	StreamName: "ListAccounts",
 }
 
 func (c *accountServiceClient) ListAccounts(ctx context.Context, in *ListAccountsRequest, opts ...grpc.CallOption) (*ListAccountsResponse, error) {
@@ -75,10 +64,6 @@ func (c *accountServiceClient) ListAccounts(ctx context.Context, in *ListAccount
 	return out, nil
 }
 
-var accountServiceSearchAccountsStreamDesc = &grpc.StreamDesc{
-	StreamName: "SearchAccounts",
-}
-
 func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *SearchAccountsRequest, opts ...grpc.CallOption) (*SearchAccountsResponse, error) {
 	out := new(SearchAccountsResponse)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/SearchAccounts", in, out, opts...)
@@ -86,10 +71,6 @@ func (c *accountServiceClient) SearchAccounts(ctx context.Context, in *SearchAcc
 		return nil, err
 	}
 	return out, nil
-}
-
-var accountServiceAssignAccountToRoleStreamDesc = &grpc.StreamDesc{
-	StreamName: "AssignAccountToRole",
 }
 
 func (c *accountServiceClient) AssignAccountToRole(ctx context.Context, in *AssignAccountToRoleRequest, opts ...grpc.CallOption) (*Account, error) {
@@ -101,10 +82,6 @@ func (c *accountServiceClient) AssignAccountToRole(ctx context.Context, in *Assi
 	return out, nil
 }
 
-var accountServiceUpdateAccountStreamDesc = &grpc.StreamDesc{
-	StreamName: "UpdateAccount",
-}
-
 func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *AccountUpdateRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/UpdateAccount", in, out, opts...)
@@ -112,10 +89,6 @@ func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *AccountUpd
 		return nil, err
 	}
 	return out, nil
-}
-
-var accountServiceDisableAccountStreamDesc = &grpc.StreamDesc{
-	StreamName: "DisableAccount",
 }
 
 func (c *accountServiceClient) DisableAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*Account, error) {
@@ -127,12 +100,8 @@ func (c *accountServiceClient) DisableAccount(ctx context.Context, in *DisableAc
 	return out, nil
 }
 
-var accountServiceDeleteAccountStreamDesc = &grpc.StreamDesc{
-	StreamName: "DeleteAccount",
-}
-
-func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *DisableAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AccountService/DeleteAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -140,283 +109,10 @@ func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *DisableAcc
 	return out, nil
 }
 
-// AccountServiceService is the service API for AccountService service.
-// Fields should be assigned to their respective handler implementations only before
-// RegisterAccountServiceService is called.  Any unassigned fields will result in the
-// handler for that method returning an Unimplemented error.
-type AccountServiceService struct {
-	NewAccount          func(context.Context, *AccountNewRequest) (*Account, error)
-	GetAccount          func(context.Context, *IdRequest) (*Account, error)
-	ListAccounts        func(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
-	SearchAccounts      func(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
-	AssignAccountToRole func(context.Context, *AssignAccountToRoleRequest) (*Account, error)
-	UpdateAccount       func(context.Context, *AccountUpdateRequest) (*Account, error)
-	DisableAccount      func(context.Context, *DisableAccountRequest) (*Account, error)
-	DeleteAccount       func(context.Context, *DisableAccountRequest) (*empty.Empty, error)
-}
-
-func (s *AccountServiceService) newAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.NewAccount == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method NewAccount not implemented")
-	}
-	in := new(AccountNewRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.NewAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AccountService/NewAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.NewAccount(ctx, req.(*AccountNewRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AccountServiceService) getAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.GetAccount == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
-	}
-	in := new(IdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.GetAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AccountService/GetAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.GetAccount(ctx, req.(*IdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AccountServiceService) listAccounts(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.ListAccounts == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method ListAccounts not implemented")
-	}
-	in := new(ListAccountsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.ListAccounts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AccountService/ListAccounts",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ListAccounts(ctx, req.(*ListAccountsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AccountServiceService) searchAccounts(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.SearchAccounts == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method SearchAccounts not implemented")
-	}
-	in := new(SearchAccountsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.SearchAccounts(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AccountService/SearchAccounts",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.SearchAccounts(ctx, req.(*SearchAccountsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AccountServiceService) assignAccountToRole(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.AssignAccountToRole == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method AssignAccountToRole not implemented")
-	}
-	in := new(AssignAccountToRoleRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.AssignAccountToRole(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AccountService/AssignAccountToRole",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.AssignAccountToRole(ctx, req.(*AssignAccountToRoleRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AccountServiceService) updateAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.UpdateAccount == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method UpdateAccount not implemented")
-	}
-	in := new(AccountUpdateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.UpdateAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AccountService/UpdateAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.UpdateAccount(ctx, req.(*AccountUpdateRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AccountServiceService) disableAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.DisableAccount == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method DisableAccount not implemented")
-	}
-	in := new(DisableAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.DisableAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AccountService/DisableAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.DisableAccount(ctx, req.(*DisableAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AccountServiceService) deleteAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.DeleteAccount == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
-	}
-	in := new(DisableAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.DeleteAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AccountService/DeleteAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.DeleteAccount(ctx, req.(*DisableAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// RegisterAccountServiceService registers a service implementation with a gRPC server.
-func RegisterAccountServiceService(s grpc.ServiceRegistrar, srv *AccountServiceService) {
-	sd := grpc.ServiceDesc{
-		ServiceName: "v2.sys_account.services.AccountService",
-		Methods: []grpc.MethodDesc{
-			{
-				MethodName: "NewAccount",
-				Handler:    srv.newAccount,
-			},
-			{
-				MethodName: "GetAccount",
-				Handler:    srv.getAccount,
-			},
-			{
-				MethodName: "ListAccounts",
-				Handler:    srv.listAccounts,
-			},
-			{
-				MethodName: "SearchAccounts",
-				Handler:    srv.searchAccounts,
-			},
-			{
-				MethodName: "AssignAccountToRole",
-				Handler:    srv.assignAccountToRole,
-			},
-			{
-				MethodName: "UpdateAccount",
-				Handler:    srv.updateAccount,
-			},
-			{
-				MethodName: "DisableAccount",
-				Handler:    srv.disableAccount,
-			},
-			{
-				MethodName: "DeleteAccount",
-				Handler:    srv.deleteAccount,
-			},
-		},
-		Streams:  []grpc.StreamDesc{},
-		Metadata: "sys_account_services.proto",
-	}
-
-	s.RegisterService(&sd, nil)
-}
-
-// NewAccountServiceService creates a new AccountServiceService containing the
-// implemented methods of the AccountService service in s.  Any unimplemented
-// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
-// This includes situations where the method handler is misspelled or has the wrong
-// signature.  For this reason, this function should be used with great care and
-// is not recommended to be used by most users.
-func NewAccountServiceService(s interface{}) *AccountServiceService {
-	ns := &AccountServiceService{}
-	if h, ok := s.(interface {
-		NewAccount(context.Context, *AccountNewRequest) (*Account, error)
-	}); ok {
-		ns.NewAccount = h.NewAccount
-	}
-	if h, ok := s.(interface {
-		GetAccount(context.Context, *IdRequest) (*Account, error)
-	}); ok {
-		ns.GetAccount = h.GetAccount
-	}
-	if h, ok := s.(interface {
-		ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
-	}); ok {
-		ns.ListAccounts = h.ListAccounts
-	}
-	if h, ok := s.(interface {
-		SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error)
-	}); ok {
-		ns.SearchAccounts = h.SearchAccounts
-	}
-	if h, ok := s.(interface {
-		AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
-	}); ok {
-		ns.AssignAccountToRole = h.AssignAccountToRole
-	}
-	if h, ok := s.(interface {
-		UpdateAccount(context.Context, *AccountUpdateRequest) (*Account, error)
-	}); ok {
-		ns.UpdateAccount = h.UpdateAccount
-	}
-	if h, ok := s.(interface {
-		DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
-	}); ok {
-		ns.DisableAccount = h.DisableAccount
-	}
-	if h, ok := s.(interface {
-		DeleteAccount(context.Context, *DisableAccountRequest) (*empty.Empty, error)
-	}); ok {
-		ns.DeleteAccount = h.DeleteAccount
-	}
-	return ns
-}
-
-// UnstableAccountServiceService is the service API for AccountService service.
-// New methods may be added to this interface if they are added to the service
-// definition, which is not a backward-compatible change.  For this reason,
-// use of this type is not recommended.
-type UnstableAccountServiceService interface {
+// AccountServiceServer is the server API for AccountService service.
+// All implementations must embed UnimplementedAccountServiceServer
+// for forward compatibility
+type AccountServiceServer interface {
 	NewAccount(context.Context, *AccountNewRequest) (*Account, error)
 	GetAccount(context.Context, *IdRequest) (*Account, error)
 	ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error)
@@ -424,7 +120,237 @@ type UnstableAccountServiceService interface {
 	AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error)
 	UpdateAccount(context.Context, *AccountUpdateRequest) (*Account, error)
 	DisableAccount(context.Context, *DisableAccountRequest) (*Account, error)
-	DeleteAccount(context.Context, *DisableAccountRequest) (*empty.Empty, error)
+	DeleteAccount(context.Context, *DisableAccountRequest) (*emptypb.Empty, error)
+	mustEmbedUnimplementedAccountServiceServer()
+}
+
+// UnimplementedAccountServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedAccountServiceServer struct {
+}
+
+func (UnimplementedAccountServiceServer) NewAccount(context.Context, *AccountNewRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NewAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) GetAccount(context.Context, *IdRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) ListAccounts(context.Context, *ListAccountsRequest) (*ListAccountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAccounts not implemented")
+}
+func (UnimplementedAccountServiceServer) SearchAccounts(context.Context, *SearchAccountsRequest) (*SearchAccountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchAccounts not implemented")
+}
+func (UnimplementedAccountServiceServer) AssignAccountToRole(context.Context, *AssignAccountToRoleRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssignAccountToRole not implemented")
+}
+func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *AccountUpdateRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) DisableAccount(context.Context, *DisableAccountRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DisableAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) DeleteAccount(context.Context, *DisableAccountRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
+
+// UnsafeAccountServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AccountServiceServer will
+// result in compilation errors.
+type UnsafeAccountServiceServer interface {
+	mustEmbedUnimplementedAccountServiceServer()
+}
+
+func RegisterAccountServiceServer(s grpc.ServiceRegistrar, srv AccountServiceServer) {
+	s.RegisterService(&AccountService_ServiceDesc, srv)
+}
+
+func _AccountService_NewAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AccountNewRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).NewAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AccountService/NewAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).NewAccount(ctx, req.(*AccountNewRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AccountService/GetAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetAccount(ctx, req.(*IdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_ListAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAccountsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).ListAccounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AccountService/ListAccounts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).ListAccounts(ctx, req.(*ListAccountsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_SearchAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchAccountsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).SearchAccounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AccountService/SearchAccounts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).SearchAccounts(ctx, req.(*SearchAccountsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_AssignAccountToRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignAccountToRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).AssignAccountToRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AccountService/AssignAccountToRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).AssignAccountToRole(ctx, req.(*AssignAccountToRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_UpdateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AccountUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).UpdateAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AccountService/UpdateAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).UpdateAccount(ctx, req.(*AccountUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_DisableAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DisableAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).DisableAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AccountService/DisableAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).DisableAccount(ctx, req.(*DisableAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountService_DeleteAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DisableAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).DeleteAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AccountService/DeleteAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).DeleteAccount(ctx, req.(*DisableAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var AccountService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "v2.sys_account.services.AccountService",
+	HandlerType: (*AccountServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "NewAccount",
+			Handler:    _AccountService_NewAccount_Handler,
+		},
+		{
+			MethodName: "GetAccount",
+			Handler:    _AccountService_GetAccount_Handler,
+		},
+		{
+			MethodName: "ListAccounts",
+			Handler:    _AccountService_ListAccounts_Handler,
+		},
+		{
+			MethodName: "SearchAccounts",
+			Handler:    _AccountService_SearchAccounts_Handler,
+		},
+		{
+			MethodName: "AssignAccountToRole",
+			Handler:    _AccountService_AssignAccountToRole_Handler,
+		},
+		{
+			MethodName: "UpdateAccount",
+			Handler:    _AccountService_UpdateAccount_Handler,
+		},
+		{
+			MethodName: "DisableAccount",
+			Handler:    _AccountService_DisableAccount_Handler,
+		},
+		{
+			MethodName: "DeleteAccount",
+			Handler:    _AccountService_DeleteAccount_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "sys_account_services.proto",
 }
 
 // OrgProjServiceClient is the client API for OrgProjService service.
@@ -436,14 +362,14 @@ type OrgProjServiceClient interface {
 	GetProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Project, error)
 	ListProject(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	UpdateProject(ctx context.Context, in *ProjectUpdateRequest, opts ...grpc.CallOption) (*Project, error)
-	DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Orgs
 	NewOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error)
 	GetOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Org, error)
 	ListOrg(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	ListNonSubscribedOrgs(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	UpdateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error)
-	DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type orgProjServiceClient struct {
@@ -452,10 +378,6 @@ type orgProjServiceClient struct {
 
 func NewOrgProjServiceClient(cc grpc.ClientConnInterface) OrgProjServiceClient {
 	return &orgProjServiceClient{cc}
-}
-
-var orgProjServiceNewProjectStreamDesc = &grpc.StreamDesc{
-	StreamName: "NewProject",
 }
 
 func (c *orgProjServiceClient) NewProject(ctx context.Context, in *ProjectRequest, opts ...grpc.CallOption) (*Project, error) {
@@ -467,10 +389,6 @@ func (c *orgProjServiceClient) NewProject(ctx context.Context, in *ProjectReques
 	return out, nil
 }
 
-var orgProjServiceGetProjectStreamDesc = &grpc.StreamDesc{
-	StreamName: "GetProject",
-}
-
 func (c *orgProjServiceClient) GetProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Project, error) {
 	out := new(Project)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/GetProject", in, out, opts...)
@@ -478,10 +396,6 @@ func (c *orgProjServiceClient) GetProject(ctx context.Context, in *IdRequest, op
 		return nil, err
 	}
 	return out, nil
-}
-
-var orgProjServiceListProjectStreamDesc = &grpc.StreamDesc{
-	StreamName: "ListProject",
 }
 
 func (c *orgProjServiceClient) ListProject(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
@@ -493,10 +407,6 @@ func (c *orgProjServiceClient) ListProject(ctx context.Context, in *ListRequest,
 	return out, nil
 }
 
-var orgProjServiceUpdateProjectStreamDesc = &grpc.StreamDesc{
-	StreamName: "UpdateProject",
-}
-
 func (c *orgProjServiceClient) UpdateProject(ctx context.Context, in *ProjectUpdateRequest, opts ...grpc.CallOption) (*Project, error) {
 	out := new(Project)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/UpdateProject", in, out, opts...)
@@ -506,21 +416,13 @@ func (c *orgProjServiceClient) UpdateProject(ctx context.Context, in *ProjectUpd
 	return out, nil
 }
 
-var orgProjServiceDeleteProjectStreamDesc = &grpc.StreamDesc{
-	StreamName: "DeleteProject",
-}
-
-func (c *orgProjServiceClient) DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *orgProjServiceClient) DeleteProject(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/DeleteProject", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
-}
-
-var orgProjServiceNewOrgStreamDesc = &grpc.StreamDesc{
-	StreamName: "NewOrg",
 }
 
 func (c *orgProjServiceClient) NewOrg(ctx context.Context, in *OrgRequest, opts ...grpc.CallOption) (*Org, error) {
@@ -532,10 +434,6 @@ func (c *orgProjServiceClient) NewOrg(ctx context.Context, in *OrgRequest, opts 
 	return out, nil
 }
 
-var orgProjServiceGetOrgStreamDesc = &grpc.StreamDesc{
-	StreamName: "GetOrg",
-}
-
 func (c *orgProjServiceClient) GetOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*Org, error) {
 	out := new(Org)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/GetOrg", in, out, opts...)
@@ -543,10 +441,6 @@ func (c *orgProjServiceClient) GetOrg(ctx context.Context, in *IdRequest, opts .
 		return nil, err
 	}
 	return out, nil
-}
-
-var orgProjServiceListOrgStreamDesc = &grpc.StreamDesc{
-	StreamName: "ListOrg",
 }
 
 func (c *orgProjServiceClient) ListOrg(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
@@ -558,10 +452,6 @@ func (c *orgProjServiceClient) ListOrg(ctx context.Context, in *ListRequest, opt
 	return out, nil
 }
 
-var orgProjServiceListNonSubscribedOrgsStreamDesc = &grpc.StreamDesc{
-	StreamName: "ListNonSubscribedOrgs",
-}
-
 func (c *orgProjServiceClient) ListNonSubscribedOrgs(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
 	out := new(ListResponse)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/ListNonSubscribedOrgs", in, out, opts...)
@@ -569,10 +459,6 @@ func (c *orgProjServiceClient) ListNonSubscribedOrgs(ctx context.Context, in *Li
 		return nil, err
 	}
 	return out, nil
-}
-
-var orgProjServiceUpdateOrgStreamDesc = &grpc.StreamDesc{
-	StreamName: "UpdateOrg",
 }
 
 func (c *orgProjServiceClient) UpdateOrg(ctx context.Context, in *OrgUpdateRequest, opts ...grpc.CallOption) (*Org, error) {
@@ -584,12 +470,8 @@ func (c *orgProjServiceClient) UpdateOrg(ctx context.Context, in *OrgUpdateReque
 	return out, nil
 }
 
-var orgProjServiceDeleteOrgStreamDesc = &grpc.StreamDesc{
-	StreamName: "DeleteOrg",
-}
-
-func (c *orgProjServiceClient) DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *orgProjServiceClient) DeleteOrg(ctx context.Context, in *IdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.OrgProjService/DeleteOrg", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -597,388 +479,328 @@ func (c *orgProjServiceClient) DeleteOrg(ctx context.Context, in *IdRequest, opt
 	return out, nil
 }
 
-// OrgProjServiceService is the service API for OrgProjService service.
-// Fields should be assigned to their respective handler implementations only before
-// RegisterOrgProjServiceService is called.  Any unassigned fields will result in the
-// handler for that method returning an Unimplemented error.
-type OrgProjServiceService struct {
-	// Projects
-	NewProject    func(context.Context, *ProjectRequest) (*Project, error)
-	GetProject    func(context.Context, *IdRequest) (*Project, error)
-	ListProject   func(context.Context, *ListRequest) (*ListResponse, error)
-	UpdateProject func(context.Context, *ProjectUpdateRequest) (*Project, error)
-	DeleteProject func(context.Context, *IdRequest) (*empty.Empty, error)
-	// Orgs
-	NewOrg                func(context.Context, *OrgRequest) (*Org, error)
-	GetOrg                func(context.Context, *IdRequest) (*Org, error)
-	ListOrg               func(context.Context, *ListRequest) (*ListResponse, error)
-	ListNonSubscribedOrgs func(context.Context, *ListRequest) (*ListResponse, error)
-	UpdateOrg             func(context.Context, *OrgUpdateRequest) (*Org, error)
-	DeleteOrg             func(context.Context, *IdRequest) (*empty.Empty, error)
-}
-
-func (s *OrgProjServiceService) newProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.NewProject == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method NewProject not implemented")
-	}
-	in := new(ProjectRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.NewProject(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/NewProject",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.NewProject(ctx, req.(*ProjectRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) getProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.GetProject == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method GetProject not implemented")
-	}
-	in := new(IdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.GetProject(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/GetProject",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.GetProject(ctx, req.(*IdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) listProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.ListProject == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method ListProject not implemented")
-	}
-	in := new(ListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.ListProject(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/ListProject",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ListProject(ctx, req.(*ListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) updateProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.UpdateProject == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method UpdateProject not implemented")
-	}
-	in := new(ProjectUpdateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.UpdateProject(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/UpdateProject",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.UpdateProject(ctx, req.(*ProjectUpdateRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) deleteProject(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.DeleteProject == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method DeleteProject not implemented")
-	}
-	in := new(IdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.DeleteProject(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/DeleteProject",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.DeleteProject(ctx, req.(*IdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) newOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.NewOrg == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method NewOrg not implemented")
-	}
-	in := new(OrgRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.NewOrg(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/NewOrg",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.NewOrg(ctx, req.(*OrgRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) getOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.GetOrg == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method GetOrg not implemented")
-	}
-	in := new(IdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.GetOrg(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/GetOrg",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.GetOrg(ctx, req.(*IdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) listOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.ListOrg == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method ListOrg not implemented")
-	}
-	in := new(ListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.ListOrg(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/ListOrg",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ListOrg(ctx, req.(*ListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) listNonSubscribedOrgs(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.ListNonSubscribedOrgs == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method ListNonSubscribedOrgs not implemented")
-	}
-	in := new(ListRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.ListNonSubscribedOrgs(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/ListNonSubscribedOrgs",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ListNonSubscribedOrgs(ctx, req.(*ListRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) updateOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.UpdateOrg == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method UpdateOrg not implemented")
-	}
-	in := new(OrgUpdateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.UpdateOrg(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/UpdateOrg",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.UpdateOrg(ctx, req.(*OrgUpdateRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *OrgProjServiceService) deleteOrg(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.DeleteOrg == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method DeleteOrg not implemented")
-	}
-	in := new(IdRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.DeleteOrg(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.OrgProjService/DeleteOrg",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.DeleteOrg(ctx, req.(*IdRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// RegisterOrgProjServiceService registers a service implementation with a gRPC server.
-func RegisterOrgProjServiceService(s grpc.ServiceRegistrar, srv *OrgProjServiceService) {
-	sd := grpc.ServiceDesc{
-		ServiceName: "v2.sys_account.services.OrgProjService",
-		Methods: []grpc.MethodDesc{
-			{
-				MethodName: "NewProject",
-				Handler:    srv.newProject,
-			},
-			{
-				MethodName: "GetProject",
-				Handler:    srv.getProject,
-			},
-			{
-				MethodName: "ListProject",
-				Handler:    srv.listProject,
-			},
-			{
-				MethodName: "UpdateProject",
-				Handler:    srv.updateProject,
-			},
-			{
-				MethodName: "DeleteProject",
-				Handler:    srv.deleteProject,
-			},
-			{
-				MethodName: "NewOrg",
-				Handler:    srv.newOrg,
-			},
-			{
-				MethodName: "GetOrg",
-				Handler:    srv.getOrg,
-			},
-			{
-				MethodName: "ListOrg",
-				Handler:    srv.listOrg,
-			},
-			{
-				MethodName: "ListNonSubscribedOrgs",
-				Handler:    srv.listNonSubscribedOrgs,
-			},
-			{
-				MethodName: "UpdateOrg",
-				Handler:    srv.updateOrg,
-			},
-			{
-				MethodName: "DeleteOrg",
-				Handler:    srv.deleteOrg,
-			},
-		},
-		Streams:  []grpc.StreamDesc{},
-		Metadata: "sys_account_services.proto",
-	}
-
-	s.RegisterService(&sd, nil)
-}
-
-// NewOrgProjServiceService creates a new OrgProjServiceService containing the
-// implemented methods of the OrgProjService service in s.  Any unimplemented
-// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
-// This includes situations where the method handler is misspelled or has the wrong
-// signature.  For this reason, this function should be used with great care and
-// is not recommended to be used by most users.
-func NewOrgProjServiceService(s interface{}) *OrgProjServiceService {
-	ns := &OrgProjServiceService{}
-	if h, ok := s.(interface {
-		NewProject(context.Context, *ProjectRequest) (*Project, error)
-	}); ok {
-		ns.NewProject = h.NewProject
-	}
-	if h, ok := s.(interface {
-		GetProject(context.Context, *IdRequest) (*Project, error)
-	}); ok {
-		ns.GetProject = h.GetProject
-	}
-	if h, ok := s.(interface {
-		ListProject(context.Context, *ListRequest) (*ListResponse, error)
-	}); ok {
-		ns.ListProject = h.ListProject
-	}
-	if h, ok := s.(interface {
-		UpdateProject(context.Context, *ProjectUpdateRequest) (*Project, error)
-	}); ok {
-		ns.UpdateProject = h.UpdateProject
-	}
-	if h, ok := s.(interface {
-		DeleteProject(context.Context, *IdRequest) (*empty.Empty, error)
-	}); ok {
-		ns.DeleteProject = h.DeleteProject
-	}
-	if h, ok := s.(interface {
-		NewOrg(context.Context, *OrgRequest) (*Org, error)
-	}); ok {
-		ns.NewOrg = h.NewOrg
-	}
-	if h, ok := s.(interface {
-		GetOrg(context.Context, *IdRequest) (*Org, error)
-	}); ok {
-		ns.GetOrg = h.GetOrg
-	}
-	if h, ok := s.(interface {
-		ListOrg(context.Context, *ListRequest) (*ListResponse, error)
-	}); ok {
-		ns.ListOrg = h.ListOrg
-	}
-	if h, ok := s.(interface {
-		ListNonSubscribedOrgs(context.Context, *ListRequest) (*ListResponse, error)
-	}); ok {
-		ns.ListNonSubscribedOrgs = h.ListNonSubscribedOrgs
-	}
-	if h, ok := s.(interface {
-		UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
-	}); ok {
-		ns.UpdateOrg = h.UpdateOrg
-	}
-	if h, ok := s.(interface {
-		DeleteOrg(context.Context, *IdRequest) (*empty.Empty, error)
-	}); ok {
-		ns.DeleteOrg = h.DeleteOrg
-	}
-	return ns
-}
-
-// UnstableOrgProjServiceService is the service API for OrgProjService service.
-// New methods may be added to this interface if they are added to the service
-// definition, which is not a backward-compatible change.  For this reason,
-// use of this type is not recommended.
-type UnstableOrgProjServiceService interface {
+// OrgProjServiceServer is the server API for OrgProjService service.
+// All implementations must embed UnimplementedOrgProjServiceServer
+// for forward compatibility
+type OrgProjServiceServer interface {
 	// Projects
 	NewProject(context.Context, *ProjectRequest) (*Project, error)
 	GetProject(context.Context, *IdRequest) (*Project, error)
 	ListProject(context.Context, *ListRequest) (*ListResponse, error)
 	UpdateProject(context.Context, *ProjectUpdateRequest) (*Project, error)
-	DeleteProject(context.Context, *IdRequest) (*empty.Empty, error)
+	DeleteProject(context.Context, *IdRequest) (*emptypb.Empty, error)
 	// Orgs
 	NewOrg(context.Context, *OrgRequest) (*Org, error)
 	GetOrg(context.Context, *IdRequest) (*Org, error)
 	ListOrg(context.Context, *ListRequest) (*ListResponse, error)
 	ListNonSubscribedOrgs(context.Context, *ListRequest) (*ListResponse, error)
 	UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error)
-	DeleteOrg(context.Context, *IdRequest) (*empty.Empty, error)
+	DeleteOrg(context.Context, *IdRequest) (*emptypb.Empty, error)
+	mustEmbedUnimplementedOrgProjServiceServer()
+}
+
+// UnimplementedOrgProjServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedOrgProjServiceServer struct {
+}
+
+func (UnimplementedOrgProjServiceServer) NewProject(context.Context, *ProjectRequest) (*Project, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NewProject not implemented")
+}
+func (UnimplementedOrgProjServiceServer) GetProject(context.Context, *IdRequest) (*Project, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProject not implemented")
+}
+func (UnimplementedOrgProjServiceServer) ListProject(context.Context, *ListRequest) (*ListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListProject not implemented")
+}
+func (UnimplementedOrgProjServiceServer) UpdateProject(context.Context, *ProjectUpdateRequest) (*Project, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProject not implemented")
+}
+func (UnimplementedOrgProjServiceServer) DeleteProject(context.Context, *IdRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProject not implemented")
+}
+func (UnimplementedOrgProjServiceServer) NewOrg(context.Context, *OrgRequest) (*Org, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method NewOrg not implemented")
+}
+func (UnimplementedOrgProjServiceServer) GetOrg(context.Context, *IdRequest) (*Org, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrg not implemented")
+}
+func (UnimplementedOrgProjServiceServer) ListOrg(context.Context, *ListRequest) (*ListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrg not implemented")
+}
+func (UnimplementedOrgProjServiceServer) ListNonSubscribedOrgs(context.Context, *ListRequest) (*ListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNonSubscribedOrgs not implemented")
+}
+func (UnimplementedOrgProjServiceServer) UpdateOrg(context.Context, *OrgUpdateRequest) (*Org, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrg not implemented")
+}
+func (UnimplementedOrgProjServiceServer) DeleteOrg(context.Context, *IdRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrg not implemented")
+}
+func (UnimplementedOrgProjServiceServer) mustEmbedUnimplementedOrgProjServiceServer() {}
+
+// UnsafeOrgProjServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to OrgProjServiceServer will
+// result in compilation errors.
+type UnsafeOrgProjServiceServer interface {
+	mustEmbedUnimplementedOrgProjServiceServer()
+}
+
+func RegisterOrgProjServiceServer(s grpc.ServiceRegistrar, srv OrgProjServiceServer) {
+	s.RegisterService(&OrgProjService_ServiceDesc, srv)
+}
+
+func _OrgProjService_NewProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProjectRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).NewProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/NewProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).NewProject(ctx, req.(*ProjectRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_GetProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).GetProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/GetProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).GetProject(ctx, req.(*IdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_ListProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).ListProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/ListProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).ListProject(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_UpdateProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProjectUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).UpdateProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/UpdateProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).UpdateProject(ctx, req.(*ProjectUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_DeleteProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).DeleteProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/DeleteProject",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).DeleteProject(ctx, req.(*IdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_NewOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrgRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).NewOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/NewOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).NewOrg(ctx, req.(*OrgRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_GetOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).GetOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/GetOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).GetOrg(ctx, req.(*IdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_ListOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).ListOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/ListOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).ListOrg(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_ListNonSubscribedOrgs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).ListNonSubscribedOrgs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/ListNonSubscribedOrgs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).ListNonSubscribedOrgs(ctx, req.(*ListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_UpdateOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrgUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).UpdateOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/UpdateOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).UpdateOrg(ctx, req.(*OrgUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrgProjService_DeleteOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgProjServiceServer).DeleteOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.OrgProjService/DeleteOrg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgProjServiceServer).DeleteOrg(ctx, req.(*IdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// OrgProjService_ServiceDesc is the grpc.ServiceDesc for OrgProjService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var OrgProjService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "v2.sys_account.services.OrgProjService",
+	HandlerType: (*OrgProjServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "NewProject",
+			Handler:    _OrgProjService_NewProject_Handler,
+		},
+		{
+			MethodName: "GetProject",
+			Handler:    _OrgProjService_GetProject_Handler,
+		},
+		{
+			MethodName: "ListProject",
+			Handler:    _OrgProjService_ListProject_Handler,
+		},
+		{
+			MethodName: "UpdateProject",
+			Handler:    _OrgProjService_UpdateProject_Handler,
+		},
+		{
+			MethodName: "DeleteProject",
+			Handler:    _OrgProjService_DeleteProject_Handler,
+		},
+		{
+			MethodName: "NewOrg",
+			Handler:    _OrgProjService_NewOrg_Handler,
+		},
+		{
+			MethodName: "GetOrg",
+			Handler:    _OrgProjService_GetOrg_Handler,
+		},
+		{
+			MethodName: "ListOrg",
+			Handler:    _OrgProjService_ListOrg_Handler,
+		},
+		{
+			MethodName: "ListNonSubscribedOrgs",
+			Handler:    _OrgProjService_ListNonSubscribedOrgs_Handler,
+		},
+		{
+			MethodName: "UpdateOrg",
+			Handler:    _OrgProjService_UpdateOrg_Handler,
+		},
+		{
+			MethodName: "DeleteOrg",
+			Handler:    _OrgProjService_DeleteOrg_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "sys_account_services.proto",
 }
 
 // AuthServiceClient is the client API for AuthService service.
@@ -993,7 +815,7 @@ type AuthServiceClient interface {
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error)
-	VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type authServiceClient struct {
@@ -1002,10 +824,6 @@ type authServiceClient struct {
 
 func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient {
 	return &authServiceClient{cc}
-}
-
-var authServiceRegisterStreamDesc = &grpc.StreamDesc{
-	StreamName: "Register",
 }
 
 func (c *authServiceClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
@@ -1017,10 +835,6 @@ func (c *authServiceClient) Register(ctx context.Context, in *RegisterRequest, o
 	return out, nil
 }
 
-var authServiceLoginStreamDesc = &grpc.StreamDesc{
-	StreamName: "Login",
-}
-
 func (c *authServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
 	out := new(LoginResponse)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/Login", in, out, opts...)
@@ -1028,10 +842,6 @@ func (c *authServiceClient) Login(ctx context.Context, in *LoginRequest, opts ..
 		return nil, err
 	}
 	return out, nil
-}
-
-var authServiceForgotPasswordStreamDesc = &grpc.StreamDesc{
-	StreamName: "ForgotPassword",
 }
 
 func (c *authServiceClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*ForgotPasswordResponse, error) {
@@ -1043,10 +853,6 @@ func (c *authServiceClient) ForgotPassword(ctx context.Context, in *ForgotPasswo
 	return out, nil
 }
 
-var authServiceResetPasswordStreamDesc = &grpc.StreamDesc{
-	StreamName: "ResetPassword",
-}
-
 func (c *authServiceClient) ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error) {
 	out := new(ResetPasswordResponse)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/ResetPassword", in, out, opts...)
@@ -1054,10 +860,6 @@ func (c *authServiceClient) ResetPassword(ctx context.Context, in *ResetPassword
 		return nil, err
 	}
 	return out, nil
-}
-
-var authServiceRefreshAccessTokenStreamDesc = &grpc.StreamDesc{
-	StreamName: "RefreshAccessToken",
 }
 
 func (c *authServiceClient) RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error) {
@@ -1069,12 +871,8 @@ func (c *authServiceClient) RefreshAccessToken(ctx context.Context, in *RefreshA
 	return out, nil
 }
 
-var authServiceVerifyAccountStreamDesc = &grpc.StreamDesc{
-	StreamName: "VerifyAccount",
-}
-
-func (c *authServiceClient) VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *authServiceClient) VerifyAccount(ctx context.Context, in *VerifyAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/v2.sys_account.services.AuthService/VerifyAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1082,226 +880,10 @@ func (c *authServiceClient) VerifyAccount(ctx context.Context, in *VerifyAccount
 	return out, nil
 }
 
-// AuthServiceService is the service API for AuthService service.
-// Fields should be assigned to their respective handler implementations only before
-// RegisterAuthServiceService is called.  Any unassigned fields will result in the
-// handler for that method returning an Unimplemented error.
-type AuthServiceService struct {
-	Register func(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	// hide
-	Login func(context.Context, *LoginRequest) (*LoginResponse, error)
-	// ForgotPassword, then ResetPassword if succeed
-	ForgotPassword func(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error)
-	ResetPassword  func(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
-	// Refresh Access Token endpoint
-	RefreshAccessToken func(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
-	VerifyAccount      func(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
-}
-
-func (s *AuthServiceService) register(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.Register == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
-	}
-	in := new(RegisterRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.Register(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AuthService/Register",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.Register(ctx, req.(*RegisterRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AuthServiceService) login(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.Login == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
-	}
-	in := new(LoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.Login(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AuthService/Login",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.Login(ctx, req.(*LoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AuthServiceService) forgotPassword(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.ForgotPassword == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
-	}
-	in := new(ForgotPasswordRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.ForgotPassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AuthService/ForgotPassword",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ForgotPassword(ctx, req.(*ForgotPasswordRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AuthServiceService) resetPassword(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.ResetPassword == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
-	}
-	in := new(ResetPasswordRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.ResetPassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AuthService/ResetPassword",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ResetPassword(ctx, req.(*ResetPasswordRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AuthServiceService) refreshAccessToken(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.RefreshAccessToken == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method RefreshAccessToken not implemented")
-	}
-	in := new(RefreshAccessTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.RefreshAccessToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AuthService/RefreshAccessToken",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.RefreshAccessToken(ctx, req.(*RefreshAccessTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-func (s *AuthServiceService) verifyAccount(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.VerifyAccount == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method VerifyAccount not implemented")
-	}
-	in := new(VerifyAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return s.VerifyAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     s,
-		FullMethod: "/v2.sys_account.services.AuthService/VerifyAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.VerifyAccount(ctx, req.(*VerifyAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// RegisterAuthServiceService registers a service implementation with a gRPC server.
-func RegisterAuthServiceService(s grpc.ServiceRegistrar, srv *AuthServiceService) {
-	sd := grpc.ServiceDesc{
-		ServiceName: "v2.sys_account.services.AuthService",
-		Methods: []grpc.MethodDesc{
-			{
-				MethodName: "Register",
-				Handler:    srv.register,
-			},
-			{
-				MethodName: "Login",
-				Handler:    srv.login,
-			},
-			{
-				MethodName: "ForgotPassword",
-				Handler:    srv.forgotPassword,
-			},
-			{
-				MethodName: "ResetPassword",
-				Handler:    srv.resetPassword,
-			},
-			{
-				MethodName: "RefreshAccessToken",
-				Handler:    srv.refreshAccessToken,
-			},
-			{
-				MethodName: "VerifyAccount",
-				Handler:    srv.verifyAccount,
-			},
-		},
-		Streams:  []grpc.StreamDesc{},
-		Metadata: "sys_account_services.proto",
-	}
-
-	s.RegisterService(&sd, nil)
-}
-
-// NewAuthServiceService creates a new AuthServiceService containing the
-// implemented methods of the AuthService service in s.  Any unimplemented
-// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
-// This includes situations where the method handler is misspelled or has the wrong
-// signature.  For this reason, this function should be used with great care and
-// is not recommended to be used by most users.
-func NewAuthServiceService(s interface{}) *AuthServiceService {
-	ns := &AuthServiceService{}
-	if h, ok := s.(interface {
-		Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	}); ok {
-		ns.Register = h.Register
-	}
-	if h, ok := s.(interface {
-		Login(context.Context, *LoginRequest) (*LoginResponse, error)
-	}); ok {
-		ns.Login = h.Login
-	}
-	if h, ok := s.(interface {
-		ForgotPassword(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error)
-	}); ok {
-		ns.ForgotPassword = h.ForgotPassword
-	}
-	if h, ok := s.(interface {
-		ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
-	}); ok {
-		ns.ResetPassword = h.ResetPassword
-	}
-	if h, ok := s.(interface {
-		RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
-	}); ok {
-		ns.RefreshAccessToken = h.RefreshAccessToken
-	}
-	if h, ok := s.(interface {
-		VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
-	}); ok {
-		ns.VerifyAccount = h.VerifyAccount
-	}
-	return ns
-}
-
-// UnstableAuthServiceService is the service API for AuthService service.
-// New methods may be added to this interface if they are added to the service
-// definition, which is not a backward-compatible change.  For this reason,
-// use of this type is not recommended.
-type UnstableAuthServiceService interface {
+// AuthServiceServer is the server API for AuthService service.
+// All implementations must embed UnimplementedAuthServiceServer
+// for forward compatibility
+type AuthServiceServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	// hide
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
@@ -1310,5 +892,185 @@ type UnstableAuthServiceService interface {
 	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 	// Refresh Access Token endpoint
 	RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
-	VerifyAccount(context.Context, *VerifyAccountRequest) (*empty.Empty, error)
+	VerifyAccount(context.Context, *VerifyAccountRequest) (*emptypb.Empty, error)
+	mustEmbedUnimplementedAuthServiceServer()
+}
+
+// UnimplementedAuthServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedAuthServiceServer struct {
+}
+
+func (UnimplementedAuthServiceServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedAuthServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedAuthServiceServer) ForgotPassword(context.Context, *ForgotPasswordRequest) (*ForgotPasswordResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
+}
+func (UnimplementedAuthServiceServer) ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
+}
+func (UnimplementedAuthServiceServer) RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshAccessToken not implemented")
+}
+func (UnimplementedAuthServiceServer) VerifyAccount(context.Context, *VerifyAccountRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyAccount not implemented")
+}
+func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
+
+// UnsafeAuthServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AuthServiceServer will
+// result in compilation errors.
+type UnsafeAuthServiceServer interface {
+	mustEmbedUnimplementedAuthServiceServer()
+}
+
+func RegisterAuthServiceServer(s grpc.ServiceRegistrar, srv AuthServiceServer) {
+	s.RegisterService(&AuthService_ServiceDesc, srv)
+}
+
+func _AuthService_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).Register(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AuthService/Register",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).Register(ctx, req.(*RegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AuthService/Login",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).Login(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForgotPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).ForgotPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AuthService/ForgotPassword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).ForgotPassword(ctx, req.(*ForgotPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_ResetPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).ResetPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AuthService/ResetPassword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).ResetPassword(ctx, req.(*ResetPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_RefreshAccessToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshAccessTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).RefreshAccessToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AuthService/RefreshAccessToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).RefreshAccessToken(ctx, req.(*RefreshAccessTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_VerifyAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).VerifyAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v2.sys_account.services.AuthService/VerifyAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).VerifyAccount(ctx, req.(*VerifyAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// AuthService_ServiceDesc is the grpc.ServiceDesc for AuthService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var AuthService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "v2.sys_account.services.AuthService",
+	HandlerType: (*AuthServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Register",
+			Handler:    _AuthService_Register_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _AuthService_Login_Handler,
+		},
+		{
+			MethodName: "ForgotPassword",
+			Handler:    _AuthService_ForgotPassword_Handler,
+		},
+		{
+			MethodName: "ResetPassword",
+			Handler:    _AuthService_ResetPassword_Handler,
+		},
+		{
+			MethodName: "RefreshAccessToken",
+			Handler:    _AuthService_RefreshAccessToken_Handler,
+		},
+		{
+			MethodName: "VerifyAccount",
+			Handler:    _AuthService_VerifyAccount_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "sys_account_services.proto",
 }

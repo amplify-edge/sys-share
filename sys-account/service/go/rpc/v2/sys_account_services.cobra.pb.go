@@ -994,9 +994,7 @@ func AuthServiceClientCommand(options ...client.Option) *cobra.Command {
 }
 
 func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
-	req := &RegisterRequest{
-		UserRole: &UserRoles{},
-	}
+	req := &RegisterRequest{}
 
 	cmd := &cobra.Command{
 		Use:    cfg.CommandNamer("Register"),
@@ -1036,9 +1034,6 @@ func _AuthServiceRegisterCommand(cfg *client.Config) *cobra.Command {
 	cmd.PersistentFlags().StringVar(&req.Email, cfg.FlagNamer("Email"), "", "@inject_tag: fake:\"{mailseq:user,false,none,false}\" yaml:\"email\"")
 	cmd.PersistentFlags().StringVar(&req.Password, cfg.FlagNamer("Password"), "", "")
 	cmd.PersistentFlags().StringVar(&req.PasswordConfirm, cfg.FlagNamer("PasswordConfirm"), "", "")
-	_RolesVar(cmd.PersistentFlags(), &req.UserRole.Role, cfg.FlagNamer("UserRole Role"), "@inject_tag: fake:\"{number:1,3}\" yaml:\"role\"")
-	cmd.PersistentFlags().StringVar(&req.UserRole.ProjectId, cfg.FlagNamer("UserRole ProjectId"), "", "")
-	cmd.PersistentFlags().StringVar(&req.UserRole.OrgId, cfg.FlagNamer("UserRole OrgId"), "", "")
 
 	return cmd
 }
@@ -1262,4 +1257,3 @@ func _AuthServiceVerifyAccountCommand(cfg *client.Config) *cobra.Command {
 
 	return cmd
 }
-

@@ -1,6 +1,6 @@
 module go.amplifyedge.org/sys-share-v2
 
-go 1.15
+go 1.16
 
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.0.1 // indirect

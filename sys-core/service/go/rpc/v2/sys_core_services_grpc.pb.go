@@ -4,21 +4,22 @@ package v2
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // DbAdminServiceClient is the client API for DbAdminService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DbAdminServiceClient interface {
-	Backup(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*BackupAllResult, error)
+	Backup(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BackupAllResult, error)
 	ListBackup(ctx context.Context, in *ListBackupRequest, opts ...grpc.CallOption) (*ListBackupResult, error)
 	Restore(ctx context.Context, in *RestoreAllRequest, opts ...grpc.CallOption) (*RestoreAllResult, error)
 }
@@ -31,21 +32,13 @@ func NewDbAdminServiceClient(cc grpc.ClientConnInterface) DbAdminServiceClient {
 	return &dbAdminServiceClient{cc}
 }
 
-var dbAdminServiceBackupStreamDesc = &grpc.StreamDesc{
-	StreamName: "Backup",
-}
-
-func (c *dbAdminServiceClient) Backup(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*BackupAllResult, error) {
+func (c *dbAdminServiceClient) Backup(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*BackupAllResult, error) {
 	out := new(BackupAllResult)
 	err := c.cc.Invoke(ctx, "/v2.sys_core.services.DbAdminService/Backup", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
-}
-
-var dbAdminServiceListBackupStreamDesc = &grpc.StreamDesc{
-	StreamName: "ListBackup",
 }
 
 func (c *dbAdminServiceClient) ListBackup(ctx context.Context, in *ListBackupRequest, opts ...grpc.CallOption) (*ListBackupResult, error) {
@@ -57,10 +50,6 @@ func (c *dbAdminServiceClient) ListBackup(ctx context.Context, in *ListBackupReq
 	return out, nil
 }
 
-var dbAdminServiceRestoreStreamDesc = &grpc.StreamDesc{
-	StreamName: "Restore",
-}
-
 func (c *dbAdminServiceClient) Restore(ctx context.Context, in *RestoreAllRequest, opts ...grpc.CallOption) (*RestoreAllResult, error) {
 	out := new(RestoreAllResult)
 	err := c.cc.Invoke(ctx, "/v2.sys_core.services.DbAdminService/Restore", in, out, opts...)
@@ -70,136 +59,118 @@ func (c *dbAdminServiceClient) Restore(ctx context.Context, in *RestoreAllReques
 	return out, nil
 }
 
-// DbAdminServiceService is the service API for DbAdminService service.
-// Fields should be assigned to their respective handler implementations only before
-// RegisterDbAdminServiceService is called.  Any unassigned fields will result in the
-// handler for that method returning an Unimplemented error.
-type DbAdminServiceService struct {
-	Backup     func(context.Context, *empty.Empty) (*BackupAllResult, error)
-	ListBackup func(context.Context, *ListBackupRequest) (*ListBackupResult, error)
-	Restore    func(context.Context, *RestoreAllRequest) (*RestoreAllResult, error)
+// DbAdminServiceServer is the server API for DbAdminService service.
+// All implementations must embed UnimplementedDbAdminServiceServer
+// for forward compatibility
+type DbAdminServiceServer interface {
+	Backup(context.Context, *emptypb.Empty) (*BackupAllResult, error)
+	ListBackup(context.Context, *ListBackupRequest) (*ListBackupResult, error)
+	Restore(context.Context, *RestoreAllRequest) (*RestoreAllResult, error)
+	mustEmbedUnimplementedDbAdminServiceServer()
 }
 
-func (s *DbAdminServiceService) backup(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.Backup == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method Backup not implemented")
-	}
-	in := new(empty.Empty)
+// UnimplementedDbAdminServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedDbAdminServiceServer struct {
+}
+
+func (UnimplementedDbAdminServiceServer) Backup(context.Context, *emptypb.Empty) (*BackupAllResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Backup not implemented")
+}
+func (UnimplementedDbAdminServiceServer) ListBackup(context.Context, *ListBackupRequest) (*ListBackupResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListBackup not implemented")
+}
+func (UnimplementedDbAdminServiceServer) Restore(context.Context, *RestoreAllRequest) (*RestoreAllResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Restore not implemented")
+}
+func (UnimplementedDbAdminServiceServer) mustEmbedUnimplementedDbAdminServiceServer() {}
+
+// UnsafeDbAdminServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DbAdminServiceServer will
+// result in compilation errors.
+type UnsafeDbAdminServiceServer interface {
+	mustEmbedUnimplementedDbAdminServiceServer()
+}
+
+func RegisterDbAdminServiceServer(s grpc.ServiceRegistrar, srv DbAdminServiceServer) {
+	s.RegisterService(&DbAdminService_ServiceDesc, srv)
+}
+
+func _DbAdminService_Backup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return s.Backup(ctx, in)
+		return srv.(DbAdminServiceServer).Backup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
-		Server:     s,
+		Server:     srv,
 		FullMethod: "/v2.sys_core.services.DbAdminService/Backup",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.Backup(ctx, req.(*empty.Empty))
+		return srv.(DbAdminServiceServer).Backup(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
-func (s *DbAdminServiceService) listBackup(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.ListBackup == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method ListBackup not implemented")
-	}
+
+func _DbAdminService_ListBackup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListBackupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return s.ListBackup(ctx, in)
+		return srv.(DbAdminServiceServer).ListBackup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
-		Server:     s,
+		Server:     srv,
 		FullMethod: "/v2.sys_core.services.DbAdminService/ListBackup",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.ListBackup(ctx, req.(*ListBackupRequest))
+		return srv.(DbAdminServiceServer).ListBackup(ctx, req.(*ListBackupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
-func (s *DbAdminServiceService) restore(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.Restore == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method Restore not implemented")
-	}
+
+func _DbAdminService_Restore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RestoreAllRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return s.Restore(ctx, in)
+		return srv.(DbAdminServiceServer).Restore(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
-		Server:     s,
+		Server:     srv,
 		FullMethod: "/v2.sys_core.services.DbAdminService/Restore",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.Restore(ctx, req.(*RestoreAllRequest))
+		return srv.(DbAdminServiceServer).Restore(ctx, req.(*RestoreAllRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// RegisterDbAdminServiceService registers a service implementation with a gRPC server.
-func RegisterDbAdminServiceService(s grpc.ServiceRegistrar, srv *DbAdminServiceService) {
-	sd := grpc.ServiceDesc{
-		ServiceName: "v2.sys_core.services.DbAdminService",
-		Methods: []grpc.MethodDesc{
-			{
-				MethodName: "Backup",
-				Handler:    srv.backup,
-			},
-			{
-				MethodName: "ListBackup",
-				Handler:    srv.listBackup,
-			},
-			{
-				MethodName: "Restore",
-				Handler:    srv.restore,
-			},
+// DbAdminService_ServiceDesc is the grpc.ServiceDesc for DbAdminService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var DbAdminService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "v2.sys_core.services.DbAdminService",
+	HandlerType: (*DbAdminServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Backup",
+			Handler:    _DbAdminService_Backup_Handler,
 		},
-		Streams:  []grpc.StreamDesc{},
-		Metadata: "sys_core_services.proto",
-	}
-
-	s.RegisterService(&sd, nil)
-}
-
-// NewDbAdminServiceService creates a new DbAdminServiceService containing the
-// implemented methods of the DbAdminService service in s.  Any unimplemented
-// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
-// This includes situations where the method handler is misspelled or has the wrong
-// signature.  For this reason, this function should be used with great care and
-// is not recommended to be used by most users.
-func NewDbAdminServiceService(s interface{}) *DbAdminServiceService {
-	ns := &DbAdminServiceService{}
-	if h, ok := s.(interface {
-		Backup(context.Context, *empty.Empty) (*BackupAllResult, error)
-	}); ok {
-		ns.Backup = h.Backup
-	}
-	if h, ok := s.(interface {
-		ListBackup(context.Context, *ListBackupRequest) (*ListBackupResult, error)
-	}); ok {
-		ns.ListBackup = h.ListBackup
-	}
-	if h, ok := s.(interface {
-		Restore(context.Context, *RestoreAllRequest) (*RestoreAllResult, error)
-	}); ok {
-		ns.Restore = h.Restore
-	}
-	return ns
-}
-
-// UnstableDbAdminServiceService is the service API for DbAdminService service.
-// New methods may be added to this interface if they are added to the service
-// definition, which is not a backward-compatible change.  For this reason,
-// use of this type is not recommended.
-type UnstableDbAdminServiceService interface {
-	Backup(context.Context, *empty.Empty) (*BackupAllResult, error)
-	ListBackup(context.Context, *ListBackupRequest) (*ListBackupResult, error)
-	Restore(context.Context, *RestoreAllRequest) (*RestoreAllResult, error)
+		{
+			MethodName: "ListBackup",
+			Handler:    _DbAdminService_ListBackup_Handler,
+		},
+		{
+			MethodName: "Restore",
+			Handler:    _DbAdminService_Restore_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "sys_core_services.proto",
 }
 
 // BusServiceClient is the client API for BusService service.
@@ -217,10 +188,6 @@ func NewBusServiceClient(cc grpc.ClientConnInterface) BusServiceClient {
 	return &busServiceClient{cc}
 }
 
-var busServiceBroadcastStreamDesc = &grpc.StreamDesc{
-	StreamName: "Broadcast",
-}
-
 func (c *busServiceClient) Broadcast(ctx context.Context, in *EventRequest, opts ...grpc.CallOption) (*EventResponse, error) {
 	out := new(EventResponse)
 	err := c.cc.Invoke(ctx, "/v2.sys_core.services.BusService/Broadcast", in, out, opts...)
@@ -230,74 +197,66 @@ func (c *busServiceClient) Broadcast(ctx context.Context, in *EventRequest, opts
 	return out, nil
 }
 
-// BusServiceService is the service API for BusService service.
-// Fields should be assigned to their respective handler implementations only before
-// RegisterBusServiceService is called.  Any unassigned fields will result in the
-// handler for that method returning an Unimplemented error.
-type BusServiceService struct {
-	Broadcast func(context.Context, *EventRequest) (*EventResponse, error)
+// BusServiceServer is the server API for BusService service.
+// All implementations must embed UnimplementedBusServiceServer
+// for forward compatibility
+type BusServiceServer interface {
+	Broadcast(context.Context, *EventRequest) (*EventResponse, error)
+	mustEmbedUnimplementedBusServiceServer()
 }
 
-func (s *BusServiceService) broadcast(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.Broadcast == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method Broadcast not implemented")
-	}
+// UnimplementedBusServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedBusServiceServer struct {
+}
+
+func (UnimplementedBusServiceServer) Broadcast(context.Context, *EventRequest) (*EventResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Broadcast not implemented")
+}
+func (UnimplementedBusServiceServer) mustEmbedUnimplementedBusServiceServer() {}
+
+// UnsafeBusServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BusServiceServer will
+// result in compilation errors.
+type UnsafeBusServiceServer interface {
+	mustEmbedUnimplementedBusServiceServer()
+}
+
+func RegisterBusServiceServer(s grpc.ServiceRegistrar, srv BusServiceServer) {
+	s.RegisterService(&BusService_ServiceDesc, srv)
+}
+
+func _BusService_Broadcast_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EventRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return s.Broadcast(ctx, in)
+		return srv.(BusServiceServer).Broadcast(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
-		Server:     s,
+		Server:     srv,
 		FullMethod: "/v2.sys_core.services.BusService/Broadcast",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.Broadcast(ctx, req.(*EventRequest))
+		return srv.(BusServiceServer).Broadcast(ctx, req.(*EventRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// RegisterBusServiceService registers a service implementation with a gRPC server.
-func RegisterBusServiceService(s grpc.ServiceRegistrar, srv *BusServiceService) {
-	sd := grpc.ServiceDesc{
-		ServiceName: "v2.sys_core.services.BusService",
-		Methods: []grpc.MethodDesc{
-			{
-				MethodName: "Broadcast",
-				Handler:    srv.broadcast,
-			},
+// BusService_ServiceDesc is the grpc.ServiceDesc for BusService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var BusService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "v2.sys_core.services.BusService",
+	HandlerType: (*BusServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Broadcast",
+			Handler:    _BusService_Broadcast_Handler,
 		},
-		Streams:  []grpc.StreamDesc{},
-		Metadata: "sys_core_services.proto",
-	}
-
-	s.RegisterService(&sd, nil)
-}
-
-// NewBusServiceService creates a new BusServiceService containing the
-// implemented methods of the BusService service in s.  Any unimplemented
-// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
-// This includes situations where the method handler is misspelled or has the wrong
-// signature.  For this reason, this function should be used with great care and
-// is not recommended to be used by most users.
-func NewBusServiceService(s interface{}) *BusServiceService {
-	ns := &BusServiceService{}
-	if h, ok := s.(interface {
-		Broadcast(context.Context, *EventRequest) (*EventResponse, error)
-	}); ok {
-		ns.Broadcast = h.Broadcast
-	}
-	return ns
-}
-
-// UnstableBusServiceService is the service API for BusService service.
-// New methods may be added to this interface if they are added to the service
-// definition, which is not a backward-compatible change.  For this reason,
-// use of this type is not recommended.
-type UnstableBusServiceService interface {
-	Broadcast(context.Context, *EventRequest) (*EventResponse, error)
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "sys_core_services.proto",
 }
 
 // EmailServiceClient is the client API for EmailService service.
@@ -315,10 +274,6 @@ func NewEmailServiceClient(cc grpc.ClientConnInterface) EmailServiceClient {
 	return &emailServiceClient{cc}
 }
 
-var emailServiceSendMailStreamDesc = &grpc.StreamDesc{
-	StreamName: "SendMail",
-}
-
 func (c *emailServiceClient) SendMail(ctx context.Context, in *EmailRequest, opts ...grpc.CallOption) (*EmailResponse, error) {
 	out := new(EmailResponse)
 	err := c.cc.Invoke(ctx, "/v2.sys_core.services.EmailService/SendMail", in, out, opts...)
@@ -328,81 +283,73 @@ func (c *emailServiceClient) SendMail(ctx context.Context, in *EmailRequest, opt
 	return out, nil
 }
 
-// EmailServiceService is the service API for EmailService service.
-// Fields should be assigned to their respective handler implementations only before
-// RegisterEmailServiceService is called.  Any unassigned fields will result in the
-// handler for that method returning an Unimplemented error.
-type EmailServiceService struct {
-	SendMail func(context.Context, *EmailRequest) (*EmailResponse, error)
+// EmailServiceServer is the server API for EmailService service.
+// All implementations must embed UnimplementedEmailServiceServer
+// for forward compatibility
+type EmailServiceServer interface {
+	SendMail(context.Context, *EmailRequest) (*EmailResponse, error)
+	mustEmbedUnimplementedEmailServiceServer()
 }
 
-func (s *EmailServiceService) sendMail(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.SendMail == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method SendMail not implemented")
-	}
+// UnimplementedEmailServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedEmailServiceServer struct {
+}
+
+func (UnimplementedEmailServiceServer) SendMail(context.Context, *EmailRequest) (*EmailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendMail not implemented")
+}
+func (UnimplementedEmailServiceServer) mustEmbedUnimplementedEmailServiceServer() {}
+
+// UnsafeEmailServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to EmailServiceServer will
+// result in compilation errors.
+type UnsafeEmailServiceServer interface {
+	mustEmbedUnimplementedEmailServiceServer()
+}
+
+func RegisterEmailServiceServer(s grpc.ServiceRegistrar, srv EmailServiceServer) {
+	s.RegisterService(&EmailService_ServiceDesc, srv)
+}
+
+func _EmailService_SendMail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EmailRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return s.SendMail(ctx, in)
+		return srv.(EmailServiceServer).SendMail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
-		Server:     s,
+		Server:     srv,
 		FullMethod: "/v2.sys_core.services.EmailService/SendMail",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.SendMail(ctx, req.(*EmailRequest))
+		return srv.(EmailServiceServer).SendMail(ctx, req.(*EmailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// RegisterEmailServiceService registers a service implementation with a gRPC server.
-func RegisterEmailServiceService(s grpc.ServiceRegistrar, srv *EmailServiceService) {
-	sd := grpc.ServiceDesc{
-		ServiceName: "v2.sys_core.services.EmailService",
-		Methods: []grpc.MethodDesc{
-			{
-				MethodName: "SendMail",
-				Handler:    srv.sendMail,
-			},
+// EmailService_ServiceDesc is the grpc.ServiceDesc for EmailService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var EmailService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "v2.sys_core.services.EmailService",
+	HandlerType: (*EmailServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SendMail",
+			Handler:    _EmailService_SendMail_Handler,
 		},
-		Streams:  []grpc.StreamDesc{},
-		Metadata: "sys_core_services.proto",
-	}
-
-	s.RegisterService(&sd, nil)
-}
-
-// NewEmailServiceService creates a new EmailServiceService containing the
-// implemented methods of the EmailService service in s.  Any unimplemented
-// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
-// This includes situations where the method handler is misspelled or has the wrong
-// signature.  For this reason, this function should be used with great care and
-// is not recommended to be used by most users.
-func NewEmailServiceService(s interface{}) *EmailServiceService {
-	ns := &EmailServiceService{}
-	if h, ok := s.(interface {
-		SendMail(context.Context, *EmailRequest) (*EmailResponse, error)
-	}); ok {
-		ns.SendMail = h.SendMail
-	}
-	return ns
-}
-
-// UnstableEmailServiceService is the service API for EmailService service.
-// New methods may be added to this interface if they are added to the service
-// definition, which is not a backward-compatible change.  For this reason,
-// use of this type is not recommended.
-type UnstableEmailServiceService interface {
-	SendMail(context.Context, *EmailRequest) (*EmailResponse, error)
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "sys_core_services.proto",
 }
 
 // AnalyticsServiceClient is the client API for AnalyticsService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AnalyticsServiceClient interface {
-	SendAnalyticsEvent(ctx context.Context, in *ModEvent, opts ...grpc.CallOption) (*empty.Empty, error)
+	SendAnalyticsEvent(ctx context.Context, in *ModEvent, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DownloadAnalytics(ctx context.Context, in *DownloadAnalyticsRequest, opts ...grpc.CallOption) (*DownloadAnalyticsResponse, error)
 }
 
@@ -414,21 +361,13 @@ func NewAnalyticsServiceClient(cc grpc.ClientConnInterface) AnalyticsServiceClie
 	return &analyticsServiceClient{cc}
 }
 
-var analyticsServiceSendAnalyticsEventStreamDesc = &grpc.StreamDesc{
-	StreamName: "SendAnalyticsEvent",
-}
-
-func (c *analyticsServiceClient) SendAnalyticsEvent(ctx context.Context, in *ModEvent, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *analyticsServiceClient) SendAnalyticsEvent(ctx context.Context, in *ModEvent, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/v2.sys_core.services.AnalyticsService/SendAnalyticsEvent", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
-}
-
-var analyticsServiceDownloadAnalyticsStreamDesc = &grpc.StreamDesc{
-	StreamName: "DownloadAnalytics",
 }
 
 func (c *analyticsServiceClient) DownloadAnalytics(ctx context.Context, in *DownloadAnalyticsRequest, opts ...grpc.CallOption) (*DownloadAnalyticsResponse, error) {
@@ -440,103 +379,90 @@ func (c *analyticsServiceClient) DownloadAnalytics(ctx context.Context, in *Down
 	return out, nil
 }
 
-// AnalyticsServiceService is the service API for AnalyticsService service.
-// Fields should be assigned to their respective handler implementations only before
-// RegisterAnalyticsServiceService is called.  Any unassigned fields will result in the
-// handler for that method returning an Unimplemented error.
-type AnalyticsServiceService struct {
-	SendAnalyticsEvent func(context.Context, *ModEvent) (*empty.Empty, error)
-	DownloadAnalytics  func(context.Context, *DownloadAnalyticsRequest) (*DownloadAnalyticsResponse, error)
+// AnalyticsServiceServer is the server API for AnalyticsService service.
+// All implementations must embed UnimplementedAnalyticsServiceServer
+// for forward compatibility
+type AnalyticsServiceServer interface {
+	SendAnalyticsEvent(context.Context, *ModEvent) (*emptypb.Empty, error)
+	DownloadAnalytics(context.Context, *DownloadAnalyticsRequest) (*DownloadAnalyticsResponse, error)
+	mustEmbedUnimplementedAnalyticsServiceServer()
 }
 
-func (s *AnalyticsServiceService) sendAnalyticsEvent(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.SendAnalyticsEvent == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method SendAnalyticsEvent not implemented")
-	}
+// UnimplementedAnalyticsServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedAnalyticsServiceServer struct {
+}
+
+func (UnimplementedAnalyticsServiceServer) SendAnalyticsEvent(context.Context, *ModEvent) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendAnalyticsEvent not implemented")
+}
+func (UnimplementedAnalyticsServiceServer) DownloadAnalytics(context.Context, *DownloadAnalyticsRequest) (*DownloadAnalyticsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DownloadAnalytics not implemented")
+}
+func (UnimplementedAnalyticsServiceServer) mustEmbedUnimplementedAnalyticsServiceServer() {}
+
+// UnsafeAnalyticsServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AnalyticsServiceServer will
+// result in compilation errors.
+type UnsafeAnalyticsServiceServer interface {
+	mustEmbedUnimplementedAnalyticsServiceServer()
+}
+
+func RegisterAnalyticsServiceServer(s grpc.ServiceRegistrar, srv AnalyticsServiceServer) {
+	s.RegisterService(&AnalyticsService_ServiceDesc, srv)
+}
+
+func _AnalyticsService_SendAnalyticsEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ModEvent)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return s.SendAnalyticsEvent(ctx, in)
+		return srv.(AnalyticsServiceServer).SendAnalyticsEvent(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
-		Server:     s,
+		Server:     srv,
 		FullMethod: "/v2.sys_core.services.AnalyticsService/SendAnalyticsEvent",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.SendAnalyticsEvent(ctx, req.(*ModEvent))
+		return srv.(AnalyticsServiceServer).SendAnalyticsEvent(ctx, req.(*ModEvent))
 	}
 	return interceptor(ctx, in, info, handler)
 }
-func (s *AnalyticsServiceService) downloadAnalytics(_ interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	if s.DownloadAnalytics == nil {
-		return nil, status.Errorf(codes.Unimplemented, "method DownloadAnalytics not implemented")
-	}
+
+func _AnalyticsService_DownloadAnalytics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DownloadAnalyticsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return s.DownloadAnalytics(ctx, in)
+		return srv.(AnalyticsServiceServer).DownloadAnalytics(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
-		Server:     s,
+		Server:     srv,
 		FullMethod: "/v2.sys_core.services.AnalyticsService/DownloadAnalytics",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return s.DownloadAnalytics(ctx, req.(*DownloadAnalyticsRequest))
+		return srv.(AnalyticsServiceServer).DownloadAnalytics(ctx, req.(*DownloadAnalyticsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// RegisterAnalyticsServiceService registers a service implementation with a gRPC server.
-func RegisterAnalyticsServiceService(s grpc.ServiceRegistrar, srv *AnalyticsServiceService) {
-	sd := grpc.ServiceDesc{
-		ServiceName: "v2.sys_core.services.AnalyticsService",
-		Methods: []grpc.MethodDesc{
-			{
-				MethodName: "SendAnalyticsEvent",
-				Handler:    srv.sendAnalyticsEvent,
-			},
-			{
-				MethodName: "DownloadAnalytics",
-				Handler:    srv.downloadAnalytics,
-			},
+// AnalyticsService_ServiceDesc is the grpc.ServiceDesc for AnalyticsService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var AnalyticsService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "v2.sys_core.services.AnalyticsService",
+	HandlerType: (*AnalyticsServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SendAnalyticsEvent",
+			Handler:    _AnalyticsService_SendAnalyticsEvent_Handler,
 		},
-		Streams:  []grpc.StreamDesc{},
-		Metadata: "sys_core_services.proto",
-	}
-
-	s.RegisterService(&sd, nil)
-}
-
-// NewAnalyticsServiceService creates a new AnalyticsServiceService containing the
-// implemented methods of the AnalyticsService service in s.  Any unimplemented
-// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
-// This includes situations where the method handler is misspelled or has the wrong
-// signature.  For this reason, this function should be used with great care and
-// is not recommended to be used by most users.
-func NewAnalyticsServiceService(s interface{}) *AnalyticsServiceService {
-	ns := &AnalyticsServiceService{}
-	if h, ok := s.(interface {
-		SendAnalyticsEvent(context.Context, *ModEvent) (*empty.Empty, error)
-	}); ok {
-		ns.SendAnalyticsEvent = h.SendAnalyticsEvent
-	}
-	if h, ok := s.(interface {
-		DownloadAnalytics(context.Context, *DownloadAnalyticsRequest) (*DownloadAnalyticsResponse, error)
-	}); ok {
-		ns.DownloadAnalytics = h.DownloadAnalytics
-	}
-	return ns
-}
-
-// UnstableAnalyticsServiceService is the service API for AnalyticsService service.
-// New methods may be added to this interface if they are added to the service
-// definition, which is not a backward-compatible change.  For this reason,
-// use of this type is not recommended.
-type UnstableAnalyticsServiceService interface {
-	SendAnalyticsEvent(context.Context, *ModEvent) (*empty.Empty, error)
-	DownloadAnalytics(context.Context, *DownloadAnalyticsRequest) (*DownloadAnalyticsResponse, error)
+		{
+			MethodName: "DownloadAnalytics",
+			Handler:    _AnalyticsService_DownloadAnalytics_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "sys_core_services.proto",
 }

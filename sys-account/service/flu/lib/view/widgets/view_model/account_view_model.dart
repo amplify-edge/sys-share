@@ -142,7 +142,7 @@ class AccountViewModel extends BaseModel {
       email: _userEmail,
       password: _userPassword,
       passwordConfirm: _userPassword,
-      initialRole: _initialRole,
+      // initialRole: _initialRole,
     ).then((resp) {
       if (resp.success) {
         _setSuccessMsg(resp.successMsg);

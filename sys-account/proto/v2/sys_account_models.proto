@@ -6,6 +6,30 @@ package v2.sys_account.services;
 
 option go_package = "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2";
 
+// UserRoles for now
+enum Roles {
+  INVALID = 0;
+  GUEST = 1;
+  USER = 2;
+  ADMIN = 3; // can be Org or Project Admin
+  SUPERADMIN = 4; // can do all
+}
+
+// UserRole as a message is super simple
+// and probably not the very best
+// it defines the role as an enum of Roles
+// alongside either None (for guest)
+// or All ( superadmin)
+// or specific project by its id (Project admin)
+// or specific org by its id (Org admin)
+message UserRoles {
+  // @inject_tag: fake:"{number:1,3}" yaml:"role"
+  Roles role = 1;
+  string project_id = 2;
+  string org_id = 3;
+}
+
+
 message ErrorReason {
   string reason = 1;
 }
@@ -15,7 +39,7 @@ message RegisterRequest {
   string email = 1;
   string password = 2;
   string password_confirm = 3;
-  UserRoles user_role = 4;
+//  UserRoles user_role = 4;
 }
 
 message LoginRequest {
@@ -84,14 +108,6 @@ message VerifyAccountRequest {
   string account_id = 2;
 }
 
-// UserRoles for now
-enum Roles {
-  INVALID = 0;
-  GUEST = 1;
-  USER = 2;
-  ADMIN = 3; // can be Org or Project Admin
-  SUPERADMIN = 4; // can do all
-}
 
 // resource: Project
 message Project {
@@ -185,19 +201,6 @@ message ListResponse {
 }
 
 
-// UserRole as a message is super simple
-// and probably not the very best
-// it defines the role as an enum of Roles
-// alongside either None (for guest)
-// or All ( superadmin)
-// or specific project by its id (Project admin)
-// or specific org by its id (Org admin)
-message UserRoles {
-  // @inject_tag: fake:"{number:1,3}" yaml:"role"
-  Roles role = 1;
-  string project_id = 2;
-  string org_id = 3;
-}
 
 message NewUserRoles {
   // @inject_tag: fake:"{number:2,3}" yaml:"role"

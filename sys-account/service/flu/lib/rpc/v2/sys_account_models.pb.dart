@@ -16,6 +16,65 @@ import 'sys_account_models.pbenum.dart';
 
 export 'sys_account_models.pbenum.dart';
 
+class UserRoles extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UserRoles', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_account.services'), createEmptyInstance: create)
+    ..e<Roles>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'role', $pb.PbFieldType.OE, defaultOrMaker: Roles.INVALID, valueOf: Roles.valueOf, enumValues: Roles.values)
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'projectId')
+    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'orgId')
+    ..hasRequiredFields = false
+  ;
+
+  UserRoles._() : super();
+  factory UserRoles() => create();
+  factory UserRoles.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UserRoles.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  UserRoles clone() => UserRoles()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  UserRoles copyWith(void Function(UserRoles) updates) => super.copyWith((message) => updates(message as UserRoles)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static UserRoles create() => UserRoles._();
+  UserRoles createEmptyInstance() => create();
+  static $pb.PbList<UserRoles> createRepeated() => $pb.PbList<UserRoles>();
+  @$core.pragma('dart2js:noInline')
+  static UserRoles getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UserRoles>(create);
+  static UserRoles _defaultInstance;
+
+  @$pb.TagNumber(1)
+  Roles get role => $_getN(0);
+  @$pb.TagNumber(1)
+  set role(Roles v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasRole() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearRole() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get projectId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set projectId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasProjectId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearProjectId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get orgId => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set orgId($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasOrgId() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearOrgId() => clearField(3);
+}
+
 class ErrorReason extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ErrorReason', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_account.services'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'reason')
@@ -60,7 +119,6 @@ class RegisterRequest extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'email')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'passwordConfirm')
-    ..aOM<UserRoles>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'userRole', subBuilder: UserRoles.create)
     ..hasRequiredFields = false
   ;
 
@@ -113,17 +171,6 @@ class RegisterRequest extends $pb.GeneratedMessage {
   $core.bool hasPasswordConfirm() => $_has(2);
   @$pb.TagNumber(3)
   void clearPasswordConfirm() => clearField(3);
-
-  @$pb.TagNumber(4)
-  UserRoles get userRole => $_getN(3);
-  @$pb.TagNumber(4)
-  set userRole(UserRoles v) { setField(4, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasUserRole() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearUserRole() => clearField(4);
-  @$pb.TagNumber(4)
-  UserRoles ensureUserRole() => $_ensure(3);
 }
 
 class LoginRequest extends $pb.GeneratedMessage {
@@ -1498,65 +1545,6 @@ class ListResponse extends $pb.GeneratedMessage {
   $core.bool hasNextPageId() => $_has(2);
   @$pb.TagNumber(3)
   void clearNextPageId() => clearField(3);
-}
-
-class UserRoles extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UserRoles', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'v2.sys_account.services'), createEmptyInstance: create)
-    ..e<Roles>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'role', $pb.PbFieldType.OE, defaultOrMaker: Roles.INVALID, valueOf: Roles.valueOf, enumValues: Roles.values)
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'projectId')
-    ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'orgId')
-    ..hasRequiredFields = false
-  ;
-
-  UserRoles._() : super();
-  factory UserRoles() => create();
-  factory UserRoles.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UserRoles.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  UserRoles clone() => UserRoles()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  UserRoles copyWith(void Function(UserRoles) updates) => super.copyWith((message) => updates(message as UserRoles)); // ignore: deprecated_member_use
-  $pb.BuilderInfo get info_ => _i;
-  @$core.pragma('dart2js:noInline')
-  static UserRoles create() => UserRoles._();
-  UserRoles createEmptyInstance() => create();
-  static $pb.PbList<UserRoles> createRepeated() => $pb.PbList<UserRoles>();
-  @$core.pragma('dart2js:noInline')
-  static UserRoles getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UserRoles>(create);
-  static UserRoles _defaultInstance;
-
-  @$pb.TagNumber(1)
-  Roles get role => $_getN(0);
-  @$pb.TagNumber(1)
-  set role(Roles v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasRole() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearRole() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get projectId => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set projectId($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasProjectId() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearProjectId() => clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.String get orgId => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set orgId($core.String v) { $_setString(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasOrgId() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearOrgId() => clearField(3);
 }
 
 class NewUserRoles extends $pb.GeneratedMessage {
