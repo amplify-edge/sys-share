@@ -1,4 +1,4 @@
-all: print build print-end
+all: includes print build print-end
  
 ## Print all settings
 print:
@@ -13,7 +13,10 @@ print-end:
 	@echo
 	@echo
 
-build:
+includes:
 	booty extract includes
+	booty install-all
+
+build:
 	cd sys-core && $(MAKE) all
 	cd sys-account && $(MAKE) all

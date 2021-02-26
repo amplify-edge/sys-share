@@ -1,9 +1,6 @@
-SHARED_FSPATH=./../../shared
-BOILERPLATE_FSPATH=$(SHARED_FSPATH)/boilerplate
+BOILERPLATE_FSPATH=../includes
 
 include $(BOILERPLATE_FSPATH)/help.mk
-include $(BOILERPLATE_FSPATH)/os.mk
-include $(BOILERPLATE_FSPATH)/gitr.mk
 include $(BOILERPLATE_FSPATH)/flu.mk
 
 override FLU_SAMPLE_NAME = example
@@ -19,9 +16,9 @@ print: ## print
 	@echo
 	@echo "-- SYS-ACCOUNT: start --"
 	@echo
-	
-	$(MAKE) os-print
-	
+
+	booty os-print
+
 	$(MAKE) flu-print
 
 	$(MAKE) flu-gen-lang-print
