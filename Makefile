@@ -1,4 +1,21 @@
-all: includes print build print-end
+# Download Booty
+BOOTY_URL := "https://raw.githubusercontent.com/amplify-edge/booty/master/scripts/"
+
+ifeq ($(OS),Windows_NT)
+	BOOTY_URL:=$(BOOTY_URL)/install.ps1
+else
+	BOOTY_URL:=$(BOOTY_URL)/install.sh
+endif
+
+SHELLCMD :=
+ifeq ($(OS),Windows_NT)
+	SHELLCMD:=iwr -useb $(BOOTY_URL) | iex
+else
+	SHELLCMD:=curl -fsSL $(BOOTY_URL) | bash
+endif
+
+
+all: print dep build print-end
  
 ## Print all settings
 print:
@@ -13,9 +30,11 @@ print-end:
 	@echo
 	@echo
 
-includes:
-	booty extract includes
-	booty install-all
+dep:
+	@echo $(BOOTY_URL)
+	$(SHELLCMD)
+	@booty install-all
+	@booty extract includes
 
 build:
 	cd sys-core && $(MAKE) all
