@@ -1,5 +1,5 @@
 # Download Booty
-BOOTY_URL := "https://raw.githubusercontent.com/amplify-edge/booty/master/scripts/"
+BOOTY_URL := https://raw.githubusercontent.com/amplify-edge/booty/master/scripts
 
 ifeq ($(OS),Windows_NT)
 	BOOTY_URL:=$(BOOTY_URL)/install.ps1
