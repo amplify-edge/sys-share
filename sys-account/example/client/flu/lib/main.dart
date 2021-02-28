@@ -13,10 +13,13 @@ import 'package:hive/hive.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.openBox('account');
-  runApp(ModularApp(module: AppModule()));
+  runApp(ModularApp(
+    module: AppModule(),
+    child: App(),
+  ));
 }
 
-class AppModule extends MainModule {
+class AppModule extends Module {
   @override
   List<Bind> get binds => [Bind.singleton((i) => AuthNavViewModel())];
 

@@ -1,31 +1,41 @@
-SHARED_FSPATH=./../shared
-BOILERPLATE_FSPATH=$(SHARED_FSPATH)/boilerplate
+# Download Booty
+BOOTY_URL := https://raw.githubusercontent.com/amplify-edge/booty/master/scripts
 
-include $(BOILERPLATE_FSPATH)/help.mk
-include $(BOILERPLATE_FSPATH)/os.mk
-include $(BOILERPLATE_FSPATH)/gitr.mk
-include $(BOILERPLATE_FSPATH)/tool.mk
-include $(BOILERPLATE_FSPATH)/flu.mk
-include $(BOILERPLATE_FSPATH)/go.mk
+ifeq ($(OS),Windows_NT)
+	BOOTY_URL:=$(BOOTY_URL)/install.ps1
+else
+	BOOTY_URL:=$(BOOTY_URL)/install.sh
+endif
 
-this-all: this-print this-dep this-build this-print-end
+SHELLCMD :=
+ifeq ($(OS),Windows_NT)
+	SHELLCMD:=iwr -useb $(BOOTY_URL) | iex
+else
+	SHELLCMD:=curl -fsSL $(BOOTY_URL) | bash
+endif
+
+
+all: print dep build print-end
  
 ## Print all settings
-this-print: 
+print:
 	@echo
 	@echo "-- SYS-SHARE: start --"
 	@echo
 	@echo
 
-this-print-end:
+print-end:
 	@echo
 	@echo "-- SYS-SHARE: end --"
 	@echo
 	@echo
 
-this-dep:
-	cd $(SHARED_FSPATH) && $(MAKE) this-all
+dep:
+	@echo $(BOOTY_URL)
+	$(SHELLCMD)
+	@booty install-all
+	@booty extract includes
 
-this-build:
-	cd sys-core && $(MAKE) this-all
-	cd sys-account && $(MAKE) this-all
+build:
+	cd sys-core && $(MAKE) all
+	cd sys-account && $(MAKE) all

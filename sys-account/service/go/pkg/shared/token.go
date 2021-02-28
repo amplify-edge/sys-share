@@ -2,13 +2,13 @@ package shared
 
 import (
 	"context"
+	authRpc "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2"
 	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
 
-	"go.amplifyedge.org/sys-share-v2/sys-account/service/go/pkg"
 	"go.amplifyedge.org/sys-share-v2/sys-core/service/config"
 )
 
@@ -54,14 +54,14 @@ func NewTokenConfig(accessSecret, refreshSecret []byte) *TokenConfig {
 type Claimant interface {
 	GetId() string
 	GetEmail() string
-	GetRole() []*pkg.UserRoles
+	GetRoles() []*authRpc.UserRoles
 }
 
 // TokenClaims is the representation of JWT auth claims
 type TokenClaims struct {
-	UserId    string           `json:"userId"`
-	Role      []*pkg.UserRoles `json:"role"`
-	UserEmail string           `json:"userEmail"`
+	UserId    string               `json:"userId"`
+	Role      []*authRpc.UserRoles `json:"role"`
+	UserEmail string               `json:"userEmail"`
 	jwt.StandardClaims
 }
 
@@ -101,7 +101,7 @@ func (tc *TokenConfig) NewTokenPairs(claimant Claimant) (*TokenPairDetails, erro
 
 // create token claims for refresh / access token
 func NewTokenClaims(exp time.Duration, c Claimant) *TokenClaims {
-	role := c.GetRole()
+	role := c.GetRoles()
 	claims := TokenClaims{
 		UserId:    c.GetId(),
 		Role:      role,

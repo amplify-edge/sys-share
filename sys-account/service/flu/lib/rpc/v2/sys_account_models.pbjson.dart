@@ -16,6 +16,15 @@ const Roles$json = const {
   ],
 };
 
+const UserRoles$json = const {
+  '1': 'UserRoles',
+  '2': const [
+    const {'1': 'role', '3': 1, '4': 1, '5': 14, '6': '.v2.sys_account.services.Roles', '10': 'role'},
+    const {'1': 'project_id', '3': 2, '4': 1, '5': 9, '10': 'projectId'},
+    const {'1': 'org_id', '3': 3, '4': 1, '5': 9, '10': 'orgId'},
+  ],
+};
+
 const ErrorReason$json = const {
   '1': 'ErrorReason',
   '2': const [
@@ -29,7 +38,6 @@ const RegisterRequest$json = const {
     const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'password', '3': 2, '4': 1, '5': 9, '10': 'password'},
     const {'1': 'password_confirm', '3': 3, '4': 1, '5': 9, '10': 'passwordConfirm'},
-    const {'1': 'user_role', '3': 4, '4': 1, '5': 11, '6': '.v2.sys_account.services.UserRoles', '10': 'userRole'},
   ],
 };
 
@@ -229,15 +237,6 @@ const ListResponse$json = const {
     const {'1': 'projects', '3': 1, '4': 3, '5': 11, '6': '.v2.sys_account.services.Project', '10': 'projects'},
     const {'1': 'orgs', '3': 2, '4': 3, '5': 11, '6': '.v2.sys_account.services.Org', '10': 'orgs'},
     const {'1': 'next_page_id', '3': 3, '4': 1, '5': 9, '10': 'nextPageId'},
-  ],
-};
-
-const UserRoles$json = const {
-  '1': 'UserRoles',
-  '2': const [
-    const {'1': 'role', '3': 1, '4': 1, '5': 14, '6': '.v2.sys_account.services.Roles', '10': 'role'},
-    const {'1': 'project_id', '3': 2, '4': 1, '5': 9, '10': 'projectId'},
-    const {'1': 'org_id', '3': 3, '4': 1, '5': 9, '10': 'orgId'},
   ],
 };
 

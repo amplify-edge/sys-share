@@ -1,4 +1,5 @@
 name: sys_share_sys_account_example
+publish_to: none
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.

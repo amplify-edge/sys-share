@@ -11,6 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // FileServiceClient is the client API for FileService service.
@@ -29,13 +30,8 @@ func NewFileServiceClient(cc grpc.ClientConnInterface) FileServiceClient {
 	return &fileServiceClient{cc}
 }
 
-var fileServiceUploadStreamDesc = &grpc.StreamDesc{
-	StreamName:    "Upload",
-	ClientStreams: true,
-}
-
 func (c *fileServiceClient) Upload(ctx context.Context, opts ...grpc.CallOption) (FileService_UploadClient, error) {
-	stream, err := c.cc.NewStream(ctx, fileServiceUploadStreamDesc, "/v2.sys_core.services.FileService/Upload", opts...)
+	stream, err := c.cc.NewStream(ctx, &FileService_ServiceDesc.Streams[0], "/v2.sys_core.services.FileService/Upload", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,13 +64,8 @@ func (x *fileServiceUploadClient) CloseAndRecv() (*FileUploadResponse, error) {
 	return m, nil
 }
 
-var fileServiceDownloadStreamDesc = &grpc.StreamDesc{
-	StreamName:    "Download",
-	ServerStreams: true,
-}
-
 func (c *fileServiceClient) Download(ctx context.Context, in *FileDownloadRequest, opts ...grpc.CallOption) (FileService_DownloadClient, error) {
-	stream, err := c.cc.NewStream(ctx, fileServiceDownloadStreamDesc, "/v2.sys_core.services.FileService/Download", opts...)
+	stream, err := c.cc.NewStream(ctx, &FileService_ServiceDesc.Streams[1], "/v2.sys_core.services.FileService/Download", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -105,30 +96,40 @@ func (x *fileServiceDownloadClient) Recv() (*FileDownloadResponse, error) {
 	return m, nil
 }
 
-// FileServiceService is the service API for FileService service.
-// Fields should be assigned to their respective handler implementations only before
-// RegisterFileServiceService is called.  Any unassigned fields will result in the
-// handler for that method returning an Unimplemented error.
-type FileServiceService struct {
-	Upload   func(FileService_UploadServer) error
-	Download func(*FileDownloadRequest, FileService_DownloadServer) error
+// FileServiceServer is the server API for FileService service.
+// All implementations must embed UnimplementedFileServiceServer
+// for forward compatibility
+type FileServiceServer interface {
+	Upload(FileService_UploadServer) error
+	Download(*FileDownloadRequest, FileService_DownloadServer) error
+	mustEmbedUnimplementedFileServiceServer()
 }
 
-func (s *FileServiceService) upload(_ interface{}, stream grpc.ServerStream) error {
-	if s.Upload == nil {
-		return status.Errorf(codes.Unimplemented, "method Upload not implemented")
-	}
-	return s.Upload(&fileServiceUploadServer{stream})
+// UnimplementedFileServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedFileServiceServer struct {
 }
-func (s *FileServiceService) download(_ interface{}, stream grpc.ServerStream) error {
-	if s.Download == nil {
-		return status.Errorf(codes.Unimplemented, "method Download not implemented")
-	}
-	m := new(FileDownloadRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return s.Download(m, &fileServiceDownloadServer{stream})
+
+func (UnimplementedFileServiceServer) Upload(FileService_UploadServer) error {
+	return status.Errorf(codes.Unimplemented, "method Upload not implemented")
+}
+func (UnimplementedFileServiceServer) Download(*FileDownloadRequest, FileService_DownloadServer) error {
+	return status.Errorf(codes.Unimplemented, "method Download not implemented")
+}
+func (UnimplementedFileServiceServer) mustEmbedUnimplementedFileServiceServer() {}
+
+// UnsafeFileServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to FileServiceServer will
+// result in compilation errors.
+type UnsafeFileServiceServer interface {
+	mustEmbedUnimplementedFileServiceServer()
+}
+
+func RegisterFileServiceServer(s grpc.ServiceRegistrar, srv FileServiceServer) {
+	s.RegisterService(&FileService_ServiceDesc, srv)
+}
+
+func _FileService_Upload_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(FileServiceServer).Upload(&fileServiceUploadServer{stream})
 }
 
 type FileService_UploadServer interface {
@@ -153,6 +154,14 @@ func (x *fileServiceUploadServer) Recv() (*FileUploadRequest, error) {
 	return m, nil
 }
 
+func _FileService_Download_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(FileDownloadRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(FileServiceServer).Download(m, &fileServiceDownloadServer{stream})
+}
+
 type FileService_DownloadServer interface {
 	Send(*FileDownloadResponse) error
 	grpc.ServerStream
@@ -166,55 +175,24 @@ func (x *fileServiceDownloadServer) Send(m *FileDownloadResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-// RegisterFileServiceService registers a service implementation with a gRPC server.
-func RegisterFileServiceService(s grpc.ServiceRegistrar, srv *FileServiceService) {
-	sd := grpc.ServiceDesc{
-		ServiceName: "v2.sys_core.services.FileService",
-		Methods:     []grpc.MethodDesc{},
-		Streams: []grpc.StreamDesc{
-			{
-				StreamName:    "Upload",
-				Handler:       srv.upload,
-				ClientStreams: true,
-			},
-			{
-				StreamName:    "Download",
-				Handler:       srv.download,
-				ServerStreams: true,
-			},
+// FileService_ServiceDesc is the grpc.ServiceDesc for FileService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var FileService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "v2.sys_core.services.FileService",
+	HandlerType: (*FileServiceServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Upload",
+			Handler:       _FileService_Upload_Handler,
+			ClientStreams: true,
 		},
-		Metadata: "sys_core_file_services.proto",
-	}
-
-	s.RegisterService(&sd, nil)
-}
-
-// NewFileServiceService creates a new FileServiceService containing the
-// implemented methods of the FileService service in s.  Any unimplemented
-// methods will result in the gRPC server returning an UNIMPLEMENTED status to the client.
-// This includes situations where the method handler is misspelled or has the wrong
-// signature.  For this reason, this function should be used with great care and
-// is not recommended to be used by most users.
-func NewFileServiceService(s interface{}) *FileServiceService {
-	ns := &FileServiceService{}
-	if h, ok := s.(interface {
-		Upload(FileService_UploadServer) error
-	}); ok {
-		ns.Upload = h.Upload
-	}
-	if h, ok := s.(interface {
-		Download(*FileDownloadRequest, FileService_DownloadServer) error
-	}); ok {
-		ns.Download = h.Download
-	}
-	return ns
-}
-
-// UnstableFileServiceService is the service API for FileService service.
-// New methods may be added to this interface if they are added to the service
-// definition, which is not a backward-compatible change.  For this reason,
-// use of this type is not recommended.
-type UnstableFileServiceService interface {
-	Upload(FileService_UploadServer) error
-	Download(*FileDownloadRequest, FileService_DownloadServer) error
+		{
+			StreamName:    "Download",
+			Handler:       _FileService_Download_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "sys_core_file_services.proto",
 }

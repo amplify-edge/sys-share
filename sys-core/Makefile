@@ -1,10 +1,6 @@
-SHARED_FSPATH=./../../shared
-BOILERPLATE_FSPATH=$(SHARED_FSPATH)/boilerplate
+BOILERPLATE_FSPATH=../includes
 
 include $(BOILERPLATE_FSPATH)/help.mk
-include $(BOILERPLATE_FSPATH)/os.mk
-include $(BOILERPLATE_FSPATH)/gitr.mk
-include $(BOILERPLATE_FSPATH)/tool.mk
 include $(BOILERPLATE_FSPATH)/flu.mk
 
 
@@ -14,32 +10,25 @@ override FLU_LIB_NAME = mod_survey
 override FLU_LIB_FSPATH = $(PWD)/service/flu
 override FLU_LANG_LOCALIZATION_DIR = $(FLU_LIB_FSPATH)/lib/pkg/i18n
 
-EXAMPLE_EMAIL = superadmin@amplify-cms.org
-EXAMPLE_PASSWORD = superadmin
-EXAMPLE_SERVER_ADDRESS = 127.0.0.1:8888
-
-this-all: this-print this-build this-print-end
+all: print build print-end
 
 ## Print all settings
-this-print: ## print
+print: ## print
 	@echo
 	@echo "-- SYS-CORE: start --"
 	@echo
-
-	$(MAKE) os-print
-
+	booty os-print
 	$(MAKE) flu-print
-
 	$(MAKE) flu-gen-lang-print
 
 
-this-print-end:
+print-end:
 	@echo
 	@echo "-- SYS-CORE: end --"
 	@echo
 
 
-this-build: this-build-delete
+build: build-delete
 	@echo 'Building example golang and flutter binaries'
 	mkdir -p bin/all/{cli,client}/{go,flu}
 	@echo 'Building Golang binaries'
@@ -47,11 +36,11 @@ this-build: this-build-delete
 	@echo 'Building Flutter binary'
 	$(MAKE) flu-web-build
 
-this-build-delete:
+build-delete:
 	@echo 'Removing built go and flutter binaries'
 	rm -rf bin-all/{cli,client,server}/{go,flu}/*
 
-this-gen: this-gen-delete
+gen: gen-delete
 	@echo "Generating GRPC models and services for Go & Flutter"
 	@mkdir -p service/{flu/lib,go}/rpc/v2
 	@go generate
@@ -60,27 +49,15 @@ this-gen: this-gen-delete
 	# $(MAKE) flu-gen-all
 	# $(MAKE) flu-gen-lang
 
-this-gen-dep:
-	# GO111MODULE=on go get github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
-	# go install github.com/chrusty/protoc-gen-jsonschema/cmd/protoc-gen-jsonschema
-
-this-gen-delete:
+gen-delete:
 	@echo 'Removing generated protobuf definition (Go and Flutter)'
 	rm -rf service/{flu/lib,go}/rpc/v2/*.{dart,go}
 
-this-example-run:
-	@echo Running Example Login Client
-	./bin-all/cli/go/main auth-service login --email $(EXAMPLE_EMAIL) --password $(EXAMPLE_PASSWORD) --server-addr $(EXAMPLE_SERVER_ADDRESS)
-
-this-example-register:
-	@echo Running Example Register Client
-	./bin-all/cli/go/main auth-service register --email $(EXAMPLE_EMAIL) --password $(EXAMPLE_PASSWORD) --password-confirm $(EXAMPLE_PASSWORD) --server-addr $(EXAMPLE_SERVER_ADDRESS)
-
-this-example-flutter-web-run:
+example-flutter-web-run:
 	@echo Running Example Flutter Client
 	$(MAKE) flu-web-run
 
-this-example-flutter-desk-run:
+example-flutter-desk-run:
 	@echo Running Example Flutter Desk Client
 	# HAs a bug. Runs, but Desktop screen is black.
 	$(MAKE) flu-desk-build
