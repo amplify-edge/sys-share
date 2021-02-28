@@ -11,7 +11,7 @@ jobs:
       matrix:
         os: [ windows-latest ]
         go-version: [ 1.16.0 ]
-        target: [ 'all' ]
+        target: [ 'dep' ]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -44,6 +44,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           path: ${{ github.workspace }}/go/src/github.com/${{ github.repository }}
+
+      - uses: msys2/setup-msys2@v2
+          with:
+            install: make
 
       - name: make ${{ matrix.target }}
         shell: pwsh
