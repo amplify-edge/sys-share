@@ -2,7 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sys_share_sys_account_service/pkg/pkg.dart';
 import 'package:sys_share_sys_account_service/view/widgets/verify_page.dart';
 
-class VerifyModule extends ChildModule {
+class VerifyModule extends Module {
   final String baseRoute;
   final String url;
 

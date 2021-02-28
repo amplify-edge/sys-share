@@ -9,7 +9,7 @@ import 'package:sys_share_sys_account_service/view/widgets/view_model/auth_nav_v
 
 import '../../pkg/pkg.dart';
 
-class AccountModule extends ChildModule {
+class AccountModule extends Module {
   static String baseRoute;
   final LinkedHashMap<String, TabItem> tabs;
   final Widget body;
