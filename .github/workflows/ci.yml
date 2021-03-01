@@ -1,4 +1,4 @@
-name: CI-Linux-Mac
+name: CI
 
 on: [ pull_request ]
 
@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false # saves ci time, won't be worth it if it even runs other platform
       matrix:
-        os: [ ubuntu-20.04, macos-latest ]
+        os: [ ubuntu-20.04, macos-latest, windows-latest ]
         go-version: [ 1.16.0 ]
         target: [ 'all' ]
     runs-on: ${{ matrix.os }}
