@@ -16,11 +16,8 @@ print: ## print
 	@echo
 	@echo "-- SYS-ACCOUNT: start --"
 	@echo
-
 	booty os-print
-
 	$(MAKE) flu-print
-
 	$(MAKE) flu-gen-lang-print
 
 

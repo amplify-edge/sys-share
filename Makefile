@@ -11,7 +11,7 @@ SHELLCMD :=
 ADD_PATH :=
 ifeq ($(OS),Windows_NT)
 	SHELLCMD:=powershell -NoLogo -Sta -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command "Invoke-WebRequest -useb $(BOOTY_URL) | Invoke-Expression"
-	ADD_PATH:=export PATH=$$PATH:"/C/booty"
+	ADD_PATH:=export PATH=$$PATH:"/C/booty" # workaround for github CI
 else
 	SHELLCMD:=curl -fsSL $(BOOTY_URL) | bash
 	ADD_PATH:=echo $$PATH
