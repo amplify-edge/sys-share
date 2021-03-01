@@ -2,15 +2,16 @@ package bus
 
 import (
 	"context"
-	dbrpc "go.amplifyedge.org/sys-share-v2/sys-core/service/go/rpc/v2"
+	coreRpc "go.amplifyedge.org/sys-share-v2/sys-core/service/go/rpc/v2"
 
 	"github.com/segmentio/encoding/json"
 )
 
-type ActionDispatcher func(context.Context, *dbrpc.EventRequest) (map[string]interface{}, error)
+type ActionDispatcher func(context.Context, *coreRpc.EventRequest) (map[string]interface{}, error)
 
 type CoreBus struct {
 	actions map[string]ActionDispatcher
+	*coreRpc.UnimplementedBusServiceServer
 }
 
 func NewCoreBus() *CoreBus {
@@ -21,7 +22,7 @@ func (c *CoreBus) RegisterAction(name string, in ActionDispatcher) {
 	c.actions[name] = in
 }
 
-func (c *CoreBus) Broadcast(ctx context.Context, in *dbrpc.EventRequest) (*dbrpc.EventResponse, error) {
+func (c *CoreBus) Broadcast(ctx context.Context, in *coreRpc.EventRequest) (*coreRpc.EventResponse, error) {
 	if c.actions == nil {
 		return nil, Error{
 			Reason: errEmptyAction,
@@ -40,5 +41,5 @@ func (c *CoreBus) Broadcast(ctx context.Context, in *dbrpc.EventRequest) (*dbrpc
 	if err != nil {
 		return nil, err
 	}
-	return &dbrpc.EventResponse{Reply: respByte}, nil
+	return &coreRpc.EventResponse{Reply: respByte}, nil
 }
