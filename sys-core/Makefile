@@ -45,7 +45,6 @@ gen: gen-delete
 	@mkdir -p service/{flu/lib,go}/rpc/v2
 	@go generate
 	@echo "Generating Flutter Config"
-
 	# $(MAKE) flu-gen-all
 	# $(MAKE) flu-gen-lang
 

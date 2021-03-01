@@ -8,10 +8,13 @@ else
 endif
 
 SHELLCMD :=
+ADD_PATH :=
 ifeq ($(OS),Windows_NT)
-	SHELLCMD:=iwr -useb $(BOOTY_URL) | iex
+	SHELLCMD:=powershell -NoLogo -Sta -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command "Invoke-WebRequest -useb $(BOOTY_URL) | Invoke-Expression"
+	ADD_PATH:=export PATH=$$PATH:"/C/booty" # workaround for github CI
 else
 	SHELLCMD:=curl -fsSL $(BOOTY_URL) | bash
+	ADD_PATH:=echo $$PATH
 endif
 
 
@@ -33,8 +36,9 @@ print-end:
 dep:
 	@echo $(BOOTY_URL)
 	$(SHELLCMD)
-	@booty install-all
-	@booty extract includes
+	$(ADD_PATH)
+	booty install-all
+	booty extract includes
 
 build:
 	cd sys-core && $(MAKE) all
