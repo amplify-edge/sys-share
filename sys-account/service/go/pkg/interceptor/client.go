@@ -4,13 +4,13 @@ package interceptor
 
 import (
 	"context"
+	rpc "go.amplifyedge.org/sys-share-v2/sys-account/service/go/rpc/v2"
 	"google.golang.org/grpc/metadata"
 	"time"
 
 	"go.amplifyedge.org/sys-share-v2/sys-core/service/logging"
 	"google.golang.org/grpc"
 
-	"go.amplifyedge.org/sys-share-v2/sys-account/service/go/pkg"
 	sharedAuth "go.amplifyedge.org/sys-share-v2/sys-account/service/go/pkg/shared"
 )
 
@@ -19,7 +19,7 @@ const (
 )
 
 type ClientSide struct {
-	authClient      pkg.AuthServiceClient
+	authClient      rpc.AuthServiceClient
 	accessToken     string
 	refreshToken    string
 	routesToAttach  []string
@@ -27,7 +27,7 @@ type ClientSide struct {
 	logger          logging.Logger
 }
 
-func NewClientSideInterceptor(client pkg.AuthServiceClient, access, refresh string, routesToAttach []string, logger logging.Logger) (*ClientSide, error) {
+func NewClientSideInterceptor(client rpc.AuthServiceClient, access, refresh string, routesToAttach []string, logger logging.Logger) (*ClientSide, error) {
 	c := &ClientSide{
 		authClient:      client,
 		accessToken:     access,
@@ -86,7 +86,7 @@ func (c *ClientSide) scheduleRefreshToken() {
 }
 
 func (c *ClientSide) getRefreshToken(ctx context.Context) error {
-	resp, err := c.authClient.RefreshAccessToken(ctx, &pkg.RefreshAccessTokenRequest{RefreshToken: c.refreshToken})
+	resp, err := c.authClient.RefreshAccessToken(ctx, &rpc.RefreshAccessTokenRequest{RefreshToken: c.refreshToken})
 	if err != nil {
 		return err
 	}
